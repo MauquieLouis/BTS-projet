@@ -3,17 +3,19 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+        	<link href="{{ asset('css/base.css') }}" rel="stylesheet" />
+        {% endblock %}
     </head>
     <body>
 		<div class="menu">
-    		<h1>TEST</h1>
+    		<a href="{{ path('home') }}"><img src = "{{ asset('/image/Farella.png') }}" height="80" width="auto"></a>
     	</div>
-    	ff
+
         {% block body %}
 
         {% endblock %}
-
+ 
         {% block javascripts %}{% endblock %}
     </body>
 </html>

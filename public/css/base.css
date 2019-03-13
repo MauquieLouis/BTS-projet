@@ -1,0 +1,19 @@
+/* - - - - - - - - - -BALISES HTML- - - - - - - - - - - */
+body
+{
+	margin:0;
+	padding:0; 
+}
+h1
+{
+	color:white;
+}
+/* - - - - - - - - - - - - - - - -  - - - - - - - - - - */
+/* - - - - - - - - - - -CLASSE HTML - - - - - - - - - - */
+.menu
+{
+	width:100%;
+	height:80px;
+	background:#00A1D7;
+}
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
