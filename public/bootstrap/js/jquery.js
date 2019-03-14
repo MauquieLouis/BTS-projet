@@ -10198,7 +10198,7 @@ jQuery.each( { Height: "height", Width: "width" }, function( name, type ) {
 		};
 	} );
 } );
- 
+
 
 jQuery.each( ( "blur focus focusin focusout resize scroll click dblclick " +
 	"mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave " +

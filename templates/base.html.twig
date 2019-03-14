@@ -5,17 +5,25 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
         	<link href="{{ asset('css/base.css') }}" rel="stylesheet" />
+        	<link href="{{ asset('bootstrap/css/bootstrap.css') }}" rel="stylesheet" />
         {% endblock %}
     </head>
     <body>
-		<div class="menu">
-    		<a href="{{ path('home') }}"><img src = "{{ asset('/image/Farella.png') }}" height="80" width="auto"></a>
-    	</div>
-
-        {% block body %}
-
+		<div class="container-fluid ">
+      		<header class="page-header">
+        		<div class="col-lg-12">
+        			<div class ="menu">
+      					<a href="{{ path('home') }}"><img src = "{{ asset('/image/Farella.png') }}" height="80" width="auto"> </a> 
+    				</div>
+        		</div>
+      		</header>
+            {% block body %}
+    
+            {% endblock %}
+ 		</div>
+        {% block javascripts %}
+        	<script src="{{ asset('bootstrap/Js/bootstrap.js') }}"></script>
+        	<script src="{{ asset('bootstrap/Js/jquery.js') }}"></script>
         {% endblock %}
- 
-        {% block javascripts %}{% endblock %}
     </body>
 </html>
