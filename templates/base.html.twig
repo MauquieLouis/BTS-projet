@@ -17,9 +17,17 @@
     				</div>
         		</div>
       		</header>
-            {% block body %}
-    
-            {% endblock %}
+      		<section class ="row sectionRoww">
+          		<div class= "col-lg-2 col-xs-2 col-sm-2 col-md-2 menuGauche">
+          			<h3>BTN 1</h3></br>
+          			<h3>BTN 2</h3>
+          		</div>
+          		<div class= "col-lg-10 col-xs-10 col-sm-10 col-md-10 centreModifiable">
+                    {% block body %}
+            
+                    {% endblock %}
+                </div>
+            </section>
  		</div>
         {% block javascripts %}
         	<script src="{{ asset('bootstrap/Js/bootstrap.js') }}"></script>
