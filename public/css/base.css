@@ -3,29 +3,52 @@ body
 {
 	margin:0;
 	padding:0; 
+	background:#ECECEC !important;
 }
 h1
 {
-	color:white;
+	color:#00A1D7;
+}
+h4
+{
+	font-size:15px !important;
+	color:#00A1D7;
 }
 /* - - - - - - - - - - - - - - - -  - - - - - - - - - - */
 /* - - - - - - - - - - -CLASSE HTML - - - - - - - - - - */
+.btnLogout
+{
+	margin-top:20px;
+	color:#FFFFFF;	
+	float:right;
+	margin-right:20px;
+}
 .menu
 {
 	width:100%;
 	height:80px;
 	background:#00A1D7;
 }
+
+/*- = - = - = - = - = - = - = B O R D U R E S = - = - = - = - = - = - = -*/
+/* .BtnRow
+{
+	border: 2px solid #006666;
+}
 .centreModifiable
 {
-	/* border: 2px solid #666666; */
+	border: 2px solid #666666; 
 }
 .menuGauche
 {
-	/* border: 2px solid #A6A6A6; */
+	border: 2px solid #A6A6A6;
 }
 .sectionRoww
 {
-	/* border: 2px solid #4896F5;  */
+	border: 2px solid #4896F5;
 }
+.displayRow
+{
+	border: 2px solid #660066;
+}  */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
