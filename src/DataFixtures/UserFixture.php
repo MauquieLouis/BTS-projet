@@ -27,6 +27,7 @@ class UserFixture extends BaseFixture
             $user->setPrenom($this->faker->firstName);
             $user->setNom($this->faker->lastName);
             $user->setPassword($this->passwordEncoder->encodePassword($user,'farella'));
+            $user->setDatecreation(new \DateTime()); 
             return $user;
         });
         
@@ -38,6 +39,7 @@ class UserFixture extends BaseFixture
             $user->setNom($this->faker->lastName);
             $user->setPassword($this->passwordEncoder->encodePassword($user,'admin'));
             $user->setRoles(['ROLE_ADMIN']);
+            $user->setDatecreation(new \DateTime()); 
             return $user;
         });
         

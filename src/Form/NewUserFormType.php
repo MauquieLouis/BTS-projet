@@ -21,16 +21,17 @@ class NewUserFormType extends AbstractType
         ->add('nom', TextType::class, ['attr'=>['autocomplete' => 'disabled']])
         ->add('prenom', TextType::class, ['attr'=>['autocomplete' => 'disabled']])
         ->add('email', EmailType::class, ['attr'=>['autocomplete' => 'disabled']])
-        ->add('password', RepeatedType::class, array(
-            'type' => PasswordType::class,
-            'required' => true,
-            'constraints' => array(
-                new NotBlank(),
-                new Length(array('min' => 6)),
-            ),
-            'first_options'  => array('label' => 'label.password'),
-            'second_options' => array('label' => 'label.passwordConfirmation'),
-        ));
+        ;
+//         ->add('password', RepeatedType::class, array(
+//             'type' => PasswordType::class,
+//             'required' => true,
+//             'constraints' => array(
+//                 new NotBlank(),
+//                 new Length(array('min' => 6)),
+//             ),
+//             'first_options'  => array('label' => 'label.password'),
+//             'second_options' => array('label' => 'label.passwordConfirmation'),
+//         ));
 //         ->add('Password', RepeatedType::class, [
 //             // instead of being set onto the object directly,
 //             // this is read and encoded in the controller

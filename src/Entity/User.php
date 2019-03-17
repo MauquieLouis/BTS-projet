@@ -43,6 +43,11 @@ class User implements UserInterface
      */
     private $prenom;
 
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $datecreation;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -141,6 +146,18 @@ class User implements UserInterface
     public function setPrenom(string $prenom): self
     {
         $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    public function getDatecreation(): ?\DateTimeInterface
+    {
+        return $this->datecreation;
+    }
+
+    public function setDatecreation(?\DateTimeInterface $datecreation): self
+    {
+        $this->datecreation = $datecreation;
 
         return $this;
     }
