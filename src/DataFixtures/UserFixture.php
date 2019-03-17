@@ -20,13 +20,24 @@ class UserFixture extends BaseFixture
     {
         // $product = new Product();
         // $manager->persist($product);
-        $this->createMany(5,'main_users', function($i)
+        $this->createMany(20,'main_users', function($i)
         {
             $user = new User();
             $user->setEmail(sprintf('compte%d@farella.fr', $i));
             $user->setPrenom($this->faker->firstName);
             $user->setNom($this->faker->lastName);
             $user->setPassword($this->passwordEncoder->encodePassword($user,'farella'));
+            return $user;
+        });
+        
+        $this->createMany(4,'admin_users', function($i)
+        {
+            $user = new User();
+            $user->setEmail(sprintf('admin%d@farella.fr', $i));
+            $user->setPrenom($this->faker->firstName);
+            $user->setNom($this->faker->lastName);
+            $user->setPassword($this->passwordEncoder->encodePassword($user,'admin'));
+            $user->setRoles(['ROLE_ADMIN']);
             return $user;
         });
         

@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminController!{% endblock %}
+
+{% block body %}
+	<div class="row AdminRow2">
+    	<div class="col-12 offset-md-3 col-md-8 AdminRow1">
+    		<h1>Panneau de contrôle</h1>
+    	</div>
+	</div>
+	<div class="row AdminRow2">
+		<a href="{{ path('Home') }}" class="col-12 offset-md-1 col-md-8 BtnAdmin-Style AdminRow1">
+			<div class="divText">
+				<h3>|+| Ajouter Un Utilisateur </h3>
+			</div>
+		</a>
+	</div>
+	<div class="row AdminRow2">
+		<a class="col-12 offset-md-2 col-md-3 BtnAdmin-Style BtnAdmin-Style-ligne AdminRow1">
+			<div class="divText">
+				<h3>Historiques Actions... </h3>
+			</div>
+		</a>
+		<a class="col-12 col-md-3 BtnAdmin-Style BtnAdmin-Style-ligne AdminRow1">
+			<div class="divText">
+				<h3>+ Bonus ... </h3>
+			</div>
+		</a>
+	</div>
+	<div class="row AdminRow2">
+		<a class="col-12 offset-md-1 col-md-8 BtnAdmin-Style AdminRow1">
+			<div class="divText">
+				<h3>|°\| Rechercher Un Utilisateur </h3>
+			</div>
+		</a>
+	</div>
+{% endblock %}

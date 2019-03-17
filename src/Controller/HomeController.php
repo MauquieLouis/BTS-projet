@@ -13,7 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 class HomeController extends AbstractController
 {
     /**
-     * @Route("/Farella", name="Farella")
+     * @Route("/", name="Home")
      */
     public function index()
     {
