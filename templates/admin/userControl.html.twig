@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AdminController!{% endblock %}
+{% block title %}Panneau Contrôle Comptes{% endblock %}
 
 {% block body %}
 	<div class="row AdminRow2">
@@ -9,7 +9,7 @@
     	</div>
 	</div>
 	<div class="row AdminRow2">
-		<a href="{{ path('Home') }}" class="col-12 offset-md-1 col-md-8 BtnAdmin-Style AdminRow1">
+		<a href="{{ path('admin_UserControl_newUser') }}" class="col-12 offset-md-1 col-md-8 BtnAdmin-Style AdminRow1">
 			<div class="divText">
 				<h3>|+| Ajouter Un Utilisateur </h3>
 			</div>

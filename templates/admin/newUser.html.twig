@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau Compte{% endblock %}
+
+{% block body %}	
+	<div class="row AdminRow2">
+    	<div class="col-12 offset-md-3 col-md-8 AdminRow1">
+    		<h1>Ajouter un compte</h1>
+    	</div>
+	</div>
+	<div class="row">
+		<div class="col-12 offset-md-2 col-md-8">
+			{{ form_start(form) }}
+				{{ form_widget(form) }}
+				<button type="Submit" class ="">Valider la création du compte</button>
+			{{ form_end(form) }}
+		</div>
+	</div>
+{% endblock %}
