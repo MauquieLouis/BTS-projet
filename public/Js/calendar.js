@@ -20,32 +20,55 @@ function maxDays(mm, yyyy){
 }
 
 var idPrec = "";
-function gestionEvent(id){
+function affichageEvent(id){
+	var now = new Date;
 	var text = "";
-	//alert(date);
+	var wy = parseInt(document.calForm.selYear.value);
+
 	if (eval(id).style.backgroundColor != "white"){
 		if (idPrec != ""){
-			eval(idPrec).style.backgroundColor = "#ececec";			
+			if (parseInt(eval(idPrec).innerHTML) == now.getDate() && parseInt(document.calForm.selMonth.value) == now.getMonth() && parseInt(document.calForm.selYear.value) == now.getFullYear())
+				eval(idPrec).style.backgroundColor = "#00A1D7";			
+			else
+
+				eval(idPrec).style.backgroundColor = "#ececec";		
 		}
 		eval(id).style.backgroundColor = "white";
 		
 		text += "<td>Evènement du ";
 		text += eval(id).innerHTML;
 		text += "/";		
-		if(parseInt(id.slice(2)) > (42-15) && parseInt(eval(id).innerHTML) < 15)
-			text += parseInt(document.calForm.selMonth.value)+2;
-		else if(parseInt(id.slice(2)) < 15 && parseInt(eval(id).innerHTML) > (31-15))
-			text += parseInt(document.calForm.selMonth.value);
+		if(parseInt(id.slice(2)) > (42-15) && parseInt(eval(id).innerHTML) < 15){
+			if(parseInt(document.calForm.selMonth.value) == 11){
+				text += "1";
+				wy += 1; 
+			}
+			else
+				text += parseInt(document.calForm.selMonth.value)+2;
+		}
+		else if(parseInt(id.slice(2)) < 15 && parseInt(eval(id).innerHTML) > (31-15)){
+			if(parseInt(document.calForm.selMonth.value) == 0){
+				text += "12";
+				wy -= 1;
+			}
+			else
+				text += parseInt(document.calForm.selMonth.value);
+		}	
 		else
 			text += parseInt(document.calForm.selMonth.value)+1;
+		
 		text += "/";
-		text += parseInt(document.calForm.selYear.value);
+		text += wy;
+		
 		text += ":</td>";
+		text += "<button align=right onClick=''>+</button>";
 		eval("eve").innerHTML = text;
 	}
-	else
-		eval(id).style.backgroundColor = "#ececec";
 	idPrec = id;
+}
+function creatEvent(){
+	
+	
 }
 function writeCalendar(){
 	var now = new Date;
@@ -98,15 +121,10 @@ function writeCalendar(){
 	}
 	text += "</tr>";
 	aa = 0;
-	var tamer = "tamer";
 	for (k=0;k<=5;k++){
 		text += "<tr>";
 		for (i=0;i<=6;i++){
-			text += "<td align=center><div height=20px width=100px id=sp" + aa + " onClick='gestionEvent(this.id)'>1</div></td>";
-			//var id = "sp" + aa; 
-			//$("#sp42").click(function() {
-			//	alert("ntmntm");
-			//});
+			text += "<td align=center><div  id=sp" + aa + " onClick='affichageEvent(this.id) '></div></td>";
 			aa += 1;
 		}
 		text += "</tr>";
@@ -115,7 +133,8 @@ function writeCalendar(){
 	text += "</table>";
 	text += "</td></tr>";
 	text += "</table>";
-	text += "<span id = eve><span>"
+	text += "<span id = eve><span>";
+
 	text += "</form>";
 
 	document.write(text);
@@ -177,7 +196,7 @@ function changeCal(){
 			}
 			if ((arrN[i]==dd)&&(mm==currM)&&(yyyy==currY)){
 				eval("sp"+i).style.backgroundColor="#00A1D7";
-
+				affichageEvent("sp"+i);
 			}
 			else
 				eval("sp"+i).style.backgroundColor="#ececec";
