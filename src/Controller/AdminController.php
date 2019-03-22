@@ -66,4 +66,17 @@ class AdminController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+    
+    //////////////////////////////////////////////////////////////////////////
+    // = = = = = = = = = = PAGE CREATION DE MACHINE  = = = = = = = = = = = =//
+    //////////////////////////////////////////////////////////////////////////
+    /**
+     * @Route("/admin/createMachine", name="admin_createMachine")
+     */
+    public function CreateMachine()
+    {
+        return $this->render('admin/createMachine.html.twig', [
+            
+        ]);
+    }
 }
