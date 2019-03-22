@@ -3,7 +3,7 @@ class Scene{
 	
 	constructor(image)
 	{
-		this.image = image
+		this.image = null//image
 		this.points = []
 		this.sprites = []
 		this.scene = null
@@ -15,9 +15,9 @@ class Scene{
 		const geometry = new THREE.SphereGeometry(400, 400, 400)
 		const textureLoader = new THREE.TextureLoader()
 //		const texture = textureLoader.load('../Images/Image5.jpg')
-		const texture = textureLoader.load(this.image)
-		texture.wrapS = THREE.RepeatWrapping
-		texture.repeat.x = -1
+//		const texture = textureLoader.load(this.image)
+//		texture.wrapS = THREE.RepeatWrapping
+//		texture.repeat.x = -1
 		const material = new THREE.MeshBasicMaterial({
 		// 	map: texture,
 		 	color: 0x666666,
@@ -36,7 +36,7 @@ class Scene{
 	
 	addTooltip(point)
 	{
-		let spriteMap = new THREE.TextureLoader().load( 'image/machine/ampoule.png' );
+		let spriteMap = new THREE.TextureLoader().load( "../../image/machine/ampoule.png" );
 		let spriteMaterial = new THREE.SpriteMaterial( { map: spriteMap, color: 0xffffff } );
 		let sprite = new THREE.Sprite( spriteMaterial );
 		sprite.name = point.name
@@ -112,39 +112,9 @@ class Machines{
 		this.etapeEnCours = 1;		// Attribut qui permet de connaitre l'etape en cours.
 		this.initEcartTooltip = 2;	// Attribut, qui avance de 2 le sprite apres sa creation.
 	}
-	createTesseract(scene, postionX)
-	{
-		this.scene = scene;
-		var geometry = new THREE.BoxGeometry( 10, 10, 10 );
-		var material = new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('image/machine/ampoule.png'),side: THREE.DoubleSide } );
-		this.cube = new THREE.Mesh( geometry, material );
-		this.cube.position.x = postionX;	
-		this.scene.add(this.cube);
-	}
-	createTesseract2(scene, x,y,z)
-	{
-		this.scene = scene;
-		var geometry = new THREE.BoxGeometry( 10, 10, 10 );
-		var material = new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('image/machine/ampoule.png'),side: THREE.DoubleSide, opacity: 0.5 } );
-		this.cube = new THREE.Mesh( geometry, material );	
-		this.cube.position.y = y;
-		this.cube.position.x = x;
-		this.cube.position.z = z;
-		this.cubes.push(this.cube);
-		this.scene.add(this.cube);
-	}
 	createMachine(scene, imgDroite, imgLeft, imgTop, imgBottom, imgFront, imgBack)
 	{
 		this.scene = scene 		
-		
-//////////////////A SUPPRIMER /////////////////////////////////////////////////////
-		var geometry = new THREE.BoxGeometry( 110, 110, 110 );
-		var material = new THREE.MeshBasicMaterial( { map: texture, side: THREE.DoubleSide } ); 
-		var material3 = new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('image/machine/ampoule.png'),side: THREE.DoubleSide } );
-		var material2 = new THREE.MeshBasicMaterial( { color : 0xff0000, transparent:true});
-		material2.opacity =0.3;
-////////////////FIN DE A SUPPRIMER/////////////////////////////////////////////////
-		
 		
 		//création modèle de cube
 		var geometry2 = new THREE.BoxGeometry( 100, 100, 100 ); // Creation d'une boite de 100 de côtés
@@ -216,7 +186,7 @@ class Machines{
 	addTooltip(point) // c'est utile avant l'apparition du cube
 	{
 		console.log("Function : addToolTip(point)")
-		let spriteMap = new THREE.TextureLoader().load( "{{ asset('image/machine/ampoule.png') }}" );
+		let spriteMap = new THREE.TextureLoader().load( "../../image/machine/ampoule.png" );
 		let spriteMaterial = new THREE.SpriteMaterial( { map: spriteMap} );
 		let sprite = new THREE.Sprite( spriteMaterial );
 		sprite.name = point.name;
@@ -409,7 +379,7 @@ controls.update()
 
 // Création sphère
 //let s = new Scene('images/image5.jpg')
-let s = new Scene('images/farella.jpg')
+let s = new Scene('')
 //let s2 = new Scene('images/image4.jpg')
 
 //Création de scène
@@ -429,11 +399,9 @@ let cube = new Machines();
 	// name: 'champignon',
 	// scene: cube
 // })
-let cube2 = new Machines();
-let cube3 = new Machines();
 
-cube2.createTesseract(scene,0);
-cube3.createTesseract(scene,25);
+
+
 cube.addPoints({
 	position: new THREE.Vector3(30, 10, 52),
 	camera: camera.position,
@@ -448,7 +416,7 @@ cube.addPoints({
 		//var image4 = new THREE.TextureLoader().load('images/machine1/espace.jpg');
 		//var image5 = new THREE.TextureLoader().load('images/machine1/devant.jpg');
 		//var image6 = new THREE.TextureLoader().load('images/machine1/derriere.jpg');
-cube.createMachine(scene,'images/machine1/droit.jpg','images/machine1/derriere.jpg','images/machine1/espace.jpg','images/machine1/espace.jpg','images/machine1/devant.jpg','images/machine1/derriere.jpg');
+cube.createMachine(scene,'../../image/machine/machine1/droit.jpg','../../image/machine/machine1/derriere.jpg','../../image/machine/machine1/espace.jpg','../../image/machine/machine1/espace.jpg','../../image/machine/machine1/devant.jpg','../../image/machine/machine1/derriere.jpg');
 
 cube.appear();
 
@@ -458,8 +426,6 @@ const rayCaster = new THREE.Raycaster()
 //Création texture
 //const textureLoader = new THREE.TextureLoader()
 //		const texture = textureLoader.load('../Images/Image5.jpg')
-var texture = new THREE.TextureLoader().load('images/water3.jpg')
-
 
 
 
@@ -575,7 +541,7 @@ function onClick(e)
 		
 		console.log("edition en mode 0")
 		
-		document.getElementById("btnSprite").src = "http://localhost/bayle//images/ampoulerouge.png"
+		document.getElementById("btnSprite").src = "http://127.0.0.1:8000/image/machine/ampoulerouge.png"
 
 		intersects.forEach(function(intersect){
 			//console.log(intersect.object.material[0].map.image.currentSrc);
@@ -606,7 +572,7 @@ function onClick(e)
 
 	}
 	//si edition = 1 et image = verte, on pose un sprite
-	else if (document.getElementById("btnSprite").src == "http://localhost/bayle//images/ampouleverte.png") 
+	else if (document.getElementById("btnSprite").src == "http://127.0.0.1:8000/image/machine/ampouleverte.png") 
 	{
 		
 		
@@ -659,7 +625,7 @@ function onClick(e)
 	}
 	else //sinon l'image passe verte car édition == 1
 	{
-		document.getElementById("btnSprite").src = "http://localhost/bayle//images/ampouleverte.png"
+		document.getElementById("btnSprite").src = "http://127.0.0.1:8000/image/machine/ampouleverte.png"
 	}
 	
 	intersects.forEach(function(intersect){
@@ -725,7 +691,7 @@ function onMouseMove(e)
 {
 	let mouse = new THREE.Vector2(
 			( e.clientX / windowWidth ) * 2 - 1,
-			- ( e.clientY / windowHeight ) * 2 + 1
+			- ( e.clientY / windowHeight) * 2 + 1 
 		);
 
 		
