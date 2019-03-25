@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin- Recherche Utilisateur{% endblock %}
+
+{% block body %}	
+	<div class="row AdminRow2">
+    	<div class="col-12 offset-md-3 col-md-8 AdminRow1">
+    		<h1>Rechercher un Utilisateur</h1>
+    	</div>
+	</div>
+	<div class="row">
+		<div class="col-12 offset-md-4 col-md-4">
+			{{ form_start(form) }}
+		        {{ form_widget(form) }}<button type="Submit" class =""><i class="fas fa-search" style='font-size:27px;'></i></button>
+	        {{ form_end(form) }}
+	        
+        </div>
+    </div>	
+    <div class="row">
+    	<div class="col-12">
+    		    {% for resultat in rechercheResultat %}
+    		    	{% if resultat %}
+    		            {{ resultat.prenom }},  /  {{ resultat.Nom }},  /  {{ resultat.email }} </br>
+    		        {% endif %}
+    		    {% endfor %}
+    	</div>
+    </div>
+	
+{% endblock %}

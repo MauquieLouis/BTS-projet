@@ -7,7 +7,7 @@
         {% block stylesheets %}
         	<link href="{{ asset('css/base.css') }}" rel="stylesheet" />
         	<link href="{{ asset('bootstrap/css/bootstrap.css') }}" rel="stylesheet" />
-        	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+        	<link rel="stylesheet" href="{{ asset('css/all.css') }}">
         {% endblock %}
   
 
@@ -21,7 +21,11 @@
   					<a href="{{ path('Home') }}"><img src = "{{ asset('/image/Farella.png') }}"  height="80"> <!--width="auto" --> </a> 
     				</div> 
     				<div class="offset-9 col-1">  <!--  On saute 9 colonnes (offset-9) puis on affiche sur la dernière colonne le logo de déconnexion -->
-                        {% if is_granted('ROLE_USER') %}	<!-- Si la personne connecté à au moins le role_user (ce qui est le cas pour n'importe quel utilisateur) on affiche le logo de déconexion -->
+                      {#}  {% if is_granted('ROLE_USER') %}	<!-- Si la personne connecté à au moins le role_user (ce qui est le cas pour n'importe quel utilisateur) on affiche le logo de déconexion -->
+    						<!-- On rend le logo clicable, puis il est chargé avec une biblithèque  -->
+    						<a href="{{ path('app_logout') }}"><div class="btnLogout"><p class="fas fa-power-off logoLogout" style='font-size:40px;'></p></div></a>
+    					{% endif %}#}
+    					{% if is_granted('ROLE_NOUVEAU') %}	<!-- Si la personne connecté à le role_nouveau (ce qui est le cas pour les nouveaux comptes) on affiche le logo de déconexion -->
     						<!-- On rend le logo clicable, puis il est chargé avec une biblithèque  -->
     						<a href="{{ path('app_logout') }}"><div class="btnLogout"><p class="fas fa-power-off logoLogout" style='font-size:40px;'></p></div></a>
     					{% endif %}
