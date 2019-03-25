@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MachineController!{% endblock %}
+
+{% block body %}
+	<h1>
+		Entrer les informations machines
+	</h1>
+    {{ form_start(formMachine) }}
+    {{ form_row(formMachine.name, {'attr':{'placeholder' : "Nom de la machine"}}) }}
+    {{ form_row(formMachine.description, {'attr':{'placeholder' : "Information sur la machine"}}) }}
+    {{ form_row(formMachine.imagefilename, {'attr':{'placeholder' : "Information sur la machine"}}) }}
+   	<button type="submit">Enregistrer</button>
+    {{ form_end(formMachine) }}
+	
+{% endblock %}
