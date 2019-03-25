@@ -26,7 +26,7 @@ class MachineController extends AbstractController
     /**
      * @Route("/modele", name="modele3D")
      */
-    public function viewModel()
+    public function viewModele()
     {
 
         return $this->render('machine/viewmodel.html.twig', [

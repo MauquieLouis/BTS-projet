@@ -688,7 +688,7 @@ var animate = function () {
 	camera.updateProjectionMatrix();
 	renderer.render(scene, camera);
 };
-
+//.
 
 function onMouseMove(e)
 {
