@@ -31,14 +31,14 @@ h4
 	text-align:center;
 	height:80px;
 	color:#00A1D7 !important;
-	transition: background 0.7 ease;
+	transition: background 0.7 ease, color 0.7s ease;
 }
 .BtnAdmin-Style:hover
 {
 	background: #DADADA;
 	color:#0098CB !important;
 	border: 3px solid #0098CB;
-	transition: background 0.7s ease;
+	transition: background 0.7s ease, color 0.7s ease;
 }
 .BtnAdmin-Style-ligne
 {
