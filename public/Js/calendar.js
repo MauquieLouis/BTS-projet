@@ -108,7 +108,7 @@ function writeCalendar(){
 	var arrD = new Array("Lun","Mar","Mer","Jeu","Ven","Sam","Dim");
 
 	var text = "";
-	text = "<form name=calForm>";
+	text = "<form name=calForm class =\"col-12 col-md-6\">";
 	text += "<table border=1>";
 	text += "<tr><td>";
 	text += "<table width=100%><tr>";
