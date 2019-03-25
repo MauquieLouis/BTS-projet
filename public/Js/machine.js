@@ -378,15 +378,18 @@ controls.update()
 
 
 // Création sphère
-//let s = new Scene('images/image5.jpg')
-let s = new Scene('')
-//let s2 = new Scene('images/image4.jpg')
+const geometrysphere = new THREE.SphereGeometry(400, 400, 400)
+const textureLoader = new THREE.TextureLoader()
+const material = new THREE.MeshBasicMaterial({
+// 	map: texture,
+ 	color: 0x666666,
+	side: THREE.DoubleSide
+})
+material.transparent = true
+sphere = new THREE.Mesh(geometrysphere, material)
+scene.add(sphere)	
 
-//Création de scène
-s.createScene(scene)
 
-s.appear()
-s.name = "sphere";
 //création des cubes
 let cube = new Machines();
 // cube.addPoints({
@@ -678,9 +681,9 @@ var animate = function () {
 		console.log('position x:'+camera.position.x);
 		console.log('position y:'+camera.position.y);
 		console.log('position z:'+camera.position.z);
-		/*camera.position.x = 50;
+		camera.position.x = 50;
 		camera.position.y = 50;
-		camera.position.z = 50;*/
+		camera.position.z = 50;
 	}
 	camera.updateProjectionMatrix();
 	renderer.render(scene, camera);
