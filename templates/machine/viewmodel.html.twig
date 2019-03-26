@@ -16,7 +16,7 @@
     	</div>
 	</div>
 	<div class="row">
-		<div class="col-12 col-md-2">
+		<div class="col-12 col-md-3">
         <div class="menu2">
         		
         		<div id="bt2">
@@ -40,17 +40,17 @@
         	<div id="informationTooltip"></div>
         
         	<input type="text" id="reName" name="name" height="300px" required
-        		minlength="0" maxlength="9999" size="100">
+        		minlength="0" maxlength="5" size="10">
         	<input type="text" id="reInform" height="300px" required
-        		minlength="0" maxlength="9999" size="100">
+        		minlength="0" maxlength="5" size="10">
         	<!--<button onclick="modifValider()" id="btnValiderModif">OK !</button>-->
         	Position Camera (x,y,z):
         	<input type="text" id="posCamX" name="name" height="300px" required
-        		minlength="0" maxlength="9999" size="100">
+        		minlength="0" maxlength="5" size="10">
         	<input type="text" id="posCamY" height="300px" required
-        		minlength="0" maxlength="9999" size="100">
+        		minlength="0" maxlength="5" size="10">
         	<input type="text" id="posCamZ" height="300px" required
-        		minlength="0" maxlength="9999" size="100">
+        		minlength="0" maxlength="5" size="10">
         		
         	<button onClick="cube.EtapeChangement(-1)" class="posCube"> < </button><button class="posCube" onClick="cube.EtapeChangement(1)"> > </button></br>
         	<button onclick="modifValider()" id="btnValiderModif">OK !</button>
@@ -64,7 +64,7 @@
         <script src="{{ asset('Js/Threejs/WebGL.js')}}"></script>
         <script src="{{ asset('Js/Threejs/stats.min.js')}}"></script>
         <script src="{{ asset('Js/Threejs/TweenLite.js')}}"></script>
-		<div class="col-12 col-md-10">
+		<div class="col-12 col-md-9">
         	<script  src="{{ asset('Js/machine.js')}}">
         		// Our Javascript will go here.
         		
