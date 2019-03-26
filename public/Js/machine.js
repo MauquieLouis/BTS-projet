@@ -349,13 +349,13 @@ class Machines{
 
 
 /* FIN CLASSE Machines*/
-const container = document.body // variable qui enregesitre document.body pour faciliter l'appel
+const container = document.getElementById('container-fluid') // variable qui enregesitre document.body pour faciliter l'appel
 const tooltip = document.querySelector('.tooltip') // récupérer la classe de l'élément .tooltip (css) (ref aux sprites)
 let spriteActive = false;
-var windowWidth = 1200;
-var windowHeight = 900;
-// var windowWidth = window.innerWidth;
-// var windowHeight = window.innerHeight;
+//var windowWidth = 1200;
+//var windowHeight = 900;
+ var windowWidth = window.innerWidth;
+ var windowHeight = window.innerHeight;
 ////////////////RENDU//////////////////////////////////////////////////////////
 const renderer = new THREE.WebGLRenderer()// Rendu
 renderer.setSize( windowWidth, windowHeight)
@@ -656,9 +656,11 @@ function onClick(e)
 
 function onResize()
 {
-	renderer.setSize(windowWidth, windowHeight)
-	camera.aspect = windowWidth / windowHeight
-	camera.updateProjectionMatrix()
+	//renderer.setSize(windowWidth, windowHeight)
+	//camera.aspect = windowWidth / windowHeight;
+	renderer.setSize(window.innerWidth, window.innerHeight);
+	camera.aspect = window.innerWidth / window.innerHeight;
+	camera.updateProjectionMatrix();
 
 }
 //////

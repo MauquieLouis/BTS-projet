@@ -9,20 +9,19 @@
 	 position : absolute;
 	/* border: 2px solid green; */
 	 top:0; 
-	 left:1000px; 
-	 /* padding: 100px;  */
+ /* padding: 100px;  */
 	width: 200px;
 	height:900px;
 }
 
 .posCube2
 {
-	position: absolute;
+/* 	position: absolute; */
 	
 /* 	left:900px; */
 /* 	height:150px; */
 /* 	width:500px; */
-	display: inline-block;
+/* 	display: inline-block; */
 /* 	color:#666666; */
 /* 	background-color:rgba(100,255,255,0.5); */
 	border-radius: 6px 6px 6px 6px;

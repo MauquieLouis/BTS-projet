@@ -13,7 +13,7 @@
 
     </head>
     <body>
-		<div class="container-fluid ">	<!-- Division utile pour mettre en place les 12 colonnes avec bootstrap -->
+		<div class="container-fluid " id="container-fluid">	<!-- Division utile pour mettre en place les 12 colonnes avec bootstrap -->
       		<header class="page-header">	<!-- Entête de la page ( toute la partie haute avec le logo farella) -->
     			<div class ="menu row">		<!-- Nouvelle ligne pour le menu (partie avec le background bleu + image ) -->
     				<div class="col-2">		<!-- Deux colonne pour l'image (peut importe la taille de l'écran (A AMELIORER) -->
@@ -31,45 +31,37 @@
     					{% endif %}
     				</div>
 				</div>
+				<div class="row listeBoutons">
+				<div class="col-12 col-md-3"> 
+				    {% if is_granted('ROLE_ADMIN') %}
+						<a href="{{ path('admin_UserControl') }}"><h4>Gestion Utilisateurs</h4></a>
+  				    {% else %}
+						<h4>Btnn1</h4>
+  				    {% endif %}
+			    </div>
+				<div class="col-12 col-md-3">
+					 {% if is_granted('ROLE_ADMIN') %}
+						<a href="#"><h4>Gestion Machines</h4></a>
+  				    {% else %}
+						<h4>Btnn2</h4>
+  				    {% endif %}
+				</div>
+				<div class="col-12 col-md-3">
+					<h4>Futur Bouton 3</h4>
+				</div>
+				<div class="col-12 col-md-3">
+					<h4>Futur Bouton 4</h4>
+				</div>
+				</div>
       		</header> <!-- Fin du header -->
-      		
-      		<section class ="row sectionRoww">	<!-- Section pour le menu sur la gauche (les boutons) -->
-          		<div class= "col-lg-2 col-12 col-sm-12 col-md-2 menuGauche"> <!-- On prend deux colonnes si l'écran est en large ou medium, sinon en small ou xsmall on prend 12 colonnes -->
-          			<div class="row">	<!-- Nouvelle ligne -->
-              			<div class="col-6 col-md-12 BtnRow"> <!-- Dans cette ligne On prend 6 collones pour l'ecran en sm et xs et 12 pour md et plus -->
-              			    {% if is_granted('ROLE_ADMIN') %}
-              					<a href="{{ path('admin_UserControl') }}"><h4>Contrôle Utilisateurs</h4></a>
-              				{% else %}
-              					<h4>Btnn1</h4>
-              				{% endif %}
-              			</div>
-              			<div class="col-6 col-md-12 BtnRow">	<!--  Pareil qu'au dessus -->
-              				<h4 onclick="alert(0);">BTN 2</h4>
-              			</div>
-          			</div> <!--  Fin première ligne -->
-          			<div class="row">	<!--  même principe que la div class="row" juste au dessus -->
-              			<div class="col-6 col-md-12 BtnRow">
-              				<h4>BTN 3</h4>
-              			</div>
-              			<div class="col-6 col-md-12 BtnRow">
-              				<h4>BTN 4</h4>
-              			</div>
-          			</div>
-          		</div>
-          		<div class= "col-lg-10 col-12 col-sm-12 col-md-10 centreModifiable"> <!-- On prend 12 colonnes en xs et sm et 10 en md et + pour le reste de la page -->
-          			<div class="row displayRow">
-          				<div class="col-12">
-                            {% block body %}   
-            
-                            {% endblock %}
-                        </div>
-               		</div>
-                </div>
-            </section>
- 		</div>
+            {% block body %}   
+
+            {% endblock %}
+ 		
         {% block javascripts %} <!--  Fichier Javascript -->
         	<script src="{{ asset('bootstrap/Js/bootstrap.js') }}"></script>
         	<script src="{{ asset('bootstrap/Js/jquery.js') }}"></script>
         {% endblock %}
+        </div>
     </body>
 </html>
