@@ -14,87 +14,73 @@ function maxDays(mm, yyyy){
 var idPrec = "";
 function affichageEvent(id){
 	var text = "";
-	var wy = parseInt(document.calForm.selYear.value); //Initialisation de la variables d'affichage de l'année
-	var wm = parseInt(document.calForm.selMonth.value)+1; //Initialisation de la variables d'affichage du mois (janvier vaut 0, donc +1)
-	var wd = eval(id).innerHTML
-	var colorCase;
-	if (eval(id).style.backgroundColor != "white"){ //Si la case n'était pas déja selectionnée : 
-		text += "<td>Evènement du ";
-		text += wd;		//Text prend : la valeur de la case, le jour
-		text += "/";					
-		if(parseInt(id.slice(2)) > (42-15) && parseInt(eval(id).innerHTML) < 15){ 		//Si la case séléctionée fait partie du mois d'après
-			if(parseInt(document.calForm.selMonth.value) == 11){ 	//Si le mois courant est décembre
-				wm = 1;					//Le mois d'aprés est janvier
-				wy += 1; 				//L'année vaut +1
-				document.calForm.selYear.value++;
-				document.calForm.selMonth.value=0;
-			}
-			else{
-				wm += 1;	//Sinon le mois vaut +2
-				document.calForm.selMonth.value++;
-			}
-			changeCal();
-		}
-		else if(parseInt(id.slice(2)) < 15 && parseInt(eval(id).innerHTML) > (31-15)){ //Si la case séléctionée fait partie du mois d'avant
-			if(parseInt(document.calForm.selMonth.value) == 0){ 	//Si le mois courant est janvier, 
-				wm = 12;				//Le mois d'avant est décembre
-				wy -= 1;				//L'année vaut -1
-				document.calForm.selYear.value--;
-				document.calForm.selMonth.value=11;
-			}
-			else{
-				wm -= 1;											//Sinon mois vaut -1
-				document.calForm.selMonth.value--;
-			}
-			changeCal();
-		}
-		
-		text += wm;						//Text prend : valeur du mois
-		text += "/";					
-		text += wy;						//Text prend : valeur de l'année
-		
-		text += ":</td>";
-		text += "<button align=right onClick=''>+</button>";
-		eval("eve").innerHTML = text; 	//La balise dont l'id vaut 'eve' affiche le text
-		//alert (idPrec);
-		//if (idPrec != ""){
-			//if (eval(idPrec).style.backgroundColor != "DeepSkyBlue")
-				//La coloré en blanc
-			//alert(eval(idPrec).style.backgroundColor);
-			//if (eval(idPrec).style.backgroundColor != "deepskyblue"
-			//	&& eval(idPrec).style.backgroundColor != "lightgray")
-			//	eval(idPrec).style.backgroundColor = "#ececec";				//Sinon la coloré en gris
-			//if (eval(id).style.backgroundColor != "deepskyblue"
-			//	&& eval(id).style.backgroundColor != "lightgray"){
-			//}
-			//	eval(id).style.backgroundColor = "white";
-			//alert(eval("sp"+aa).innerHTML);
-			//alert(wd);
-			var aa = 0;
-			for (var k=0;k<=5;k++){
-				for (var i=0;i<=6;i++, aa++){
-					if(eval("sp"+aa).innerHTML==wd){
-						//alert(idPrec);
-				//Sinon la coloré en gris	
-						if (idPrec != ""
-							&& (eval(idPrec).style.backgroundColor != "deepskyblue"
-							&& eval(idPrec).style.backgroundColor != "lightgray"))
-							eval(idPrec).style.backgroundColor = "#ececec";
-						if (eval("sp"+aa).style.backgroundColor != "deepskyblue"
-							&& eval("sp"+aa).style.backgroundColor != "lightgray"){														
-							eval("sp"+aa).style.backgroundColor = "white";
-							idPrec = "sp"+aa;
-						}
-					}
-
-				}
-			}
-			
-		//}
-		//eval(id).style.backgroundColor = "DeepSkyBlue";						//La case séléctionnée est coloré en bleue
-	}
-	//idPrec = id;
+	var wd = eval(id).innerHTML;
+	if(wd == "")wd =now.getDate();
 	
+	
+	if(parseInt(id.slice(2)) > (42-15) && parseInt(eval(id).innerHTML) < 15){ 		//Si la case séléctionée fait partie du mois d'après
+		chMonth("+");
+	}
+	else if(parseInt(id.slice(2)) < 15 && parseInt(eval(id).innerHTML) > (31-15)){ //Si la case séléctionée fait partie du mois d'avant
+		chMonth("-");
+	}
+	
+	//-------------------Coloriage des cases----------------------//
+	if (idPrec != ""
+		&& eval(idPrec).style.backgroundColor != "deepskyblue")
+		eval(idPrec).style.backgroundColor = "#ececec";
+	
+	var aa = 0;
+
+	for (var i=0;i<=41;i++, aa++){
+		if(eval("sp"+aa).innerHTML==wd 
+		&& eval("sp"+aa).innerHTML != ""	
+		&& eval("sp"+aa).style.backgroundColor != "deepskyblue"
+		&& eval("sp"+aa).style.backgroundColor != "lightgray"){
+			eval("sp"+aa).style.backgroundColor = "white";
+			idPrec = "sp"+aa;	
+		}
+	}
+	
+	
+	//----------Affichage des évènements avec la date-----------//
+	if(wd < 10) wd = 0+wd;
+	text += "<td>Evènement du ";
+	text += wd;		//Text prend : la valeur de la case, le jour
+	text += "/";					
+	var wm = parseInt(document.calForm.selMonth.value)+1; //Initialisation de la variables d'affichage du mois (janvier vaut 0, donc +1)
+	if(wm < 10) wm = "0"+wm;
+	text += wm;						//Text prend : valeur du mois
+	text += "/";
+	var wy = parseInt(document.calForm.selYear.value); //Initialisation de la variables d'affichage de l'année					
+	text += wy;						//Text prend : valeur de l'année
+	text += ":</td>";
+	//text += "<button align=right onClick=''>+</button>";
+	eval("eve").innerHTML = text; 	//La balise dont l'id vaut 'eve' affiche le text	
+
+}
+
+function chMonth(plusOuMoins){
+	if (plusOuMoins == "-")
+	{
+		if(parseInt(document.calForm.selMonth.value) == 0){ 	//Si le mois courant est janvier, 
+			document.calForm.selYear.value--;
+			document.calForm.selMonth.value=11;
+		}
+		else{
+			document.calForm.selMonth.value--;
+		}
+	}
+	else{
+		if(parseInt(document.calForm.selMonth.value) == 11){ 	//Si le mois courant est décembre
+			document.calForm.selYear.value++;
+			document.calForm.selMonth.value=0;
+		}
+		else{
+			document.calForm.selMonth.value++;
+		}
+	}
+	changeCal();
 }
 function creatEvent(){
 	
@@ -113,6 +99,7 @@ function writeCalendar(){
 	text += "<tr><td>";
 	text += "<table width=100%><tr>";
 	text += "<td align=left>";
+	text += "<span onClick='chMonth(\"-\")'><i class=\"fas fa-chevron-left\"></i></span>";
 	text += "<select name=selMonth onChange='changeCal()'>"; //Quand on selectionne un mois, la fonction changeCal() est appelé
 	for (i=0;i<=11;i++){		//Remplissage de la balise de selection du mois
 		if (i==mm){
@@ -122,8 +109,11 @@ function writeCalendar(){
 			text += "<option value= " + i + ">" + arrM[i] + "</option>";
 		}
 	}
-	text += "</select>";
+	text += "</select>";	
+	text += "<span onClick='chMonth(\"+\")'><i class=\"fas fa-chevron-right\"></i></span>";
 	text += "</td>";
+
+	//changeCal();
 	text += "<td align=right>";
 	text += "<select name=selYear onChange='changeCal()'>";	//Quand on selectionne une année, la fonction changeCal() est appelé
 	for (i=0;i<=4;i++){			//Remplissage de la balise de selection de l'année
@@ -187,7 +177,7 @@ function changeCal(){
 		arrN[i] = aa ;
 		if ((arrN[i]==dd)&&(mm==currM)&&(yyyy==currY)){
 			eval("sp"+i).style.backgroundColor="DeepSkyBlue";
-			//affichageEvent("sp"+i);
+			affichageEvent("sp"+i);
 		}
 		else
 			eval("sp"+i).style.backgroundColor="#ececec";
