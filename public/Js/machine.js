@@ -12,18 +12,16 @@ class Machines{
 		this.positionsCamera= [];	// Conteneur qui enregistre les positions de la camera pour voir les differentes face du cube
 		this.positionCamera =0;		// Pointeur sur positionsCamera[] qui est de type .x .y .z 	
 		this.position=0;			// Position du cube .x .y .z 
-		this.edition = 0;			// Attribut qui définit si on pose un sprite ou pas
+		this.edition = 0;			// Attribut qui définit si on pose un sprite ou pas			
 		this.etapeEnCours = 1;		// Attribut qui permet de connaitre l'etape en cours.
 		this.initEcartTooltip = 2;	// Attribut, qui avance de 2 le sprite apres sa creation.
+		this.createSprite = 'stop';
 	}
 	createMachine(scene, imgDroite, imgLeft, imgTop, imgBottom, imgFront, imgBack)
 	{
-		this.scene = scene; 		
-		
+		this.scene = scene; 
 		//création modèle de cube
 		var geometry2 = new THREE.BoxGeometry( 100, 100, 100 ); // Creation d'une boite de 100 de côtés
-
-
 		
 		//// Paramétrer les faces :
 		//var image1 = new THREE.TextureLoader().load('images/machine1/droit.jpg');
@@ -248,6 +246,22 @@ class Machines{
 		});
 		
 	}
+	ToggleSprite()
+	{
+		if (this.edition == 1) {
+			this.edition = 0;
+			spriteCreate.classList.remove('on');
+			this.createSprite = 'stop';
+		}
+		else
+		{
+			this.edition = 1;
+			spriteCreate.classList.add('on');
+			this.createSprite = 'ready';
+			console.log(this.edition)
+		}
+	}
+	
 	
 }
 
@@ -255,7 +269,7 @@ class Machines{
 /* FIN CLASSE Machines*/
 const container = document.getElementById('container-fluid'); // variable qui enregesitre document.body pour faciliter l'appel
 const tooltip = document.querySelector('.tooltip'); // récupérer la classe de l'élément .tooltip (css) (ref aux sprites)
-const canvamodif = document.querySelector('canvas'); // récupérer la classe de l'élément canvas (css) (ref au canvas)
+const spriteCreate = document.querySelector('.spriteCreate'); // récupérer la classe de l'élément canvas (css) (ref au canvas)
 let spriteActive = false;
 //var windowWidth = 1200;
 //var windowHeight = 900;
@@ -409,23 +423,7 @@ function lessi(axe,speed ){
 	//cube.moveTooltipX(-2)
 }
 
-function toggleSprite()
-{
-	
-	if (cube.edition == 1) {
-		cube.edition = 0;
-		//document.getElementById("btnSprite").src = "images/ampoulerouge.png"
-	}
-	else
-	{
-		cube.edition = 1;
-		//console.log("vert")
-		//document.getElementById("btnSprite").src = "images/ampouleverte.png"
-	}
-//	if (cube.edition == 1) {cube.edition = 0;}
-	//	else{cube.edition =1;}
 
-}
 function modifValider()
 {
 	cube.sprite.name = document.getElementById("reName").value ;
@@ -454,8 +452,8 @@ function onClick(e)
 		
 		console.log("edition en mode 0");
 		
-		document.getElementById("btnSprite").src = "http://127.0.0.1:8000/image/machine/ampoulerouge.png";
-
+		//document.getElementById("btnSprite").src = "http://127.0.0.1:8000/image/machine/ampoulerouge.png";
+		cube.createSprite = 'stop';
 		intersects.forEach(function(intersect){
 			//console.log(intersect.object.material[0].map.image.currentSrc);
 			
@@ -485,9 +483,8 @@ function onClick(e)
 
 	}
 	//si edition = 1 et image = verte, on pose un sprite
-	else if (document.getElementById("btnSprite").src == "http://127.0.0.1:8000/image/machine/ampouleverte.png") 
+	else if (cube.createSprite == 'start') //if (document.getElementById("btnSprite").src == "http://127.0.0.1:8000/image/machine/ampouleverte.png") 
 	{
-		
 		
 		console.log("edition en mode 1");
 		console.log(camera.position);
@@ -538,7 +535,8 @@ function onClick(e)
 	}
 	else //sinon l'image passe verte car édition == 1
 	{
-		document.getElementById("btnSprite").src = "http://127.0.0.1:8000/image/machine/ampouleverte.png";
+		cube.createSprite = 'start'
+		//document.getElementById("btnSprite").src = "http://127.0.0.1:8000/image/machine/ampouleverte.png";
 	}
 	
 	intersects.forEach(function(intersect){
@@ -702,7 +700,7 @@ function Keyboard(event)
 	}
 	if(event.keyCode == 69) //e
 	{
-		toggleSprite();
+		cube.ToggleSprite();
 		console.log(cube.edition);
 		console.log(cube.sprites.length);
 	}

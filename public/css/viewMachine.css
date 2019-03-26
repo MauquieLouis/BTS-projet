@@ -81,3 +81,11 @@ canvas
 	
 	transform : translate3d(-50%, calc(-100% - 20px), 0);
 }
+.spriteCreate
+{
+	background-color  : #f00;
+}
+.spriteCreate.on
+{
+	background-color  : #0f0;
+}
