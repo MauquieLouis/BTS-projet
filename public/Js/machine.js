@@ -1,99 +1,3 @@
-/* CLASSE CREATION SCENE */
-class Scene{
-	
-	constructor(image)
-	{
-		this.image = null//image
-		this.points = []
-		this.sprites = []
-		this.scene = null
-	}
-	
-	createScene(scene)
-	{
-		this.scene = scene
-		const geometry = new THREE.SphereGeometry(400, 400, 400)
-		const textureLoader = new THREE.TextureLoader()
-//		const texture = textureLoader.load('../Images/Image5.jpg')
-//		const texture = textureLoader.load(this.image)
-//		texture.wrapS = THREE.RepeatWrapping
-//		texture.repeat.x = -1
-		const material = new THREE.MeshBasicMaterial({
-		// 	map: texture,
-		 	color: 0x666666,
-			side: THREE.DoubleSide
-		})
-		material.transparent = true
-		this.sphere = new THREE.Mesh(geometry, material)
-		this.scene.add(this.sphere)	
-		this.points.forEach(this.addTooltip.bind(this))
-	}
-	
-	addPoints (point)
-	{
-		this.points.push(point);
-	}
-	
-	addTooltip(point)
-	{
-		let spriteMap = new THREE.TextureLoader().load( "../../image/machine/ampoule.png" );
-		let spriteMaterial = new THREE.SpriteMaterial( { map: spriteMap, color: 0xffffff } );
-		let sprite = new THREE.Sprite( spriteMaterial );
-		sprite.name = point.name
-//		let position = new THREE.Vector3(45,0,0);
-		sprite.position.copy(point.position.clone().normalize().multiplyScalar(30)); //.clone permet de cloner et de ne pas toucher la variable passée par référence l'objet méthode normalize
-		sprite.scale.multiplyScalar(100) // on multiplie la sprite par 2 sur tous les vecteurs
-		this.scene.add(sprite);
-		this.sprites.push(sprite)
-		sprite.onClick = () =>{
-			//console.log(sprite.name)
-			//this.destroy()
-			//point.scene.createScene(scene)
-			//point.scene.appear()
-		}
-	}
-	
-	destroy(){
-		TweenLite.to(this.sphere.material,1, {
-			opacity:0,
-			onComplete: ()=>{
-				this.scene.remove(this.sphere)
-			}
-		})
-		this.sprites.forEach((sprite) => {
-			TweenLite.to(sprite.scale,0.3, {
-				x: 0,
-				y: 0,
-				z: 0,
-				onComplete: () => {
-					this.scene.remove(sprite)
-				}
-			})
-		})
-	}
-	
-	appear () {
-		this.sphere.material.opacity = 0
-		TweenLite.to(this.sphere.material, 1, {
-			opacity:1
-		})
-		this.sprites.forEach((sprite) =>{
-			sprite.scale.set(0,0,0)
-			TweenLite.to(sprite.scale,1, {
-				x: 2,
-				y: 2,
-				z: 2
-			})
-		})
-	}
-
-
-
-	
-	
-}
-/* FIN CLASSE SCENE */
-
 /* Classe Machines*/
 class Machines{
 	constructor(image)
@@ -349,13 +253,14 @@ class Machines{
 
 
 /* FIN CLASSE Machines*/
-const container = document.body // variable qui enregesitre document.body pour faciliter l'appel
+const container = document.getElementById('container-fluid') // variable qui enregesitre document.body pour faciliter l'appel
 const tooltip = document.querySelector('.tooltip') // récupérer la classe de l'élément .tooltip (css) (ref aux sprites)
 let spriteActive = false;
-var windowWidth = 1200;
-var windowHeight = 900;
-// var windowWidth = window.innerWidth;
-// var windowHeight = window.innerHeight;
+//var windowWidth = 1200;
+//var windowHeight = 900;
+var ratio = 9/12;
+var windowWidth = window.innerWidth * ratio;
+var windowHeight = window.innerHeight;
 ////////////////RENDU//////////////////////////////////////////////////////////
 const renderer = new THREE.WebGLRenderer()// Rendu
 renderer.setSize( windowWidth, windowHeight)
@@ -378,15 +283,18 @@ controls.update()
 
 
 // Création sphère
-//let s = new Scene('images/image5.jpg')
-let s = new Scene('')
-//let s2 = new Scene('images/image4.jpg')
+const geometrysphere = new THREE.SphereGeometry(400, 400, 400)
+const textureLoader = new THREE.TextureLoader()
+const material = new THREE.MeshBasicMaterial({
+// 	map: texture,
+ 	color: 0x666666,
+	side: THREE.DoubleSide
+})
+material.transparent = true
+sphere = new THREE.Mesh(geometrysphere, material)
+scene.add(sphere)	
 
-//Création de scène
-s.createScene(scene)
 
-s.appear()
-s.name = "sphere";
 //création des cubes
 let cube = new Machines();
 // cube.addPoints({
@@ -653,9 +561,23 @@ function onClick(e)
 
 function onResize()
 {
-	renderer.setSize(windowWidth, windowHeight)
-	camera.aspect = windowWidth / windowHeight
-	camera.updateProjectionMatrix()
+	//renderer.setSize(windowWidth, windowHeight)
+	//camera.aspect = windowWidth / windowHeight;
+	if(window.innerWidth > 768)
+	{
+		windowWidth = window.innerWidth*ratio;
+		renderer.setSize(window.innerWidth*ratio, windowHeight);
+		camera.aspect = window.innerWidth*ratio / windowHeight;
+		
+	}
+	else
+	{
+		windowWidth = window.innerWidth;
+		renderer.setSize(window.innerWidth, window.innerHeight);
+		camera.aspect = window.innerWidth / window.innerHeight;
+	}
+	
+	camera.updateProjectionMatrix();
 
 }
 //////
@@ -678,22 +600,23 @@ var animate = function () {
 		console.log('position x:'+camera.position.x);
 		console.log('position y:'+camera.position.y);
 		console.log('position z:'+camera.position.z);
-		/*camera.position.x = 50;
+		camera.position.x = 50;
 		camera.position.y = 50;
-		camera.position.z = 50;*/
+		camera.position.z = 50;
 	}
 	camera.updateProjectionMatrix();
 	renderer.render(scene, camera);
 };
-
+//.
 
 function onMouseMove(e)
 {
+	
 	let mouse = new THREE.Vector2(
-			( e.clientX / windowWidth ) * 2 - 1,
+			( (e.clientX-220) / windowWidth ) * 2 - 1,
 			- ( e.clientY / windowHeight) * 2 + 1 
 		);
-
+	console.log(e.clientX)
 		
 	rayCaster.setFromCamera(mouse, camera)
 	let foundSprite = false;
@@ -707,7 +630,7 @@ function onMouseMove(e)
 			let p = intersect.object.position.clone().project(camera) // Je récupère la position du sprite et je la projette sur la caméra.
 			//c'est la position x et y qui nous intéresse
 			tooltip.style.top = ((-1*p.y + 1) * windowHeight/2) + 'px'
-			tooltip.style.left = (p.x+1)* windowWidth/2 + 'px'
+			tooltip.style.left = (p.x+1)* windowWidth/2 + 220 + 'px'
 			tooltip.classList.add('is-active')
 			tooltip.innerHTML = intersect.object.name
 			spriteActive = intersect.object;
@@ -739,7 +662,7 @@ face = 0;
 function Keyboard(event)
 {
 	var speed =0.1;
-	//console.log(event);
+	console.log(event);
 	if(event.keyCode == 90) //z
 	{
 		cube.rotateCube('z',speed);
@@ -757,7 +680,8 @@ function Keyboard(event)
 	}
 	if(event.keyCode == 83) //s
 	{
-		
+		console.log('s');
+		console.log(renderer);
 		//cube.rotateSprite('z',-speed)
 	}
 	if(event.keyCode == 68) //d

@@ -22,4 +22,15 @@ class MachineController extends AbstractController
             'controller_name' => 'MachineController',
         ]);
     }
+    
+    /**
+     * @Route("/modele", name="modele3D")
+     */
+    public function viewModele()
+    {
+
+        return $this->render('machine/viewmodel.html.twig', [
+            'controller_name' => 'MachineController',
+        ]);
+    }
 }
