@@ -27,7 +27,8 @@ function affichageEvent(id){
 	
 	//-------------------Coloriage des cases----------------------//
 	if (idPrec != ""
-		&& eval(idPrec).style.backgroundColor != "deepskyblue")
+		&& eval(idPrec).style.backgroundColor != "deepskyblue"
+		&& eval(idPrec).style.backgroundColor != "lightgray")
 		eval(idPrec).style.backgroundColor = "#ececec";
 	
 	var aa = 0;
@@ -94,7 +95,7 @@ function writeCalendar(){
 	var arrD = new Array("Lun","Mar","Mer","Jeu","Ven","Sam","Dim");
 
 	var text = "";
-	text = "<form name=calForm class =\"col-12 col-md-6\">";
+	text = "<form name=calForm>";
 	text += "<table border=1>";
 	text += "<tr><td>";
 	text += "<table width=100%><tr>";
