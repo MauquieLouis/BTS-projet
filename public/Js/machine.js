@@ -255,12 +255,17 @@ class Machines{
 /* FIN CLASSE Machines*/
 const container = document.getElementById('container-fluid'); // variable qui enregesitre document.body pour faciliter l'appel
 const tooltip = document.querySelector('.tooltip'); // récupérer la classe de l'élément .tooltip (css) (ref aux sprites)
+const canvamodif = document.querySelector('canvas'); // récupérer la classe de l'élément canvas (css) (ref au canvas)
 let spriteActive = false;
 //var windowWidth = 1200;
 //var windowHeight = 900;
+var barreDuHaut = 165;
+//var ecartWidthMenuCanvas = 220;
+var ecartWidthMenuCanvas = 0;
+var ecartHeightMenuCanvas = 165;
 var ratio = 9/12;
-var windowWidth = window.innerWidth * ratio;
-var windowHeight = window.innerHeight;
+var windowWidth = (window.innerWidth * ratio);
+var windowHeight = (window.innerHeight)-barreDuHaut;
 ////////////////RENDU//////////////////////////////////////////////////////////
 const renderer = new THREE.WebGLRenderer();// Rendu
 renderer.setSize( windowWidth, windowHeight);
@@ -430,8 +435,8 @@ function modifValider()
 function onClick(e)
 {
 	let mouse = new THREE.Vector2(
-		( e.clientX / windowWidth ) * 2 - 1,
-		- ( e.clientY / windowHeight ) * 2 + 1
+		( (e.clientX-ecartWidthMenuCanvas) / windowWidth ) * 2 - 1,
+		- ( (e.clientY-ecartHeightMenuCanvas) / windowHeight ) * 2 + 1
 	);
 
 	rayCaster.setFromCamera(mouse, camera);
@@ -566,6 +571,7 @@ function onResize()
 	if(window.innerWidth > 768)
 	{
 		windowWidth = window.innerWidth*ratio;
+		windowHeight = window.innerHeight  - barreDuHaut;
 		renderer.setSize(window.innerWidth*ratio, windowHeight);
 		camera.aspect = window.innerWidth*ratio / windowHeight;
 		
@@ -573,8 +579,12 @@ function onResize()
 	else
 	{
 		windowWidth = window.innerWidth;
-		renderer.setSize(window.innerWidth, window.innerHeight);
-		camera.aspect = window.innerWidth / window.innerHeight;
+		
+		canvamodif.style.border = '2px solid pink';
+		windowHeight = window.innerHeight - barreDuHaut;
+		renderer.setSize(window.innerWidth, windowHeight);
+		camera.aspect = window.innerWidth / windowHeight;
+
 	}
 	
 	camera.updateProjectionMatrix();
@@ -613,10 +623,10 @@ function onMouseMove(e)
 {
 	
 	let mouse = new THREE.Vector2(
-			( (e.clientX-220) / windowWidth ) * 2 - 1,
-			- ( e.clientY / windowHeight) * 2 + 1 
+			( (e.clientX-ecartWidthMenuCanvas) / windowWidth ) * 2 - 1,
+			- ( (e.clientY-ecartHeightMenuCanvas) / windowHeight) * 2 + 1 
 		);
-	console.log(e.clientX);
+	console.log(e.clientY);
 		
 	rayCaster.setFromCamera(mouse, camera);
 	let foundSprite = false;
@@ -630,7 +640,8 @@ function onMouseMove(e)
 			let p = intersect.object.position.clone().project(camera); // Je récupère la position du sprite et je la projette sur la caméra.
 			//c'est la position x et y qui nous intéresse
 			tooltip.style.top = ((-1*p.y + 1) * windowHeight/2) + 'px';
-			tooltip.style.left = (p.x+1)* windowWidth/2 + 220 + 'px';
+			tooltip.style.left = (p.x+1)* windowWidth/2 + 'px';
+
 			tooltip.classList.add('is-active');
 			tooltip.innerHTML = intersect.object.name;
 			spriteActive = intersect.object;
