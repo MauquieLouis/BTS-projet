@@ -125,8 +125,9 @@ class AdminController extends AbstractController
      */
     public function EditionUser($id, UserRepository $uR)
     {
-       $userToModify = $uR->findOneBy(['id' => $id]);
+        $userToModify = $uR->findOneBy(['id' => $id]);
+        $form = $this->createForm(NewUserFormType::class, $userToModify);  
         
-        return $this->render('admin/editionUser.html.twig', ['user' => $userToModify]);
+        return $this->render('admin/editionUser.html.twig', ['user' => $userToModify, 'form' => $form->createView()]);
     }
 }

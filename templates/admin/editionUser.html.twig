@@ -9,6 +9,23 @@
 		</div>
 	</div>
 	<div class="row">
-	
+		<div class="col-12 offset-md-3 col-md-6" id="formEdit">
+			{{ form_start(form) }}
+				{{ form_errors(form) }}
+				
+{# 				{{ form_label(form.nom, 'Nom', {'label_attr': {'class': 'test'}}) }}#}
+				{{ form_row(form.nom, {'label': 'Nom'}) }}
+				
+				{{ form_row(form.prenom, {'label': 'Prénom'}) }}
+				
+				{{ form_row(form.email, {'label': 'E-mail'}) }}
+				<button type="Submit" class ="">Valider les modifications</button>
+			{{ form_end(form) }}
+		</div>
 	</div>
+	<script>
+		var form = document.getElementById('formEdit');
+		alert(form.innerHTML);
+
+	</script>
 {% endblock %}
