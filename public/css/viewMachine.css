@@ -1,12 +1,17 @@
-
-.test2
+.btnPositionduCube
 {
-/* 	border: 2px solid red ; */
+	border: 2px solid green;
+	position : absolute;
+	
+}
+.enveloppe
+{
+	border: 5px solid blue;
 }
 .menu2
 {
 	background-color  : #666666;
-	float:right; 
+/* 	float:right;  */
 
 /* 	right:0px; */
 /* 	float:left; */
@@ -20,25 +25,21 @@
 {
 /* 	border: 3px solid purple; */
 	position: absolute
+	
 }
-.ensemble
-{
-	border: 3px solid blue;	
-}
+
 canvas
 {
 /* 	position: absolute; */
+	
 	/* position: fixed;
 	margin-left : 220px; */
 /* 	float:right; */
 /*  	border: 2px solid pink;  */
-	float: left;
+	float: right;
 	
 }
-.totor
-{
-	
-}
+
 .posCube
 {
 /* 	position: absolute; */

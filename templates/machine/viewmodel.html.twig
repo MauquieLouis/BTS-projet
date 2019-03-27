@@ -16,35 +16,39 @@
     	</div>
 	</div>
 	<div class="row ">
-	<canvas id="myCanvasElement" class="col-12 col-md-9"></canvas>
-<!-- 	</div>
-	<div class="row"> -->
-            <div class="menu2 col-12 offset-md-9 col-md-3">	
+
+			<canvas id="myCanvasElement" class="col-12 offset-md-3 col-md-9" width="500" height="300"></canvas>
+			<div class="btnPositionduCube">
+				<button onClick="cube.cubeMove(-1)" class="posCube"> < </button><button class="posCube" onClick="cube.cubeMove(1)"> > </button></br>
+			</div>
+
+            <div class="menu2 col-12 col-md-6">	
                 <div id="bt2">
-                    <button onClick="cube.moveTooltip('x', 2)">+x</button><button onClick="lessi('x', -2)">-x</button></br>
-                    <button onClick="addi('y', 2)">+y</button><button onClick="lessi('y', -2)">-y</button></br>
-                    <button onClick="addi('z', 2)">+z</button><button onClick="lessi('z', -2)">-z</button></br>
+                    <button onClick="cube.moveSprite('x', 2)">+x</button><button onClick="cube.moveSprite('x', -2)">-x</button>
+                    <button onClick="cube.moveSprite('y', 2)">+y</button><button onClick="cube.moveSprite('y', -2)">-y</button>
+                    <button onClick="cube.moveSprite('z', 2)">+z</button><button onClick="cube.moveSprite('z', -2)">-z</button>
                 </div>
             
             	<button onclick="cube.ToggleSprite()" class="SpriteNbr spriteCreate"><img id="btnSprite" class="buttonSprite SpriteNbr" src="../../image/machine/ampoule.png" width="50" height="30">Sprite</button>
             	<div class="SpriteNbr" id="SpriteNb">0</div>
-            
-            
-            	<div class="informationTooltip posCube">Menu</div>
-            	 <button onClick="cube.cubeMove(-1)" class="posCube"> < </button><button class="posCube" onClick="cube.cubeMove(1)"> > </button></br>
+            	
+            	 
             	
             	<div >Name :</div>
             	<div class="informationTooltip" id="tooltipName" ></div>
-            	<div class="informationTooltip" id="tooltipName2" ></div>
-            	<div>tooltipInfo :</div>
+            	
+            	<div>Description :</div>
             	<div class="informationTooltip" id="tooltipInfo"></div>
             
-            	<div id="informationTooltip"></div>
-            
-            	<input type="text" id="reName" name="name" height="300px" required
-            		minlength="0" maxlength="5" size="10">
-            	<input type="text" id="reInform" height="300px" required
-            		minlength="0" maxlength="5" size="10">
+            	<div>Etape :</div>
+            	<div class="informationTooltip" id="tooltipEtape"></div>
+            	
+{#             	Redefinir le nom, description, etc...						#}
+            	<input type="text" id="reName" name="name" height="300px" required minlength="0" maxlength="5" size="10">
+            		
+            	<input type="text" id="reInform" height="300px" required minlength="0" maxlength="5" size="10">
+            		
+            	<input type="text" id="reEtape" height="300px" required minlength="0" maxlength="5" size="10">	
             	<!--<button onclick="modifValider()" id="btnValiderModif">OK !</button>-->
             	Position Camera (x,y,z):
             	<input type="text" id="posCamX" name="name" height="300px" required

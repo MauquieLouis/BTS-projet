@@ -58,6 +58,15 @@ class Machines{
 		this.scene.add(this.cube);
 		this.points.forEach(this.addTooltip.bind(this));
 //////////////////////////////////////////////////////////
+		
+///////////////////////AJOUT DIFFERENTES POSITIONS DE CAMERA////////////////////////////////
+		this.positionsCamera.push(new THREE.Vector3(0, 0, 167));//devant
+		this.positionsCamera.push(new THREE.Vector3(168, 0, 0));//droite
+		this.positionsCamera.push(new THREE.Vector3(0, 0, -169));//derriere
+		this.positionsCamera.push(new THREE.Vector3(-168, 0, 0));//gauche
+////////////////////////////////////////////////////////////////////////////////////////////
+		
+		
 	}
 	positionReset() // Cube se remet droit
 	{
@@ -122,7 +131,7 @@ class Machines{
 			camera.position.z = sprite.cameraPosZ;//sprite.cameraPosZ
 			document.getElementById("tooltipName").innerHTML = cube.sprite.name; //affiche sur le web le nom
 			document.getElementById("tooltipInfo").innerHTML = cube.sprite.information;
-			
+			document.getElementById("tooltipEtape").innerHTML = cube.sprite.etape;
 			//sprite.scale.multiplyScalar(8)
 			//sprite.name ="pantoufle"
 			//this.scene.remove(sprite) //supprime le sprite ///////////
@@ -165,6 +174,7 @@ class Machines{
 			})
 		})
 	}
+////////////A SUPPRIMER /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	saveSprites(sprite, info, etape, cam) // Enregistre une sprite dans Sprites
 	{
 		sprite.information	= info; 
@@ -186,6 +196,7 @@ class Machines{
 		this.sprite = sprite;						// le pointeur this.sprite se fixe sur la sprite
 		document.getElementById("SpriteNb").innerHTML = cube.sprites.length;
 	}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	deleteSprite() // supprime une sprite.
 	{
 		console.log(this.sprites.length);
@@ -271,17 +282,19 @@ const container = document.body; // variable qui enregesitre document.body pour 
 const tooltip = document.querySelector('.tooltip'); // récupérer la classe de l'élément .tooltip (css) (ref aux sprites)
 const spriteCreate = document.querySelector('.spriteCreate'); // récupérer la classe de l'élément canvas (css) (ref au canvas)
 const menuSmall = document.querySelector('.menu2'); // récupérer
+menuSmall.classList.add('is-active');
 let spriteActive = false;
 //var windowWidth = 1200;
 //var windowHeight = 900;
-var barreDuHaut = 165;
+var barreDuHaut = 205;
 //var ecartWidthMenuCanvas = 220;
-var ecartWidthMenuCanvas = 0;
-var ecartHeightMenuCanvas = 165;
-var ratio = 9/12;
+var ecartWidthMenuCanvas = 850;
+var ecartHeightMenuCanvas = barreDuHaut;
+var ratio = 1/3;
+var ratioHeight = 1/2;
 //var ratio=1;
 var windowWidth = (window.innerWidth * ratio);
-var windowHeight = (window.innerHeight)-barreDuHaut;
+var windowHeight = ((window.innerHeight)-barreDuHaut)*ratioHeight;
 ////////////////RENDU//////////////////////////////////////////////////////////
 const renderer = new THREE.WebGLRenderer({canvas: myCanvasElement});// Rendu
 renderer.setSize( windowWidth, windowHeight);
@@ -300,7 +313,15 @@ controls.autoRotate = false;
 camera.position.set(0, 0, 167);
 controls.update();
 
+/////// Position des boutons de déplacement de la caméra //////////////////////
+const btnCameraFaceCube = document.querySelector('.btnPositionduCube'); 
+btnCameraFaceCube.style.top = ecartHeightMenuCanvas + windowHeight +'px';
+btnCameraFaceCube.style.right = windowWidth/2 - 30 + 'px';
 
+//btnCameraFaceCube.classList.add('is-active');
+
+
+//////////////////////////////////////////////////////////////////////////////
 
 
 // Création sphère
@@ -412,24 +433,14 @@ function addTooltip(point)
 );*/
 ////////////////////////////////////////////////////////////
 
-var val = 1;
-function addi(axe,speed ){
-//	++val;
-//	document.getElementById("valeur").innerHTML = val;
-	cube.moveSprite(axe, speed); 
-}
-function lessi(axe,speed ){
-	//--val;
-	//document.getElementById("valeur").innerHTML = val; 
-	cube.moveSprite(axe, speed); 
-	//cube.moveTooltipX(-2)
-}
+
 
 
 function modifValider()
 {
 	cube.sprite.name = document.getElementById("reName").value ;
-	cube.sprite.information = document.getElementById("reInform").value ;				
+	cube.sprite.information = document.getElementById("reInform").value ;
+	cube.sprite.etape = document.getElementById("reEtape").value ;
 }
 
 function onClick(e)
@@ -476,6 +487,7 @@ function onClick(e)
 				document.getElementById("tooltipInfo").innerHTML = cube.sprite.information;
 				document.getElementById("reName").value = cube.sprite.name; 
 				document.getElementById("reInform").value = cube.sprite.information; 
+				document.getElementById("reEtape").value = cube.sprite.etape; 
 				//cube.sprite.translateX(10);
 				
 
@@ -570,10 +582,13 @@ function onResize()
 	//camera.aspect = windowWidth / windowHeight;
 	if(window.innerWidth > 768)
 	{
-		ratio = 9/12;
-		menuSmall.classList.add('is-active');
+		ratio = 1/3;
 		windowWidth = window.innerWidth*ratio;
-		windowHeight = window.innerHeight  - barreDuHaut;
+		windowHeight = (window.innerHeight  - barreDuHaut) * ratioHeight;
+		btnCameraFaceCube.style.top = ecartHeightMenuCanvas + windowHeight +'px';
+		btnCameraFaceCube.style.right = windowWidth/2 - 30 + 'px';
+		menuSmall.classList.add('is-active');
+
 		renderer.setSize(window.innerWidth*ratio, windowHeight);
 		camera.aspect = window.innerWidth*ratio / windowHeight;
 		
@@ -622,8 +637,11 @@ var animate = function () {
 	camera.updateProjectionMatrix();
 	renderer.render(scene, camera);
 }
-
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////              ON MOUSE MOVE     /////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function onMouseMove(e)
 {
 	
@@ -631,7 +649,7 @@ function onMouseMove(e)
 			( (e.clientX-ecartWidthMenuCanvas) / windowWidth ) * 2 - 1,
 			- ( (e.clientY-ecartHeightMenuCanvas) / windowHeight) * 2 + 1 
 		);
-	console.log(e.clientY);
+	console.log(e.clientX);
 		
 	rayCaster.setFromCamera(mouse, camera);
 	let foundSprite = false;
@@ -644,15 +662,14 @@ function onMouseMove(e)
 		{
 			let p = intersect.object.position.clone().project(camera); // Je récupère la position du sprite et je la projette sur la caméra.
 			//c'est la position x et y qui nous intéresse
-			tooltip.style.top = ((-1*p.y + 1) * windowHeight/2) + 'px';
-			tooltip.style.left = (p.x+1)* windowWidth/2 + 'px';
+			tooltip.style.top = ((-1*p.y + 1) * windowHeight/2) + ecartHeightMenuCanvas + 'px';
+			tooltip.style.left = (p.x+1)* windowWidth/2  + 850 +'px';
 
 			tooltip.classList.add('is-active');
 			tooltip.innerHTML = intersect.object.name;
 			spriteActive = intersect.object;
 			foundSprite = true;
 			
-
 
 			TweenLite.to(intersect.object.scale, 0.5, {
 				x:7,
@@ -728,10 +745,7 @@ function Keyboard(event)
 	if(event.keyCode == 39) //fleche de droite;
 	{
 		//cube.positionCamera = "hello";
-		cube.positionsCamera.push(new THREE.Vector3(0, 0, 167));//devant
-		cube.positionsCamera.push(new THREE.Vector3(168, 0, 0));//droite
-		cube.positionsCamera.push(new THREE.Vector3(0, 0, -169));//derriere
-		cube.positionsCamera.push(new THREE.Vector3(-168, 0, 0));//gauche
+
 		
 	}
 	if(event.keyCode == 80) //p
@@ -739,7 +753,7 @@ function Keyboard(event)
 		cube.EtapeChangement(-1);
 		//if(++face >=4){face=0} ;
 		//console.log(cube.positionsCamera[0].x)
-		
+
 		//camera..y = 0.5;
 		
 		//controls.target.set(0,0,0);
