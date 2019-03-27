@@ -267,9 +267,10 @@ class Machines{
 
 
 /* FIN CLASSE Machines*/
-const container = document.getElementById('container-fluid'); // variable qui enregesitre document.body pour faciliter l'appel
+const container = document.body; // variable qui enregesitre document.body pour faciliter l'appel
 const tooltip = document.querySelector('.tooltip'); // récupérer la classe de l'élément .tooltip (css) (ref aux sprites)
 const spriteCreate = document.querySelector('.spriteCreate'); // récupérer la classe de l'élément canvas (css) (ref au canvas)
+const menuSmall = document.querySelector('.menu2'); // récupérer
 let spriteActive = false;
 //var windowWidth = 1200;
 //var windowHeight = 900;
@@ -278,10 +279,11 @@ var barreDuHaut = 165;
 var ecartWidthMenuCanvas = 0;
 var ecartHeightMenuCanvas = 165;
 var ratio = 9/12;
+//var ratio=1;
 var windowWidth = (window.innerWidth * ratio);
 var windowHeight = (window.innerHeight)-barreDuHaut;
 ////////////////RENDU//////////////////////////////////////////////////////////
-const renderer = new THREE.WebGLRenderer();// Rendu
+const renderer = new THREE.WebGLRenderer({canvas: myCanvasElement});// Rendu
 renderer.setSize( windowWidth, windowHeight);
 container.appendChild(renderer.domElement);
 ///////////////////////////////////////////////////////////////////////////////
@@ -568,6 +570,8 @@ function onResize()
 	//camera.aspect = windowWidth / windowHeight;
 	if(window.innerWidth > 768)
 	{
+		ratio = 9/12;
+		menuSmall.classList.add('is-active');
 		windowWidth = window.innerWidth*ratio;
 		windowHeight = window.innerHeight  - barreDuHaut;
 		renderer.setSize(window.innerWidth*ratio, windowHeight);
@@ -576,12 +580,15 @@ function onResize()
 	}
 	else
 	{
+		//menuSmall.style.top = ((-1*p.y + 1) * windowHeight/2) + 'px';
+		//menuSmall.style.left = (p.x+1)* windowWidth/2 + 'px';
+
+		menuSmall.classList.remove('is-active');
 		windowWidth = window.innerWidth;
-		
-		canvamodif.style.border = '2px solid pink';
+		console.log(window.innerWidth);
 		windowHeight = window.innerHeight - barreDuHaut;
-		renderer.setSize(window.innerWidth, windowHeight);
-		camera.aspect = window.innerWidth / windowHeight;
+		renderer.setSize(window.innerWidth, window.innerHeight);
+		camera.aspect = window.innerWidth / window.innerHeight;
 
 	}
 	

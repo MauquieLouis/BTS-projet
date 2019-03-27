@@ -8,16 +8,18 @@
 {% endblock %}
 {% block title %}Admin{% endblock %}
 
-{% block body %}	
+{% block body %}
+	
 	<div class="row AdminRow2">
     	<div class="col-12 offset-md-3 col-md-6 AdminRow1 TitlePage">
     		<h1>Aperçu Machine</h1>
     	</div>
 	</div>
-	<div class="row">
-		<div class="col-12 offset-md-9 col-md-3">
-            <div class="menu2">
-            		
+	<div class="row ">
+	<canvas id="myCanvasElement" class="col-12 col-md-9"></canvas>
+<!-- 	</div>
+	<div class="row"> -->
+            <div class="menu2 col-12 offset-md-9 col-md-3">	
                 <div id="bt2">
                     <button onClick="cube.moveTooltip('x', 2)">+x</button><button onClick="lessi('x', -2)">-x</button></br>
                     <button onClick="addi('y', 2)">+y</button><button onClick="lessi('y', -2)">-y</button></br>
@@ -56,8 +58,9 @@
             	<button onclick="modifValider()" id="btnValiderModif">OK !</button>
             	
             </div>
-             
+		
         </div>
+
        
         
         <div class="tooltip"></div>
@@ -67,10 +70,6 @@
         <script src="{{ asset('Js/Threejs/stats.min.js')}}"></script>
         <script src="{{ asset('Js/Threejs/TweenLite.js')}}"></script>
 		<div class="col-12 col-md-9">
-        	<script class="totor" src="{{ asset('Js/machine.js')}}">
-        		// Our Javascript will go here.
-        		
-        	</script>
-    	</div>
-</div>
+    		<script src="{{ asset('Js/machine.js')}}"></script>
+		</div>
 {% endblock %}

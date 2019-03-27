@@ -11,16 +11,17 @@ body
 }
 h1
 {
-	color:#00A1D7;
+	color:#004257;
 }
 h2
 {
 	font-size:22px !important;
-	color:#00A1D7;
+	color:#007BA4;
 }
 h3
 {
 	font-size:22px !important;	
+	color:#007BA4;
 }
 h4
 {
@@ -32,17 +33,17 @@ h4
 .BtnAdmin-Style
 {
 	margin-top:5px;
-	border: 3px solid #00A1D7;
+	border: 3px solid #007BA4;
 	text-align:center;
 	height:80px;
-	color:#00A1D7 !important;
-	transition: background 0.7 ease, color 0.7s ease;
+	color:#007BA4 !important;
+	transition: background 0.7s ease, color 0.7s ease;
 }
 .BtnAdmin-Style:hover
 {
 	background: #DADADA;
-	color:#0098CB !important;
-	border: 3px solid #0098CB;
+	color:#1A4857 !important;
+	border: 3px solid #1A4857;
 	transition: background 0.7s ease, color 0.7s ease;
 }
 .BtnAdmin-Style-ligne
@@ -127,7 +128,7 @@ h4
 .userEmail
 {
 	float:right;
-	margin-right:50px;
+	margin-right:10px;
 }
 .userLogo
 {
