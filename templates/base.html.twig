@@ -47,7 +47,12 @@
       				    {% endif %}
     				</div>
     				<div class="col-12 col-md-3 titreBoutons">
-    					<h2>Futur Bouton 3</h2>
+    					 {% if is_granted('ROLE_ADMIN') %}
+    						<a href="{{ path('event') }}"><h2>Créer un évènement</h2></a>
+      				    {% else %}
+    						<h2>Btnn2</h2>
+      				    {% endif %}
+    					
     				</div>
     				<div class="col-12 col-md-3 titreBoutons">
     					<h2>Futur Bouton 4</h2>

@@ -17,7 +17,6 @@ class NewEventFormType extends AbstractType
             ->add('usersid')
             ->add('machinesid')
             ->add('dateStart')
-            ->add('dateEnd')
             ->add('frequence')
         ;
     }
