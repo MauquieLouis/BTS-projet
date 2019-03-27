@@ -13,6 +13,11 @@ h1
 {
 	color:#00A1D7;
 }
+h2
+{
+	font-size:22px !important;
+	color:#00A1D7;
+}
 h3
 {
 	font-size:22px !important;	
@@ -72,6 +77,11 @@ h4
 	top:40%;
     transform: translateY(-40%);
 }
+.elemListeUser
+{
+	color:#00A1D7;
+	display: inline-block;
+}
 .listeBoutons
 {
 	border:solid 2px #00A1D7;
@@ -79,10 +89,24 @@ h4
 	position:sticky;
 	top: 0;
 }
+.listeUser
+{
+	height:32px;
+	border: 2px solid #00A1D7;
+	margin-top:3px;
+	border-radius:6px;
+	transition: background 1s ease;
+}
+.listeUser:hover
+{
+	background:#DBDBDB;
+	transition: background 1s ease;
+}
 .logoLogout
 {
 	margin-top:9px;
 }
+
 .menu
 {
 	width:100%;
@@ -91,7 +115,32 @@ h4
 }
 .TitlePage
 {
+	margin-top:30px;
 	text-align:center;
+}
+.titreBoutons
+{
+	text-align:center;
+	top:30%;
+	border-bottom: 1px solid #AAAAAA;
+}
+.userEmail
+{
+	float:right;
+	margin-right:50px;
+}
+.userLogo
+{
+	margin-left:5px;
+}
+.userName
+{
+	font-weight:bold;
+	margin-left:10px;
+}
+.userSurname
+{
+	margin-left:3px;
 }
 /*- = - = - = - = - = - = - = B O R D U R E S = - = - = - = - = - = - = -*/
 /* .AdminRow1
