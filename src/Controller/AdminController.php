@@ -77,17 +77,19 @@ class AdminController extends AbstractController
     public function SearchUser(Request $request, UserRepository $userRepository)
     {
         $form = $this->createFormBuilder()
-        ->add('Recherche', SearchType::class, [])
+        ->add('Recherche', SearchType::class, ['required' =>false])
         ->getForm();
         
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid())
         {
+            
             $resultat =$form->getData()['Recherche'];
             $rechercheResultatsNom = $userRepository->findBy(['Nom' => $resultat]);
             $rechercheResultatsPrenom = $userRepository->findBy(['prenom'=> $resultat]);
             $rechercheResultatsMail = $userRepository->findBy(['email'=> $resultat]);
+            $rechercheResultats = [];
             foreach($rechercheResultatsNom as $recherche)
             {
                 $rechercheResultats[] = $recherche;
@@ -100,6 +102,19 @@ class AdminController extends AbstractController
             {
                 $rechercheResultats[] = $recherche;
             }
+            // dd($rechercheResultats);
+            if(!$rechercheResultats)
+            {
+                goto listeUser;
+            }
+            if(!$resultat)
+            {
+                listeUser:
+                $rechercheResultats = $userRepository->findAll();
+                
+            }
+            //dd($rechercheResultats);
+            
             //return $this->redirectToRoute('admin_UserControl_searchUser_param',['paramRecherche' => $rechercheResultats]);
             return $this->render('admin/searchUser.html.twig', ['form' => $form->createView(), 'rechercheResultat' => $rechercheResultats]);
         }

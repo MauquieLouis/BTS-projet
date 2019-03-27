@@ -5,7 +5,7 @@
 {% block body %}	
 	<div class="row AdminRow2">
     	<div class="col-12 offset-md-3 col-md-6 AdminRow1 TitlePage">
-    		<h1>Rechercher un Utilisateur</h1>
+    		<h1>Rechercher un Utilisateur <i class="fas fa-users"></i></h1>
     	</div>
 	</div>
 	<div class="row">
@@ -17,10 +17,26 @@
         </div>
     </div>	
     <div class="row">
-    	<div class="col-12">
+    	<div class="col-12 offset-md-3 col-md-6">
     		    {% for resultat in rechercheResultat %}
     		    	{% if resultat %}
-    		            {{ resultat.prenom }},  /  {{ resultat.Nom }},  /  {{ resultat.email }} </br>
+    		    		<a href="{{ path('Home') }}">
+        		    		<div class="listeUser">
+        		    			<div class="elemListeUser userLogo">{% if "ROLE_ADMIN" in resultat.roles %}
+        		    					<i class="fas fa-user-graduate"></i>
+        		    				 {% elseif "ROLE_USER" in resultat.roles%}
+        		    				 	<i class="fas fa-user"></i>
+        		    				 {% else %}
+        		    				 	<i class="fas fa-user-lock"></i>
+        		    				 {% endif %} 		    				 
+    		    				 </div>
+    		    				
+    		               		<div class="elemListeUser userName">{{ resultat.Nom }}</div>
+    		               		<div class="elemListeUser userSurname">{{ resultat.prenom }}</div>
+    		               		<div class="elemListeUser userEmail">{{ resultat.email }} </div>
+        		            	</br>
+        		            </div>
+    		            </a>
     		        {% endif %}
     		    {% endfor %}
     	</div>

@@ -18,46 +18,45 @@
     			<div class ="menu row">		<!-- Nouvelle ligne pour le menu (partie avec le background bleu + image ) -->
     				<div class="col-2">		<!-- Deux colonne pour l'image (peut importe la taille de l'écran (A AMELIORER) -->
     				<!-- Chargement de l'image (ligne en dessous -->
-  					<a href="{{ path('Home') }}"><img src = "{{ asset('/image/Farella.png') }}"  height="80"> <!--width="auto" --> </a> 
+  					<a href="{{ path('Home') }}"><img src = "{{ asset('/image/Farella.png') }}"  height="80" style="border-bottom: 1px solid #AAAAAA;"> <!--width="auto" --> </a> 
     				</div> 
-    				<div class="offset-9 col-1">  <!--  On saute 9 colonnes (offset-9) puis on affiche sur la dernière colonne le logo de déconnexion -->
-                      {#}  {% if is_granted('ROLE_USER') %}	<!-- Si la personne connecté à au moins le role_user (ce qui est le cas pour n'importe quel utilisateur) on affiche le logo de déconexion -->
-    						<!-- On rend le logo clicable, puis il est chargé avec une biblithèque  -->
-    						<a href="{{ path('app_logout') }}"><div class="btnLogout"><p class="fas fa-power-off logoLogout" style='font-size:40px;'></p></div></a>
-    					{% endif %}#}
+                    <div class="offset-9 col-1">  <!--  On saute 9 colonnes (offset-9) puis on affiche sur la dernière colonne le logo de déconnexion -->
     					{% if is_granted('ROLE_NOUVEAU') %}	<!-- Si la personne connecté à le role_nouveau (ce qui est le cas pour les nouveaux comptes) on affiche le logo de déconexion -->
     						<!-- On rend le logo clicable, puis il est chargé avec une biblithèque  -->
-    						<a href="{{ path('app_logout') }}"><div class="btnLogout"><p class="fas fa-power-off logoLogout" style='font-size:40px;'></p></div></a>
+    						<a href="{{ path('app_logout') }}">
+    							<div class="btnLogout">
+    								<p class="fas fa-power-off logoLogout" style='font-size:40px;'></p>
+    							</div>
+    						</a>
     					{% endif %}
     				</div>
 				</div>
-				<div class="row listeBoutons">
-				<div class="col-12 col-md-3"> 
-				    {% if is_granted('ROLE_ADMIN') %}
-						<a href="{{ path('admin_UserControl') }}"><h4>Gestion Utilisateurs</h4></a>
-  				    {% else %}
-						<h4>Btnn1</h4>
-  				    {% endif %}
-			    </div>
-				<div class="col-12 col-md-3">
-					 {% if is_granted('ROLE_ADMIN') %}
-						<a href="#"><h4>Gestion Machines</h4></a>
-  				    {% else %}
-						<h4>Btnn2</h4>
-  				    {% endif %}
-				</div>
-				<div class="col-12 col-md-3">
-					<h4>Futur Bouton 3</h4>
-				</div>
-				<div class="col-12 col-md-3">
-					<h4>Futur Bouton 4</h4>
-				</div>
-				</div>
+				<div class="row">
+					<div class="col-12 col-md-3 titreBoutons">
+    					 {% if is_granted('ROLE_ADMIN') %}
+    						<a href="{{ path('admin_UserControl') }}"><h2>Gestion Utilisateurs</h2></a>
+      				    {% else %}
+    						<h2>Btnn1</h2>
+      				    {% endif %}
+    				</div>
+    				<div class="col-12 col-md-3 titreBoutons">
+    					 {% if is_granted('ROLE_ADMIN') %}
+    						<a href="#"><h2>Gestion Machines</h2></a>
+      				    {% else %}
+    						<h2>Btnn2</h2>
+      				    {% endif %}
+    				</div>
+    				<div class="col-12 col-md-3 titreBoutons">
+    					<h2>Futur Bouton 3</h2>
+    				</div>
+    				<div class="col-12 col-md-3 titreBoutons">
+    					<h2>Futur Bouton 4</h2>
+    				</div>
+				</div>		
       		</header> <!-- Fin du header -->
             {% block body %}   
 
             {% endblock %}
- 		
         {% block javascripts %} <!--  Fichier Javascript -->
         	<script src="{{ asset('bootstrap/Js/bootstrap.js') }}"></script>
         	<script src="{{ asset('bootstrap/Js/jquery.js') }}"></script>
