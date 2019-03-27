@@ -2,28 +2,26 @@
 class Machines{
 	constructor(image)
 	{
-		this.image = image			// ne sert à rien je crois
-		this.points = []			// Ajoute les sprites à l'ouverture de la page web.
-		this.sprites = []			// Conteneur de sprites
-		this.cubes= []				// Conteneur de cubes et normalement il n'y a qu'une cube
-		this.scene = null			// contient la scene de la page web
-		this.cube = null			// pointeur sur un cube du containeur cubes
-		this.sprite = null			// pointeur sur un sprite
-		this.positionsCamera= []	// Conteneur qui enregistre les positions de la camera pour voir les differentes face du cube
+		this.image = image;			// ne sert à rien je crois
+		this.points = [];			// Ajoute les sprites à l'ouverture de la page web.
+		this.sprites = [];			// Conteneur de sprites
+		this.cubes= [];				// Conteneur de cubes et normalement il n'y a qu'une cube
+		this.scene = null;			// contient la scene de la page web
+		this.cube = null;			// pointeur sur un cube du containeur cubes
+		this.sprite = null;			// pointeur sur un sprite
+		this.positionsCamera= [];	// Conteneur qui enregistre les positions de la camera pour voir les differentes face du cube
 		this.positionCamera =0;		// Pointeur sur positionsCamera[] qui est de type .x .y .z 	
 		this.position=0;			// Position du cube .x .y .z 
-		this.edition = 0			// Attribut qui définit si on pose un sprite ou pas
+		this.edition = 0;			// Attribut qui définit si on pose un sprite ou pas			
 		this.etapeEnCours = 1;		// Attribut qui permet de connaitre l'etape en cours.
 		this.initEcartTooltip = 2;	// Attribut, qui avance de 2 le sprite apres sa creation.
+		this.createSprite = 'stop';
 	}
 	createMachine(scene, imgDroite, imgLeft, imgTop, imgBottom, imgFront, imgBack)
 	{
-		this.scene = scene 		
-		
+		this.scene = scene; 
 		//création modèle de cube
 		var geometry2 = new THREE.BoxGeometry( 100, 100, 100 ); // Creation d'une boite de 100 de côtés
-
-
 		
 		//// Paramétrer les faces :
 		//var image1 = new THREE.TextureLoader().load('images/machine1/droit.jpg');
@@ -58,7 +56,7 @@ class Machines{
 		this.cube = new THREE.Mesh( geometry2, material4);
 		this.cube.name="machine";
 		this.scene.add(this.cube);
-		this.points.forEach(this.addTooltip.bind(this))
+		this.points.forEach(this.addTooltip.bind(this));
 //////////////////////////////////////////////////////////
 	}
 	positionReset() // Cube se remet droit
@@ -70,15 +68,15 @@ class Machines{
 	}
 	rotateCube(axe,vitesse) // Le cube tourne selon un axe
 	{
-		console.log(axe)
-		console.log(vitesse)
+		console.log(axe);
+		console.log(vitesse);
 		if (axe == 'x') {this.cube.rotation.x += vitesse;}
 		if (axe == 'y') {this.cube.rotation.y += vitesse;}
 		if (axe == 'z') {this.cube.rotation.z += vitesse;}	
 	}
 	rotateSprite(axe,vitesse) //sprite tourne
 	{
-		console.log("rotatesprite")
+		console.log("rotatesprite");
 		if (axe == 'x') {this.sprites[0].position.x += vitesse;}
 		if (axe == 'y') {this.sprites[0].position.y += vitesse;}
 		if (axe == 'z') {this.sprites[0].position.z += vitesse;}
@@ -89,7 +87,7 @@ class Machines{
 	}
 	addTooltip(point) // c'est utile avant l'apparition du cube
 	{
-		console.log("Function : addToolTip(point)")
+		console.log("Function : addToolTip(point)");
 		let spriteMap = new THREE.TextureLoader().load( "../../image/machine/ampoule.png" );
 		let spriteMaterial = new THREE.SpriteMaterial( { map: spriteMap} );
 		let sprite = new THREE.Sprite( spriteMaterial );
@@ -113,15 +111,15 @@ class Machines{
 		// this.sprite.position.clone().normalize().multiplyScalar(100);
 		//sprite.scale.multiplyScalar(8) // on multiplie la sprite par 2 sur tous les vecteurs
 		this.scene.add(sprite);
-		this.sprites.push(sprite)
+		this.sprites.push(sprite);
 		sprite.etape = this.sprites.length;
 		console.log(sprite.etape);
 		document.getElementById("SpriteNb").innerHTML = cube.sprites.length;
 		sprite.onClick = () =>{
-			console.log(sprite.name)
-			camera.position.x = sprite.cameraPosX//sprite.cameraPosX 
-			camera.position.y = sprite.cameraPosY//sprite.cameraPosY 
-			camera.position.z = sprite.cameraPosZ//sprite.cameraPosZ
+			console.log(sprite.name);
+			camera.position.x = sprite.cameraPosX;//sprite.cameraPosX 
+			camera.position.y = sprite.cameraPosY;//sprite.cameraPosY 
+			camera.position.z = sprite.cameraPosZ;//sprite.cameraPosZ
 			document.getElementById("tooltipName").innerHTML = cube.sprite.name; //affiche sur le web le nom
 			document.getElementById("tooltipInfo").innerHTML = cube.sprite.information;
 			
@@ -154,10 +152,10 @@ class Machines{
 	}
 
 	appear () { //Affichage du cube et de ses composants
-		this.cube.material.opacity = 0
+		this.cube.material.opacity = 0;
 		TweenLite.to(this.cube.material, 1, {	//definit l'opacite à 1
 			opacity:1
-		})
+		});
 		this.sprites.forEach((sprite) =>{	//pour chaque sprite ça les aggrandit
 			sprite.scale.set(0,0,0)
 			TweenLite.to(sprite.scale,1, {
@@ -176,21 +174,21 @@ class Machines{
 		sprite.etape		= etape;				//définit l'étape du sprite
 		
 		sprite.onClick = () =>{						//fonction quand on click que la sprite
-			camera.position.x = sprite.cameraPosX 
-			camera.position.y = sprite.cameraPosY 
-			camera.position.z = sprite.cameraPosZ
+			camera.position.x = sprite.cameraPosX;
+			camera.position.y = sprite.cameraPosY;
+			camera.position.z = sprite.cameraPosZ;
 			document.getElementById("tooltipName").innerHTML = cube.sprite.name; //affiche sur le web le nom
 			document.getElementById("tooltipInfo").innerHTML = cube.sprite.information;
 			//console.log(sprite.etape)
 		}
 		this.scene.add(sprite);
-		this.sprites.push(sprite)
+		this.sprites.push(sprite);
 		this.sprite = sprite;						// le pointeur this.sprite se fixe sur la sprite
 		document.getElementById("SpriteNb").innerHTML = cube.sprites.length;
 	}
 	deleteSprite() // supprime une sprite.
 	{
-		console.log(this.sprites.length)
+		console.log(this.sprites.length);
 
 		if (this.sprite)
 		{
@@ -201,15 +199,15 @@ class Machines{
 					if(this.sprites[i].etape>1) {this.sprites[i].etape -= 1; }
 				}
 			}
-			this.sprites.pop(this.sprite)
-			this.scene.remove(this.sprite)
+			this.sprites.pop(this.sprite);
+			this.scene.remove(this.sprite);
 			this.sprite = null;
 			document.getElementById("SpriteNb").innerHTML = cube.sprites.length;
 			
 		}
 		
 		
-		console.log(this.sprites.length)
+		console.log(this.sprites.length);
 		
 	}
 	moveSprite(axe, speed) // deplace une sprite sur un axe
@@ -224,7 +222,7 @@ class Machines{
 		
 		if(this.positionCamera > 3) // si on est à la face 4 retour a la 1
 		{
-			this.positionCamera = 0
+			this.positionCamera = 0;
 		}
 		if(this.positionCamera < 0)
 		{
@@ -236,7 +234,7 @@ class Machines{
 	EtapeChangement(valeur) //Passe d'une etape a l'autre. Appel dans index.html
 	{
 		this.etapeEnCours += valeur;
-		if(this.etapeEnCours >= this.sprites.length){this.etapeEnCours = this.sprites.length}//on bloque l'etape au maximum
+		if(this.etapeEnCours >= this.sprites.length){this.etapeEnCours = this.sprites.length;}//on bloque l'etape au maximum
 		if(this.etapeEnCours <1){ this.etapeEnCours = 1} //on descend pas en dessous de l'etape 1 et on boucle pas sur la derniere etape
 		console.log(this.etapeEnCours);
 		this.sprites.forEach((sprite) => {
@@ -245,54 +243,75 @@ class Machines{
 				this.sprite = sprite;
 				this.sprite.onClick();
 			}
-		})
+		});
 		
 	}
+	ToggleSprite()
+	{
+		if (this.edition == 1) {
+			this.edition = 0;
+			spriteCreate.classList.remove('on');
+			this.createSprite = 'stop';
+		}
+		else
+		{
+			this.edition = 1;
+			spriteCreate.classList.add('on');
+			this.createSprite = 'ready';
+			console.log(this.edition)
+		}
+	}
+	
 	
 }
 
 
 /* FIN CLASSE Machines*/
-const container = document.getElementById('container-fluid') // variable qui enregesitre document.body pour faciliter l'appel
-const tooltip = document.querySelector('.tooltip') // récupérer la classe de l'élément .tooltip (css) (ref aux sprites)
+const container = document.getElementById('container-fluid'); // variable qui enregesitre document.body pour faciliter l'appel
+const tooltip = document.querySelector('.tooltip'); // récupérer la classe de l'élément .tooltip (css) (ref aux sprites)
+const spriteCreate = document.querySelector('.spriteCreate'); // récupérer la classe de l'élément canvas (css) (ref au canvas)
 let spriteActive = false;
 //var windowWidth = 1200;
 //var windowHeight = 900;
+var barreDuHaut = 165;
+//var ecartWidthMenuCanvas = 220;
+var ecartWidthMenuCanvas = 0;
+var ecartHeightMenuCanvas = 165;
 var ratio = 9/12;
-var windowWidth = window.innerWidth * ratio;
-var windowHeight = window.innerHeight;
+var windowWidth = (window.innerWidth * ratio);
+var windowHeight = (window.innerHeight)-barreDuHaut;
 ////////////////RENDU//////////////////////////////////////////////////////////
-const renderer = new THREE.WebGLRenderer()// Rendu
-renderer.setSize( windowWidth, windowHeight)
-container.appendChild(renderer.domElement)
+const renderer = new THREE.WebGLRenderer();// Rendu
+renderer.setSize( windowWidth, windowHeight);
+container.appendChild(renderer.domElement);
 ///////////////////////////////////////////////////////////////////////////////
 
 // Création Environnement/scene et controle
-const scene = new THREE.Scene()
-const camera = new THREE.PerspectiveCamera(75, (windowWidth / windowHeight), 0.1, 1000)
-const controls = new THREE.OrbitControls(camera, renderer.domElement)
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, (windowWidth / windowHeight), 0.1, 1000);
+const controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.rotateSpeed = 0.5;
 controls.autoRotate = false;
 //controls.enableZoom = false;
 
 //controls.autoRotate = true;
-camera.position.set(0, 0, 167)
-controls.update()
+camera.position.set(0, 0, 167);
+controls.update();
 
 
 
 
 // Création sphère
-const geometrysphere = new THREE.SphereGeometry(400, 400, 400)
-const textureLoader = new THREE.TextureLoader()
+const geometrysphere = new THREE.SphereGeometry(400, 400, 400);
+const textureLoader = new THREE.TextureLoader();
 const material = new THREE.MeshBasicMaterial({
 // 	map: texture,
  	color: 0x666666,
 	side: THREE.DoubleSide
 })
-material.transparent = true
-sphere = new THREE.Mesh(geometrysphere, material)
-scene.add(sphere)	
+material.transparent = true;
+sphere = new THREE.Mesh(geometrysphere, material);
+scene.add(sphere);
 
 
 //création des cubes
@@ -329,7 +348,7 @@ cube.createMachine(scene,'../../image/machine/machine1/droit.jpg','../../image/m
 cube.appear();
 
 
-const rayCaster = new THREE.Raycaster()
+const rayCaster = new THREE.Raycaster();
 
 //Création texture
 //const textureLoader = new THREE.TextureLoader()
@@ -404,23 +423,7 @@ function lessi(axe,speed ){
 	//cube.moveTooltipX(-2)
 }
 
-function toggleSprite()
-{
-	
-	if (cube.edition == 1) {
-		cube.edition = 0;
-		//document.getElementById("btnSprite").src = "images/ampoulerouge.png"
-	}
-	else
-	{
-		cube.edition = 1;
-		//console.log("vert")
-		//document.getElementById("btnSprite").src = "images/ampouleverte.png"
-	}
-//	if (cube.edition == 1) {cube.edition = 0;}
-	//	else{cube.edition =1;}
 
-}
 function modifValider()
 {
 	cube.sprite.name = document.getElementById("reName").value ;
@@ -430,13 +433,13 @@ function modifValider()
 function onClick(e)
 {
 	let mouse = new THREE.Vector2(
-		( e.clientX / windowWidth ) * 2 - 1,
-		- ( e.clientY / windowHeight ) * 2 + 1
+		( (e.clientX-ecartWidthMenuCanvas) / windowWidth ) * 2 - 1,
+		- ( (e.clientY-ecartHeightMenuCanvas) / windowHeight ) * 2 + 1
 	);
 
 	rayCaster.setFromCamera(mouse, camera);
 
-	let intersects = rayCaster.intersectObjects(scene.children) // Regarde ce qui rencontre les "enfants" de la scène: tooltip, sphère...
+	let intersects = rayCaster.intersectObjects(scene.children); // Regarde ce qui rencontre les "enfants" de la scène: tooltip, sphère...
 	//console.log( intersects[0].point)
 
 	if (cube.edition == 0) // si edition=0 alors on affiche le sprite
@@ -447,10 +450,10 @@ function onClick(e)
 		document.getElementById("posCamZ").value = camera.position.z;		
 		/////////////////////////////////////////////////////////
 		
-		console.log("edition en mode 0")
+		console.log("edition en mode 0");
 		
-		document.getElementById("btnSprite").src = "http://127.0.0.1:8000/image/machine/ampoulerouge.png"
-
+		//document.getElementById("btnSprite").src = "http://127.0.0.1:8000/image/machine/ampoulerouge.png";
+		cube.createSprite = 'stop';
 		intersects.forEach(function(intersect){
 			//console.log(intersect.object.material[0].map.image.currentSrc);
 			
@@ -480,12 +483,11 @@ function onClick(e)
 
 	}
 	//si edition = 1 et image = verte, on pose un sprite
-	else if (document.getElementById("btnSprite").src == "http://127.0.0.1:8000/image/machine/ampouleverte.png") 
+	else if (cube.createSprite == 'start') //if (document.getElementById("btnSprite").src == "http://127.0.0.1:8000/image/machine/ampouleverte.png") 
 	{
 		
-		
-		console.log("edition en mode 1")
-		console.log(camera.position)
+		console.log("edition en mode 1");
+		console.log(camera.position);
 		nVarNom = prompt("Name :");
 		nVarInfo = prompt("Informations :");
 		nVarEtape = prompt("Etape :");
@@ -501,7 +503,7 @@ function onClick(e)
 			info : nVarInfo,
 			etape : nVarEtape,
 			scene : cube
-		})
+		});
 		cube.addTooltip(cube.points[cube.points.length-1]);
 		// if(sprite2.position.x <= 50.009 && sprite2.position.x >= 49.899) {sprite2.position.x += i}
 		// if(sprite2.position.x >= -50.009 && sprite2.position.x <= -49.899) {sprite2.position.x -= i}
@@ -510,12 +512,12 @@ function onClick(e)
 		// if(sprite2.position.z <= 50.009 && sprite2.position.z >= 49.899) {sprite2.position.z += i}
 		// if(sprite2.position.z >= -50.009 && sprite2.position.z <= -49.899) {sprite2.position.z -= i}
 		
-		if(cube.sprites[cube.sprites.length-1].position.x <= (intersects[0].object.geometry.parameters.width/2 +0.09) && cube.sprites[cube.sprites.length-1].position.x >= (intersects[0].object.geometry.parameters.width/2 - 0.101)) { cube.sprites[cube.sprites.length-1].position.x += cube.initEcartTooltip}
-		if(cube.sprites[cube.sprites.length-1].position.x >= -(intersects[0].object.geometry.parameters.width/2 +0.09) && cube.sprites[cube.sprites.length-1].position.x <= -(intersects[0].object.geometry.parameters.width/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.x -= cube.initEcartTooltip}
-		if(cube.sprites[cube.sprites.length-1].position.y <= (intersects[0].object.geometry.parameters.height/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.y >= (intersects[0].object.geometry.parameters.height/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.y += cube.initEcartTooltip}
-		if(cube.sprites[cube.sprites.length-1].position.y >= -(intersects[0].object.geometry.parameters.height/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.y <= -(intersects[0].object.geometry.parameters.height/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.y -= cube.initEcartTooltip}
-		if(cube.sprites[cube.sprites.length-1].position.z <= (intersects[0].object.geometry.parameters.depth/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.z >= (intersects[0].object.geometry.parameters.depth/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.z += cube.initEcartTooltip}
-		if(cube.sprites[cube.sprites.length-1].position.z >= -(intersects[0].object.geometry.parameters.depth/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.z <= -(intersects[0].object.geometry.parameters.depth/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.z -= cube.initEcartTooltip}
+		if(cube.sprites[cube.sprites.length-1].position.x <= (intersects[0].object.geometry.parameters.width/2 +0.09) && cube.sprites[cube.sprites.length-1].position.x >= (intersects[0].object.geometry.parameters.width/2 - 0.101)) { cube.sprites[cube.sprites.length-1].position.x += cube.initEcartTooltip;}
+		if(cube.sprites[cube.sprites.length-1].position.x >= -(intersects[0].object.geometry.parameters.width/2 +0.09) && cube.sprites[cube.sprites.length-1].position.x <= -(intersects[0].object.geometry.parameters.width/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.x -= cube.initEcartTooltip;}
+		if(cube.sprites[cube.sprites.length-1].position.y <= (intersects[0].object.geometry.parameters.height/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.y >= (intersects[0].object.geometry.parameters.height/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.y += cube.initEcartTooltip;}
+		if(cube.sprites[cube.sprites.length-1].position.y >= -(intersects[0].object.geometry.parameters.height/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.y <= -(intersects[0].object.geometry.parameters.height/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.y -= cube.initEcartTooltip;}
+		if(cube.sprites[cube.sprites.length-1].position.z <= (intersects[0].object.geometry.parameters.depth/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.z >= (intersects[0].object.geometry.parameters.depth/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.z += cube.initEcartTooltip;}
+		if(cube.sprites[cube.sprites.length-1].position.z >= -(intersects[0].object.geometry.parameters.depth/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.z <= -(intersects[0].object.geometry.parameters.depth/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.z -= cube.initEcartTooltip;}
 		console.log(cube.sprites[cube.sprites.length-1].name);
 		// if(intersects[0].object.material[0].name == "droite")	{sprite2.position.x += 6}
 		// if(intersects[0].object.material[0].name == "gauche")	{sprite2.position.x -= 6}
@@ -533,14 +535,15 @@ function onClick(e)
 	}
 	else //sinon l'image passe verte car édition == 1
 	{
-		document.getElementById("btnSprite").src = "http://127.0.0.1:8000/image/machine/ampouleverte.png"
+		cube.createSprite = 'start'
+		//document.getElementById("btnSprite").src = "http://127.0.0.1:8000/image/machine/ampouleverte.png";
 	}
 	
 	intersects.forEach(function(intersect){
 		if(intersect.object.type === 'Sprite')
 		{
 			//console.log("sprite :"+intersect.object.name)
-			intersect.object.onClick()					
+			intersect.object.onClick();				
 		}
 	
 		else
@@ -566,6 +569,7 @@ function onResize()
 	if(window.innerWidth > 768)
 	{
 		windowWidth = window.innerWidth*ratio;
+		windowHeight = window.innerHeight  - barreDuHaut;
 		renderer.setSize(window.innerWidth*ratio, windowHeight);
 		camera.aspect = window.innerWidth*ratio / windowHeight;
 		
@@ -573,8 +577,12 @@ function onResize()
 	else
 	{
 		windowWidth = window.innerWidth;
-		renderer.setSize(window.innerWidth, window.innerHeight);
-		camera.aspect = window.innerWidth / window.innerHeight;
+		
+		canvamodif.style.border = '2px solid pink';
+		windowHeight = window.innerHeight - barreDuHaut;
+		renderer.setSize(window.innerWidth, windowHeight);
+		camera.aspect = window.innerWidth / windowHeight;
+
 	}
 	
 	camera.updateProjectionMatrix();
@@ -606,33 +614,34 @@ var animate = function () {
 	}
 	camera.updateProjectionMatrix();
 	renderer.render(scene, camera);
-};
-//.
+}
+
 
 function onMouseMove(e)
 {
 	
 	let mouse = new THREE.Vector2(
-			( (e.clientX-220) / windowWidth ) * 2 - 1,
-			- ( e.clientY / windowHeight) * 2 + 1 
+			( (e.clientX-ecartWidthMenuCanvas) / windowWidth ) * 2 - 1,
+			- ( (e.clientY-ecartHeightMenuCanvas) / windowHeight) * 2 + 1 
 		);
-	console.log(e.clientX)
+	console.log(e.clientY);
 		
-	rayCaster.setFromCamera(mouse, camera)
+	rayCaster.setFromCamera(mouse, camera);
 	let foundSprite = false;
 	
-	let intersects = rayCaster.intersectObjects(scene.children) // Regarde ce qui rencontre les "enfants" de la scène: tooltip, sphère...
+	let intersects = rayCaster.intersectObjects(scene.children); // Regarde ce qui rencontre les "enfants" de la scène: tooltip, sphère...
 	//console.log(intersects)
 	
 	intersects.forEach(function(intersect){
 		if(intersect.object.type === 'Sprite')
 		{
-			let p = intersect.object.position.clone().project(camera) // Je récupère la position du sprite et je la projette sur la caméra.
+			let p = intersect.object.position.clone().project(camera); // Je récupère la position du sprite et je la projette sur la caméra.
 			//c'est la position x et y qui nous intéresse
-			tooltip.style.top = ((-1*p.y + 1) * windowHeight/2) + 'px'
-			tooltip.style.left = (p.x+1)* windowWidth/2 + 220 + 'px'
-			tooltip.classList.add('is-active')
-			tooltip.innerHTML = intersect.object.name
+			tooltip.style.top = ((-1*p.y + 1) * windowHeight/2) + 'px';
+			tooltip.style.left = (p.x+1)* windowWidth/2 + 'px';
+
+			tooltip.classList.add('is-active');
+			tooltip.innerHTML = intersect.object.name;
 			spriteActive = intersect.object;
 			foundSprite = true;
 			
@@ -642,7 +651,7 @@ function onMouseMove(e)
 				x:7,
 				y:7,
 				z:7
-			})
+			});
 		}
 	})
 	if(foundSprite === false && spriteActive)
@@ -658,7 +667,7 @@ function onMouseMove(e)
 
 
 }
-face = 0;
+
 function Keyboard(event)
 {
 	var speed =0.1;
@@ -691,9 +700,9 @@ function Keyboard(event)
 	}
 	if(event.keyCode == 69) //e
 	{
-		toggleSprite();
-		console.log(cube.edition)
-		console.log(cube.sprites.length)
+		cube.ToggleSprite();
+		console.log(cube.edition);
+		console.log(cube.sprites.length);
 	}
 	if(event.keyCode == 85) //u
 	{
@@ -701,7 +710,7 @@ function Keyboard(event)
 	}
 	if(event.keyCode == 46) //Delete btn suppr.
 	{
-		console.log(cube.sprite)
+		console.log(cube.sprite);
 		cube.deleteSprite();
 	}
 	if(event.keyCode == 37) //console.log("fleche de gauche");

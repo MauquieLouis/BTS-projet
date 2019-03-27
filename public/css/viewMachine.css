@@ -7,18 +7,26 @@
 {
 	background-color  : #666666;
 	position : absolute;
+	right:0px;
 /* 	float:left; */
 /*	border: 2px solid green; */
 /* 	top:0;  */
 /*	padding: 100px;  */
-	width: 200px;
-	height:900px;
+/* 	width: 200px; */
+/* 	height:auto;  */
 }
 canvas
 {
-	position: absolute;
-	left : 220px;
-	border: 2px solid pink;
+/* 	position: absolute; */
+	/* position: fixed;
+	margin-left : 220px; */
+/* 	float:right; */
+/* 	border: 2px solid pink; */
+	
+}
+.totor
+{
+	
 }
 .posCube
 {
@@ -72,4 +80,12 @@ canvas
 	opacity: 1;
 	
 	transform : translate3d(-50%, calc(-100% - 20px), 0);
+}
+.spriteCreate
+{
+	background-color  : #f00;
+}
+.spriteCreate.on
+{
+	background-color  : #0f0;
 }

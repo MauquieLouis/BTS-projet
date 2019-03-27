@@ -1,12 +1,11 @@
 {% extends 'base.html.twig' %}
-
-        {% block stylesheets %}
-        	<link href="{{ asset('css/base.css') }}" rel="stylesheet" />
-        	<link href="{{ asset('bootstrap/css/bootstrap.css') }}" rel="stylesheet" />
-        	<link rel="stylesheet" href="{{ asset('css/all.css') }}">
-        	<link rel="stylesheet" href="{{ asset('css/viewMachine.css') }}">
-{#         	tempo#}
-        {% endblock %}
+      
+{% block stylesheets %}
+    	<link href="{{ asset('css/base.css') }}" rel="stylesheet" />
+    	<link href="{{ asset('bootstrap/css/bootstrap.css') }}" rel="stylesheet" />
+    	<link rel="stylesheet" href="{{ asset('css/all.css') }}">
+    	<link rel="stylesheet" href="{{ asset('css/viewMachine.css') }}">
+{% endblock %}
 {% block title %}Admin{% endblock %}
 
 {% block body %}	
@@ -16,56 +15,59 @@
     	</div>
 	</div>
 	<div class="row">
-		<div class="col-12 col-md-3">
-        <div class="menu2">
-        		
-        		<div id="bt2">
-        			<button onClick="cube.moveTooltip('x', 2)">+x</button><button onClick="lessi('x', -2)">-x</button></br>
-        		<button onClick="addi('y', 2)">+y</button><button onClick="lessi('y', -2)">-y</button></br>
-        		<button onClick="addi('z', 2)">+z</button><button onClick="lessi('z', -2)">-z</button></br>
-        	</div>
-        
-        	<button onclick="toggleSprite()" class="SpriteNbr"><img id="btnSprite" class="buttonSprite SpriteNbr" src="../../image/machine/ampoulerouge.png" width="50" height="30">Sprite</button>
-        	<div class="SpriteNbr" id="SpriteNb">0</div>
-        
-        
-        	<div class="informationTooltip posCube">Menu</div> <button onClick="cube.cubeMove(-1)" class="posCube"> < </button><button class="posCube" onClick="cube.cubeMove(1)"> > </button></br>
-        	
-        	<div >Name :</div>
-        	<div class="informationTooltip" id="tooltipName" ></div>
-        	<div class="informationTooltip" id="tooltipName2" ></div>
-        	<div>tooltipInfo :</div>
-        	<div class="informationTooltip" id="tooltipInfo"></div>
-        
-        	<div id="informationTooltip"></div>
-        
-        	<input type="text" id="reName" name="name" height="300px" required
-        		minlength="0" maxlength="5" size="10">
-        	<input type="text" id="reInform" height="300px" required
-        		minlength="0" maxlength="5" size="10">
-        	<!--<button onclick="modifValider()" id="btnValiderModif">OK !</button>-->
-        	Position Camera (x,y,z):
-        	<input type="text" id="posCamX" name="name" height="300px" required
-        		minlength="0" maxlength="5" size="10">
-        	<input type="text" id="posCamY" height="300px" required
-        		minlength="0" maxlength="5" size="10">
-        	<input type="text" id="posCamZ" height="300px" required
-        		minlength="0" maxlength="5" size="10">
-        		
-        	<button onClick="cube.EtapeChangement(-1)" class="posCube"> < </button><button class="posCube" onClick="cube.EtapeChangement(1)"> > </button></br>
-        	<button onclick="modifValider()" id="btnValiderModif">OK !</button>
-        	
-        
-        	<!-- <div id="valeur"> </div> -->
+		<div class="col-12 offset-md-9 col-md-3">
+            <div class="menu2">
+            		
+                <div id="bt2">
+                    <button onClick="cube.moveTooltip('x', 2)">+x</button><button onClick="lessi('x', -2)">-x</button></br>
+                    <button onClick="addi('y', 2)">+y</button><button onClick="lessi('y', -2)">-y</button></br>
+                    <button onClick="addi('z', 2)">+z</button><button onClick="lessi('z', -2)">-z</button></br>
+                </div>
+            
+            	<button onclick="cube.ToggleSprite()" class="SpriteNbr spriteCreate"><img id="btnSprite" class="buttonSprite SpriteNbr" src="../../image/machine/ampoule.png" width="50" height="30">Sprite</button>
+            	<div class="SpriteNbr" id="SpriteNb">0</div>
+            
+            
+            	<div class="informationTooltip posCube">Menu</div>
+            	 <button onClick="cube.cubeMove(-1)" class="posCube"> < </button><button class="posCube" onClick="cube.cubeMove(1)"> > </button></br>
+            	
+            	<div >Name :</div>
+            	<div class="informationTooltip" id="tooltipName" ></div>
+            	<div class="informationTooltip" id="tooltipName2" ></div>
+            	<div>tooltipInfo :</div>
+            	<div class="informationTooltip" id="tooltipInfo"></div>
+            
+            	<div id="informationTooltip"></div>
+            
+            	<input type="text" id="reName" name="name" height="300px" required
+            		minlength="0" maxlength="5" size="10">
+            	<input type="text" id="reInform" height="300px" required
+            		minlength="0" maxlength="5" size="10">
+            	<!--<button onclick="modifValider()" id="btnValiderModif">OK !</button>-->
+            	Position Camera (x,y,z):
+            	<input type="text" id="posCamX" name="name" height="300px" required
+            		minlength="0" maxlength="5" size="10">
+            	<input type="text" id="posCamY" height="300px" required
+            		minlength="0" maxlength="5" size="10">
+            	<input type="text" id="posCamZ" height="300px" required
+            		minlength="0" maxlength="5" size="10">
+            		
+            	<button onClick="cube.EtapeChangement(-1)" class="posCube"> < </button><button class="posCube" onClick="cube.EtapeChangement(1)"> > </button></br>
+            	<button onclick="modifValider()" id="btnValiderModif">OK !</button>
+            	
+            </div>
+             
         </div>
+       
+        
         <div class="tooltip"></div>
-        </div>
+        
         <script src="{{ asset('Js/Threejs/three.js') }}"></script>
         <script src="{{ asset('Js/Threejs/WebGL.js')}}"></script>
         <script src="{{ asset('Js/Threejs/stats.min.js')}}"></script>
         <script src="{{ asset('Js/Threejs/TweenLite.js')}}"></script>
 		<div class="col-12 col-md-9">
-        	<script  src="{{ asset('Js/machine.js')}}">
+        	<script class="totor" src="{{ asset('Js/machine.js')}}">
         		// Our Javascript will go here.
         		
         	</script>
