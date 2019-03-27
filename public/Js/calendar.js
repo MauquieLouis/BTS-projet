@@ -3,7 +3,10 @@ var dd = now.getDate();
 var mm = now.getMonth();
 var dow = now.getDay();
 var yyyy = now.getFullYear();
-
+var colorOtherMonth = "lightgray";
+var colorMonth = "#ececec";
+var colorToday = "deepskyblue";
+var colorSelectDay = "white";
 
 function maxDays(mm, yyyy){
 	var arrD = new Array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
@@ -15,34 +18,33 @@ var idPrec = "";
 function affichageEvent(id){
 	var text = "";
 	var wd = eval(id).innerHTML;
-	if(wd == "")wd =now.getDate();
-	
-	
-	if(parseInt(id.slice(2)) > (42-15) && parseInt(eval(id).innerHTML) < 15){ 		//Si la case séléctionée fait partie du mois d'après
+	if(wd == "")wd = now.getDate();
+
+
+	if(parseInt(id.slice(2)) > (42-15)  && eval(id).style.backgroundColor == colorOtherMonth){ 		//Si la case séléctionée fait partie du mois d'après
 		chMonth("+");
 	}
-	else if(parseInt(id.slice(2)) < 15 && parseInt(eval(id).innerHTML) > (31-15)){ //Si la case séléctionée fait partie du mois d'avant
+	else if(parseInt(id.slice(2)) < 15 && eval(id).style.backgroundColor == colorOtherMonth){ //Si la case séléctionée fait partie du mois d'avant
 		chMonth("-");
 	}
 	
 	//-------------------Coloriage des cases----------------------//
 	if (idPrec != ""
-		&& eval(idPrec).style.backgroundColor != "deepskyblue"
-		&& eval(idPrec).style.backgroundColor != "lightgray")
-		eval(idPrec).style.backgroundColor = "#ececec";
+		&& eval(idPrec).style.backgroundColor != colorToday
+		&& eval(idPrec).style.backgroundColor != colorOtherMonth)
+		eval(idPrec).style.backgroundColor = colorMonth;
 	
 	var aa = 0;
 
 	for (var i=0;i<=41;i++, aa++){
 		if(eval("sp"+aa).innerHTML==wd 
 		&& eval("sp"+aa).innerHTML != ""	
-		&& eval("sp"+aa).style.backgroundColor != "deepskyblue"
-		&& eval("sp"+aa).style.backgroundColor != "lightgray"){
-			eval("sp"+aa).style.backgroundColor = "white";
+		&& eval("sp"+aa).style.backgroundColor != colorToday
+		&& eval("sp"+aa).style.backgroundColor != colorOtherMonth){
+			eval("sp"+aa).style.backgroundColor = colorSelectDay;
 			idPrec = "sp"+aa;	
 		}
 	}
-	
 	
 	//----------Affichage des évènements avec la date-----------//
 	if(wd < 10) wd = 0+wd;
@@ -83,6 +85,7 @@ function chMonth(plusOuMoins){
 	}
 	changeCal();
 }
+
 function creatEvent(){
 	
 	
@@ -171,35 +174,47 @@ function changeCal(){
 	var aa;
 	for (i=0;i<day1-1;i++){
 		arrN[i] = maxDays(prevM,currY) - day1 + i+2;
-		eval("sp"+i).style.backgroundColor = "LightGray";
+		eval("sp"+i).style.backgroundColor = colorOtherMonth;
 	}
 	aa = 1;
 	for (i=day1-1;i<=day1+maxDays(currM,currY)-2;i++,aa++){
 		arrN[i] = aa ;
 		if ((arrN[i]==dd)&&(mm==currM)&&(yyyy==currY)){
-			eval("sp"+i).style.backgroundColor="DeepSkyBlue";
-			affichageEvent("sp"+i);
+			eval("sp"+i).style.backgroundColor=colorToday;
+			//affichageEvent("sp"+i);
+			//alert("c'est ka")
 		}
 		else
-			eval("sp"+i).style.backgroundColor="#ececec";
+			eval("sp"+i).style.backgroundColor=colorMonth;
 	}
 
 	aa = 1;
 	for (i=day1+maxDays(currM,currY)-1;i<=41;i++,aa++){
 		arrN[i] = aa;
-		eval("sp"+i).style.backgroundColor = "LightGray";
+		eval("sp"+i).style.backgroundColor = colorOtherMonth;
 	}
-
+	
 	for (i=0;i<=41;i++){
 		eval("sp"+i).style.height = "50px";
-		eval("sp"+i).style.width = "100px";
+		eval("sp"+i).style.width = (document.body.clientWidth < 728)?(parseInt(document.body.clientWidth)-50)/7+"px":(parseInt(document.body.clientWidth)-50)/21+"px";
 		eval("sp"+i).innerHTML = arrN[i];
 	}
 }
 
-//var div = document.getElementByTagName("div");
-
-
+window.onresize = function resize(){ 
+	var width = parseInt(document.body.clientWidth)-30;
+	if(width < 738){
+		for (i=0;i<=41;i++){
+			eval("sp"+i).style.width = width/7+"px";
+			eval("sp"+i).style.height = "40px";
+		}
+	}
+	else{
+		for (i=0;i<=41;i++){
+			eval("sp"+i).style.width = width/21+"px";
+		}
+	}
+};
 
 
 
