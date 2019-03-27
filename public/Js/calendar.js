@@ -193,17 +193,28 @@ function changeCal(){
 		arrN[i] = aa;
 		eval("sp"+i).style.backgroundColor = colorOtherMonth;
 	}
-
+	
 	for (i=0;i<=41;i++){
 		eval("sp"+i).style.height = "50px";
-		eval("sp"+i).style.width = "100px";
+		eval("sp"+i).style.width = (document.body.clientWidth < 728)?(parseInt(document.body.clientWidth)-50)/7+"px":(parseInt(document.body.clientWidth)-50)/21+"px";
 		eval("sp"+i).innerHTML = arrN[i];
 	}
 }
 
-//var div = document.getElementByTagName("div");
-
-
+window.onresize = function resize(){ 
+	var width = parseInt(document.body.clientWidth)-30;
+	if(width < 738){
+		for (i=0;i<=41;i++){
+			eval("sp"+i).style.width = width/7+"px";
+			eval("sp"+i).style.height = "40px";
+		}
+	}
+	else{
+		for (i=0;i<=41;i++){
+			eval("sp"+i).style.width = width/21+"px";
+		}
+	}
+};
 
 
 
