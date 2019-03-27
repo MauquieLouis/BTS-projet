@@ -120,4 +120,13 @@ class AdminController extends AbstractController
         }
         return $this->render('admin/searchUser.html.twig', ['form' => $form->createView(), 'rechercheResultat' => 'Aucun Resultat']);
     }
+    /**
+     *@Route("/admin/controlUser/searchUser/{id}", name="admin_UserControl_searchUser_id")
+     */
+    public function EditionUser($id, UserRepository $uR)
+    {
+       $userToModify = $uR->findOneBy(['id' => $id]);
+        
+        return $this->render('admin/editionUser.html.twig', ['user' => $userToModify]);
+    }
 }
