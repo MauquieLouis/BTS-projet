@@ -21,6 +21,17 @@
 /* 	width: 200px; */
 /* 	height:auto;  */
 }
+body
+{
+/*  	scrollbar-width:100px;  */
+/* 	overflow-y: scroll; */
+		
+/* 	scrollbar-color: red; */
+
+}
+::-webkit-scrollbar {
+	width : 0px;
+}
 .menu2.is-active
 {
 /* 	border: 3px solid purple; */

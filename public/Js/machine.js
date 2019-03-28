@@ -330,7 +330,7 @@ const geometrysphere = new THREE.SphereGeometry(400, 400, 400);
 const textureLoader = new THREE.TextureLoader();
 const material = new THREE.MeshBasicMaterial({
 // 	map: texture,
- 	color: 0x666666,
+ 	color: 0x66ff66,
 	side: THREE.DoubleSide
 })
 material.transparent = true;
@@ -584,7 +584,7 @@ function onResize()
 {
 	//renderer.setSize(windowWidth, windowHeight)
 	//camera.aspect = windowWidth / windowHeight;
-	console.log("resize");
+	//console.log(window.innerWidth);
 	if(window.innerWidth > 768)
 	{
 		ecartWidthMenuCanvas = window.innerWidth - renderer.context.drawingBufferWidth; //Récupère la position en X où commence le modele 3D
@@ -617,15 +617,16 @@ function onResize()
 		//menuSmall.style.left = (p.x+1)* windowWidth/2 + 'px';
 		//////RAPPEL CAR BUG QUAND ON PASSE DE FENETRE A PLEIN ECRAN ///////////////////////////////////////////////////////////////////////////////
 		ecartWidthMenuCanvas = 0 ;//Récupère la position en X où commence le modele 3D
-		ecartHeightMenuCanvas = window.innerHeight - renderer.context.drawingBufferWidth; // Récupère la hauteur du menu d'en haut. Le modele 3D est juste en dessous
+		ecartHeightMenuCanvas = menuHautSizeHeight.offsetHeight; // Récupère la hauteur du menu d'en haut. Le modele 3D est juste en dessous
+		//ecartHeightMenuCanvas = window.innerHeight - renderer.context.drawingBufferHeight; // Récupère la hauteur du menu d'en haut. Le modele 3D est juste en dessous
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		
+		windowHeight = (window.innerHeight  - ecartHeightMenuCanvas);
 		menuSmall.classList.remove('is-active'); // place le menu d'affichage au dessus
 		windowWidth = window.innerWidth;
 		console.log(window.innerWidth);
-		windowHeight = window.innerHeight - renderer.context.drawingBufferHeight;
-		renderer.setSize(window.innerWidth, window.innerHeight*1/4);
-		camera.aspect = window.innerWidth / (window.innerHeight*1/4);
+		//windowHeight = window.innerHeight - renderer.context.drawingBufferHeight;
+		renderer.setSize(window.innerWidth, windowHeight);
+		camera.aspect = window.innerWidth / windowHeight;
 
 	}
 	
@@ -670,7 +671,7 @@ function onMouseMove(e)
 //ecartHeightMenuCanvas = renderer.context.drawingBufferHeight;
 //console.log(ecartHeightMenuCanvas);
 //	console.log("ecartHeightMenuCanvas"); console.log(ecartHeightMenuCanvas)
-	 
+	 console.log(e.clientX);
 	let mouse = new THREE.Vector2(
 			( (e.clientX-ecartWidthMenuCanvas) / windowWidth ) * 2 - 1,
 			- ( (e.clientY-ecartHeightMenuCanvas) / windowHeight) * 2 + 1 
