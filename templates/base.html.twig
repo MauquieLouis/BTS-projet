@@ -22,14 +22,16 @@
     				</div> 
                     <div class="offset-9 col-1">  <!--  On saute 9 colonnes (offset-9) puis on affiche sur la dernière colonne le logo de déconnexion -->
     					{% if is_granted('ROLE_NOUVEAU') %}	<!-- Si la personne connecté à le role_nouveau (ce qui est le cas pour les nouveaux comptes) on affiche le logo de déconexion -->
-    						<div class="MenuUser" id="MenuUser" hidden>
+    						<div class="MenuUser" id="MenuUser">
         						<!-- On rend le logo clicable, puis il est chargé avec une biblithèque  -->
         						<a href="{{ path('app_logout') }}">
-        							<div class="btnLogout">
-        								<p class="fas fa-power-off logoLogout" style='font-size:40px;'></p>		
+        							<div class="btnLogout" id="btnLogout" >
+        								<i class="fas fa-power-off logoLogout" id="logout"></i>		
         							</div>
         						</a>
-        						<p class="fas fa-cog logoSettings" style='font-size:40px;'></p>
+        						<div class="btnSettings" id="btnSettings" >
+        							<i class="fas fa-cog logoSettings" id="settings"></i>
+        						</div>
     						</div>
     						<i class="fas fa-caret-left logoMenu" style='font-size:40px;' onclick="OpenMenuUser(); isOpen = isOpen ? false : true;" id="iconSetting"></i>	
     					{% endif %}
@@ -75,17 +77,31 @@
         	var isOpen = false;
 			icon = document.getElementById('iconSetting');
 			menu = document.getElementById('MenuUser');
+			logout = document.getElementById('logout');
+			setting = document.getElementById('settings');
+			btnlogoutBG = document.getElementById('btnLogout');
+			btnSettingBG = document.getElementById('btnSettings');		
         	function OpenMenuUser()
         	{
 				if(isOpen) //Si le menu est ouvert
 				{
 					icon.style.transform = 'none';
-// 					menu.hidden = true;	
+					logout.style.transform ='none';
+					setting.style.transform ='none';	
+ 					icon.style.right = '10px';
+ 					logout.style.right = '-40px';
+ 					setting.style.right = '-40px';
+		
 				}
 				else	//Si il est fermé
 				{
-					icon.style.transform ='rotate(-540deg)';	
-// 					menu.hidden = false;	
+					icon.style.transform ='rotate(-540deg)';
+					logout.style.transform ='rotate(-360deg)';
+					setting.style.transform ='rotate(-540deg)';	
+ 					icon.style.right = '140px';
+ 					logout.style.right = '20px';
+ 					setting.style.right = '80px';
+
 				}	
         	}
         </script>
