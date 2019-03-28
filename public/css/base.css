@@ -113,7 +113,17 @@ h4
 {
 	margin-top:9px;
 }
-
+.logoMenu
+{
+	margin-top:20px;
+	color:#ECECEC;
+	transition: width 2.1s, height 2.1s, transform 2.1s;
+	margin-right:100px;
+}
+.logoSettings
+{
+	
+}
 .menu
 {
 	width:100%;

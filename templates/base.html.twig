@@ -22,12 +22,16 @@
     				</div> 
                     <div class="offset-9 col-1">  <!--  On saute 9 colonnes (offset-9) puis on affiche sur la dernière colonne le logo de déconnexion -->
     					{% if is_granted('ROLE_NOUVEAU') %}	<!-- Si la personne connecté à le role_nouveau (ce qui est le cas pour les nouveaux comptes) on affiche le logo de déconexion -->
-    						<!-- On rend le logo clicable, puis il est chargé avec une biblithèque  -->
-    						<a href="{{ path('app_logout') }}">
-    							<div class="btnLogout">
-    								<p class="fas fa-power-off logoLogout" style='font-size:40px;'></p>
-    							</div>
-    						</a>
+    						<div class="MenuUser" id="MenuUser" hidden>
+        						<!-- On rend le logo clicable, puis il est chargé avec une biblithèque  -->
+        						<a href="{{ path('app_logout') }}">
+        							<div class="btnLogout">
+        								<p class="fas fa-power-off logoLogout" style='font-size:40px;'></p>		
+        							</div>
+        						</a>
+        						<p class="fas fa-cog logoSettings" style='font-size:40px;'></p>
+    						</div>
+    						<i class="fas fa-caret-left logoMenu" style='font-size:40px;' onclick="OpenMenuUser(); isOpen = isOpen ? false : true;" id="iconSetting"></i>	
     					{% endif %}
     				</div>
 				</div>
@@ -67,5 +71,23 @@
         	<script src="{{ asset('bootstrap/Js/jquery.js') }}"></script>
         {% endblock %}
         </div>
+        <script>
+        	var isOpen = false;
+			icon = document.getElementById('iconSetting');
+			menu = document.getElementById('MenuUser');
+        	function OpenMenuUser()
+        	{
+				if(isOpen) //Si le menu est ouvert
+				{
+					icon.style.transform = 'none';
+// 					menu.hidden = true;	
+				}
+				else	//Si il est fermé
+				{
+					icon.style.transform ='rotate(-540deg)';	
+// 					menu.hidden = false;	
+				}	
+        	}
+        </script>
     </body>
 </html>
