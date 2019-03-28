@@ -69,7 +69,7 @@ class SecurityController extends AbstractController
         return $this->redirectToRoute('Home');
     }
     /**
-     * @Route("/premiere/ChangeMdp", name="change_mdp")
+     * @Route("/ChangeMdp", name="change_mdp")
      */
     public function ChangeMdp(Request $request, EntityManagerInterface $em, UserInterface $user, TokenGeneratorInterface $tokenGenerator)
     {
@@ -110,10 +110,12 @@ class SecurityController extends AbstractController
                 $event = new InteractiveLoginEvent($request, $token);
                 $dispatcher->dispatch("security.interactive_login", $event);
                 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -//
-                return $this->redirectToRoute('ChangMdp_Succes');
+                $this->addFlash('info','Mot de passe changé avec succes !');
+                return $this->redirectToRoute('Home');
             }else //Si le mot de passe n'est pas bon
             {
                 //PENSER A AJOUTER UN MESSAGE D'ERREUR
+                $this->addFlash('warning','Ancien Mot de passe invalide, veuillez réessayer.');
                 return $this->redirectToRoute('change_mdp'); //On redirige sur la même page.
             }
         }

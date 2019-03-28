@@ -29,6 +29,14 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         ->getQuery()
         ->getOneOrNullResult();
     }
+    public function loadByAlphaOrder()
+    {
+        return $this->createQueryBuilder('u')
+        //->andWhere('u.exampleField = :val')
+        ->orderBy('u.Nom', 'ASC')
+        ->getQuery()
+        ->getResult();
+    }
     
     // /**
     //  * @return User[] Returns an array of User objects

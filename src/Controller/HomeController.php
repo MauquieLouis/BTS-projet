@@ -7,12 +7,14 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-
+/**
+ * @IsGranted("ROLE_USER")
+ */
 class HomeController extends AbstractController
 {
     /**
      * @Route("/", name="Home")
-     * @IsGranted("ROLE_USER")
+     * 
      */
     public function index()
     {
@@ -21,20 +23,10 @@ class HomeController extends AbstractController
         ]);
     }
     /**
-     * @Route("/ChangeMdp/Succes", name="ChangMdp_Succes")
+     * @Route("/InformationsCompte", name="compteInformations")
      */
-    public function ChangeMdpSucces(TokenStorageInterface $token)
+    public function InfosAccount()
     {
-        $user = $this->getUser();
-        return $this->render('home/changeMdpSucces.html.twig', ['user' => $user->getRoles()]);
-    }
-    
-    /**
-     * @Route("/Infos", name="Infos")
-     */
-    public function Infos(TokenStorageInterface $token, SessionInterface $session)
-    {
-        dd($token->getToken(),$session->all(), $this->getUser(),$token->getToken()->getCredentials() );
-        return null;
+        return $this->render('home/accountInfos.html.twig',['user' => $this->getUser()]);
     }
 }
