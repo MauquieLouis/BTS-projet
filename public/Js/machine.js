@@ -355,8 +355,8 @@ let cube = new Machines();
 	// scene: cube
 // })
 
-//table.init('machine');
-//
+table.init('machine');
+console.log(table.retour);
 //console.log(table.retour);
 //for(table.length)
 //{
