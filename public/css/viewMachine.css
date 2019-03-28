@@ -10,12 +10,12 @@
 }
 .menu2
 {
-	background-color  : #666666;
+/* 	background-color  : #007BA4; */
 /* 	float:right;  */
 
 /* 	right:0px; */
 /* 	float:left; */
-/* 	border: 2px solid green;  */
+	border: 2px solid  #007BA4; 
 /* 	top:0;  */
 /*	padding: 100px;  */
 /* 	width: 200px; */

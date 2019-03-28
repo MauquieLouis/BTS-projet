@@ -275,29 +275,25 @@ class Machines{
 	
 	
 }
-
-
 /* FIN CLASSE Machines*/
+
 const container = document.body; // variable qui enregesitre document.body pour faciliter l'appel
 const tooltip = document.querySelector('.tooltip'); // récupérer la classe de l'élément .tooltip (css) (ref aux sprites)
 const spriteCreate = document.querySelector('.spriteCreate'); // récupérer la classe de l'élément canvas (css) (ref au canvas)
 var menuHautSizeHeight = document.getElementById("container-fluid"); // récupérer la classe de l'élément container-fluid (css) (ref au container-fluid)
-const menuSmall = document.querySelector('.menu2'); // récupérer
-menuSmall.classList.add('is-active');
-menuSmall.style.height = (window.innerHeight - menuHautSizeHeight.offsetHeight)*0.8 +'px';
-let spriteActive = false;
-//var windowWidth = 1200;
-//var windowHeight = 900;
-var barreDuHaut = 205;
-//var ecartWidthMenuCanvas = 220;
+const menuSmall = document.querySelector('.menu2'); // récupérer la classe de l'élément .menu2 (css)
+menuSmall.classList.add('is-active'); // mise en position absolu du menu.
+
+var spriteActive = false;
+
 var ecartWidthMenuCanvas = 850;
-var ecartHeightMenuCanvas = barreDuHaut;
+var ecartHeightMenuCanvas = menuHautSizeHeight.offsetHeight;
 var ratio = 1/2;
 var ratioHeight = 1/2;
 
 //var ratio=1;
 var windowWidth = (window.innerWidth * ratio);
-var windowHeight = ((window.innerHeight)-barreDuHaut)*ratioHeight;
+var windowHeight = ((window.innerHeight)-ecartHeightMenuCanvas)*ratioHeight;
 ////////////////RENDU//////////////////////////////////////////////////////////
 const renderer = new THREE.WebGLRenderer({canvas: myCanvasElement});// Rendu
 renderer.setSize( windowWidth, windowHeight);
@@ -338,7 +334,7 @@ const geometrysphere = new THREE.SphereGeometry(400, 400, 400);
 const textureLoader = new THREE.TextureLoader();
 const material = new THREE.MeshBasicMaterial({
 // 	map: texture,
- 	color: 0x000033,
+ 	color: 0x007BA4,
 	side: THREE.DoubleSide
 })
 material.transparent = true;
@@ -383,68 +379,6 @@ cube.appear();
 const rayCaster = new THREE.Raycaster();
 onResize();
 
-//Création texture
-//const textureLoader = new THREE.TextureLoader()
-//		const texture = textureLoader.load('../Images/Image5.jpg')
-
-
-
-//Création de la sphère d'environnement/////////////////////
-// var geometrySphere = new THREE.SphereGeometry(500, 500, 500)
-//var materialSphere = new THREE.MeshBasicMaterial( { color: 0x000000, side: THREE.DoubleSide } );
-//var sphere = new THREE.Mesh(geometrySphere, materialSphere)
-//scene.add(sphere);
-//////////////////////////////////////////////////////////////
-
-///////FONCTION AJOUT TOOLTIP///////////////////////////////////
-/*
-function addTooltip(point)
-
-{
-	let spriteMappy = new THREE.TextureLoader().load( "images/water3.jpg" );
-	let spriteMaterial2 = new THREE.SpriteMaterial( { map: spriteMappy} );
-	let sprite2 = new THREE.Sprite( spriteMaterial2 );
-	sprite2.position.copy(point);
-	scene.add(sprite2);
-	sprite2.name = "ceciestuntest";
-	/*
-		console.log("Function : addToolTip(point)")
-		let spriteMap = new THREE.TextureLoader().load( "images/image3.jpg" );
-		let spriteMaterial = new THREE.SpriteMaterial( { map: spriteMap} );
-		let sprite = new THREE.Sprite( spriteMaterial );
-		sprite.name = point.name
-//		let position = new THREE.Vector3(45,0,0);
-//		sprite.position.copy(new THREE.Vector3(150,0,0));
-		sprite.position.copy(point.position.clone().normalize().multiplyScalar(30)); //.clone permet de cloner et de ne pas toucher la variable passée par référence l'objet méthode normalize
-
-		sprite.scale.multiplyScalar(2) // on multiplie la sprite par 2 sur tous les vecteurs
-		this.scene.add(sprite);
-		this.sprites.push(sprite)
-		sprite.onClick = () =>{
-			console.log(sprite.name)
-			sprite.name ="pantoufle"
-			this.scene.remove(sprite) //supprime le sprite ///////////
-			this.destroy()
-			point.scene.createScene(scene)
-			point.scene.appear()
-			
-		}*/
-//	}
-
-////////////////////////////////////////////////////////////////
-
-//AJOUT DUN TOOLTIP/////////////////////////////////////////
-
-
-
-
-/*cube.addTooltip(
-	new THREE.Vector3(150,0,0),
-);*/
-////////////////////////////////////////////////////////////
-
-
-
 
 function modifValider()
 {
@@ -472,42 +406,27 @@ function onClick(e)
 		document.getElementById("posCamY").value = camera.position.y;
 		document.getElementById("posCamZ").value = camera.position.z;		
 		/////////////////////////////////////////////////////////
+		cube.createSprite = 'stop'; 
+
 		
-		console.log("edition en mode 0");
-		
-		//document.getElementById("btnSprite").src = "http://127.0.0.1:8000/image/machine/ampoulerouge.png";
-		cube.createSprite = 'stop';
 		intersects.forEach(function(intersect){
-			//console.log(intersect.object.material[0].map.image.currentSrc);
 			
-			//console.log(intersect.object.material[0].name);
-			// if(intersect.object.material.name == "")
-			// {
-				// console.log("c'est nickel !");
-			// }
-			//console.log(intersect.object.material.face);
 			if(intersect.object.type === 'Sprite')
 			{
-				//let p = intersect.object.position.clone().project(camera) // Je récupère la position du sprite et je la projette sur la caméra.
-				//c'est la position x et y qui nous intéresse
-	
 				cube.sprite = intersect.object;
-				//console.log(cube.sprite.information);
+				
 				document.getElementById("tooltipName").innerHTML = cube.sprite.name; 
 				document.getElementById("tooltipInfo").innerHTML = cube.sprite.information;
 				document.getElementById("reName").value = cube.sprite.name; 
 				document.getElementById("reInform").value = cube.sprite.information; 
 				document.getElementById("reEtape").value = cube.sprite.etape; 
-				//cube.sprite.translateX(10);
-				
-
 			}
 
 		})
 
 	}
 	//si edition = 1 et image = verte, on pose un sprite
-	else if (cube.createSprite == 'start') //if (document.getElementById("btnSprite").src == "http://127.0.0.1:8000/image/machine/ampouleverte.png") 
+	else if (cube.createSprite == 'start')
 	{
 		
 		console.log("edition en mode 1");
@@ -515,11 +434,6 @@ function onClick(e)
 		nVarNom = prompt("Name :");
 		nVarInfo = prompt("Informations :");
 		nVarEtape = prompt("Etape :");
-		// nVarInformation = prompt("Informations:");
-		// let spriteMappy = new THREE.TextureLoader().load( "images/ampoule.png" );
-		// let spriteMaterial2 = new THREE.SpriteMaterial( { map: spriteMappy} );
-		// let sprite2 = new THREE.Sprite( spriteMaterial2 );
-		// sprite2.position.copy(intersects[0].point)
 		cube.addPoints({
 			position: intersects[0].point,
 			camera: camera.position,
@@ -543,22 +457,10 @@ function onClick(e)
 		if(cube.sprites[cube.sprites.length-1].position.z <= (intersects[0].object.geometry.parameters.depth/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.z >= (intersects[0].object.geometry.parameters.depth/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.z += cube.initEcartTooltip;}
 		if(cube.sprites[cube.sprites.length-1].position.z >= -(intersects[0].object.geometry.parameters.depth/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.z <= -(intersects[0].object.geometry.parameters.depth/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.z -= cube.initEcartTooltip;}
 		console.log(cube.sprites[cube.sprites.length-1].name);
-		// if(intersects[0].object.material[0].name == "droite")	{sprite2.position.x += 6}
-		// if(intersects[0].object.material[0].name == "gauche")	{sprite2.position.x -= 6}
-		// if(intersects[0].object.material[0].name == "haut")		{sprite2.position.y += 6}
-		// if(intersects[0].object.material[0].name == "bas")		{sprite2.position.y -= 6}
-		// if(intersects[0].object.material[0].name == "devant")	{sprite2.position.z += 6}
-		// if(intersects[0].object.material[0].name == "derriere")	{sprite2.position.z -= 6}
-		//sprite2.position.copy(intersects[0].point.clone().normalize().multiplyScalar(50));
-		//scene.add(sprite2);
-		
-		
-		// sprite2.scale.multiplyScalar(5) // aggrandit la taille du sprite
-		// sprite2.name = nVarNom;
-		// cube.saveSprites(sprite2,nVarInfo, nVarEtape,camera)
+
 		cube.ToggleSprite();
 	}
-	else //sinon l'image passe verte car édition == 1
+	else //sinon c'est qu'on est en ready et on passe en start
 	{
 		cube.createSprite = 'start'
 		//document.getElementById("btnSprite").src = "http://127.0.0.1:8000/image/machine/ampouleverte.png";
@@ -592,10 +494,7 @@ function onClick(e)
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function onResize()
 {
-	//renderer.setSize(windowWidth, windowHeight)
-	//camera.aspect = windowWidth / windowHeight;
-	//console.log(window.innerWidth);
-	console.log("function OnRESIZE()");
+
 	if(window.innerWidth > 768)
 	{
 		console.log("mode Ordi");
@@ -612,8 +511,7 @@ function onResize()
 		////////////////////////////////////////////////////////////////////////////////
 		menuSmall.classList.add('is-active'); // Place le menu a gauche
 
-//		renderer.setSize(window.innerWidth*ratio, windowHeight);
-//		camera.aspect = window.innerWidth*ratio / windowHeight;
+
 		renderer.setSize(windowWidth, windowHeight);//Redimensionne le modele 3D en prenant la page - la barre du haut * le ratio de 1/3
 		camera.aspect = windowWidth / windowHeight;
 		
@@ -628,24 +526,18 @@ function onResize()
 	{
 		console.log("mode telephone");
 		menuSmall.classList.remove('is-active'); // place le menu d'affichage au dessus
-		
 
-		//menuSmall.style.top = ((-1*p.y + 1) * windowHeight/2) + 'px';
-		//menuSmall.style.left = (p.x+1)* windowWidth/2 + 'px';
-		//////RAPPEL CAR BUG QUAND ON PASSE DE FENETRE A PLEIN ECRAN ///////////////////////////////////////////////////////////////////////////////
 		ecartWidthMenuCanvas = 0 ;//Récupère la position en X où commence le modele 3D
-		ecartHeightMenuCanvas = window.innerHeight - renderer.context.drawingBufferHeight; // Récupère la hauteur du menu d'en haut. Le modele 3D est juste en dessous
-		
-		//ecartHeightMenuCanvas = window.innerHeight - renderer.context.drawingBufferHeight; // Récupère la hauteur du menu d'en haut. Le modele 3D est juste en dessous
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		windowWidth = window.innerWidth;
-		//if(windowHeight < 0 ){windowHeight *= -1;}
-		//windowHeight = window.innerHeight - renderer.context.drawingBufferHeight;
 		windowHeight = 300;
+		
 		renderer.setSize(window.innerWidth, windowHeight);
 		camera.aspect = window.innerWidth / (windowHeight);
 		menuSmall.style.height = (window.innerHeight - 306) +'px';
+		ecartHeightMenuCanvas = window.innerHeight - renderer.context.drawingBufferHeight; // Récupère la hauteur du menu d'en haut. Le modele 3D est juste en dessous
+		
 	}
 	//////// Affichage du menu ////////////////////////////////
 
@@ -689,34 +581,30 @@ var animate = function () {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function onMouseMove(e)
 {
-	
-//ecartHeightMenuCanvas = renderer.context.drawingBufferHeight;
-//console.log(ecartHeightMenuCanvas);
-//	console.log("ecartHeightMenuCanvas"); console.log(ecartHeightMenuCanvas)
-	 console.log(e.clientY);
-	
-
-	 console.log(window.window.innerWidth);
 	let mouse = new THREE.Vector2(
 			( (e.clientX-ecartWidthMenuCanvas) / windowWidth ) * 2 - 1,
 			- ( (e.clientY-ecartHeightMenuCanvas) / windowHeight) * 2 + 1 
 		);
 
-	//ecartHeightMenuCanvas = window.innerHeight - renderer.context.drawingBufferHeight;
-
-
 	rayCaster.setFromCamera(mouse, camera);
 	let foundSprite = false;
 	
 	let intersects = rayCaster.intersectObjects(scene.children); // Regarde ce qui rencontre les "enfants" de la scène: tooltip, sphère...
-	//console.log(intersects)
+
 	
 	intersects.forEach(function(intersect){
 		if(intersect.object.type === 'Sprite')
 		{
 			let p = intersect.object.position.clone().project(camera); // Je récupère la position du sprite et je la projette sur la caméra.
 			//c'est la position x et y qui nous intéresse
-			tooltip.style.top = ((-1*p.y + 1) * windowHeight/2) + ecartHeightMenuCanvas + 'px';
+			if(window.innerWidth > 768)
+			{
+				tooltip.style.top = ((-1*p.y + 1) * windowHeight/2) + ecartHeightMenuCanvas + 'px';
+			}
+			else
+			{
+				tooltip.style.top = ((-1*p.y + 1) * windowHeight/2) + window.innerHeight + 'px';
+			}
 			tooltip.style.left = (p.x+1)* windowWidth/2  + ecartWidthMenuCanvas +'px';
 
 			tooltip.classList.add('is-active');
@@ -754,18 +642,14 @@ function onMouseMove(e)
 
 function Keyboard(event)
 {
-	var speed =0.1;
 	console.log(event);
 	if(event.keyCode == 90) //z
 	{
-		cube.rotateCube('z',speed);
-		//cube.rotateSprite('z',speed)
 		
 	}
 	if(event.keyCode == 81) //q
 	{
-		cube.rotateCube('y',speed);	
-		//cube.rotateSprite('y',speed)
+
 	}
 	if(event.keyCode == 82) //r
 	{
@@ -773,25 +657,19 @@ function Keyboard(event)
 	}
 	if(event.keyCode == 83) //s
 	{
-		console.log('s');
-		console.log(renderer);
-		//cube.rotateSprite('z',-speed)
+
 	}
 	if(event.keyCode == 68) //d
 	{
-		cube.rotateCube('y',-speed);
-		//cube.rotateSprite('y',-speed)	
+
 	}
 	if(event.keyCode == 69) //e
 	{
 		cube.ToggleSprite();
-		console.log(cube.edition);
-		console.log(cube.sprites.length);
 	}
 	if(event.keyCode == 85) //u
 	{
-		console.log(menuHautSizeHeight.offsetHeight);
-		//console.log(document.body.div)
+
 	}
 	if(event.keyCode == 46) //Delete btn suppr.
 	{
@@ -805,25 +683,12 @@ function Keyboard(event)
 	}
 	if(event.keyCode == 39) //fleche de droite;
 	{
-		//cube.positionCamera = "hello";
 
 		
 	}
 	if(event.keyCode == 80) //p
 	{
 		cube.EtapeChangement(-1);
-		//if(++face >=4){face=0} ;
-		//console.log(cube.positionsCamera[0].x)
-
-		//camera..y = 0.5;
-		
-		//controls.target.set(0,0,0);
-		//controls.reset();
-		//camera.lookAt(cube.positionsCamera[face]);
-		
-		
-		
-		
 		
 		// face x: 3.140138135421474 y: 9.179542109846247 z: 196.0583993689851
 		//gauche x: -176.98011217816207 y: 9.591837108778526 z: 13.61792983146334
@@ -838,12 +703,7 @@ function Keyboard(event)
 		console.log(cube.sprites[2]);
 		console.log("sprite 4");
 		console.log(cube.sprites[4]);
-		//console.log("sprite 3");
-		//console.log(cube.sprites[2]);
-		//console.log("sprite4");
-		//console.log(cube.sprites[3]);
-		//console.log(cube.sprite.cameraPosZ);
-		//controls.saveState();
+
 	}
 	
 }
