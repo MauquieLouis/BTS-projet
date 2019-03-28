@@ -355,7 +355,20 @@ let cube = new Machines();
 	// scene: cube
 // })
 
-
+//table.init('machine');
+//
+//console.log(table.retour);
+//for(table.length)
+//{
+//	cube.addPoints({
+//		position: table[i][j];
+//		camera: table[i][j+1];
+//		name: 	table[i][j+2];
+//		info : 	table[i][j+3];
+//		etape : table[i][j+4];
+//		scene :	table[i][j+5];
+//	});
+//}
 
 cube.addPoints({
 	position: new THREE.Vector3(30, 10, 52),
@@ -528,8 +541,12 @@ function onResize()
 		menuSmall.classList.remove('is-active'); // place le menu d'affichage au dessus
 
 		ecartWidthMenuCanvas = 0 ;//Récupère la position en X où commence le modele 3D
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+		
+		///////PLACEMENT DES BOUTONS DE NAVIGATIONS ////////////////////////////////////
+		btnCameraFaceCube.style.top = window.innerHeight-40 +'px';
+		btnCameraFaceCube.style.right = windowWidth/2 - 30 + 'px';
+		////////////////////////////////////////////////////////////////////////////////
+		
 		windowWidth = window.innerWidth;
 		windowHeight = 300;
 		
@@ -712,13 +729,14 @@ function onScreenChange()
 	console.log("Changement de fenetre");
 }
 
-animate();
+
 window.addEventListener('resize', onResize);
 container.addEventListener('webkitfullscreenchange', onScreenChange);
 container.addEventListener('click', onClick);
 container.addEventListener('mousemove', onMouseMove);
 container.addEventListener('keydown', Keyboard, false);
-
+onResize();
+animate();
 
 
 
