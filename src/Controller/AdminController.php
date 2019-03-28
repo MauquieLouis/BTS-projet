@@ -120,7 +120,7 @@ class AdminController extends AbstractController
             //return $this->redirectToRoute('admin_UserControl_searchUser_param',['paramRecherche' => $rechercheResultats]);
             return $this->render('admin/searchUser.html.twig', ['form' => $form->createView(), 'rechercheResultat' => $rechercheResultats]);
         }
-        return $this->render('admin/searchUser.html.twig', ['form' => $form->createView(), 'rechercheResultat' => 'Aucun Resultat']);
+        return $this->render('admin/searchUser.html.twig', ['form' => $form->createView(), 'rechercheResultat' => $userRepository->findAll()]);
     }
     /**
      *@Route("/admin/controlUser/searchUser/{id}", name="admin_UserControl_searchUser_id")
