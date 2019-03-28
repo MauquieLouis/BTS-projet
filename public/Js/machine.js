@@ -281,6 +281,7 @@ class Machines{
 const container = document.body; // variable qui enregesitre document.body pour faciliter l'appel
 const tooltip = document.querySelector('.tooltip'); // récupérer la classe de l'élément .tooltip (css) (ref aux sprites)
 const spriteCreate = document.querySelector('.spriteCreate'); // récupérer la classe de l'élément canvas (css) (ref au canvas)
+const menuHautSizeHeight = document.getElementById("container-fluid"); // récupérer la classe de l'élément container-fluid (css) (ref au container-fluid)
 const menuSmall = document.querySelector('.menu2'); // récupérer
 menuSmall.classList.add('is-active');
 let spriteActive = false;
@@ -574,36 +575,57 @@ function onClick(e)
 /////////////////////////////////////////////////////////////////////////////////	
 }		
 
-
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////ON RESIZE  //////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function onResize()
 {
 	//renderer.setSize(windowWidth, windowHeight)
 	//camera.aspect = windowWidth / windowHeight;
+	console.log("resize");
 	if(window.innerWidth > 768)
 	{
+		ecartWidthMenuCanvas = window.innerWidth - renderer.context.drawingBufferWidth; //Récupère la position en X où commence le modele 3D
+		ecartHeightMenuCanvas = menuHautSizeHeight.offsetHeight; // Récupère la hauteur du menu d'en haut. Le modele 3D est juste en dessous
+		
 		ratio = 1/3;
 		windowWidth = window.innerWidth*ratio;
-		windowHeight = (window.innerHeight  - barreDuHaut) * ratioHeight;
+		windowHeight = (window.innerHeight  - ecartHeightMenuCanvas) * ratioHeight; 
+		
+		///////PLACEMENT DES BOUTONS DE NAVIGATIONS ////////////////////////////////////
 		btnCameraFaceCube.style.top = ecartHeightMenuCanvas + windowHeight +'px';
 		btnCameraFaceCube.style.right = windowWidth/2 - 30 + 'px';
-		menuSmall.classList.add('is-active');
+		////////////////////////////////////////////////////////////////////////////////
+		menuSmall.classList.add('is-active'); // Place le menu a gauche
 
-		renderer.setSize(window.innerWidth*ratio, windowHeight);
-		camera.aspect = window.innerWidth*ratio / windowHeight;
+//		renderer.setSize(window.innerWidth*ratio, windowHeight);
+//		camera.aspect = window.innerWidth*ratio / windowHeight;
+		renderer.setSize(windowWidth, windowHeight);//Redimensionne le modele 3D en prenant la page - la barre du haut * le ratio de 1/3
+		camera.aspect = windowWidth / windowHeight;
+		
+		//////RAPPEL CAR BUG QUAND ON PASSE DE FENETRE A PLEIN ECRAN ///////////////////////////////////////////////////////////////////////////////
+		ecartWidthMenuCanvas = window.innerWidth - renderer.context.drawingBufferWidth; //Récupère la position en X où commence le modele 3D
+		ecartHeightMenuCanvas = menuHautSizeHeight.offsetHeight; // Récupère la hauteur du menu d'en haut. Le modele 3D est juste en dessous
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 	}
-	else
+	else	// Mode telephone
 	{
 		//menuSmall.style.top = ((-1*p.y + 1) * windowHeight/2) + 'px';
 		//menuSmall.style.left = (p.x+1)* windowWidth/2 + 'px';
-
-		menuSmall.classList.remove('is-active');
+		//////RAPPEL CAR BUG QUAND ON PASSE DE FENETRE A PLEIN ECRAN ///////////////////////////////////////////////////////////////////////////////
+		ecartWidthMenuCanvas = 0 ;//Récupère la position en X où commence le modele 3D
+		ecartHeightMenuCanvas = window.innerHeight - renderer.context.drawingBufferWidth; // Récupère la hauteur du menu d'en haut. Le modele 3D est juste en dessous
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		menuSmall.classList.remove('is-active'); // place le menu d'affichage au dessus
 		windowWidth = window.innerWidth;
 		console.log(window.innerWidth);
-		windowHeight = window.innerHeight - barreDuHaut;
-		renderer.setSize(window.innerWidth, window.innerHeight);
-		camera.aspect = window.innerWidth / window.innerHeight;
+		windowHeight = window.innerHeight - renderer.context.drawingBufferHeight;
+		renderer.setSize(window.innerWidth, window.innerHeight*1/4);
+		camera.aspect = window.innerWidth / (window.innerHeight*1/4);
 
 	}
 	
@@ -645,11 +667,15 @@ var animate = function () {
 function onMouseMove(e)
 {
 	
+//ecartHeightMenuCanvas = renderer.context.drawingBufferHeight;
+//console.log(ecartHeightMenuCanvas);
+//	console.log("ecartHeightMenuCanvas"); console.log(ecartHeightMenuCanvas)
+	 
 	let mouse = new THREE.Vector2(
 			( (e.clientX-ecartWidthMenuCanvas) / windowWidth ) * 2 - 1,
 			- ( (e.clientY-ecartHeightMenuCanvas) / windowHeight) * 2 + 1 
 		);
-	console.log(e.clientX);
+	//console.log(e.clientY);
 		
 	rayCaster.setFromCamera(mouse, camera);
 	let foundSprite = false;
@@ -663,7 +689,7 @@ function onMouseMove(e)
 			let p = intersect.object.position.clone().project(camera); // Je récupère la position du sprite et je la projette sur la caméra.
 			//c'est la position x et y qui nous intéresse
 			tooltip.style.top = ((-1*p.y + 1) * windowHeight/2) + ecartHeightMenuCanvas + 'px';
-			tooltip.style.left = (p.x+1)* windowWidth/2  + 850 +'px';
+			tooltip.style.left = (p.x+1)* windowWidth/2  + ecartWidthMenuCanvas +'px';
 
 			tooltip.classList.add('is-active');
 			tooltip.innerHTML = intersect.object.name;
@@ -691,6 +717,12 @@ function onMouseMove(e)
 
 
 }
+//switch(event)
+//{
+//case 1:
+//	break;
+//default: break,
+//}
 
 function Keyboard(event)
 {
@@ -730,7 +762,8 @@ function Keyboard(event)
 	}
 	if(event.keyCode == 85) //u
 	{
-		
+		console.log(menuHautSizeHeight.offsetHeight);
+		//console.log(document.body.div)
 	}
 	if(event.keyCode == 46) //Delete btn suppr.
 	{
@@ -786,9 +819,19 @@ function Keyboard(event)
 	}
 	
 }
+function onScreenChange()
+{
+	console.log("Changement de fenetre");
+}
 
 animate();
-window.addEventListener('resize', onResize)
-container.addEventListener('click', onClick)
-container.addEventListener('mousemove', onMouseMove)
+window.addEventListener('resize', onResize);
+container.addEventListener('webkitfullscreenchange', onScreenChange);
+container.addEventListener('click', onClick);
+container.addEventListener('mousemove', onMouseMove);
 container.addEventListener('keydown', Keyboard, false);
+
+
+
+
+

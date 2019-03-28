@@ -27,7 +27,10 @@
 	position: absolute
 	
 }
-
+.myCanvasElement
+{
+ 
+}
 canvas
 {
 /* 	position: absolute; */
@@ -35,7 +38,7 @@ canvas
 	/* position: fixed;
 	margin-left : 220px; */
 /* 	float:right; */
-/*  	border: 2px solid pink;  */
+
 	float: right;
 	
 }
