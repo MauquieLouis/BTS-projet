@@ -20,7 +20,7 @@
     	<div class="col-12 offset-md-3 col-md-6">
     		    {% for resultat in rechercheResultat %}
     		    	{% if resultat %}
-    		    		<a href="{{ path('Home') }}">
+    		    		<a href="{{ path('admin_UserControl_searchUser_id', {id: resultat.id}) }}">
         		    		<div class="listeUser">
         		    			<div class="elemListeUser userLogo">{% if "ROLE_ADMIN" in resultat.roles %}
         		    					<i class="fas fa-user-graduate"></i>

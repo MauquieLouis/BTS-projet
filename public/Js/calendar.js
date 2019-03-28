@@ -195,8 +195,8 @@ function changeCal(){
 	}
 	
 	for (i=0;i<=41;i++){
-		eval("sp"+i).style.height = "50px";
-		eval("sp"+i).style.width = (document.body.clientWidth < 728)?(parseInt(document.body.clientWidth)-50)/7+"px":(parseInt(document.body.clientWidth)-50)/21+"px";
+		eval("sp"+i).style.height = (document.body.clientWidth < 738)?"40px":"50px";
+		eval("sp"+i).style.width = (document.body.clientWidth < 738)?(parseInt(document.body.clientWidth)-30)/7+"px":(parseInt(document.body.clientWidth)-50)/21+"px";
 		eval("sp"+i).innerHTML = arrN[i];
 	}
 }
@@ -212,6 +212,7 @@ window.onresize = function resize(){
 	else{
 		for (i=0;i<=41;i++){
 			eval("sp"+i).style.width = width/21+"px";
+			eval("sp"+i).style.height = "50px";
 		}
 	}
 };
