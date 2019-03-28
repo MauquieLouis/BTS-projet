@@ -384,6 +384,9 @@ cube.addPoints({
 		//var image4 = new THREE.TextureLoader().load('images/machine1/espace.jpg');
 		//var image5 = new THREE.TextureLoader().load('images/machine1/devant.jpg');
 		//var image6 = new THREE.TextureLoader().load('images/machine1/derriere.jpg');
+
+//1 devant //2 derriere //3
+
 cube.createMachine(scene,'../../image/machine/machine1/droit.jpg','../../image/machine/machine1/derriere.jpg','../../image/machine/machine1/espace.jpg','../../image/machine/machine1/espace.jpg','../../image/machine/machine1/devant.jpg','../../image/machine/machine1/derriere.jpg');
 
 cube.appear();
