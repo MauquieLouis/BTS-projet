@@ -11,6 +11,8 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use App\Repository\UserRepository;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class AdminController extends AbstractController
 {
@@ -123,11 +125,56 @@ class AdminController extends AbstractController
     /**
      *@Route("/admin/controlUser/searchUser/{id}", name="admin_UserControl_searchUser_id")
      */
-    public function EditionUser($id, UserRepository $uR)
+    //Dans ce controller On peut Editier les Infos nom, prénom, email de l'utilisateur, on peut aussi
+    //modifier le rôle de l'utilisateur en question. Enfin on peut également supprimer l'utilisateur.
+    public function EditionUser($id, UserRepository $uR, Request $request, EntityManagerInterface $em, TokenStorageInterface $tokenStorage)
     {
-        $userToModify = $uR->findOneBy(['id' => $id]);
-        $form = $this->createForm(NewUserFormType::class, $userToModify);  
-        
-        return $this->render('admin/editionUser.html.twig', ['user' => $userToModify, 'form' => $form->createView()]);
+        $userToModify = $uR->findOneBy(['id' => $id]);                                  //Récupération de l'utiisateur à modifier
+        $form = $this->createForm(NewUserFormType::class, $userToModify);               //Création formulaire avec les infos
+        $formRoles = $this->createFormBuilder()                                         //Création formulaire pour les roles (A améliorer)
+        ->add('Roles', ChoiceType::class,                                               //On ajoute une entrée 'choix' pour les rôles
+            ['choices' => ['Administrateur' => 'Admin', 'Utilisateur' => 'ROLE_USER'],
+             'placeholder' => 'Choisir un rôle'
+            ])
+        ->getForm();
+        $formDelete =$this->createFormBuilder()
+        ->getForm();
+        $form->handleRequest($request);                                                 //On récupère les requêtes du premier form   
+        if($form->isSubmitted() && $form->isValid())        
+        { 
+            $userToModify = $form->getData();                                           //On fait les changements puis on enregistre
+            $em->persist($userToModify);
+            $em->flush();      
+        }
+        $formRoles->handleRequest($request);                                            //On récupère les requêtes du deuxieme form   
+        if($formRoles->isSubmitted() && $formRoles->isValid())
+        {  
+            //Essayer de changer la méthode depuis le choiceType
+            if($formRoles->getData()['Roles'] == 'Admin')//Choix Admin                  //On fait les changements puis on enregistre
+            {
+                $userToModify->setRoles(['ROLE_ADMIN','ROLE_USER']);                    //On met le role admin + user
+            }
+            else
+            {
+                $userToModify->setRoles([$formRoles->getData()['Roles']]);              //Uniquement role user
+            }
+            $em->persist($userToModify);
+            $em->flush();
+        }
+        $formDelete->handleRequest($request);                                            //On récupère les requêtes du deuxieme form
+        if( $formDelete->isSubmitted() &&  $formDelete->isValid())
+        {  
+            //Deconnecter l'utilisateur avant de supprimer son compte
+            $em->remove($userToModify);
+            $em->flush();
+            return $this->redirectToRoute('admin_UserControl_searchUser');
+        }
+        return $this->render('admin/editionUser.html.twig',
+            [   'user' => $userToModify,
+                'form' => $form->createView(),
+                'formRoles' => $formRoles->createView(),
+                'formDelete' => $formDelete->createView()
+            ]);
     }
+    
 }
