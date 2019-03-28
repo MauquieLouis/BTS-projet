@@ -60,10 +60,10 @@ class Machines{
 //////////////////////////////////////////////////////////
 		
 ///////////////////////AJOUT DIFFERENTES POSITIONS DE CAMERA////////////////////////////////
-		this.positionsCamera.push(new THREE.Vector3(0, 0, 167));//devant
-		this.positionsCamera.push(new THREE.Vector3(168, 0, 0));//droite
-		this.positionsCamera.push(new THREE.Vector3(0, 0, -169));//derriere
-		this.positionsCamera.push(new THREE.Vector3(-168, 0, 0));//gauche
+		this.positionsCamera.push(new THREE.Vector3(0, 0, 130));//devant
+		this.positionsCamera.push(new THREE.Vector3(130, 0, 0));//droite
+		this.positionsCamera.push(new THREE.Vector3(0, 0, -130));//derriere
+		this.positionsCamera.push(new THREE.Vector3(-130, 0, 0));//gauche
 ////////////////////////////////////////////////////////////////////////////////////////////
 		
 		
@@ -281,9 +281,10 @@ class Machines{
 const container = document.body; // variable qui enregesitre document.body pour faciliter l'appel
 const tooltip = document.querySelector('.tooltip'); // récupérer la classe de l'élément .tooltip (css) (ref aux sprites)
 const spriteCreate = document.querySelector('.spriteCreate'); // récupérer la classe de l'élément canvas (css) (ref au canvas)
-const menuHautSizeHeight = document.getElementById("container-fluid"); // récupérer la classe de l'élément container-fluid (css) (ref au container-fluid)
+var menuHautSizeHeight = document.getElementById("container-fluid"); // récupérer la classe de l'élément container-fluid (css) (ref au container-fluid)
 const menuSmall = document.querySelector('.menu2'); // récupérer
 menuSmall.classList.add('is-active');
+menuSmall.style.height = (window.innerHeight - menuHautSizeHeight.offsetHeight)*0.8 +'px';
 let spriteActive = false;
 //var windowWidth = 1200;
 //var windowHeight = 900;
@@ -291,8 +292,9 @@ var barreDuHaut = 205;
 //var ecartWidthMenuCanvas = 220;
 var ecartWidthMenuCanvas = 850;
 var ecartHeightMenuCanvas = barreDuHaut;
-var ratio = 1/3;
+var ratio = 1/2;
 var ratioHeight = 1/2;
+
 //var ratio=1;
 var windowWidth = (window.innerWidth * ratio);
 var windowHeight = ((window.innerHeight)-barreDuHaut)*ratioHeight;
@@ -308,12 +310,18 @@ const camera = new THREE.PerspectiveCamera(75, (windowWidth / windowHeight), 0.1
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.rotateSpeed = 0.5;
 controls.autoRotate = false;
+controls.enableZoom = false;
 //controls.enableZoom = false;
 
 //controls.autoRotate = true;
-camera.position.set(0, 0, 167);
+camera.position.set(0, 0, 130);
 controls.update();
-
+controls.keys = {
+		LEFT: 0, //left arrow
+		UP: 0, // up arrow
+		RIGHT: 1, // right arrow
+		BOTTOM: 0 // down arrow
+	}
 /////// Position des boutons de déplacement de la caméra //////////////////////
 const btnCameraFaceCube = document.querySelector('.btnPositionduCube'); 
 btnCameraFaceCube.style.top = ecartHeightMenuCanvas + windowHeight +'px';
@@ -330,7 +338,7 @@ const geometrysphere = new THREE.SphereGeometry(400, 400, 400);
 const textureLoader = new THREE.TextureLoader();
 const material = new THREE.MeshBasicMaterial({
 // 	map: texture,
- 	color: 0x66ff66,
+ 	color: 0x000033,
 	side: THREE.DoubleSide
 })
 material.transparent = true;
@@ -357,7 +365,7 @@ cube.addPoints({
 	position: new THREE.Vector3(30, 10, 52),
 	camera: camera.position,
 	name: 'Etape numero 1',
-	info : 'c est l etape 1',
+	info : 'Ouvrir la porte, puis à laide de l outil prévu, il faut bien graisser la porte avec les éléments fournis. Ensuite, après avoir graissé les enduits. Il faut bien refermer la porte plusieurs fois afin que la graisse se répartisse bien. Ensuite il sera bon de passer a l etape suivante en cliquant sur la petite fleche de droite',
 	etape : '1',
 	scene : cube
 });
@@ -373,6 +381,7 @@ cube.appear();
 
 
 const rayCaster = new THREE.Raycaster();
+onResize();
 
 //Création texture
 //const textureLoader = new THREE.TextureLoader()
@@ -547,6 +556,7 @@ function onClick(e)
 		// sprite2.scale.multiplyScalar(5) // aggrandit la taille du sprite
 		// sprite2.name = nVarNom;
 		// cube.saveSprites(sprite2,nVarInfo, nVarEtape,camera)
+		cube.ToggleSprite();
 	}
 	else //sinon l'image passe verte car édition == 1
 	{
@@ -585,8 +595,10 @@ function onResize()
 	//renderer.setSize(windowWidth, windowHeight)
 	//camera.aspect = windowWidth / windowHeight;
 	//console.log(window.innerWidth);
+	console.log("function OnRESIZE()");
 	if(window.innerWidth > 768)
 	{
+		console.log("mode Ordi");
 		ecartWidthMenuCanvas = window.innerWidth - renderer.context.drawingBufferWidth; //Récupère la position en X où commence le modele 3D
 		ecartHeightMenuCanvas = menuHautSizeHeight.offsetHeight; // Récupère la hauteur du menu d'en haut. Le modele 3D est juste en dessous
 		
@@ -609,27 +621,37 @@ function onResize()
 		ecartWidthMenuCanvas = window.innerWidth - renderer.context.drawingBufferWidth; //Récupère la position en X où commence le modele 3D
 		ecartHeightMenuCanvas = menuHautSizeHeight.offsetHeight; // Récupère la hauteur du menu d'en haut. Le modele 3D est juste en dessous
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		menuSmall.style.height = (window.innerHeight - menuHautSizeHeight.offsetHeight) +'px';
 		
 	}
 	else	// Mode telephone
 	{
+		console.log("mode telephone");
+		menuSmall.classList.remove('is-active'); // place le menu d'affichage au dessus
+		
+
 		//menuSmall.style.top = ((-1*p.y + 1) * windowHeight/2) + 'px';
 		//menuSmall.style.left = (p.x+1)* windowWidth/2 + 'px';
 		//////RAPPEL CAR BUG QUAND ON PASSE DE FENETRE A PLEIN ECRAN ///////////////////////////////////////////////////////////////////////////////
 		ecartWidthMenuCanvas = 0 ;//Récupère la position en X où commence le modele 3D
-		ecartHeightMenuCanvas = menuHautSizeHeight.offsetHeight; // Récupère la hauteur du menu d'en haut. Le modele 3D est juste en dessous
+		ecartHeightMenuCanvas = window.innerHeight - renderer.context.drawingBufferHeight; // Récupère la hauteur du menu d'en haut. Le modele 3D est juste en dessous
+		
 		//ecartHeightMenuCanvas = window.innerHeight - renderer.context.drawingBufferHeight; // Récupère la hauteur du menu d'en haut. Le modele 3D est juste en dessous
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		windowHeight = (window.innerHeight  - ecartHeightMenuCanvas);
-		menuSmall.classList.remove('is-active'); // place le menu d'affichage au dessus
-		windowWidth = window.innerWidth;
-		console.log(window.innerWidth);
-		//windowHeight = window.innerHeight - renderer.context.drawingBufferHeight;
-		renderer.setSize(window.innerWidth, windowHeight);
-		camera.aspect = window.innerWidth / windowHeight;
 
+		windowWidth = window.innerWidth;
+		//if(windowHeight < 0 ){windowHeight *= -1;}
+		//windowHeight = window.innerHeight - renderer.context.drawingBufferHeight;
+		windowHeight = 300;
+		renderer.setSize(window.innerWidth, windowHeight);
+		camera.aspect = window.innerWidth / (windowHeight);
+		menuSmall.style.height = (window.innerHeight - 306) +'px';
 	}
-	
+	//////// Affichage du menu ////////////////////////////////
+
+	///////////////////////////////////////////////////////////
+	console.log("menuHautSizeHeight.offsetHeight");console.log(menuHautSizeHeight.offsetHeight);
+
 	camera.updateProjectionMatrix();
 
 }
@@ -671,13 +693,18 @@ function onMouseMove(e)
 //ecartHeightMenuCanvas = renderer.context.drawingBufferHeight;
 //console.log(ecartHeightMenuCanvas);
 //	console.log("ecartHeightMenuCanvas"); console.log(ecartHeightMenuCanvas)
-	 console.log(e.clientX);
+	 console.log(e.clientY);
+	
+
+	 console.log(window.window.innerWidth);
 	let mouse = new THREE.Vector2(
 			( (e.clientX-ecartWidthMenuCanvas) / windowWidth ) * 2 - 1,
 			- ( (e.clientY-ecartHeightMenuCanvas) / windowHeight) * 2 + 1 
 		);
-	//console.log(e.clientY);
-		
+
+	//ecartHeightMenuCanvas = window.innerHeight - renderer.context.drawingBufferHeight;
+
+
 	rayCaster.setFromCamera(mouse, camera);
 	let foundSprite = false;
 	
