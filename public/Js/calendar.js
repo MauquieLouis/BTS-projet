@@ -12,7 +12,7 @@ var event = {
 		getTable : function(){
 			var tabl = [
 				["id","Vidange Bac","Il faut vider le bac",['2','4'],['14','15','16'],"2019-03-31",52],
-				["id","Vidange Bac","Il faut vider le bac",['2','4'],['14','15','16'],"2019-03-12",52],
+				["id","Nettoyage des ventilateurs","Faites attention a bien les nettoyer",['2','4'],['14','15','16'],"2019-03-12",52],
 				["id","Vidange Bac","Il faut vider le bac",['2','4'],['14','15','16'],"2019-03-31",52],
 //				["id","Vidange Bac","Il faut vider le bac",['2','4'],['14','15','16'],"2019-03-31",52],
 			];
@@ -21,6 +21,8 @@ var event = {
 	};
 
 
+//table.init("user");
+//console.log(table.retour);
 
 var tabEvent = event.getTable();
 
@@ -256,7 +258,7 @@ function changeCal(){
 	}
 	var windowWidth = parseInt(document.body.clientWidth)-30;
 	for (i=0;i<=41;i++){
-		eval("sp"+i).style.height = (document.body.clientWidth < 738)?"40px":"50px";
+		eval("sp"+i).style.height = "50px";
 		eval("sp"+i).style.width = (document.body.clientWidth < 738)?windowWidth/7+"px":windowWidth/21+"px";
 		eval("sp"+i).innerHTML = arrN[i];
 		for(var j=0; j < parseInt(tabEvent.length); j++){
@@ -278,16 +280,15 @@ function changeCal(){
 
 window.onresize = function resize(){ 
 	var windowWidth = parseInt(document.body.clientWidth)-30;
-	if(width < 738){
+
+	if(windowWidth < 738){
 		for (i=0;i<=41;i++){
 			eval("sp"+i).style.width = windowWidth/7+"px";
-			eval("sp"+i).style.height = "40px";
 		}
 	}
 	else{
 		for (i=0;i<=41;i++){
 			eval("sp"+i).style.width = windowWidth/21+"px";
-			eval("sp"+i).style.height = "50px";
 		}
 	}
 };

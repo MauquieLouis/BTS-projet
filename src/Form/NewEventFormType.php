@@ -17,13 +17,13 @@ class NewEventFormType extends AbstractType
         $builder
             ->add('title')
             ->add('description')
-            ->add('usersid', EntityType::class, ['class'=>User::class, 'choice_label'=>function(User $user){return $user->getEmail();}])
+            ->add('usersid', EntityType::class, ['class'=>User::class, 'choice_label'=>function(User $user){return $user->getNom();}])
            // ->add('machinesid', EntityType::class, ['class'=>Machine::class, 'choice_label'=>function(Machine $machine){return $user->getId();}])
             ->add('dateStart')
             ->add('frequence')
         ;
     }
-
+    
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
