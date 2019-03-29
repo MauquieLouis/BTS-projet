@@ -13,7 +13,7 @@ var event = {
 			var tabl = [
 				["id","Vidange Bac","Il faut vider le bac",['2','4'],['14','15','16'],"2019-03-31",52],
 				["id","Vidange Bac","Il faut vider le bac",['2','4'],['14','15','16'],"2019-03-12",52],
-//				["id","Vidange Bac","Il faut vider le bac",['2','4'],['14','15','16'],"2019-03-31",52],
+				["id","Vidange Bac","Il faut vider le bac",['2','4'],['14','15','16'],"2019-03-31",52],
 //				["id","Vidange Bac","Il faut vider le bac",['2','4'],['14','15','16'],"2019-03-31",52],
 			];
 			return tabl;
@@ -36,7 +36,13 @@ function maxDays(mm, yyyy){
 
 var wDate = new Date();
 var idPrec = "";
+
 function clickOnCase(id){
+	if(id.substr(0, 2) != "sp"){
+		for (var i=0;i<=41;i++){
+			if(eval("sp"+i).style.backgroundColor == colorToday)id = "sp"+i;
+		}
+	}
 	var dw = parseInt(eval(id).innerHTML)
 	wDate.setDate(dw);
 
@@ -57,15 +63,17 @@ function clickOnCase(id){
 		eval(idPrec).style.backgroundColor = colorMonth;
 	
 	var aa = 0;
+	var balise1;
 
 	for (var i=0;i<=41;i++, aa++){
-		if(eval("sp"+aa).innerHTML==dw 
-		&& eval("sp"+aa).innerHTML != ""	
-		&& eval("sp"+aa).style.backgroundColor != colorOtherMonth){
-			if (eval("sp"+aa).style.backgroundColor != colorToday)
-				eval("sp"+aa).style.backgroundColor = colorSelectDay;
-			idPrec = "sp"+aa;
-			affichageEvent("sp"+aa);
+		var balise = eval("sp"+aa);
+		if(parseInt(balise.innerHTML)==dw 
+		&& balise.innerHTML != ""	
+		&& balise.style.backgroundColor != colorOtherMonth){
+			if (balise.style.backgroundColor != colorToday)
+				balise.style.backgroundColor = colorSelectDay;
+			idPrec = balise;
+			affichageEvent(balise);
 		}
 	}
 }
@@ -74,7 +82,7 @@ function affichageEvent(id){
 	
 	var mw = parseInt(document.calForm.selMonth.value)+1;	//Initialisation de la variables d'affichage du mois (janvier vaut 0, donc +1)
 	var yw = parseInt(document.calForm.selYear.value); //Initialisation de la variables d'affichage de l'année					
-	dw = eval(id).innerHTML;
+	dw = parseInt(eval(id).innerHTML);
 	wDate.setDate(dw);
 	wDate.setMonth(mw); 
 	wDate.setYear(yw);
@@ -83,26 +91,30 @@ function affichageEvent(id){
 	//----------Affichage des évènements avec la date-----------//
 	//if(dw < 10) dw = 0+dw;
 	text += "<td>Evènement du ";
-	text += dw;		//Text prend : la valeur de la case, le jour
+	text += (dw < 10)?"0"+ dw:dw;		//Text prend : la valeur de la case, le jour
 	text += "/";					
-	if(mw < 10) text += "0"+ mw;	//Text prend : valeur du mois
+	text += (mw < 10)?"0"+ mw:mw;	//Text prend : valeur du mois
 	text += "/";
 	text += yw;						//Text prend : valeur de l'année
-	text += " : ";
+	text += " :</br>";
 	//text += "<button align=right onClick=''>+</button>";
 	
 
 	//---------------Affichage du contenu de l'évènement-----------------//
 	var frequenceE = tabEvent[1][6];
-	
-	if(de == dw && me == mw){
-		text += tabEvent[1][1] + " : " + tabEvent[1][2];
+	var textEvent = "";
+
+	for(var j=0; j < parseInt(tabEvent.length); j++){
+		if(parseInt(tabEvent[j][5].substr(8, 2)) == dw && parseInt(tabEvent[j][5].substr(5, 2)) == mw){
+			textEvent = tabEvent[j][1] + " : " + tabEvent[j][2]+ "</br>";
+			break;
+		}
+		else textEvent = "Aucun évènement prévu pour le moment..."+ "</br>";
 	}
-	else text += "Aucun évènement prévu pour le moment...";
-	text += "</td>";
+	
+	text += textEvent;
 	eval("eve").innerHTML = text; 	//La balise dont l'id vaut 'eve' affiche le text
 }
-
 
 function chMonth(plusOuMoins){
 	currM = parseInt(document.calForm.selMonth.value);
@@ -112,20 +124,27 @@ function chMonth(plusOuMoins){
 			document.calForm.selYear.value--;
 			document.calForm.selMonth.value=11;
 		}
-		else{
+		else
 			document.calForm.selMonth.value--;
-		}
+		changeCal();
 	}
-	else{
+	else if (plusOuMoins == "+"){
 		if(currM == 11){ 	//Si le mois courant est décembre
 			document.calForm.selYear.value++;
 			document.calForm.selMonth.value=0;
 		}
-		else{
+		else
 			document.calForm.selMonth.value++;
-		}
+		changeCal();
 	}
-	changeCal();
+	else if (plusOuMoins == "+-"){
+		document.calForm.selMonth.value = mm;
+		document.calForm.selYear.value = yyyy;
+		changeCal();
+		clickOnCase("none");
+	}
+
+
 }
 
 function creatEvent(){
@@ -156,7 +175,8 @@ function writeCalendar(){
 		}
 	}
 	text += "</select>";	
-	text += "<span onClick='chMonth(\"+\")'><i class=\"fas fa-chevron-right\"></i></span>";
+	text += "<span onClick='chMonth(\"+\")'><i class=\"fas fa-chevron-right\"></i>     </span>";
+	text += "<span onClick='chMonth(\"+-\")'>    <i class=\"fas fa-calendar-day\"></i></span>"
 	text += "</td>";
 
 	//changeCal();
@@ -178,7 +198,7 @@ function writeCalendar(){
 	text += "<table border=1>";
 	text += "<tr>";
 	for (i=0;i<=6;i++){
-		text += "<td align=center><span backgroundcolor=#aeaeae>" + arrD[i] + "</span></td>"; //Affiche des jours de la semaine
+		text += "<td align=center><span>" + arrD[i] + "</span></td>"; //Affiche des jours de la semaine
 	
 	}
 	text += "</tr>";
@@ -186,7 +206,7 @@ function writeCalendar(){
 	for (k=0;k<=5;k++){
 		text += "<tr>";
 		for (i=0;i<=6;i++, aa++){
-			text += "<td align=center><div  id=sp" + aa + " onClick='clickOnCase(this.id)'></div></td>"; //Affiche des 42 case des jours, quand on séléctionne une case, la fonction affichage event est appelé
+			text += "<td align=center><div id=sp" + aa + " onClick='clickOnCase(this.id)'></div></td>"; //Affiche des 42 case des jours, quand on séléctionne une case, la fonction affichage event est appelé
 			//document.getElementById("sp"+aa).onclick = clickOnCase("sp"+aa);
 		}
 		text += "</tr>";
@@ -223,6 +243,7 @@ function changeCal(){
 		arrN[i] = aa ;
 		if ((arrN[i]==dd)&&(mm==currM)&&(yyyy==currY)){
 			eval("sp"+i).style.backgroundColor=colorToday;
+			clickOnCase("none");
 		}
 		else
 			eval("sp"+i).style.backgroundColor=colorMonth;
@@ -239,14 +260,9 @@ function changeCal(){
 		eval("sp"+i).style.width = (document.body.clientWidth < 738)?windowWidth/7+"px":windowWidth/21+"px";
 		eval("sp"+i).innerHTML = arrN[i];
 		for(var j=0; j < parseInt(tabEvent.length); j++){
-		//alert(eval("sp"+i).innerHTML + "=="  + tabEvent[j][5].substr(8, 2) + " && " + (((currM+1)<10)?"0"+(currM+1):(currM+1)) + "=="  + tabEvent[j][5].substr(5, 2));
 			if(eval("sp"+i).innerHTML == tabEvent[j][5].substr(8, 2) 
 			&& (((currM+1)<10)?"0"+(currM+1):(currM+1)) == tabEvent[j][5].substr(5, 2))
-			{
-				//alert("youpisuper");
-				eval("sp"+i).innerHTML += "<br><i  class=\"far fa-dot-circle\"></i></br>";
-				alert(eval("sp"+i).innerHTML);
-			}
+				eval("sp"+i).innerHTML += "<a><br><i  class=\"far fa-dot-circle\"></i></br></a>";
 		}
 		if(eval("sp"+i).innerHTML == wDate.getDate()	//Si le jour séléctionner est afficher apres avoir changer de mois 
 			&& currM+1 == wDate.getMonth()
