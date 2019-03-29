@@ -60,10 +60,10 @@ class Machines{
 //////////////////////////////////////////////////////////
 		
 ///////////////////////AJOUT DIFFERENTES POSITIONS DE CAMERA////////////////////////////////
-		this.positionsCamera.push(new THREE.Vector3(0, 0, 130));//devant
-		this.positionsCamera.push(new THREE.Vector3(130, 0, 0));//droite
-		this.positionsCamera.push(new THREE.Vector3(0, 0, -130));//derriere
-		this.positionsCamera.push(new THREE.Vector3(-130, 0, 0));//gauche
+		this.positionsCamera.push(new THREE.Vector3(0, 0, 140));//devant
+		this.positionsCamera.push(new THREE.Vector3(140, 0, 0));//droite
+		this.positionsCamera.push(new THREE.Vector3(0, 0, -140));//derriere
+		this.positionsCamera.push(new THREE.Vector3(-140, 0, 0));//gauche
 ////////////////////////////////////////////////////////////////////////////////////////////
 		
 		
@@ -106,12 +106,13 @@ class Machines{
 		sprite.cameraPosX	= point.camera.x;
 		sprite.cameraPosY	= point.camera.y;
 		sprite.cameraPosZ	= point.camera.z;
-		sprite.etape		= point.etape;
-		console.log(sprite.etape);
+		sprite.etape		= this.sprites.length//point.etape;
+		//console.log(sprite.etape);
 //		let position = new THREE.Vector3(45,0,0);
 //		sprite.position.copy(new THREE.Vector3(150,0,0));
 		sprite.position.copy(point.position.clone()); //.clone permet de cloner et de ne pas toucher la variable passée par référence l'objet méthode normalize
-		sprite.scale.multiplyScalar(5);
+		sprite.scale.multiplyScalar(9);
+
 		/*		sprite.position.x = 350;
 		sprite.position.y = 350;
 		sprite.position.z = 80;
@@ -122,7 +123,7 @@ class Machines{
 		this.scene.add(sprite);
 		this.sprites.push(sprite);
 		sprite.etape = this.sprites.length;
-		console.log(sprite.etape);
+		//console.log(sprite.etape);
 		document.getElementById("SpriteNb").innerHTML = cube.sprites.length;
 		sprite.onClick = () =>{
 			console.log(sprite.name);
@@ -168,9 +169,9 @@ class Machines{
 		this.sprites.forEach((sprite) =>{	//pour chaque sprite ça les aggrandit
 			sprite.scale.set(0,0,0)
 			TweenLite.to(sprite.scale,1, {
-				x: 5,
-				y: 5,
-				z: 5
+				x: 9,
+				y: 9,
+				z: 9
 			})
 		})
 	}
@@ -272,7 +273,49 @@ class Machines{
 			console.log(this.edition)
 		}
 	}
+	RestoreMachine(scene,image,machine)
+	{
+		this.scene = scene;
+		let imageSurface = image.split(';');
+		
+		//création modèle de cube
+		var geometry2 = new THREE.BoxGeometry( 100, 100, 100 ); // Creation d'une boite de 100 de côtés
+		
+//////////////////CHARGEMENT DES IMAGES/////////////////////////////////////////////////////
+		var image1 = new THREE.TextureLoader().load('../../image/machine/'+machine+'/'+imageSurface[0]); 
+		var image2 = new THREE.TextureLoader().load('../../image/machine/'+machine+'/'+imageSurface[1]);
+		var image3 = new THREE.TextureLoader().load('../../image/machine/'+machine+'/'+imageSurface[2]);
+		var image4 = new THREE.TextureLoader().load('../../image/machine/'+machine+'/'+imageSurface[3]);
+		var image5 = new THREE.TextureLoader().load('../../image/machine/'+machine+'/'+imageSurface[4]);
+		var image6 = new THREE.TextureLoader().load('../../image/machine/'+machine+'/'+imageSurface[5]);
+////////////////////////////////////////////////////////////////////////////////////////////	
 	
+		var cubeMaterials = 
+		[
+			new THREE.MeshBasicMaterial( { map: image1, side: THREE.DoubleSide, name:"droite"} ),// RIGHT SIDE
+			new THREE.MeshBasicMaterial( { map: image2, side: THREE.DoubleSide, name:"gauche"} ),// LEFT SIDE
+			new THREE.MeshBasicMaterial( { map: image3, side: THREE.DoubleSide, name:"haut"} ),// TOP SIDE
+			new THREE.MeshBasicMaterial( { map: image4, side: THREE.DoubleSide, name:"bas"} ),// BOTTOM SIDE
+			new THREE.MeshBasicMaterial( { map: image5, side: THREE.DoubleSide, name:"devant"} ),// FRONT SIDE
+			new THREE.MeshBasicMaterial( { map: image6, side: THREE.DoubleSide, name:"derriere"} ) // BACK SIDE
+		];
+		var material4 = new THREE.MeshFaceMaterial( cubeMaterials);
+
+/////////////////////Création du cube/////////////////////
+		this.cube = new THREE.Mesh( geometry2, material4);
+		this.cube.name="machine";
+		this.scene.add(this.cube);
+		this.points.forEach(this.addTooltip.bind(this));
+//////////////////////////////////////////////////////////
+		
+///////////////////////AJOUT DIFFERENTES POSITIONS DE CAMERA////////////////////////////////
+		this.positionsCamera.push(new THREE.Vector3(0, 0, 130));//devant
+		this.positionsCamera.push(new THREE.Vector3(130, 0, 0));//droite
+		this.positionsCamera.push(new THREE.Vector3(0, 0, -130));//derriere
+		this.positionsCamera.push(new THREE.Vector3(-130, 0, 0));//gauche
+////////////////////////////////////////////////////////////////////////////////////////////
+	
+	}
 	
 }
 /* FIN CLASSE Machines*/
@@ -284,11 +327,10 @@ var menuHautSizeHeight = document.getElementById("container-fluid"); // récupé
 const menuSmall = document.querySelector('.menu2'); // récupérer la classe de l'élément .menu2 (css)
 menuSmall.classList.add('is-active'); // mise en position absolu du menu.
 
+//// Récupération de la hauteur du menu ///////////////////////////////////
 const AdminRow2 = document.querySelector('.AdminRow2');
-console.log("AdminRow2");console.log(AdminRow2.offsetHeight);
-
 const pageHeader = document.getElementById('page-header');
-console.log("pageHeader");console.log(pageHeader.offsetHeight);
+//////////////////////////////////////////////////////////////////////////
 
 var spriteActive = false;
 
@@ -306,17 +348,15 @@ renderer.setSize( windowWidth, windowHeight);
 container.appendChild(renderer.domElement);
 ///////////////////////////////////////////////////////////////////////////////
 
-// Création Environnement/scene et controle
+// Création Environnement/scene et controle ///////////////////////////////////////////////////////////////
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, (windowWidth / windowHeight), 0.1, 1000);
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.rotateSpeed = 0.5;
 controls.autoRotate = false;
 controls.enableZoom = false;
-//controls.enableZoom = false;
-
 //controls.autoRotate = true;
-camera.position.set(0, 0, 130);
+camera.position.set(0, 0, 140);
 controls.update();
 controls.keys = {
 		LEFT: 0, //left arrow
@@ -324,18 +364,17 @@ controls.keys = {
 		RIGHT: 1, // right arrow
 		BOTTOM: 0 // down arrow
 	}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 /////// Position des boutons de déplacement de la caméra //////////////////////
 const btnCameraFaceCube = document.querySelector('.btnPositionduCube'); 
 btnCameraFaceCube.style.top = ecartHeightMenuCanvas + windowHeight +'px';
 btnCameraFaceCube.style.right = windowWidth/2 - 30 + 'px';
-
 //btnCameraFaceCube.classList.add('is-active');
-
-
 //////////////////////////////////////////////////////////////////////////////
 
 
-// Création sphère
+// Création sphère	////////////////////////////////////////////////////////////////////////////////////
 const geometrysphere = new THREE.SphereGeometry(400, 400, 400);
 const textureLoader = new THREE.TextureLoader();
 const material = new THREE.MeshBasicMaterial({
@@ -346,7 +385,7 @@ const material = new THREE.MeshBasicMaterial({
 material.transparent = true;
 sphere = new THREE.Mesh(geometrysphere, material);
 scene.add(sphere);
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //création des cubes
 let cube = new Machines();
@@ -362,7 +401,10 @@ let cube = new Machines();
 // })
 
 table.init('machine');
-console.log(table.retour);
+var words = table.retour[1][3].split(';');
+console.log(table.retour[2][3]);
+console.log(words[2]);
+
 //console.log(table.retour);
 //for(table.length)
 //{
@@ -384,7 +426,15 @@ cube.addPoints({
 	etape : '1',
 	scene : cube
 });
-
+cube.addPoints({
+	position: new THREE.Vector3(54, 0, 0),
+	camera: camera.position,
+	name: 'Etape numero 2',
+	info : 'trapper',
+	etape : '1',
+	scene : cube
+});
+//cube.RestoreMachine(scene,table.retour[2][3],table.retour[2][1]);
 		//var image2 = new THREE.TextureLoader().load('images/machine1/derriere.jpg');
 		//var image3 = new THREE.TextureLoader().load('images/machine1/espace.jpg');
 		//var image4 = new THREE.TextureLoader().load('images/machine1/espace.jpg');
@@ -510,20 +560,20 @@ function onClick(e)
 }		
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////ON RESIZE  //////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////         ////////////////////////////////////////////////////////////////////////////////////////////
+////        ON RESIZE                     ///////////////////////////////////////////////////////////////////////
+////////////         ////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function onResize()
 {
 
 	if(window.innerWidth > 768)
 	{
-		console.log("mode Ordi");
+		//console.log("mode Ordi");
 		ecartWidthMenuCanvas = window.innerWidth - renderer.context.drawingBufferWidth; //Récupère la position en X où commence le modele 3D
 		ecartHeightMenuCanvas = menuHautSizeHeight.offsetHeight; // Récupère la hauteur du menu d'en haut. Le modele 3D est juste en dessous
-		
-		ratio = 1/3;
+		ratioHeight = 0.7;
+		ratio = 0.4;
 		windowWidth = window.innerWidth*ratio;
 		windowHeight = (window.innerHeight  - ecartHeightMenuCanvas) * ratioHeight; 
 		
@@ -546,7 +596,7 @@ function onResize()
 	}
 	else	// Mode telephone
 	{
-		console.log("mode telephone");
+		//console.log("mode telephone");
 		menuSmall.classList.remove('is-active'); // place le menu d'affichage au dessus
 
 		ecartWidthMenuCanvas = 0 ;//Récupère la position en X où commence le modele 3D
@@ -639,9 +689,9 @@ function onMouseMove(e)
 			
 
 			TweenLite.to(intersect.object.scale, 0.5, {
-				x:7,
-				y:7,
-				z:7
+				x:13,
+				y:13,
+				z:13
 			});
 		}
 	})
@@ -649,9 +699,9 @@ function onMouseMove(e)
 	{
 		tooltip.classList.remove('is-active')
 		TweenLite.to(spriteActive.scale, 0.5, {
-				x:5,
-				y:5,
-				z:5
+				x:9,
+				y:9,
+				z:9
 			})
 		spriteActive = false;
 	}

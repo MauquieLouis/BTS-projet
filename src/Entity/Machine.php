@@ -32,7 +32,7 @@ class Machine
     private $imagefilename;
 
     public function getId(): ?int
-    {
+    { 
         return $this->id;
     }
 
