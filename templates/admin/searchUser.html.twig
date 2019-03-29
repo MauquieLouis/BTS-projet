@@ -10,9 +10,13 @@
 	</div>
 	<div class="row">
 		<div class="col-12 offset-md-4 col-md-4">
+			<div class="row displayRow">
 			{{ form_start(form) }}
-		        {{ form_widget(form) }}<button type="Submit" class =""><i class="fas fa-search" style='font-size:27px;'></i></button>
+				{{ form_label(form.Recherche,'Recherche') }}
+	            {{ form_widget(form.Recherche) }}
+	        	<button type="Submit" class =""><i class="fas fa-search" style='font-size:27px;'></i></button>
 	        {{ form_end(form) }}
+	        </div>
 	        
         </div>
     </div>	

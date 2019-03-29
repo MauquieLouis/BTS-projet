@@ -28,7 +28,7 @@ class MachineController extends AbstractController
      */
     public function viewModele()
     {
-
+    
         return $this->render('machine/viewmodel.html.twig', [
             'controller_name' => 'MachineController',
         ]);

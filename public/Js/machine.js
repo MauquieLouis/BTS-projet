@@ -58,6 +58,15 @@ class Machines{
 		this.scene.add(this.cube);
 		this.points.forEach(this.addTooltip.bind(this));
 //////////////////////////////////////////////////////////
+		
+///////////////////////AJOUT DIFFERENTES POSITIONS DE CAMERA////////////////////////////////
+		this.positionsCamera.push(new THREE.Vector3(0, 0, 130));//devant
+		this.positionsCamera.push(new THREE.Vector3(130, 0, 0));//droite
+		this.positionsCamera.push(new THREE.Vector3(0, 0, -130));//derriere
+		this.positionsCamera.push(new THREE.Vector3(-130, 0, 0));//gauche
+////////////////////////////////////////////////////////////////////////////////////////////
+		
+		
 	}
 	positionReset() // Cube se remet droit
 	{
@@ -122,7 +131,7 @@ class Machines{
 			camera.position.z = sprite.cameraPosZ;//sprite.cameraPosZ
 			document.getElementById("tooltipName").innerHTML = cube.sprite.name; //affiche sur le web le nom
 			document.getElementById("tooltipInfo").innerHTML = cube.sprite.information;
-			
+			document.getElementById("tooltipEtape").innerHTML = cube.sprite.etape;
 			//sprite.scale.multiplyScalar(8)
 			//sprite.name ="pantoufle"
 			//this.scene.remove(sprite) //supprime le sprite ///////////
@@ -165,6 +174,7 @@ class Machines{
 			})
 		})
 	}
+////////////A SUPPRIMER /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	saveSprites(sprite, info, etape, cam) // Enregistre une sprite dans Sprites
 	{
 		sprite.information	= info; 
@@ -186,6 +196,7 @@ class Machines{
 		this.sprite = sprite;						// le pointeur this.sprite se fixe sur la sprite
 		document.getElementById("SpriteNb").innerHTML = cube.sprites.length;
 	}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	deleteSprite() // supprime une sprite.
 	{
 		console.log(this.sprites.length);
@@ -264,24 +275,31 @@ class Machines{
 	
 	
 }
-
-
 /* FIN CLASSE Machines*/
+
 const container = document.body; // variable qui enregesitre document.body pour faciliter l'appel
 const tooltip = document.querySelector('.tooltip'); // récupérer la classe de l'élément .tooltip (css) (ref aux sprites)
 const spriteCreate = document.querySelector('.spriteCreate'); // récupérer la classe de l'élément canvas (css) (ref au canvas)
-const menuSmall = document.querySelector('.menu2'); // récupérer
-let spriteActive = false;
-//var windowWidth = 1200;
-//var windowHeight = 900;
-var barreDuHaut = 165;
-//var ecartWidthMenuCanvas = 220;
-var ecartWidthMenuCanvas = 0;
-var ecartHeightMenuCanvas = 165;
-var ratio = 9/12;
+var menuHautSizeHeight = document.getElementById("container-fluid"); // récupérer la classe de l'élément container-fluid (css) (ref au container-fluid)
+const menuSmall = document.querySelector('.menu2'); // récupérer la classe de l'élément .menu2 (css)
+menuSmall.classList.add('is-active'); // mise en position absolu du menu.
+
+const AdminRow2 = document.querySelector('.AdminRow2');
+console.log("AdminRow2");console.log(AdminRow2.offsetHeight);
+
+const pageHeader = document.getElementById('page-header');
+console.log("pageHeader");console.log(pageHeader.offsetHeight);
+
+var spriteActive = false;
+
+var ecartWidthMenuCanvas = 850;
+var ecartHeightMenuCanvas = menuHautSizeHeight.offsetHeight;
+var ratio = 1/2;
+var ratioHeight = 1/2;
+
 //var ratio=1;
 var windowWidth = (window.innerWidth * ratio);
-var windowHeight = (window.innerHeight)-barreDuHaut;
+var windowHeight = ((window.innerHeight)-ecartHeightMenuCanvas)*ratioHeight;
 ////////////////RENDU//////////////////////////////////////////////////////////
 const renderer = new THREE.WebGLRenderer({canvas: myCanvasElement});// Rendu
 renderer.setSize( windowWidth, windowHeight);
@@ -294,13 +312,27 @@ const camera = new THREE.PerspectiveCamera(75, (windowWidth / windowHeight), 0.1
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.rotateSpeed = 0.5;
 controls.autoRotate = false;
+controls.enableZoom = false;
 //controls.enableZoom = false;
 
 //controls.autoRotate = true;
-camera.position.set(0, 0, 167);
+camera.position.set(0, 0, 130);
 controls.update();
+controls.keys = {
+		LEFT: 0, //left arrow
+		UP: 0, // up arrow
+		RIGHT: 1, // right arrow
+		BOTTOM: 0 // down arrow
+	}
+/////// Position des boutons de déplacement de la caméra //////////////////////
+const btnCameraFaceCube = document.querySelector('.btnPositionduCube'); 
+btnCameraFaceCube.style.top = ecartHeightMenuCanvas + windowHeight +'px';
+btnCameraFaceCube.style.right = windowWidth/2 - 30 + 'px';
+
+//btnCameraFaceCube.classList.add('is-active');
 
 
+//////////////////////////////////////////////////////////////////////////////
 
 
 // Création sphère
@@ -308,7 +340,7 @@ const geometrysphere = new THREE.SphereGeometry(400, 400, 400);
 const textureLoader = new THREE.TextureLoader();
 const material = new THREE.MeshBasicMaterial({
 // 	map: texture,
- 	color: 0x666666,
+ 	color: 0x007BA4,
 	side: THREE.DoubleSide
 })
 material.transparent = true;
@@ -329,13 +361,26 @@ let cube = new Machines();
 	// scene: cube
 // })
 
-
+table.init('machine');
+console.log(table.retour);
+//console.log(table.retour);
+//for(table.length)
+//{
+//	cube.addPoints({
+//		position: table[i][j];
+//		camera: table[i][j+1];
+//		name: 	table[i][j+2];
+//		info : 	table[i][j+3];
+//		etape : table[i][j+4];
+//		scene :	table[i][j+5];
+//	});
+//}
 
 cube.addPoints({
 	position: new THREE.Vector3(30, 10, 52),
 	camera: camera.position,
 	name: 'Etape numero 1',
-	info : 'c est l etape 1',
+	info : 'Ouvrir la porte, puis à laide de l outil prévu, il faut bien graisser la porte avec les éléments fournis. Ensuite, après avoir graissé les enduits. Il faut bien refermer la porte plusieurs fois afin que la graisse se répartisse bien. Ensuite il sera bon de passer a l etape suivante en cliquant sur la petite fleche de droite',
 	etape : '1',
 	scene : cube
 });
@@ -345,91 +390,23 @@ cube.addPoints({
 		//var image4 = new THREE.TextureLoader().load('images/machine1/espace.jpg');
 		//var image5 = new THREE.TextureLoader().load('images/machine1/devant.jpg');
 		//var image6 = new THREE.TextureLoader().load('images/machine1/derriere.jpg');
+
+//1 devant //2 derriere //3
+
 cube.createMachine(scene,'../../image/machine/machine1/droit.jpg','../../image/machine/machine1/derriere.jpg','../../image/machine/machine1/espace.jpg','../../image/machine/machine1/espace.jpg','../../image/machine/machine1/devant.jpg','../../image/machine/machine1/derriere.jpg');
 
 cube.appear();
 
 
 const rayCaster = new THREE.Raycaster();
-
-//Création texture
-//const textureLoader = new THREE.TextureLoader()
-//		const texture = textureLoader.load('../Images/Image5.jpg')
-
-
-
-//Création de la sphère d'environnement/////////////////////
-// var geometrySphere = new THREE.SphereGeometry(500, 500, 500)
-//var materialSphere = new THREE.MeshBasicMaterial( { color: 0x000000, side: THREE.DoubleSide } );
-//var sphere = new THREE.Mesh(geometrySphere, materialSphere)
-//scene.add(sphere);
-//////////////////////////////////////////////////////////////
-
-///////FONCTION AJOUT TOOLTIP///////////////////////////////////
-/*
-function addTooltip(point)
-
-{
-	let spriteMappy = new THREE.TextureLoader().load( "images/water3.jpg" );
-	let spriteMaterial2 = new THREE.SpriteMaterial( { map: spriteMappy} );
-	let sprite2 = new THREE.Sprite( spriteMaterial2 );
-	sprite2.position.copy(point);
-	scene.add(sprite2);
-	sprite2.name = "ceciestuntest";
-	/*
-		console.log("Function : addToolTip(point)")
-		let spriteMap = new THREE.TextureLoader().load( "images/image3.jpg" );
-		let spriteMaterial = new THREE.SpriteMaterial( { map: spriteMap} );
-		let sprite = new THREE.Sprite( spriteMaterial );
-		sprite.name = point.name
-//		let position = new THREE.Vector3(45,0,0);
-//		sprite.position.copy(new THREE.Vector3(150,0,0));
-		sprite.position.copy(point.position.clone().normalize().multiplyScalar(30)); //.clone permet de cloner et de ne pas toucher la variable passée par référence l'objet méthode normalize
-
-		sprite.scale.multiplyScalar(2) // on multiplie la sprite par 2 sur tous les vecteurs
-		this.scene.add(sprite);
-		this.sprites.push(sprite)
-		sprite.onClick = () =>{
-			console.log(sprite.name)
-			sprite.name ="pantoufle"
-			this.scene.remove(sprite) //supprime le sprite ///////////
-			this.destroy()
-			point.scene.createScene(scene)
-			point.scene.appear()
-			
-		}*/
-//	}
-
-////////////////////////////////////////////////////////////////
-
-//AJOUT DUN TOOLTIP/////////////////////////////////////////
-
-
-
-
-/*cube.addTooltip(
-	new THREE.Vector3(150,0,0),
-);*/
-////////////////////////////////////////////////////////////
-
-var val = 1;
-function addi(axe,speed ){
-//	++val;
-//	document.getElementById("valeur").innerHTML = val;
-	cube.moveSprite(axe, speed); 
-}
-function lessi(axe,speed ){
-	//--val;
-	//document.getElementById("valeur").innerHTML = val; 
-	cube.moveSprite(axe, speed); 
-	//cube.moveTooltipX(-2)
-}
+onResize();
 
 
 function modifValider()
 {
 	cube.sprite.name = document.getElementById("reName").value ;
-	cube.sprite.information = document.getElementById("reInform").value ;				
+	cube.sprite.information = document.getElementById("reInform").value ;
+	cube.sprite.etape = document.getElementById("reEtape").value ;
 }
 
 function onClick(e)
@@ -451,41 +428,27 @@ function onClick(e)
 		document.getElementById("posCamY").value = camera.position.y;
 		document.getElementById("posCamZ").value = camera.position.z;		
 		/////////////////////////////////////////////////////////
+		cube.createSprite = 'stop'; 
+
 		
-		console.log("edition en mode 0");
-		
-		//document.getElementById("btnSprite").src = "http://127.0.0.1:8000/image/machine/ampoulerouge.png";
-		cube.createSprite = 'stop';
 		intersects.forEach(function(intersect){
-			//console.log(intersect.object.material[0].map.image.currentSrc);
 			
-			//console.log(intersect.object.material[0].name);
-			// if(intersect.object.material.name == "")
-			// {
-				// console.log("c'est nickel !");
-			// }
-			//console.log(intersect.object.material.face);
 			if(intersect.object.type === 'Sprite')
 			{
-				//let p = intersect.object.position.clone().project(camera) // Je récupère la position du sprite et je la projette sur la caméra.
-				//c'est la position x et y qui nous intéresse
-	
 				cube.sprite = intersect.object;
-				//console.log(cube.sprite.information);
+				
 				document.getElementById("tooltipName").innerHTML = cube.sprite.name; 
 				document.getElementById("tooltipInfo").innerHTML = cube.sprite.information;
 				document.getElementById("reName").value = cube.sprite.name; 
 				document.getElementById("reInform").value = cube.sprite.information; 
-				//cube.sprite.translateX(10);
-				
-
+				document.getElementById("reEtape").value = cube.sprite.etape; 
 			}
 
 		})
 
 	}
 	//si edition = 1 et image = verte, on pose un sprite
-	else if (cube.createSprite == 'start') //if (document.getElementById("btnSprite").src == "http://127.0.0.1:8000/image/machine/ampouleverte.png") 
+	else if (cube.createSprite == 'start')
 	{
 		
 		console.log("edition en mode 1");
@@ -493,11 +456,6 @@ function onClick(e)
 		nVarNom = prompt("Name :");
 		nVarInfo = prompt("Informations :");
 		nVarEtape = prompt("Etape :");
-		// nVarInformation = prompt("Informations:");
-		// let spriteMappy = new THREE.TextureLoader().load( "images/ampoule.png" );
-		// let spriteMaterial2 = new THREE.SpriteMaterial( { map: spriteMappy} );
-		// let sprite2 = new THREE.Sprite( spriteMaterial2 );
-		// sprite2.position.copy(intersects[0].point)
 		cube.addPoints({
 			position: intersects[0].point,
 			camera: camera.position,
@@ -521,21 +479,10 @@ function onClick(e)
 		if(cube.sprites[cube.sprites.length-1].position.z <= (intersects[0].object.geometry.parameters.depth/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.z >= (intersects[0].object.geometry.parameters.depth/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.z += cube.initEcartTooltip;}
 		if(cube.sprites[cube.sprites.length-1].position.z >= -(intersects[0].object.geometry.parameters.depth/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.z <= -(intersects[0].object.geometry.parameters.depth/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.z -= cube.initEcartTooltip;}
 		console.log(cube.sprites[cube.sprites.length-1].name);
-		// if(intersects[0].object.material[0].name == "droite")	{sprite2.position.x += 6}
-		// if(intersects[0].object.material[0].name == "gauche")	{sprite2.position.x -= 6}
-		// if(intersects[0].object.material[0].name == "haut")		{sprite2.position.y += 6}
-		// if(intersects[0].object.material[0].name == "bas")		{sprite2.position.y -= 6}
-		// if(intersects[0].object.material[0].name == "devant")	{sprite2.position.z += 6}
-		// if(intersects[0].object.material[0].name == "derriere")	{sprite2.position.z -= 6}
-		//sprite2.position.copy(intersects[0].point.clone().normalize().multiplyScalar(50));
-		//scene.add(sprite2);
-		
-		
-		// sprite2.scale.multiplyScalar(5) // aggrandit la taille du sprite
-		// sprite2.name = nVarNom;
-		// cube.saveSprites(sprite2,nVarInfo, nVarEtape,camera)
+
+		cube.ToggleSprite();
 	}
-	else //sinon l'image passe verte car édition == 1
+	else //sinon c'est qu'on est en ready et on passe en start
 	{
 		cube.createSprite = 'start'
 		//document.getElementById("btnSprite").src = "http://127.0.0.1:8000/image/machine/ampouleverte.png";
@@ -562,36 +509,66 @@ function onClick(e)
 /////////////////////////////////////////////////////////////////////////////////	
 }		
 
-
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////ON RESIZE  //////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function onResize()
 {
-	//renderer.setSize(windowWidth, windowHeight)
-	//camera.aspect = windowWidth / windowHeight;
+
 	if(window.innerWidth > 768)
 	{
-		ratio = 9/12;
-		menuSmall.classList.add('is-active');
+		console.log("mode Ordi");
+		ecartWidthMenuCanvas = window.innerWidth - renderer.context.drawingBufferWidth; //Récupère la position en X où commence le modele 3D
+		ecartHeightMenuCanvas = menuHautSizeHeight.offsetHeight; // Récupère la hauteur du menu d'en haut. Le modele 3D est juste en dessous
+		
+		ratio = 1/3;
 		windowWidth = window.innerWidth*ratio;
-		windowHeight = window.innerHeight  - barreDuHaut;
-		renderer.setSize(window.innerWidth*ratio, windowHeight);
-		camera.aspect = window.innerWidth*ratio / windowHeight;
+		windowHeight = (window.innerHeight  - ecartHeightMenuCanvas) * ratioHeight; 
+		
+		///////PLACEMENT DES BOUTONS DE NAVIGATIONS ////////////////////////////////////
+		btnCameraFaceCube.style.top = ecartHeightMenuCanvas + windowHeight +'px';
+		btnCameraFaceCube.style.right = windowWidth/2 - 30 + 'px';
+		////////////////////////////////////////////////////////////////////////////////
+		menuSmall.classList.add('is-active'); // Place le menu a gauche
+
+
+		renderer.setSize(windowWidth, windowHeight);//Redimensionne le modele 3D en prenant la page - la barre du haut * le ratio de 1/3
+		camera.aspect = windowWidth / windowHeight;
+		
+		//////RAPPEL CAR BUG QUAND ON PASSE DE FENETRE A PLEIN ECRAN ///////////////////////////////////////////////////////////////////////////////
+		ecartWidthMenuCanvas = window.innerWidth - renderer.context.drawingBufferWidth; //Récupère la position en X où commence le modele 3D
+		ecartHeightMenuCanvas = menuHautSizeHeight.offsetHeight; // Récupère la hauteur du menu d'en haut. Le modele 3D est juste en dessous
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		menuSmall.style.height = (window.innerHeight - menuHautSizeHeight.offsetHeight) +'px';
 		
 	}
-	else
+	else	// Mode telephone
 	{
-		//menuSmall.style.top = ((-1*p.y + 1) * windowHeight/2) + 'px';
-		//menuSmall.style.left = (p.x+1)* windowWidth/2 + 'px';
+		console.log("mode telephone");
+		menuSmall.classList.remove('is-active'); // place le menu d'affichage au dessus
 
-		menuSmall.classList.remove('is-active');
+		ecartWidthMenuCanvas = 0 ;//Récupère la position en X où commence le modele 3D
+		
+		///////PLACEMENT DES BOUTONS DE NAVIGATIONS ////////////////////////////////////
+		btnCameraFaceCube.style.top = window.innerHeight- 30 +'px';
+		btnCameraFaceCube.style.right = windowWidth/2 - 30 + 'px';
+		////////////////////////////////////////////////////////////////////////////////
+		ecartHeightMenuCanvas =   AdminRow2.offsetHeight + pageHeader.offsetHeight; // Récupère la hauteur du menu du haut
 		windowWidth = window.innerWidth;
-		console.log(window.innerWidth);
-		windowHeight = window.innerHeight - barreDuHaut;
-		renderer.setSize(window.innerWidth, window.innerHeight);
-		camera.aspect = window.innerWidth / window.innerHeight;
-
+		windowHeight = window.innerHeight - ecartHeightMenuCanvas;
+		renderer.setSize(window.innerWidth, windowHeight);
+		camera.aspect = window.innerWidth / (windowHeight);
+		//menuSmall.style.height = (window.innerHeight - 306) +'px';
+		//ecartHeightMenuCanvas = window.innerHeight - renderer.context.drawingBufferHeight; // Récupère la hauteur du menu d'en haut. Le modele 3D est juste en dessous
+		
 	}
-	
+	//////// Affichage du menu ////////////////////////////////
+
+	///////////////////////////////////////////////////////////
+	//console.log("menuHautSizeHeight.offsetHeight");console.log(menuHautSizeHeight.offsetHeight);
+
 	camera.updateProjectionMatrix();
 
 }
@@ -622,37 +599,44 @@ var animate = function () {
 	camera.updateProjectionMatrix();
 	renderer.render(scene, camera);
 }
-
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////              ON MOUSE MOVE     /////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function onMouseMove(e)
 {
-	
 	let mouse = new THREE.Vector2(
 			( (e.clientX-ecartWidthMenuCanvas) / windowWidth ) * 2 - 1,
 			- ( (e.clientY-ecartHeightMenuCanvas) / windowHeight) * 2 + 1 
 		);
-	console.log(e.clientY);
-		
+
 	rayCaster.setFromCamera(mouse, camera);
 	let foundSprite = false;
 	
 	let intersects = rayCaster.intersectObjects(scene.children); // Regarde ce qui rencontre les "enfants" de la scène: tooltip, sphère...
-	//console.log(intersects)
+
 	
 	intersects.forEach(function(intersect){
 		if(intersect.object.type === 'Sprite')
 		{
 			let p = intersect.object.position.clone().project(camera); // Je récupère la position du sprite et je la projette sur la caméra.
 			//c'est la position x et y qui nous intéresse
-			tooltip.style.top = ((-1*p.y + 1) * windowHeight/2) + 'px';
-			tooltip.style.left = (p.x+1)* windowWidth/2 + 'px';
+			if(window.innerWidth > 768)
+			{
+				tooltip.style.top = ((-1*p.y + 1) * windowHeight/2) + ecartHeightMenuCanvas + 'px';
+			}
+			else
+			{
+				tooltip.style.top = ((-1*p.y + 1) * windowHeight/2) + ecartHeightMenuCanvas + 'px';
+			}
+			tooltip.style.left = (p.x+1)* windowWidth/2  + ecartWidthMenuCanvas +'px';
 
 			tooltip.classList.add('is-active');
 			tooltip.innerHTML = intersect.object.name;
 			spriteActive = intersect.object;
 			foundSprite = true;
 			
-
 
 			TweenLite.to(intersect.object.scale, 0.5, {
 				x:7,
@@ -674,21 +658,23 @@ function onMouseMove(e)
 
 
 }
+//switch(event)
+//{
+//case 1:
+//	break;
+//default: break,
+//}
 
 function Keyboard(event)
 {
-	var speed =0.1;
 	console.log(event);
 	if(event.keyCode == 90) //z
 	{
-		cube.rotateCube('z',speed);
-		//cube.rotateSprite('z',speed)
 		
 	}
 	if(event.keyCode == 81) //q
 	{
-		cube.rotateCube('y',speed);	
-		//cube.rotateSprite('y',speed)
+
 	}
 	if(event.keyCode == 82) //r
 	{
@@ -696,24 +682,19 @@ function Keyboard(event)
 	}
 	if(event.keyCode == 83) //s
 	{
-		console.log('s');
-		console.log(renderer);
-		//cube.rotateSprite('z',-speed)
+
 	}
 	if(event.keyCode == 68) //d
 	{
-		cube.rotateCube('y',-speed);
-		//cube.rotateSprite('y',-speed)	
+
 	}
 	if(event.keyCode == 69) //e
 	{
 		cube.ToggleSprite();
-		console.log(cube.edition);
-		console.log(cube.sprites.length);
 	}
 	if(event.keyCode == 85) //u
 	{
-		
+
 	}
 	if(event.keyCode == 46) //Delete btn suppr.
 	{
@@ -727,28 +708,12 @@ function Keyboard(event)
 	}
 	if(event.keyCode == 39) //fleche de droite;
 	{
-		//cube.positionCamera = "hello";
-		cube.positionsCamera.push(new THREE.Vector3(0, 0, 167));//devant
-		cube.positionsCamera.push(new THREE.Vector3(168, 0, 0));//droite
-		cube.positionsCamera.push(new THREE.Vector3(0, 0, -169));//derriere
-		cube.positionsCamera.push(new THREE.Vector3(-168, 0, 0));//gauche
+
 		
 	}
 	if(event.keyCode == 80) //p
 	{
 		cube.EtapeChangement(-1);
-		//if(++face >=4){face=0} ;
-		//console.log(cube.positionsCamera[0].x)
-		
-		//camera..y = 0.5;
-		
-		//controls.target.set(0,0,0);
-		//controls.reset();
-		//camera.lookAt(cube.positionsCamera[face]);
-		
-		
-		
-		
 		
 		// face x: 3.140138135421474 y: 9.179542109846247 z: 196.0583993689851
 		//gauche x: -176.98011217816207 y: 9.591837108778526 z: 13.61792983146334
@@ -763,18 +728,24 @@ function Keyboard(event)
 		console.log(cube.sprites[2]);
 		console.log("sprite 4");
 		console.log(cube.sprites[4]);
-		//console.log("sprite 3");
-		//console.log(cube.sprites[2]);
-		//console.log("sprite4");
-		//console.log(cube.sprites[3]);
-		//console.log(cube.sprite.cameraPosZ);
-		//controls.saveState();
+
 	}
 	
 }
+function onScreenChange()
+{
+	console.log("Changement de fenetre");
+}
 
-animate();
-window.addEventListener('resize', onResize)
-container.addEventListener('click', onClick)
-container.addEventListener('mousemove', onMouseMove)
+
+window.addEventListener('resize', onResize);
+container.addEventListener('webkitfullscreenchange', onScreenChange);
+container.addEventListener('click', onClick);
+container.addEventListener('mousemove', onMouseMove);
 container.addEventListener('keydown', Keyboard, false);
+onResize();
+animate();
+
+
+
+
