@@ -562,7 +562,7 @@ function onResize()
 	//////// Affichage du menu ////////////////////////////////
 
 	///////////////////////////////////////////////////////////
-	console.log("menuHautSizeHeight.offsetHeight");console.log(menuHautSizeHeight.offsetHeight);
+	//console.log("menuHautSizeHeight.offsetHeight");console.log(menuHautSizeHeight.offsetHeight);
 
 	camera.updateProjectionMatrix();
 
