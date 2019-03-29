@@ -21,7 +21,7 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use App\Repository\UserRepository;
-
+use App\Form\ResetPasswordMailFormType;
 
 class SecurityController extends AbstractController
 {
@@ -129,7 +129,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/MotDePasseOublie", name="MotDePasseOublie")
      */
-    public function MdpOublie(Request $request, UserRepository $uR, EntityManagerInterface $em)
+    public function MdpOublie(Request $request, UserRepository $uR, EntityManagerInterface $em, \Swift_Mailer $mailer)
     {
         $form = $this->createformBuilder()
         ->add('email', EmailType::class)
@@ -138,17 +138,51 @@ class SecurityController extends AbstractController
         if($form->isSubmitted() && $form->isValid())
         {
             $user = $uR->findOneBy(['email' => $form->getData()['email']]);
-            dd($user);
+            //dd($user);
             if($user !== null)
             {
                 $token = uniqid();
                 $user->setResetPassword($token);
                 $em->persist($user);
                 $em->flush();
+                
+                
+                $lien = 'http://10.100.0.78:8000/resetPasswordMail/'.$token;
+                //dd($lien);
+                $message = (new \Swift_Message('Réinitilisation Mot de passe Farella'))
+                ->setFrom('farellaBTS921@gmail.com')
+                ->setTo($user->getEmail())
+                ->setBody($lien,'text');
+                $mailer->send($message);
+                return $this->redirectToRoute('app_login');
             }
 
             
         }
         return $this->render('security/forgotPassword.html.twig',['form'=> $form->createView()]);
+    }
+    /**
+     * @Route("/resetPasswordMail/{uniqId}",name="resetPassword_Mail")
+     */
+    public function resetPasswordMail($uniqId,UserRepository $uR, EntityManagerInterface $em, Request $request)
+    {
+        $user = $uR->findOneBy(['resetPassword' => $uniqId]);
+        if($user !== null)
+        {
+            $form = $this->createForm(ResetPasswordMailFormType::class);
+            $form->handleRequest($request);                                                 //On récupère les requêtes du premier form
+            if($form->isSubmitted() && $form->isValid())
+            { 
+                $user->setPassword($this->passwordEncoder->encodePassword($user ,$form->getData()['password']));
+                $user->setResetPassword(null);
+                $em->persist($user);
+                $em->flush();
+                
+                return $this->redirectToRoute('Home');
+            }
+            
+            return $this->render('security/resetPasswordMail.html.twig',['form' => $form->createView()]);
+        }
+        return $this->redirectToRoute('Home');
     }
 }
