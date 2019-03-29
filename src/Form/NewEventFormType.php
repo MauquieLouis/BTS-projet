@@ -3,9 +3,12 @@
 namespace App\Form;
 
 use App\Entity\Event;
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
 
 class NewEventFormType extends AbstractType
 {
@@ -14,8 +17,8 @@ class NewEventFormType extends AbstractType
         $builder
             ->add('title')
             ->add('description')
-            ->add('usersid')
-            ->add('machinesid')
+            ->add('usersid', EntityType::class, ['class'=>User::class, 'choice_label'=>function(User $user){return $user->getEmail();}])
+           // ->add('machinesid', EntityType::class, ['class'=>Machine::class, 'choice_label'=>function(Machine $machine){return $user->getId();}])
             ->add('dateStart')
             ->add('frequence')
         ;
