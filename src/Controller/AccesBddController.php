@@ -20,12 +20,11 @@ class AccesBddController extends AbstractController
     public function SendEvent(EventRepository $repo){
         $repo = $this->getDoctrine()->getRepository(Event::class);
         $table = $repo->findAll();
-        
+
         $tabl = array();
         $j = 0;
-        
         for ($i=0; $i < sizeof($table); $i++){
-            $tabl[$i][$j++] = $table[$i]->getId();
+            $tabl[$i][$j] = $table[$i]->getId();
             $tabl[$i][$j++] = $table[$i]->getTitle();
             $tabl[$i][$j++] = $table[$i]->getDescription();
             $tabl[$i][$j++] = $table[$i]->getUsersid();
@@ -33,6 +32,7 @@ class AccesBddController extends AbstractController
             $tabl[$i][$j++] = $table[$i]->getDateStart();
             $tabl[$i][$j++] = $table[$i]->getDateEnd();
             $tabl[$i][$j++] = $table[$i]->getFrequence();
+            $j=0;
         }
         
         $message = json_encode($tabl);
@@ -52,10 +52,11 @@ class AccesBddController extends AbstractController
         
         $j = 0;
         for ($i=0; $i < sizeof($table); $i++){
-            $tabl[$i][$j++] = $table[$i]->getId();
+            $tabl[$i][$j] = $table[$i]->getId();
             $tabl[$i][$j++] = $table[$i]->getName();
             $tabl[$i][$j++] = $table[$i]->getDescription();
             $tabl[$i][$j++] = $table[$i]->getImagefilename();
+            $j=0;
         }
         
         $message = json_encode($tabl);
@@ -81,6 +82,7 @@ class AccesBddController extends AbstractController
             $tabl[$i][$j++] = $table[$i]->getNom();
             $tabl[$i][$j++] = $table[$i]->getPrenom();
             $tabl[$i][$j++] = $table[$i]->getDatecreation();
+            $j=0;
         }
         
         $message = json_encode($tabl);
