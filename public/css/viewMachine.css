@@ -1,7 +1,8 @@
 .btnPositionduCube
 {
-	border: 2px solid green;
+/* 	border: 2px solid green; */
 	position : absolute;
+	z-index: 1;
 	
 }
 .enveloppe

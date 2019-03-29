@@ -284,6 +284,12 @@ var menuHautSizeHeight = document.getElementById("container-fluid"); // récupé
 const menuSmall = document.querySelector('.menu2'); // récupérer la classe de l'élément .menu2 (css)
 menuSmall.classList.add('is-active'); // mise en position absolu du menu.
 
+const AdminRow2 = document.querySelector('.AdminRow2');
+console.log("AdminRow2");console.log(AdminRow2.offsetHeight);
+
+const pageHeader = document.getElementById('page-header');
+console.log("pageHeader");console.log(pageHeader.offsetHeight);
+
 var spriteActive = false;
 
 var ecartWidthMenuCanvas = 850;
@@ -546,17 +552,16 @@ function onResize()
 		ecartWidthMenuCanvas = 0 ;//Récupère la position en X où commence le modele 3D
 		
 		///////PLACEMENT DES BOUTONS DE NAVIGATIONS ////////////////////////////////////
-		btnCameraFaceCube.style.top = window.innerHeight-40 +'px';
+		btnCameraFaceCube.style.top = window.innerHeight- 30 +'px';
 		btnCameraFaceCube.style.right = windowWidth/2 - 30 + 'px';
 		////////////////////////////////////////////////////////////////////////////////
-		
+		ecartHeightMenuCanvas =   AdminRow2.offsetHeight + pageHeader.offsetHeight; // Récupère la hauteur du menu du haut
 		windowWidth = window.innerWidth;
-		windowHeight = 300;
-		
+		windowHeight = window.innerHeight - ecartHeightMenuCanvas;
 		renderer.setSize(window.innerWidth, windowHeight);
 		camera.aspect = window.innerWidth / (windowHeight);
-		menuSmall.style.height = (window.innerHeight - 306) +'px';
-		ecartHeightMenuCanvas = window.innerHeight - renderer.context.drawingBufferHeight; // Récupère la hauteur du menu d'en haut. Le modele 3D est juste en dessous
+		//menuSmall.style.height = (window.innerHeight - 306) +'px';
+		//ecartHeightMenuCanvas = window.innerHeight - renderer.context.drawingBufferHeight; // Récupère la hauteur du menu d'en haut. Le modele 3D est juste en dessous
 		
 	}
 	//////// Affichage du menu ////////////////////////////////
@@ -623,7 +628,7 @@ function onMouseMove(e)
 			}
 			else
 			{
-				tooltip.style.top = ((-1*p.y + 1) * windowHeight/2) + window.innerHeight + 'px';
+				tooltip.style.top = ((-1*p.y + 1) * windowHeight/2) + ecartHeightMenuCanvas + 'px';
 			}
 			tooltip.style.left = (p.x+1)* windowWidth/2  + ecartWidthMenuCanvas +'px';
 
