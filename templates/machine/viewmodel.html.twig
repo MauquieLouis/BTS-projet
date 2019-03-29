@@ -17,7 +17,7 @@
 	</div>
 	<div class="row ">
 
-			<canvas id="myCanvasElement" class="col-12 offset-md-3 col-md-9" width="500" height="300"></canvas>
+			<canvas id="myCanvasElement" class="col-12 offset-md-3 col-md-9 d-none d-md-block" width="500" height="300"></canvas>
 			<div class="btnPositionduCube">
 				<button onClick="cube.cubeMove(-1)" class="posCube"> < </button><button class="posCube" onClick="cube.cubeMove(1)"> > </button></br>
 			</div>
@@ -27,6 +27,7 @@
                     <button onClick="cube.moveSprite('x', 2)">+x</button><button onClick="cube.moveSprite('x', -2)">-x</button>
                     <button onClick="cube.moveSprite('y', 2)">+y</button><button onClick="cube.moveSprite('y', -2)">-y</button>
                     <button onClick="cube.moveSprite('z', 2)">+z</button><button onClick="cube.moveSprite('z', -2)">-z</button>
+                    <button class ="btn btn-secondary d-md-none" onclick="showModele();" type="button">Affichage Modèle 3D</button>
                 </div>
             
             	<button onclick="cube.ToggleSprite()" class="SpriteNbr spriteCreate"><img id="btnSprite" class="buttonSprite SpriteNbr" src="../../image/machine/ampoule.png" width="50" height="30">Sprite</button>
@@ -76,4 +77,11 @@
 		<div class="col-12 col-md-9">
     		<script src="{{ asset('Js/machine.js')}}"></script>
 		</div>
+		<script>
+			function showModele()
+			{
+				modele = document.getElementById('myCanvasElement');
+				modele.classList.contains("d-none") ? modele.classList.remove('d-none') : modele.classList.add('d-none');
+			}
+		</script>
 {% endblock %}
