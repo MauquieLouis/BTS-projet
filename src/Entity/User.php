@@ -49,6 +49,11 @@ class User implements UserInterface /*, EquatableInterface*/
      * @ORM\Column(type="date", nullable=true)
      */
     private $datecreation;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $resetPassword;
     
     
     public function getId(): ?int
@@ -162,6 +167,18 @@ class User implements UserInterface /*, EquatableInterface*/
     {
         $this->datecreation = $datecreation;
         
+        return $this;
+    }
+
+    public function getResetPassword(): ?string
+    {
+        return $this->resetPassword;
+    }
+
+    public function setResetPassword(?string $resetPassword): self
+    {
+        $this->resetPassword = $resetPassword;
+
         return $this;
     }
     

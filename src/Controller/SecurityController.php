@@ -19,6 +19,8 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use App\Repository\UserRepository;
 
 
 class SecurityController extends AbstractController
@@ -120,5 +122,33 @@ class SecurityController extends AbstractController
             }
         }
         return $this->render('security/changeMdp.html.twig', ['controller_name' => "Réinitialisation Mot de passe", 'form' => $form->createView()]);
+    }
+    ///////////////////////////////////////////////////////////
+    //-----------------------MDP OUBLIE----------------------//
+    ///////////////////////////////////////////////////////////
+    /**
+     * @Route("/MotDePasseOublie", name="MotDePasseOublie")
+     */
+    public function MdpOublie(Request $request, UserRepository $uR, EntityManagerInterface $em)
+    {
+        $form = $this->createformBuilder()
+        ->add('email', EmailType::class)
+        ->getForm();
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $user = $uR->findOneBy(['email' => $form->getData()['email']]);
+            dd($user);
+            if($user !== null)
+            {
+                $token = uniqid();
+                $user->setResetPassword($token);
+                $em->persist($user);
+                $em->flush();
+            }
+
+            
+        }
+        return $this->render('security/forgotPassword.html.twig',['form'=> $form->createView()]);
     }
 }
