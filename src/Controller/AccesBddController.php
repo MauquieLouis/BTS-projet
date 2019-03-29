@@ -20,18 +20,19 @@ class AccesBddController extends AbstractController
     public function SendEvent(EventRepository $repo){
         $repo = $this->getDoctrine()->getRepository(Event::class);
         $table = $repo->findAll();
-
+        
         $tabl = array();
-
+        $j = 0;
+        
         for ($i=0; $i < sizeof($table); $i++){
-            $tabl[$i][0] = $table[$i]->getId();
-            $tabl[$i][1] = $table[$i]->getTitle();
-            $tabl[$i][2] = $table[$i]->getDescription();
-            $tabl[$i][3] = $table[$i]->getUsersid();
-            $tabl[$i][4] = $table[$i]->getMachinesid();
-            $tabl[$i][6] = $table[$i]->getDateStart();
-            $tabl[$i][6] = $table[$i]->getDateEnd();
-            $tabl[$i][6] = $table[$i]->getFrequence();
+            $tabl[$i][$j++] = $table[$i]->getId();
+            $tabl[$i][$j++] = $table[$i]->getTitle();
+            $tabl[$i][$j++] = $table[$i]->getDescription();
+            $tabl[$i][$j++] = $table[$i]->getUsersid();
+            $tabl[$i][$j++] = $table[$i]->getMachinesid();
+            $tabl[$i][$j++] = $table[$i]->getDateStart();
+            $tabl[$i][$j++] = $table[$i]->getDateEnd();
+            $tabl[$i][$j++] = $table[$i]->getFrequence();
         }
         
         $message = json_encode($tabl);
@@ -48,17 +49,18 @@ class AccesBddController extends AbstractController
         $table = $repo->findAll();
 
         $tabl = array();
-
+        
+        $j = 0;
         for ($i=0; $i < sizeof($table); $i++){
-            $tabl[$i][0] = $table[$i]->getId();
-            $tabl[$i][1] = $table[$i]->getName();
-            $tabl[$i][2] = $table[$i]->getDescription();
-            $tabl[$i][3] = $table[$i]->getImagefilename();
+            $tabl[$i][$j++] = $table[$i]->getId();
+            $tabl[$i][$j++] = $table[$i]->getName();
+            $tabl[$i][$j++] = $table[$i]->getDescription();
+            $tabl[$i][$j++] = $table[$i]->getImagefilename();
         }
         
         $message = json_encode($tabl);
         echo ($message);
-
+        
         return $this->render('acces_bdd/index.html.twig');
     }
 
@@ -70,19 +72,19 @@ class AccesBddController extends AbstractController
         $table = $repo->findAll();
 
         $tabl = array();
-
+        $j = 0;
         for ($i=0; $i < sizeof($table); $i++){
-            $tabl[$i][0] = $table[$i]->getId();
-            $tabl[$i][1] = $table[$i]->getEmail();
-            $tabl[$i][2] = $table[$i]->getUsername();
-            $tabl[$i][3] = $table[$i]->getRoles();
-            $tabl[$i][4] = $table[$i]->getPassword();
-            $tabl[$i][6] = $table[$i]->getNom();
-            $tabl[$i][6] = $table[$i]->getPrenom();
-            $tabl[$i][6] = $table[$i]->getDatecreation();
+            $tabl[$i][$j] = $table[$i]->getId();
+            $tabl[$i][$j++] = $table[$i]->getEmail();
+            $tabl[$i][$j++] = $table[$i]->getUsername();
+            $tabl[$i][$j++] = $table[$i]->getRoles();
+            $tabl[$i][$j++] = $table[$i]->getNom();
+            $tabl[$i][$j++] = $table[$i]->getPrenom();
+            $tabl[$i][$j++] = $table[$i]->getDatecreation();
         }
         
         $message = json_encode($tabl);
+
         echo ($message);
 
         return $this->render('acces_bdd/index.html.twig');

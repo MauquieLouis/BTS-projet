@@ -7,12 +7,12 @@ var table = {
 				table.retour = JSON.parse(this.responseText);
 			}
 		};
-
+		
 		switch(String(selected)){
 			case "event":
 				xhReq.open("post","accesbdd/sendevent",false);		//arg2 url de l'echo de la table SQl recuperé un PHP
 			break;
-
+			
 			case "machine":
 				xhReq.open("post","accesbdd/sendmachine",false);	//arg2 url de l'echo de la table SQl recuperé un PHP
 			break;
@@ -20,7 +20,7 @@ var table = {
 			case "user":
 				xhReq.open("post","accesbdd/senduser",false);	//arg2 url de l'echo de la table SQl recuperé un PHP
 			break;
-
+			
 			default:
 				console.log("table::initTable::switch(selected) => DROP TO DEFAULT");
 			break;
