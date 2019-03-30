@@ -3,13 +3,13 @@
 {% block title %}Admin{% endblock %}
 
 {% block body %}
-	<div class="row AdminRow2">
-    	<div class="col-12 offset-md-3 col-md-6 AdminRow1 TitlePage">	
+	<div class="row BorderJaune">
+    	<div class="col-12 offset-md-3 col-md-6 BorderRouge TitlePage">	
 			<h1>Edition Utilisateur {{ user.Nom }}</h1>
 		</div>
 	</div>
 	<div class="row">
-		<div class="row col-12 offset-md-3 col-md-6 displayRow titreFormulaire"><h3>Modifier les Informations</h3></div>
+		<div class="row col-12 offset-md-3 col-md-6 BorderBleu titreFormulaire"><h3>Modifier les Informations</h3></div>
 		<div class="col-12 offset-md-3 col-md-6 formPart" id="formEdit">
 			{{ form_start(form) }}
 				<div class="row">
@@ -45,8 +45,8 @@
 		</div>
 	</div>
 	<div class="row sectionRoww">
-		<div class="row col-12 offset-md-3 col-md-6 displayRow titreFormulaire"><h3>Changer les droits</h3></div>
-		<div class="row col-12 offset-md-3 col-md-6 displayRow formPart">
+		<div class="row col-12 offset-md-3 col-md-6 BorderVert titreFormulaire"><h3>Changer les droits</h3></div>
+		<div class="row col-12 offset-md-3 col-md-6 BorderVert formPart">
 			<div class="col-11 offset-md-1 col-md-10"><h4>Rôles actuel :</h4>
 			
         		{% for roles in user.roles %}
@@ -77,7 +77,7 @@
 	    </div>
 	</div>
 	<div class="row">
-		<div class="row col-12 offset-md-3 col-md-6 displayRow titreFormulaire"><h3>Suppression compte</h3></div>
+		<div class="row col-12 offset-md-3 col-md-6 BorderViolet titreFormulaire"><h3>Suppression compte</h3></div>
     	<div class="col-12 offset-md-3 col-md-6 formPart">
     		<div class="col-11 offset-md-1 col-md-10">
         		<button class="btn btn-danger" onclick="DeleteAccount();"><i class="fas fa-trash-alt"></i> Supprimer le compte</button>

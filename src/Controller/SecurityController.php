@@ -147,14 +147,20 @@ class SecurityController extends AbstractController
                 $em->flush();
                 
                 
-                $lien = 'http://10.100.0.78:8000/resetPasswordMail/'.$token;
+                $lien = 'http://localhost:8000/resetPasswordMail/'.$token;
                 //dd($lien);
                 $message = (new \Swift_Message('Réinitilisation Mot de passe Farella'))
                 ->setFrom('farellaBTS921@gmail.com')
                 ->setTo($user->getEmail())
                 ->setBody($lien,'text');
                 $mailer->send($message);
+                $this->addFlash('info','Mail bien envoyé !');
                 return $this->redirectToRoute('app_login');
+            }
+            {
+                $this->addFlash('danger','Email introuvable !');
+                $this->addFlash('warning','Peut-être avez vous mal tapé(e) votre email');
+                return $this->redirectToRoute('MotDePasseOublie');
             }
 
             

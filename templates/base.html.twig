@@ -66,17 +66,17 @@
       		<!-- /////////////////////////////////////////////////////////////////////////////////// -->
       		<!-- //==============================MESSAGE FLASH====================================// -->
       		<!-- /////////////////////////////////////////////////////////////////////////////////// -->
-            {% for message in app.flashes('success') %}
-            	<div class = "alert alert-success flashmessage"> {{ message }}</div> 
-            {% endfor %}
             {% for message in app.flashes('danger') %}
            		<div class = "alert alert-danger flashmessage"> {{ message }}</div> 
             {% endfor %}
-            {% for message in app.flashes('info') %}
-           		<div class = "alert alert-info flashmessage"> {{ message }}</div> 
-            {% endfor %}
             {% for message in app.flashes('warning') %}
            		<div class = "alert alert-warning flashmessage"> {{ message }}</div> 
+            {% endfor %}
+            {% for message in app.flashes('success') %}
+            	<div class = "alert alert-success flashmessage"> {{ message }}</div> 
+            {% endfor %}
+            {% for message in app.flashes('info') %}
+           		<div class = "alert alert-info flashmessage"> {{ message }}</div> 
             {% endfor %}
             <!-- ////////////////////////////////////////////////////////////////////////////////// -->
             {% block body %}   
