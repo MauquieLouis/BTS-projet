@@ -88,9 +88,11 @@ class AdminController extends AbstractController
         {
             
             $resultat =$form->getData()['Recherche'];
-            $rechercheResultatsNom = $userRepository->findBy(['Nom' => $resultat]);
-            $rechercheResultatsPrenom = $userRepository->findBy(['prenom'=> $resultat]);
-            $rechercheResultatsMail = $userRepository->findBy(['email'=> $resultat]);
+            $rechercheResultatsNom = $userRepository->loadByElementBegin('Nom',$resultat);              //Les trois lignes sont des requêtes personnalisées
+            $rechercheResultatsPrenom = $userRepository->loadByElementBegin('prenom',$resultat);           //Elles récupèrent tout les champs commencant par
+            $rechercheResultatsMail = $userRepository->loadByElementBegin('email',$resultat);            //le résultat de la recherche.
+            //$rechercheResultatsPrenom = $userRepository->findBy(['prenom'=> $resultat]);
+            //$rechercheResultatsMail = $userRepository->findBy(['email'=> $resultat]);
             $rechercheResultats = [];
             foreach($rechercheResultatsNom as $recherche)
             {

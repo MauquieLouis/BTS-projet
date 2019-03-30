@@ -38,6 +38,19 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         ->getResult();
     }
     
+    public function loadByElementBegin($column, $param)
+    {
+        return $this->createQueryBuilder('u')
+        ->andwhere('u.'.$column.' like :param')
+        ->setParameter('param',$param.'%')
+        ->orderBy('u.Nom', 'ASC')
+        ->getQuery()
+        ->getResult();
+    }
+    
+
+
+    
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

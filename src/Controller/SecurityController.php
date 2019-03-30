@@ -185,7 +185,7 @@ class SecurityController extends AbstractController
             $actualDate = (new \DateTime);
             if($actualDate > $date)
             {
-                $this->addFlash('warning', 'Le délai de la clée unique a expiré ! (Rappel: une fois le mail envoyé vous avez XX temps pour changer votre mot de passe)');
+                $this->addFlash('warning', 'Le délai de la clé unique a expiré ! (Rappel: une fois le mail envoyé vous avez XX temps pour changer votre mot de passe)');
                 $user->setResetPassword(null);
                 $em->persist($user);
                 $em->flush();
@@ -197,7 +197,7 @@ class SecurityController extends AbstractController
             { 
                 if($actualDate > $date)
                 {
-                    $this->addFlash('warning', 'Le délai de la clée unique a expiré ! (Rappel: une fois le mail envoyé vous avez XX temps pour changer votre mot de passe)');
+                    $this->addFlash('warning', 'Le délai de la clé unique a expiré ! (Rappel: une fois le mail envoyé vous avez XX temps pour changer votre mot de passe)');
                     $user->setResetPassword(null);
                     $em->persist($user);
                     $em->flush();
@@ -213,7 +213,7 @@ class SecurityController extends AbstractController
             
             return $this->render('security/resetPasswordMail.html.twig',['form' => $form->createView()]);
         }
-        $this->addFlash('danger','Erreur : resetPasswordMail => aucune clé n\'a été trouvé !');
+        $this->addFlash('danger','Erreur : Changement de mot de passe impossible, aucune clé n\'a été trouvé ! (Essayez de renvoyer un mail)');
         return $this->redirectToRoute('app_login');
     }
 }
