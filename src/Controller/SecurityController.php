@@ -141,13 +141,16 @@ class SecurityController extends AbstractController
             //dd($user);
             if($user !== null)
             {
+                $date = new \DateTime();
+                $date->modify('+2 hour');
                 $token = uniqid();
-                $user->setResetPassword($token);
+                $identificateur = $date->format('Y-m-d$H:i:s').'!'.$token;
+                $user->setResetPassword($identificateur);
                 $em->persist($user);
                 $em->flush();
                 
                 
-                $lien = 'http://localhost:8000/resetPasswordMail/'.$token;
+                $lien = 'http://localhost:8000/resetPasswordMail/'.$identificateur;
                 //dd($lien);
                 $message = (new \Swift_Message('Réinitilisation Mot de passe Farella'))
                 ->setFrom('farellaBTS921@gmail.com')
@@ -170,25 +173,47 @@ class SecurityController extends AbstractController
     /**
      * @Route("/resetPasswordMail/{uniqId}",name="resetPassword_Mail")
      */
-    public function resetPasswordMail($uniqId,UserRepository $uR, EntityManagerInterface $em, Request $request)
+    public function resetPasswordMail($uniqId, UserRepository $uR, EntityManagerInterface $em, Request $request)
     {
         $user = $uR->findOneBy(['resetPassword' => $uniqId]);
         if($user !== null)
         {
+            $date = (explode("!",$uniqId))[0];
+            $date = (explode("$",$date));
+            $date = $date[0]." ".$date[1];
+            $date = new \DateTime($date);
+            $actualDate = (new \DateTime);
+            if($actualDate > $date)
+            {
+                $this->addFlash('warning', 'Le délai de la clée unique a expiré ! (Rappel: une fois le mail envoyé vous avez XX temps pour changer votre mot de passe)');
+                $user->setResetPassword(null);
+                $em->persist($user);
+                $em->flush();
+                return $this->redirectToRoute('app_login');
+            }
             $form = $this->createForm(ResetPasswordMailFormType::class);
             $form->handleRequest($request);                                                 //On récupère les requêtes du premier form
             if($form->isSubmitted() && $form->isValid())
             { 
+                if($actualDate > $date)
+                {
+                    $this->addFlash('warning', 'Le délai de la clée unique a expiré ! (Rappel: une fois le mail envoyé vous avez XX temps pour changer votre mot de passe)');
+                    $user->setResetPassword(null);
+                    $em->persist($user);
+                    $em->flush();
+                    return $this->redirectToRoute('app_login');
+                }
                 $user->setPassword($this->passwordEncoder->encodePassword($user ,$form->getData()['password']));
                 $user->setResetPassword(null);
                 $em->persist($user);
                 $em->flush();
-                
-                return $this->redirectToRoute('Home');
+                $this->addFlash('success','Mot de passe changé avec succès !');
+                return $this->redirectToRoute('app_login');
             }
             
             return $this->render('security/resetPasswordMail.html.twig',['form' => $form->createView()]);
         }
-        return $this->redirectToRoute('Home');
+        $this->addFlash('danger','Erreur : resetPasswordMail => aucune clé n\'a été trouvé !');
+        return $this->redirectToRoute('app_login');
     }
 }
