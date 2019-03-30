@@ -3,9 +3,16 @@
 {% block title %}Acceuil{% endblock %}
 
 {% block body %}
-	<div class="row">
- 		<script src="{{ asset('bootstrap/Js/jquery.js') }}"></script>
- 		<script src="Js/Ajaxreceive.js"></script>
-		<script src="{{ asset('Js/calendar.js') }}"></script>
+	<div class="row BorderJaune">
+		<div class="col-12">
+     		<script src="{{ asset('bootstrap/Js/jquery.js') }}"></script>
+     		<script src="Js/Ajaxreceive.js"></script>
+    		<div class="col-12 offset-md-4 col-md-4 BorderRouge">
+    		<script src="{{ asset('Js/calendar.js') }}"></script>
+    			<form name="calForm">
+    			
+    			</form>
+    		</div>
+		</div>
 	</div>
 {% endblock %} 

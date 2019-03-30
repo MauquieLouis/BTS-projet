@@ -35,33 +35,40 @@
     					{% endif %}
     				</div>
 				</div>
-				<div class="row">
-					<div class="col-12 col-md-3 titreBoutons">
-    					 {% if is_granted('ROLE_ADMIN') %}
-    						<a href="{{ path('admin_UserControl') }}"><h2>Gestion Utilisateurs</h2></a>
-      				    {% else %}
-    						<h2>Btnn1</h2>
-      				    {% endif %}
-    				</div>
-    				<div class="col-12 col-md-3 titreBoutons">
-    					 {% if is_granted('ROLE_ADMIN') %}
-    						<a href="#"><h2>Gestion Machines</h2></a>
-      				    {% else %}
-    						<h2>Btnn2</h2>
-      				    {% endif %}
-    				</div>
-    				<div class="col-12 col-md-3 titreBoutons">
-    					 {% if is_granted('ROLE_ADMIN') %}
-    						<a href="{{ path('event') }}"><h2>Créer un évènement</h2></a>
-      				    {% else %}
-    						<h2>Btnn2</h2>
-      				    {% endif %}
-    					
-    				</div>
-    				<div class="col-12 col-md-3 titreBoutons">
-    					<h2>Futur Bouton 4</h2>
-    				</div>
-				</div>		
+    				{% if is_granted('ROLE_USER') %}
+        				<div class="row BorderViolet titreBoutons menuLienEntier" id="menuLienEntier">
+        					<div class="col-12">
+        						<i class="fas fa-bars iconMenuLien" onclick="OpenMenuLien(); isOpenLien = isOpenLien ? false : true;"></i>
+                				<div class="row menuLien BorderVert menuLien" id="menuLien">   					
+                					<div class="col-12 col-md-3 ">
+                    					 {% if is_granted('ROLE_ADMIN') %}
+                    						<a href="{{ path('admin_UserControl') }}"><h2>Gestion Utilisateurs</h2></a>
+                      				    {% else %}
+                    						<h2>Btnn1</h2>
+                      				    {% endif %}
+                    				</div>
+                        				<div class="col-12 col-md-3 ">
+                        					 {% if is_granted('ROLE_ADMIN') %}
+                        						<a href="#"><h2>Gestion Machines</h2></a>
+                          				    {% else %}
+                        						<h2>Btnn2</h2>
+                          				    {% endif %}
+                        				</div>
+                        				<div class="col-12 col-md-3 ">
+                        					 {% if is_granted('ROLE_ADMIN') %}
+                        						<a href="{{ path('event') }}"><h2>Créer un évènement</h2></a>
+                          				    {% else %}
+                        						<h2>Btnn2</h2>
+                          				    {% endif %}
+                        					
+                    					</div>
+                        				<div class="col-12 col-md-3 ">
+                        					<h2>Futur Bouton 4</h2>
+                        				</div>
+                					</div>	
+            					</div>
+        					</div>
+    					{% endif %}	
       		</header> <!-- Fin du header -->
       		<!-- /////////////////////////////////////////////////////////////////////////////////// -->
       		<!-- //==============================MESSAGE FLASH====================================// -->
@@ -88,7 +95,10 @@
         {% endblock %}
         </div>
         <script>
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //------------------------------SCRIPT MENU LOGOUT + SETTINGS -----------------------------------------//
         	var isOpen = false;
+        	var isOpenLien = true;
 			icon = document.getElementById('iconSetting');
 			menu = document.getElementById('MenuUser');
 			logout = document.getElementById('logout');
@@ -105,8 +115,7 @@
  					icon.style.right = '10px';
  					logout.style.right = '-40px';
  					setting.style.right = '-40px';
- 					setTimeout(delayIcon, 850); 
-		
+ 					setTimeout(delayIcon, 700); 
 				}
 				else	//Quand on click : ouvre le menu
 				{
@@ -127,6 +136,30 @@
 				icon.style.right = '140px';
 				logout.style.right = '20px';
 				setting.style.right = '80px';
+            }
+            /////////////////////////////////////////////////////////////////////////////////////////////////
+            var isOpenLien = true;
+            menuLien = document.getElementById('menuLien');
+            menuLienEntier = document.getElementById('menuLienEntier');
+            function OpenMenuLien()
+            {
+                if(isOpenLien) //On cache le menu
+                {
+					menuLien.style.height = '0';
+					menuLienEntier.style.borderBottom = 'none';
+					hideLien();
+                }
+                else	//On affiche le Menu
+                {
+                    hideLien();
+                    menuLien.style.height = 'auto';
+                    menuLienEntier.style.transition='border-bottom 2s;'
+                    menuLienEntier.style.borderBottom = '1px solid #AAAAAA';
+                }
+            }
+            function hideLien()
+            {
+				menuLien.hidden  =  menuLien.hidden ? false : true ;
             }
         </script>
     </body>

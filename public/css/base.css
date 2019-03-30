@@ -70,12 +70,18 @@ h4
 {
 	margin-top:10px;
 }
+.iconMenuLien
+{
+	float:right;
+	margin-right:10px;
+	margin-top:5px;
+	font-size:24px;
+	color:#007BA4;
+}
 .listeBoutons
 {
 	border:solid 2px #00A1D7;
 	height:28px;
-	position:sticky;
-	top: 0;
 }
 .listeUser
 {
@@ -137,6 +143,15 @@ h4
 	height:80px;
 	background: linear-gradient(#00A1D7, #42B7DE);
 }
+.menuLien
+{
+	transition: color 1.6s;
+	z-index: -1;
+}
+.menuLienEntier
+{
+	z-index: 0;
+}
 .TitlePage
 {
 	margin-top:30px;
@@ -174,7 +189,7 @@ h4
 	margin-left:3px;
 }
 /*- = - = - = - = - = - = - = B O R D U R E S = - = - = - = - = - = - = -*/
-.BorderJaune
+/* .BorderJaune
 {
 	border: 2px solid #DFDF0C;
 }
@@ -205,5 +220,5 @@ h4
 .BorderVert
 {
 	border: 2px solid #228D0F;
-}
+} */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
