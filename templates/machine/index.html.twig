@@ -10,13 +10,16 @@
 			<a href = {{ path('modele3D', {'slug' : machine.id }) }}><div class="machine-display-home"><li><div class ="buttonText"><b></br>
 			{{ machine.name }}</b></br><div class ="auteur">Description : {{ machine.description }}</div></div></li></div></a>
 		{% endfor %}
+		{{ form_start(formMachine) }}
+      		
+      	{{ form_end(formMachine) }}
 	
-	
-    {{ form_start(formMachine) }}
-    {{ form_row(formMachine.name, {'attr':{'placeholder' : "Nom de la machine"}}) }}
-    {{ form_row(formMachine.description, {'attr':{'placeholder' : "Information sur la machine"}}) }}
-    {{ form_row(formMachine.imagefilename, {'attr':{'placeholder' : "Information sur la machine"}}) }}
-   	<button type="submit">Enregistrer</button>
-    {{ form_end(formMachine) }}
+{#     {{ form_start(formMachine) }}#}
+{#     {{ form_row(formMachine.name, {'attr':{'placeholder' : "Nom de la machine"}}) }}#}
+{#     {{ form_row(formMachine.description, {'attr':{'placeholder' : "Information sur la machine"}}) }}#}
+{#     {{ form_row(formMachine.imagefilename, {'attr':{'placeholder' : "Information sur la machine"}}) }}#}
+{# {#     {{ form_row(formMachine.Enregistrer) }}#}#}
+{#    	<button type="submit">Enregistrer</button>#}
+{#     {{ form_end(formMachine) }}#}
 	
 {% endblock %}
