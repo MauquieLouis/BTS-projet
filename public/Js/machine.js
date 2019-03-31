@@ -326,11 +326,17 @@ const spriteCreate = document.querySelector('.spriteCreate'); // récupérer la 
 var menuHautSizeHeight = document.getElementById("container-fluid"); // récupérer la classe de l'élément container-fluid (css) (ref au container-fluid)
 const menuSmall = document.querySelector('.menu2'); // récupérer la classe de l'élément .menu2 (css)
 menuSmall.classList.add('is-active'); // mise en position absolu du menu.
-
+filename
 //// Récupération de la hauteur du menu ///////////////////////////////////
 const AdminRow2 = document.querySelector('.AdminRow2');
 const pageHeader = document.getElementById('page-header');
 //////////////////////////////////////////////////////////////////////////
+
+const imageFileNameMachine = document.getElementById('filename');
+var cutFileName = imageFileNameMachine.innerHTML;
+const getMachineName = document.getElementById('machineNamed');
+var machineNamed = getMachineName.innerHTML;
+
 
 var spriteActive = false;
 
@@ -400,7 +406,7 @@ let cube = new Machines();
 	// scene: cube
 // })
 
-table.init('user');
+//table.init('user');
 //var words = table.retour[1][3].split(';');
 //console.log(table.retour[2][3]);
 //console.log(words[2]);
@@ -434,7 +440,7 @@ cube.addPoints({
 	etape : '1',
 	scene : cube
 });
-//cube.RestoreMachine(scene,table.retour[2][3],table.retour[2][1]);
+cube.RestoreMachine(scene,cutFileName,machineNamed);
 		//var image2 = new THREE.TextureLoader().load('images/machine1/derriere.jpg');
 		//var image3 = new THREE.TextureLoader().load('images/machine1/espace.jpg');
 		//var image4 = new THREE.TextureLoader().load('images/machine1/espace.jpg');
@@ -443,7 +449,7 @@ cube.addPoints({
 
 //1 devant //2 derriere //3
 
-cube.createMachine(scene,'../../image/machine/machine1/droit.jpg','../../image/machine/machine1/derriere.jpg','../../image/machine/machine1/espace.jpg','../../image/machine/machine1/espace.jpg','../../image/machine/machine1/devant.jpg','../../image/machine/machine1/derriere.jpg');
+//cube.createMachine(scene,'../../image/machine/machine1/droit.jpg','../../image/machine/machine1/derriere.jpg','../../image/machine/machine1/espace.jpg','../../image/machine/machine1/espace.jpg','../../image/machine/machine1/devant.jpg','../../image/machine/machine1/derriere.jpg');
 
 cube.appear();
 

@@ -45,7 +45,7 @@ class MachineController extends AbstractController
         $formMachine = $this->createFormBuilder($machine)     //creation du formulaire
         ->add('name', TextType::class)
         ->add('description', TextareaType::class)
-        ->add('imagefilename', TextType::class,array('attr' => array('maxlength' =>15))) //Pour un maximum de 15 caract�res
+        ->add('imagefilename', TextType::class,array('attr' => array('maxlength' =>255))) //Pour un maximum de 255 caract�res
         ->add('Enregistrer', SubmitType::class,  array('label' =>'Save Machine'))
         ->getForm();
         $formMachine->handleRequest($request);
