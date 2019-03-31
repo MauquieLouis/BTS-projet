@@ -55,6 +55,7 @@ class SecurityController extends AbstractController
      */
     public function logout()
     {
+        $this->tokenStorage->getToken()->setAuthenticated(false);
         throw new \Exception('Will be intercepted before getting here');
     }
     /**
@@ -99,6 +100,7 @@ class SecurityController extends AbstractController
                 /////////////////////////////////////////////////////////////
                 //= = = = = = = =  2EME SOLUTION = = = = = = = = = = = = = //
                 /////////////////////////////////////////////////////////////
+                // TOUT CE QUI EST EN DESSOUS PERMET D'AUTHENTIFIER L'UTILISATEUR MANUELLEMENT
                 $dispatcher = new EventDispatcher();
                 $token = new UsernamePasswordToken(
                     $user,
@@ -129,73 +131,75 @@ class SecurityController extends AbstractController
     /**
      * @Route("/MotDePasseOublie", name="MotDePasseOublie")
      */
-    public function MdpOublie(Request $request, UserRepository $uR, EntityManagerInterface $em, \Swift_Mailer $mailer)
+    public function MdpOublie(Request $request, UserRepository $uR, EntityManagerInterface $em, \Swift_Mailer $mailer)  //Si l'utilisateur clique sur Mot de passe oubié ?
     {
-        $form = $this->createformBuilder()
+        $form = $this->createformBuilder()                                            //On créer un nouveau formulaire avec un champ email
         ->add('email', EmailType::class)
         ->getForm();
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid())
+        $form->handleRequest($request);                                              //On attend l'appui sur le bouton valider
+        if($form->isSubmitted() && $form->isValid())                                 //Si les données sont correctes
         {
-            $user = $uR->findOneBy(['email' => $form->getData()['email']]);
+            $user = $uR->findOneBy(['email' => $form->getData()['email']]);          //On cherche un utilisateur avec le même mail renntré dans le formulaire
             //dd($user);
-            if($user !== null)
+            if($user !== null)                                                       //Si on trouve bien un utilisateur
             {
-                $date = new \DateTime();
-                $date->modify('+2 hour');
-                $token = uniqid();
-                $identificateur = $date->format('Y-m-d$H:i:s').'!'.$token;
-                $user->setResetPassword($identificateur);
-                $em->persist($user);
+                $date = new \DateTime();                                             //On récupère la date actuelel
+                $date->modify('+2 hour');                                            //On lui ajoute 2 heure
+                $token = uniqid();                                                   //On génère un id unique
+                $identificateur = $date->format('Y-m-d$H:i:s').'!'.$token;           //On créer une var qui est un string contenant la date + l'id unique
+                $user->setResetPassword($identificateur);                            //On met cette identifiant unique dans la conlonne resetpassword de la bdd sur l'utilisateur actuel
+                $em->persist($user);                                                 //On sauvegarde en BDD
                 $em->flush();
                 
                 
-                $lien = 'http://localhost:8000/resetPasswordMail/'.$identificateur;
+                $lien = 'http://localhost:8000/resetPasswordMail/'.$identificateur;             //On génère un lien avec l'id unique (le même que celui d'avant)
                 //dd($lien);
-                $message = (new \Swift_Message('Réinitilisation Mot de passe Farella'))
-                ->setFrom('farellaBTS921@gmail.com')
-                ->setTo($user->getEmail())
+                $message = (new \Swift_Message('Réinitilisation Mot de passe Farella'))         //fonction implémentée par symfony
+                ->setFrom('farellaBTS921@gmail.com')                                            //qui permet d'envoyer un mail
+                ->setTo($user->getEmail())                                                      //Dans ce cas on envoie le lien pour réinitialiser le mot de passe
                 ->setBody($lien,'text');
-                $mailer->send($message);
-                $this->addFlash('info','Mail bien envoyé !');
-                return $this->redirectToRoute('app_login');
+                $mailer->send($message);    
+                $this->addFlash('info','Mail bien envoyé !');                                   //On ajoute un message pur la confirmation
+                return $this->redirectToRoute('app_login');                                     //redirection
             }
+            else                                                                                            //Si on ne trouve pas d'utilisateur avec le mail    
             {
-                $this->addFlash('danger','Email introuvable !');
+                $this->addFlash('danger','Email introuvable !');                                            //On ajoute des message d'infos puis on redirige
                 $this->addFlash('warning','Peut-être avez vous mal tapé(e) votre email');
                 return $this->redirectToRoute('MotDePasseOublie');
             }
 
             
         }
-        return $this->render('security/forgotPassword.html.twig',['form'=> $form->createView()]);
+        return $this->render('security/forgotPassword.html.twig',['form'=> $form->createView()]);           //rendu de la page
     }
     /**
      * @Route("/resetPasswordMail/{uniqId}",name="resetPassword_Mail")
      */
-    public function resetPasswordMail($uniqId, UserRepository $uR, EntityManagerInterface $em, Request $request)
-    {
-        $user = $uR->findOneBy(['resetPassword' => $uniqId]);
-        if($user !== null)
+    public function resetPasswordMail($uniqId, UserRepository $uR, EntityManagerInterface $em, Request $request)        //Lien unique pour réinitialisation du mdp
+    {                                                                                                                   //Normalement uniquement accessible depuis un mail
+        $user = $uR->findOneBy(['resetPassword' => $uniqId]);                                                           //On récupère l'id unique dans le lien puis on chercher un utilisateur dans la bdd avec cet id unique
+        if($user !== null)                                                                                              //Si on trouve un user
         {
-            $date = (explode("!",$uniqId))[0];
-            $date = (explode("$",$date));
+            $date = (explode("!",$uniqId))[0];                                                                          //On retranscrit la date au format DateTime
+            $date = (explode("$",$date));                                                                               //Déconcaténatin
             $date = $date[0]." ".$date[1];
-            $date = new \DateTime($date);
+            $date = new \DateTime($date);                                                                               //Retranscription date
             $actualDate = (new \DateTime);
-            if($actualDate > $date)
-            {
+            if($actualDate > $date)                                                                                     //Si la date actuelle est plus grande que celle récuperer
+            {                                                                                                           //dans le lien
+                //On met un message
                 $this->addFlash('warning', 'Le délai de la clé unique a expiré ! (Rappel: une fois le mail envoyé vous avez XX temps pour changer votre mot de passe)');
-                $user->setResetPassword(null);
-                $em->persist($user);
-                $em->flush();
-                return $this->redirectToRoute('app_login');
+                $user->setResetPassword(null);                                               //On annule l'id unique
+                $em->persist($user);                                                         //on sauvegarde
+                $em->flush();                                                                
+                return $this->redirectToRoute('app_login');                                  //redirection
             }
-            $form = $this->createForm(ResetPasswordMailFormType::class);
+            $form = $this->createForm(ResetPasswordMailFormType::class);                    //On créer un formulaire de réinitilisation de mdp
             $form->handleRequest($request);                                                 //On récupère les requêtes du premier form
-            if($form->isSubmitted() && $form->isValid())
+            if($form->isSubmitted() && $form->isValid())                                    //Si tout est bon
             { 
-                if($actualDate > $date)
+                if($actualDate > $date)                                                     //On verifie de nouveau la date une fois le formulaire validé (car la personne peut avoir laissé la page sans valider)
                 {
                     $this->addFlash('warning', 'Le délai de la clé unique a expiré ! (Rappel: une fois le mail envoyé vous avez XX temps pour changer votre mot de passe)');
                     $user->setResetPassword(null);
@@ -203,12 +207,12 @@ class SecurityController extends AbstractController
                     $em->flush();
                     return $this->redirectToRoute('app_login');
                 }
-                $user->setPassword($this->passwordEncoder->encodePassword($user ,$form->getData()['password']));
-                $user->setResetPassword(null);
-                $em->persist($user);
+                $user->setPassword($this->passwordEncoder->encodePassword($user ,$form->getData()['password']));            //On change le mdp
+                $user->setResetPassword(null);                                                                              //On annule l'id unique
+                $em->persist($user);                                                                                        //On sauvegarde
                 $em->flush();
-                $this->addFlash('success','Mot de passe changé avec succès !');
-                return $this->redirectToRoute('app_login');
+                $this->addFlash('success','Mot de passe changé avec succès !');                                             //Message d'info
+                return $this->redirectToRoute('app_login');                                                                 //redirection
             }
             
             return $this->render('security/resetPasswordMail.html.twig',['form' => $form->createView()]);
