@@ -94,23 +94,47 @@ class AdminController extends AbstractController
             //$rechercheResultatsPrenom = $userRepository->findBy(['prenom'=> $resultat]);
             //$rechercheResultatsMail = $userRepository->findBy(['email'=> $resultat]);
             $rechercheResultats = [];
+            $testPositif = 0;
             foreach($rechercheResultatsNom as $recherche)
             {
                 $rechercheResultats[] = $recherche;
             }
             foreach($rechercheResultatsPrenom as $recherche)
             {
-                $rechercheResultats[] = $recherche;
+                foreach($rechercheResultats as $compareId)
+                {
+                    if($recherche->getId() == $compareId->getId())
+                    {
+                       $testPositif = 1;
+                    }
+                } 
+                $testPositif ? $testPositif =0 : $rechercheResultats[] = $recherche;
+                if($testPositif != 1)
+                {
+                    $rechercheResultats[] = $recherche;
+                }else 
+                {
+                    $testPositif =0;
+                }
+                
             }
             foreach($rechercheResultatsMail as $recherche)
             {
-                $rechercheResultats[] = $recherche;
+                foreach($rechercheResultats as $compareId)
+                {
+                    if($recherche->getId() == $compareId->getId())
+                    {
+                        $testPositif = 1;
+                    }
+                }
+                if($testPositif != 1)
+                {
+                    $rechercheResultats[] = $recherche;
+                }else
+                {
+                    $testPositif =0;
+                }
             }
-            foreach($rechercheResultats as $idCompare)
-            {
-                
-            }
-            // dd($rechercheResultats);
             if(!$rechercheResultats)
             {
                 goto listeUser;
