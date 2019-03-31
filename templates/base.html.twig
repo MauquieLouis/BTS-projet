@@ -18,7 +18,13 @@
     			<div class ="menu row">		<!-- Nouvelle ligne pour le menu (partie avec le background bleu + image ) -->
     				<div class="col-2">		<!-- Deux colonne pour l'image (peut importe la taille de l'écran (A AMELIORER) -->
     				<!-- Chargement de l'image (ligne en dessous -->
-  					<a href="{{ path('Home') }}"><img src = "{{ asset('/image/Farella.png') }}"  height="80" style="border-bottom: 1px solid #AAAAAA;"> <!--width="auto" --> </a> 
+{#     				{% if is_granted('ROLE_USER') %}#}
+  						<a href="{{ path('Home') }}">
+{#   					{% endif %}#}
+  					<img src = "{{ asset('/image/Farella.png') }}"  height="80" style="border-bottom: 1px solid #AAAAAA;"> 
+{#   					{% if is_granted('ROLE_USER') %}#}
+  						<!--width="auto" --> </a> 
+{#   					{% endif %}#}
     				</div> 
                     <div class="offset-9 col-1">  <!--  On saute 9 colonnes (offset-9) puis on affiche sur la dernière colonne le logo de déconnexion -->
     					{% if is_granted('ROLE_NOUVEAU') %}	<!-- Si la personne connecté à le role_nouveau (ce qui est le cas pour les nouveaux comptes) on affiche le logo de déconexion -->
