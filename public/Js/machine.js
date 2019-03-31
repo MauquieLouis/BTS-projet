@@ -400,10 +400,10 @@ let cube = new Machines();
 	// scene: cube
 // })
 
-table.init('machine');
-var words = table.retour[1][3].split(';');
-console.log(table.retour[2][3]);
-console.log(words[2]);
+table.init('user');
+//var words = table.retour[1][3].split(';');
+//console.log(table.retour[2][3]);
+//console.log(words[2]);
 
 //console.log(table.retour);
 //for(table.length)

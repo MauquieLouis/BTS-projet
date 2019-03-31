@@ -49,7 +49,7 @@
                     				</div>
                         				<div class="col-12 col-md-3 ">
                         					 {% if is_granted('ROLE_ADMIN') %}
-                        						<a href="#"><h2>Gestion Machines</h2></a>
+                        						<a href="{{ path('machine') }}"><h2>Gestion Machines</h2></a>
                           				    {% else %}
                         						<h2>Btnn2</h2>
                           				    {% endif %}
