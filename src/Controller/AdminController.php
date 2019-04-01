@@ -90,7 +90,7 @@ class AdminController extends AbstractController
             $resultat =$form->getData()['Recherche'];
             $rechercheResultatsNom = $userRepository->loadByElementBegin('Nom',$resultat);                      //Les trois lignes sont des requêtes personnalisées
             $rechercheResultatsPrenom = $userRepository->loadByElementBegin('prenom',$resultat);                //Elles récupèrent tout les champs commencant par
-            $rechercheResultatsMail = $userRepository->loadByElementBegin('email',$resultat);                   //le résultat de la recherche.
+            //$rechercheResultatsMail = $userRepository->loadByElementBegin('email',$resultat);                   //le résultat de la recherche.
             //$rechercheResultatsPrenom = $userRepository->findBy(['prenom'=> $resultat]);
             //$rechercheResultatsMail = $userRepository->findBy(['email'=> $resultat]);
             $rechercheResultats = [];
@@ -109,32 +109,33 @@ class AdminController extends AbstractController
                     }
                 } 
                 $testPositif ? $testPositif =0 : $rechercheResultats[] = $recherche;
-                if($testPositif != 1)
-                {
-                    $rechercheResultats[] = $recherche;
-                }else 
-                {
-                    $testPositif =0;
-                }
+//                 if($testPositif != 1)
+//                 {
+//                     $rechercheResultats[] = $recherche;
+//                 }else 
+//                 {
+//                     $testPositif =0;
+//                 }
                 
             }
-            foreach($rechercheResultatsMail as $recherche)
-            {
-                foreach($rechercheResultats as $compareId)
-                {
-                    if($recherche->getId() == $compareId->getId())
-                    {
-                        $testPositif = 1;
-                    }
-                }
-                if($testPositif != 1)
-                {
-                    $rechercheResultats[] = $recherche;
-                }else
-                {
-                    $testPositif =0;
-                }
-            }
+//             foreach($rechercheResultatsMail as $recherche)
+//             {
+//                 foreach($rechercheResultats as $compareId)
+//                 {
+//                     if($recherche->getId() == $compareId->getId())
+//                     {
+//                         $testPositif = 1;
+//                     }
+//                 }
+//                 $testPositif ? $testPositif =0 : $rechercheResultats[] = $recherche;
+//                 if($testPositif != 1)
+//                 {
+//                     $rechercheResultats[] = $recherche;
+//                 }else
+//                 {
+//                     $testPositif =0;
+//                 }
+            //}
             if(!$rechercheResultats)
             {
                 goto listeUser;
