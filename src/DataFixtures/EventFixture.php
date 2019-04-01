@@ -19,19 +19,15 @@ class EventFixture extends BaseFixture
             $event->setTitle($this->faker->title);
             $event->setDescription($this->faker->text);
             $values = array();
-            for ($i=0; $i < $this->faker->randomDigit; $i++) {
-                // get a random digit, but always a new one, to avoid duplicates
-                $values []= $this->faker->unique()->randomDigit;
-            }
+            $values[] = $this->faker->numberBetween(1,5);
             $event->setUsersid($values);
             $values = array();
-            for ($i=0; $i < $this->faker->randomDigit; $i++) {
-                // get a random digit, but always a new one, to avoid duplicates
-                $values []=  $this->faker->unique()->randomDigit;
-            }
+            $values[] = $this->faker->numberBetween(1,5);
             $event->setMachinesid($values);
-            
-            $event->setDateStart($this->faker->dateTime);
+            $date = new \DateTime();           
+            $jour = $this->faker->numberBetween(1,1000);
+            $date->modify('+'.$jour.' day'); 
+            $event->setDateStart($date);
             $event->setFrequence($this->faker->randomDigit);
             return $event;
         });
