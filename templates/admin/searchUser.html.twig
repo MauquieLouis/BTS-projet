@@ -19,22 +19,40 @@
 	        </div>
 	        
         </div>
-    </div>	
+    </div>
+    <div class="row BorderViolet">
+    	<div class=" offset-1 col-10 offset-md-2 col-md-8 BorderBleu">
+    		<div class="row BorderRouge buttonChoixListeDiv">
+        		<div class="offset-3 col-2 offset-md-0 col-md-4 BorderGris">	
+    				<h4 style="color:#1A4857;"  onclick="ShowOnly('admin');"><i class="fas fa-user-graduate buttonChoixListe"></i>
+    				<div class="d-none d-md-inline-block ">: Administrateurs</div></h4>
+    			</div>
+    			<div class="col-2 offset-md-0 col-md-4 BorderGris">	
+    				<h4 style="color:#1A4857;"  onclick="ShowOnly('user');"><i class="fas fa-user buttonChoixListe"></i>
+    				<div class="d-none d-md-inline-block ">: Utilisateurs</div></h4>
+    			</div>
+    			<div class="col-2 offset-md-0 col-md-4 BorderGris">
+    				<h4 style="color:#1A4857;"  onclick="ShowOnly('other');"><i class="fas fa-user-lock buttonChoixListe"></i>
+    				<div class="d-none d-md-inline-block ">: Autres</div></h4>
+        		</div>
+    		</div>
+    	</div>
+    </div>
     <div class="row">
-    	<div class="col-12 offset-md-3 col-md-6">
+    	<div class="col-12 offset-md-2 col-md-8" id="AffichageListe">
     		    {% for resultat in rechercheResultat %}
     		    	{% if resultat %}
     		    		<a href="{{ path('admin_UserControl_searchUser_id', {id: resultat.id}) }}">
         		    		<div class="listeUser">
-        		    			<div class="elemListeUser userLogo">{% if "ROLE_ADMIN" in resultat.roles %}
-        		    					<i class="fas fa-user-graduate"></i>
-        		    				 {% elseif "ROLE_USER" in resultat.roles%}
-        		    				 	<i class="fas fa-user"></i>
-        		    				 {% else %}
-        		    				 	<i class="fas fa-user-lock"></i>
-        		    				 {% endif %} 		    				 
+        		    			<div class="elemListeUser userLogo" id="userLogo">
+        		    			{% if "ROLE_ADMIN" in resultat.roles %}
+    		    					<i class="fas fa-user-graduate" name="admin"></i>
+    		    				 {% elseif "ROLE_USER" in resultat.roles%}
+    		    				 	<i class="fas fa-user" name="user"></i>
+    		    				 {% else %}
+    		    				 	<i class="fas fa-user-lock" name="nouveau"></i>
+    		    				 {% endif %} 		    				 
     		    				 </div>
-    		    				
     		               		<div class="elemListeUser userName">{{ resultat.Nom }}</div>
     		               		<div class="elemListeUser userSurname">{{ resultat.prenom }}</div>
     		               		<div class="elemListeUser userEmail">{{ resultat.email }} </div>
@@ -45,5 +63,80 @@
     		    {% endfor %}
     	</div>
     </div>
+	<script>
+		affichageListe = document.getElementById('AffichageListe');
+		listeIcon = affichageListe.getElementsByTagName('i');
+		//alert(listeIcon.length);
+		var listeAdmin = new Array();var listeUser = new Array();var listeOther = new Array();
+		var j = k = l = 0;
+		for(var i=0; i < listeIcon.length;i++)
+		{
+			switch(listeIcon[i].getAttribute("name"))
+			{
+			case ("admin"):
+				//alert("admin + 1");
+				listeAdmin[j++] = listeIcon[i];
+				//alert("admin : ",listeAdmin.length);
+				break;
+			case ("user"):
+				//alert("user + 1");
+				listeUser[k++] = listeIcon[i];
+				break;
+			default:
+				//alert("other + 1");
+				listeOther[l++] = listeIcon[i];
+				break;
+			}
+		}
+		//alert(listeOther.length);	
+		function ShowOnly(param)
+		{
+			switch(param)
+			{
+			case ("admin"):
+				//alert("admin");
+				ParseTable(listeUser,true);
+				ParseTable(listeOther,true);
+				ParseTable(listeAdmin,false);
+				break;
+				
+			case ("user"):
+				//alert("user");
+				ParseTable(listeAdmin, true);
+				ParseTable(listeOther, true);
+				ParseTable(listeUser, false);
+				break;
+				
+			case ("other"):
+				//alert("other");
+				ParseTable(listeAdmin, true);
+				ParseTable(listeOther, false);
+				ParseTable(listeUser, true);
+				break;
+				
+			default:
+				
+				break;
 	
+			}
+		}
+		function ParseTable(table, param)
+		{
+			for(var i=0; i< table.length; i++)
+			{
+				table[i].parentNode.parentNode.hidden = param; //table[i].parentNode.parentNode.hidden ? false : true;
+			}
+		}
+		function ShowOnlyAdmin()
+		{
+			for(var i=0; i< listeUser.length; i++)
+			{
+				listeUser[i].parentNode.parentNode.hidden = listeUser[i].parentNode.parentNode.hidden ? false : true;
+			}
+			for(var i=0; i< listeOther.length; i++)
+			{
+				listeOther[i].parentNode.parentNode.hidden = listeOther[i].parentNode.parentNode.hidden ? false : true;
+			}
+		}
+	</script>
 {% endblock %}

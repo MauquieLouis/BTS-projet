@@ -56,6 +56,19 @@ h4
 {
 	margin-right:5px;
 }
+.buttonChoixListe
+{
+	margin:5px;
+	font-size:30px;
+	color: #1A4857;
+}
+.buttonChoixListeDiv
+{
+	border-top: 1px solid #AAAAAA;
+	border-bottom: 1px solid #AAAAAA;
+	margin-bottom:30px;
+	margin-top:30px;
+}
 .divText
 {
 	position: relative;
@@ -194,36 +207,5 @@ h4
 	margin-left:3px;
 }
 /*- = - = - = - = - = - = - = B O R D U R E S = - = - = - = - = - = - = -*/
-/* .BorderJaune
-{
-	border: 2px solid #DFDF0C;
-}
-.BorderRouge
-{
-	border: 2px solid #FF0000;
-}
-.BorderBleu
-{
-	border: 2px solid #0FC7C7;
-}
-.BorderGris
-{
-	border: 2px solid #666666; 
-}
-.BorderGrisClair
-{
-	border: 2px solid #A6A6A6;
-}
-.BorderBleuFonce
-{
-	border: 2px solid #4896F5;
-}
-.BorderViolet
-{
-	border: 2px solid #660066;
-}
-.BorderVert
-{
-	border: 2px solid #228D0F;
-} */
+
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - -*/

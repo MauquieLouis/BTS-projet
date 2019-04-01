@@ -109,13 +109,6 @@ class AdminController extends AbstractController
                     }
                 } 
                 $testPositif ? $testPositif =0 : $rechercheResultats[] = $recherche;
-//                 if($testPositif != 1)
-//                 {
-//                     $rechercheResultats[] = $recherche;
-//                 }else 
-//                 {
-//                     $testPositif =0;
-//                 }
                 
             }
 //             foreach($rechercheResultatsMail as $recherche)
@@ -196,9 +189,17 @@ class AdminController extends AbstractController
         if( $formDelete->isSubmitted() &&  $formDelete->isValid())
         {  
             //Deconnecter l'utilisateur avant de supprimer son compte
-            $em->remove($userToModify);
-            $em->flush();
-            return $this->redirectToRoute('admin_UserControl_searchUser');
+            if($this->getUser() == $userToModify)
+            {
+                $this->addFlash('danger','Il est impossible à un administrateur de supprimer son propre compte !');
+                $this->redirectToRoute('admin_UserControl_searchUser');
+            }else
+            {
+                $em->remove($userToModify);
+                $em->flush();
+                $this->addFlash('success','Compte bien supprimé');
+                return $this->redirectToRoute('admin_UserControl_searchUser');
+            }
         }
         return $this->render('admin/editionUser.html.twig',
             [   'user' => $userToModify,
