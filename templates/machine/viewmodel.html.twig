@@ -36,8 +36,11 @@
             
             	<button onclick="cube.ToggleSprite()" class="SpriteNbr spriteCreate"><img id="btnSprite" class="buttonSprite SpriteNbr" src="../../image/machine/ampoule.png" width="50" height="30">Sprite</button>
             	<div class="SpriteNbr" id="SpriteNb">0</div>
-            	
-            	 
+            		{{ form_start(formDelete) }}
+            		
+            			<div id="DeleteToSprite">{{ form_row(formDelete.idSprite)}}</div>
+            			<button type="submit">Delete Etape</button>
+            		{{ form_end(formDelete) }}            	 
             	
             	<div >Name :</div>
             	<div class="informationTooltip" id="tooltipName" ></div>
@@ -103,7 +106,7 @@
 				fleche2.classList.contains("d-none") ? fleche2.classList.remove('d-none') : fleche2.classList.add('d-none');
 			}
 		</script>
-		
+	
 		{% for etape in etapes %}
 {#         			<a href = {{ path('maintenanceModele3D', {'machine' : etape.id }) }}>#}
 			<div id="getEachSpriteName" hidden>{{ etape.name}}  </div>

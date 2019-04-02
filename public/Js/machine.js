@@ -318,22 +318,21 @@ class Machines{
 	}
 	spriteHtmlForJs()
 	{
-//		
-//		cube.addPoints({
-//			position: intersects[0].point,
-//			camera: camera.position,
-//			name: nVarNom,
-//			info : nVarInfo,
-//			etape : nVarEtape,
-//			scene : cube
-//		});
-//		cube.addTooltip(cube.points[cube.points.length-1]);
-		
-		console.log(document.getElementById('getEachSpriteName').innerHTML);
-		console.log(document.getElementById('getEachSpritePosition').innerHTML);
-		console.log(document.getElementById('getEachSpriteCamera').innerHTML);
-		console.log(document.getElementById('getEachSpriteDescription').innerHTML);
-		console.log(document.getElementById('getEachSpriteEtape').innerHTML);
+		let positionSprite = (document.getElementById('getEachSpritePosition').innerHTML);
+		let posSpriteSplite = positionSprite.split(';');
+		console.log();
+		cube.addPoints({
+			position: new THREE.Vector3(posSpriteSplite[0],posSpriteSplite[1],posSpriteSplite[2]),
+			camera: new THREE.Vector3(130,0,0),
+			name: document.getElementById('getEachSpriteName').innerHTML,
+			info : document.getElementById('getEachSpriteDescription').innerHTML,
+			etape : document.getElementById('getEachSpriteEtape').innerHTML,
+			scene : cube
+		});
+		cube.addTooltip(cube.points[cube.points.length-1]);
+		cube.sprite.id
+
+
 	}
 	consoleLog(pString)
 	{
@@ -417,7 +416,7 @@ material.transparent = true;
 sphere = new THREE.Mesh(geometrysphere, material);
 scene.add(sphere);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-
+console.log(camera.position);
 //création des cubes
 let cube = new Machines();
 // cube.addPoints({
@@ -532,6 +531,7 @@ function onClick(e)
 				document.getElementById("reName").value = cube.sprite.name; 		 // .value = <input>
 				document.getElementById("reInform").value = cube.sprite.information; 
 				document.getElementById("reEtape").value = cube.sprite.etape; 
+				document.getElementById("DeleteToSprite").innerHTML = cube.sprite.etape
 				
 
 			}

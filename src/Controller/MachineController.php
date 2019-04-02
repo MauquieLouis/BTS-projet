@@ -159,8 +159,22 @@ class MachineController extends AbstractController
             $request = 0;
            // return $this->render('home/index.html.twig',);
         }
-        
-        
+        $formDeleteSprite = $this->createFormBuilder()
+        ->add('idSprite', TextType::class)
+        ->getForm();
+        $formDeleteSprite->handleRequest($request);
+        if($formDeleteSprite->isSubmitted())
+        {
+//             dd($formDeleteSprite->getData());
+            $spriteGoDelete = $repositoryEtapes->findBy(['etape'=> $formDeleteSprite->getData()['idSprite'] ]);
+            foreach($spriteGoDelete as $spritedelete)
+            {
+                $em->remove($spritedelete);
+                $em->flush();
+            }
+
+        }
+      
         ///////////////////////////////////////////////////////////////
         
         
@@ -168,8 +182,10 @@ class MachineController extends AbstractController
         return $this->render('machine/viewmodel.html.twig', [
             'controller_name' => 'MachineController',
             'formEtape' => $formSprite->createView(),
+            'formDelete'=> $formDeleteSprite->createView(),
             'machine' => $machine,
             'etapes' => $etapes,
+            
         ]);
     }
 }
