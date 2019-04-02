@@ -24,7 +24,7 @@ class Maintenance
     private $nom;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\machine", inversedBy="maintenances")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Machine", inversedBy="maintenances")
      * @ORM\JoinColumn(nullable=false)
      */
     private $idMachine;

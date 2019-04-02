@@ -7,7 +7,9 @@
 		Entrer les informations machines
 	</h1>
 	  {% for machine in Machines %}
-			<a href = {{ path('modele3D', {'slug' : machine.id }) }}><div class="machine-display-home"><li><div class ="buttonText"><b></br>
+{# 			<a href = {{ path('modele3D', {'slug' : machine.id }) }}>#}
+			<a href = {{ path('maintenanceModele3D', {'machine' : machine.id }) }}>
+			<div class="machine-display-home"><li><div class ="buttonText"><b></br>
 			{{ machine.name }}</b></br><div class ="auteur">Description : {{ machine.description }}</div></div></li></div></a>
 		{% endfor %}
 	

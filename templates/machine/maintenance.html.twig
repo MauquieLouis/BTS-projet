@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+      
+{% block stylesheets %}
+    	<link href="{{ asset('css/base.css') }}" rel="stylesheet" />
+    	<link href="{{ asset('bootstrap/css/bootstrap.css') }}" rel="stylesheet" />
+    	<link rel="stylesheet" href="{{ asset('css/all.css') }}">
+    	<link rel="stylesheet" href="{{ asset('css/viewMachine.css') }}">
+{% endblock %}
+{% block title %}Admin{% endblock %}
+
+{% block body %}
+	
+	<div class="row AdminRow2">
+	<div class="col-12 offset-md-3 col-md-6 AdminRow1 TitlePage">
+    {% for maintenance in maintenances %}	
+    	<a href = {{ path('modele3D', {'slug' : maintenance.id }) }}>
+		{{ maintenance.nom }}</b></br>
+		
+    {% endfor %}
+    
+    
+    {{ form_start(formMaintenance) }}
+        {{ form_row(formMaintenance.nom, {'attr':{'placeholder' : "Nom de la maintenance"}}) }}
+    {{ form_end(formMaintenance) }}
+{#     		<h1>Aperçu Machine {{ machine.id }}</h1>#}
+{#     		<div id="filename" hidden>{{ machine.imagefilename }}</div>#}
+{#     		<div id="machineNamed" hidden>{{ machine.name }}</div>#}
+    	</div>
+	</div>
+
+{% endblock %}

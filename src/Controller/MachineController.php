@@ -2,10 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Machine;
+use App\Entity\Maintenance;
+use App\Entity\Etapes;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\NewMachineFormType;
-use App\Entity\Machine;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\DBAL\Driver\Connection;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -67,14 +71,60 @@ class MachineController extends AbstractController
     }
     
     /**
+     * @Route("/maintenance/{machine}", name="maintenanceModele3D")
+     */
+    public function viewMaintenances($machine, EntityManagerInterface $em, Request $request)
+    {
+       $repositoryMaintenance = $em->getRepository(Maintenance::class);
+       $repositoryMachine = $em->getRepository(Machine::class);
+       $maintenances = $repositoryMaintenance->findBy(['idMachine'=> $repositoryMachine->findOneById(['id'=>$machine])
+       ]);
+       
+       
+       
+       $machinegetID = $em->getRepository(Machine::class)->findOneBy(['id'=> $machine]);
+//         if(!$maintenance)
+//         {
+//             throw $this->createNotFoundException(sprintf('No maintenance for machine "%s"', $machine));
+//         }
+//////// CREATION FORMULAIRE D UNE MAINTENANCE     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        $maintenance = new Maintenance();
+        $FormMaintenance = $this->createFormBuilder($maintenance)     //creation du formulaire
+        ->add('nom', TextType::class)
+        ->add('Enregistrer', SubmitType::class,  array('label' =>'Save Maintenance'))
+        ->getForm();
+        $FormMaintenance->handleRequest($request);
+        
+        if (($FormMaintenance->getClickedButton() && 'Enregistrer' === $FormMaintenance->getClickedButton()->getName())) //BOUTON SAUVEGARDER + APERCU
+        {
+            $createMaintenance = $FormMaintenance->getData();
+            $this->setData($createMaintenance);
+            $createMaintenance->setIdMachine($machinegetID);
+            $em->persist($createMaintenance);        //Pour ajouter � la base de donn�e
+            $em->flush();
+            $request = 0;
+            return $this->render('home/index.html.twig',);
+        }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        
+        return $this->render('machine/maintenance.html.twig', [
+            'controller_name' => 'MachineController',
+            'formMaintenance' => $FormMaintenance->createView(),
+            'maintenances' => $maintenances,
+        ]);
+    }
+    
+    /**
      * @Route("/modele/{slug}", name="modele3D")
      */
     public function viewModele($slug, EntityManagerInterface $em)
     {
-        $repository = $em->getRepository(Machine::class);
-        /** @var Blog $article */
-        $machine = $repository->findOneBy(['id'=> $slug]);
+        $repositoryMachine = $em->getRepository(Machine::class);
+        $repositoryMaintenance = $em->getRepository(Maintenance::class);
         
+        //$machine = $repositoryMachine->findOneBy(['id'=> $slug]);
+        $machine = $repositoryMachine->findOneBy(['id'=>  $repositoryMaintenance->findOneBy(['id' =>$slug])->getIdMachine()
+        ]);
         if(!$machine)
         {
             throw $this->createNotFoundException(sprintf('No machine for slug "%s"', $slug));

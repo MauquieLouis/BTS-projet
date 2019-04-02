@@ -42,13 +42,13 @@ class Etapes
     private $etape;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\machine")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Machine")
      * @ORM\JoinColumn(nullable=false)
      */
     private $machine;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\maintenance", inversedBy="etapes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Maintenance", inversedBy="etapes")
      * @ORM\JoinColumn(nullable=false)
      */
     private $maintenance;
