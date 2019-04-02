@@ -170,9 +170,25 @@ class AdminController extends AbstractController
             $em->persist($userToModify);
             $em->flush();      
         }
-        $formRoles->handleRequest($request);                                            //On récupère les requêtes du deuxieme form   
-        if($formRoles->isSubmitted() && $formRoles->isValid())
+        $formDelete->handleRequest($request);                                            //On récupère les requêtes du deuxieme form
+        if( $formDelete->isSubmitted() &&  $formDelete->isValid())
         {  
+            //Deconnecter l'utilisateur avant de supprimer son compte
+            if($this->getUser() == $userToModify)
+            {
+                $this->addFlash('danger','Il est impossible à un administrateur de supprimer son propre compte !');
+                return $this->redirectToRoute('admin_UserControl_searchUser');
+            }else
+            {
+                $em->remove($userToModify);
+                $em->flush();
+                $this->addFlash('success','Compte bien supprimé');
+                return $this->redirectToRoute('admin_UserControl_searchUser');
+            }
+        }
+        $formRoles->handleRequest($request);                                            //On récupère les requêtes du deuxieme form
+        if($formRoles->isSubmitted() && $formRoles->isValid())
+        {
             //Essayer de changer la méthode depuis le choiceType
             if($formRoles->getData()['Roles'] == 'Admin')//Choix Admin                  //On fait les changements puis on enregistre
             {
@@ -184,22 +200,8 @@ class AdminController extends AbstractController
             }
             $em->persist($userToModify);
             $em->flush();
-        }
-        $formDelete->handleRequest($request);                                            //On récupère les requêtes du deuxieme form
-        if( $formDelete->isSubmitted() &&  $formDelete->isValid())
-        {  
-            //Deconnecter l'utilisateur avant de supprimer son compte
-            if($this->getUser() == $userToModify)
-            {
-                $this->addFlash('danger','Il est impossible à un administrateur de supprimer son propre compte !');
-                $this->redirectToRoute('admin_UserControl_searchUser');
-            }else
-            {
-                $em->remove($userToModify);
-                $em->flush();
-                $this->addFlash('success','Compte bien supprimé');
-                return $this->redirectToRoute('admin_UserControl_searchUser');
-            }
+            $this->addFlash('success','Changement de droits bien effectué !');
+            return $this->redirect($request->getUri());
         }
         return $this->render('admin/editionUser.html.twig',
             [   'user' => $userToModify,

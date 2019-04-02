@@ -15,7 +15,6 @@ console.log('Dynamic Search!');
 		var val = input.val();
 		if(val == '')
 		{
-			
 			$('#AffichageListe [name=listeUser]').show();
 			return true;
 		}
@@ -23,8 +22,7 @@ console.log('Dynamic Search!');
 		for(var i in val)
 		{
 			regexp += '('+val[i]+')(.*)';
-		}
-			
+		}	
 		regexp += '\\b';
 		$('#AffichageListe').find('span').each(function()			
 		{
@@ -33,26 +31,10 @@ console.log('Dynamic Search!');
 			var resultats = span.text().match(new RegExp(regexp,'i'));
 			if(resultats){
 //				console.log(resultats);
-				var string = '';
-				for(var i in resultats)
-				{
-					if(i>0)
-					{
-//						if(i%2 == 0)
-//						{
-//							string += '<span class="highlighted">'+resultats[i]+'</span>';
-//						}else{
-//							string += resultats[i];
-//						}
-							
-					}
-				}
-				//span.empty().append(string);
 			}else{
 				//console.log(resultats);
 				span.parent().parent().hide();
 			}
-
 		});
 	});
 })(jQuery);
