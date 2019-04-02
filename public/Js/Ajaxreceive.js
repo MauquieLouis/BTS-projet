@@ -18,7 +18,7 @@ var table = {
 			break;
 
 			case "user":
-				xhReq.open("post","accesbdd/senduser",false);	//arg2 url de l'echo de la table SQl recuperé un PHP
+				xhReq.open("post","../../accesbdd/senduser",false);	//arg2 url de l'echo de la table SQl recuperé un PHP
 			break;
 			
 			default:

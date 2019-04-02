@@ -43,7 +43,7 @@
     		    {% for resultat in rechercheResultat %}
     		    	{% if resultat %}
     		    		<a href="{{ path('admin_UserControl_searchUser_id', {id: resultat.id}) }}">
-        		    		<div class="listeUser">
+        		    		<div class="listeUser" name="listeUser">
         		    			<div class="elemListeUser userLogo" id="userLogo">
         		    			{% if "ROLE_ADMIN" in resultat.roles %}
     		    					<i class="fas fa-user-graduate" name="admin"></i>
@@ -53,7 +53,7 @@
     		    				 	<i class="fas fa-user-lock" name="nouveau"></i>
     		    				 {% endif %} 		    				 
     		    				 </div>
-    		               		<div class="elemListeUser userName">{{ resultat.Nom }}</div>
+    		               		<div class="elemListeUser userName" id="userName"><span>{{ resultat.Nom }}</span></div>
     		               		<div class="elemListeUser userSurname">{{ resultat.prenom }}</div>
     		               		<div class="elemListeUser userEmail">{{ resultat.email }} </div>
         		            	</br>
@@ -66,7 +66,6 @@
 	<script>
 		affichageListe = document.getElementById('AffichageListe');
 		listeIcon = affichageListe.getElementsByTagName('i');
-		//alert(listeIcon.length);
 		var listeAdmin = new Array();var listeUser = new Array();var listeOther = new Array();
 		var j = k = l = 0;
 		for(var i=0; i < listeIcon.length;i++)
@@ -74,50 +73,37 @@
 			switch(listeIcon[i].getAttribute("name"))
 			{
 			case ("admin"):
-				//alert("admin + 1");
 				listeAdmin[j++] = listeIcon[i];
-				//alert("admin : ",listeAdmin.length);
 				break;
 			case ("user"):
-				//alert("user + 1");
 				listeUser[k++] = listeIcon[i];
 				break;
 			default:
-				//alert("other + 1");
 				listeOther[l++] = listeIcon[i];
 				break;
 			}
-		}
-		//alert(listeOther.length);	
+		}	
 		function ShowOnly(param)
 		{
 			switch(param)
 			{
 			case ("admin"):
-				//alert("admin");
 				ParseTable(listeUser,true);
 				ParseTable(listeOther,true);
 				ParseTable(listeAdmin,false);
-				break;
-				
+				break;			
 			case ("user"):
-				//alert("user");
 				ParseTable(listeAdmin, true);
 				ParseTable(listeOther, true);
 				ParseTable(listeUser, false);
-				break;
-				
+				break;		
 			case ("other"):
-				//alert("other");
 				ParseTable(listeAdmin, true);
 				ParseTable(listeOther, false);
 				ParseTable(listeUser, true);
+				break;		
+			default:	
 				break;
-				
-			default:
-				
-				break;
-	
 			}
 		}
 		function ParseTable(table, param)
@@ -139,4 +125,9 @@
 			}
 		}
 	</script>
+	    {% block javascripts %} <!--  Fichier Javascript -->
+     	<script src="{{ asset('bootstrap/Js/jquery.js') }}"></script>
+		<script src="{{ asset('Js/Ajaxreceive.js') }}"></script>
+		<script src="{{ asset('Js/DynamicSearch.js') }}"></script>
+    {% endblock %}
 {% endblock %}

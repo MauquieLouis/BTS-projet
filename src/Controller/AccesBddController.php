@@ -77,7 +77,7 @@ class AccesBddController extends AbstractController
         for ($i=0; $i < sizeof($table); $i++){
             $tabl[$i][$j] = $table[$i]->getId();
             $tabl[$i][$j++] = $table[$i]->getEmail();
-            $tabl[$i][$j++] = $table[$i]->getUsername();
+            //$tabl[$i][$j++] = $table[$i]->getUsername();
             $tabl[$i][$j++] = $table[$i]->getRoles();
             $tabl[$i][$j++] = $table[$i]->getNom();
             $tabl[$i][$j++] = $table[$i]->getPrenom();

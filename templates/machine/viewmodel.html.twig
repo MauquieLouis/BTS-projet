@@ -65,7 +65,15 @@
             		
             	<button onClick="cube.EtapeChangement(-1)" class="posCubex"> < </button><button class="posCubes" onClick="cube.EtapeChangement(1)"> > </button></br>
             	<button onclick="modifValider()" id="btnValiderModif">OK !</button>
-            	
+
+            	{{ form_start(formEtape) }}
+            		<div class="addNomSprite"> {{ form_row(formEtape.name) }}</div>
+                     {{ form_row(formEtape.description, {'attr':{'placeholder' : "Description de l etape"}}) }}
+                     {{ form_row(formEtape.position, {'attr':{'placeholder' : "position de l etape"}}) }}
+                     {{ form_row(formEtape.camera, {'attr':{'placeholder' : "Camera de l etape"}}) }}
+				{{ form_end(formEtape) }}
+        	    
+			
             </div>
         </div>
 
@@ -95,4 +103,16 @@
 				fleche2.classList.contains("d-none") ? fleche2.classList.remove('d-none') : fleche2.classList.add('d-none');
 			}
 		</script>
+		
+		{% for etape in etapes %}
+{#         			<a href = {{ path('maintenanceModele3D', {'machine' : etape.id }) }}>#}
+			<div id="getEachSpriteName" hidden>{{ etape.name}}  </div>
+			<div id="getEachSpritePosition" hidden>{{ etape.position}}  </div>
+			<div id="getEachSpriteCamera" hidden>{{ etape.camera}}  </div>
+			<div id="getEachSpriteDescription" hidden>{{ etape.description}}  </div>
+			<div id="getEachSpriteEtape" hidden>{{ etape.etape}}  </div>
+			<script>cube.spriteHtmlForJs()</script>
+
+        {% endfor %}
+	  
 {% endblock %}
