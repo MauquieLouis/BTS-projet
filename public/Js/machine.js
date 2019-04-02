@@ -107,6 +107,7 @@ class Machines{
 		sprite.cameraPosY	= point.camera.y;
 		sprite.cameraPosZ	= point.camera.z;
 		sprite.etape		= this.sprites.length//point.etape;
+		if(point.idBDD){sprite.idBDD = point.idBDD;}
 		//console.log(sprite.etape);
 //		let position = new THREE.Vector3(45,0,0);
 //		sprite.position.copy(new THREE.Vector3(150,0,0));
@@ -126,7 +127,9 @@ class Machines{
 		//console.log(sprite.etape);
 		document.getElementById("SpriteNb").innerHTML = cube.sprites.length;
 		sprite.onClick = () =>{
-			console.log(sprite.name);
+//			console.log(sprite.position.x);
+//			console.log(sprite.position.y);
+//			console.log(sprite.position.z);
 			camera.position.x = sprite.cameraPosX;//sprite.cameraPosX 
 			camera.position.y = sprite.cameraPosY;//sprite.cameraPosY 
 			camera.position.z = sprite.cameraPosZ;//sprite.cameraPosZ
@@ -320,17 +323,21 @@ class Machines{
 	{
 		let positionSprite = (document.getElementById('getEachSpritePosition').innerHTML);
 		let posSpriteSplite = positionSprite.split(';');
-		console.log();
+		let cameraPositionSprite = (document.getElementById('getEachSpriteCamera').innerHTML);
+		let camPosSpriteSplite = cameraPositionSprite.split(';');
+		console.log(posSpriteSplite[0]);	console.log(posSpriteSplite[1]);	console.log(posSpriteSplite[2]);
 		cube.addPoints({
 			position: new THREE.Vector3(posSpriteSplite[0],posSpriteSplite[1],posSpriteSplite[2]),
-			camera: new THREE.Vector3(130,0,0),
+//			position: new THREE.Vector3(-30,1,-30),
+			camera: new THREE.Vector3(camPosSpriteSplite[0],camPosSpriteSplite[1],camPosSpriteSplite[2]),
 			name: document.getElementById('getEachSpriteName').innerHTML,
 			info : document.getElementById('getEachSpriteDescription').innerHTML,
 			etape : document.getElementById('getEachSpriteEtape').innerHTML,
-			scene : cube
+			scene : cube,
+			idBDD: document.getElementById('getEachSpriteId').innerHTML
 		});
 		cube.addTooltip(cube.points[cube.points.length-1]);
-		cube.sprite.id
+		
 
 
 	}
@@ -448,21 +455,22 @@ let cube = new Machines();
 //	});
 //}
 
-cube.addPoints({
-	position: new THREE.Vector3(30, 10, 52),
-	camera: camera.position,
-	name: 'Etape numero 1',
-	info : 'Ouvrir la porte, puis à laide de l outil prévu, il faut bien graisser la porte avec les éléments fournis. Ensuite, après avoir graissé les enduits. Il faut bien refermer la porte plusieurs fois afin que la graisse se répartisse bien. Ensuite il sera bon de passer a l etape suivante en cliquant sur la petite fleche de droite',
-	etape : '1',
-	scene : cube
-});
+//cube.addPoints({
+//	position: new THREE.Vector3(30, 10, 52),
+//	camera: camera.position,
+//	name: 'Etape numero 1',
+//	info : 'Ouvrir la porte, puis à laide de l outil prévu, il faut bien graisser la porte avec les éléments fournis. Ensuite, après avoir graissé les enduits. Il faut bien refermer la porte plusieurs fois afin que la graisse se répartisse bien. Ensuite il sera bon de passer a l etape suivante en cliquant sur la petite fleche de droite',
+//	etape : '1',
+//	scene : cube
+//});
 cube.addPoints({
 	position: new THREE.Vector3(54, 0, 0),
 	camera: camera.position,
 	name: 'Etape numero 2',
 	info : 'trapper',
 	etape : '1',
-	scene : cube
+	scene : cube,
+	idBDD:2
 });
 cube.RestoreMachine(scene,cutFileName,machineNamed);
 		//var image2 = new THREE.TextureLoader().load('images/machine1/derriere.jpg');
@@ -499,10 +507,10 @@ function onClick(e)
 	//Ajout d'information  dans la partie creation d'un sprite ////////////////////////////
 //	document.getElementById('form_name').value = "etape3" ;
 //	document.getElementById('form_description').value = ;
-//	document.getElementById('form_position').value = ;
-//	document.getElementById('form_camera').value = ;
+	
+	document.getElementById('form_camera').value = camera.position.x+';'+camera.position.y+';'+camera.position.z;
 //	document.getElementById('form_etape').value = 3;
-		
+
 	///////////////////////////////////////////////////////////////////////////////////////
 	
 	rayCaster.setFromCamera(mouse, camera);
@@ -531,9 +539,13 @@ function onClick(e)
 				document.getElementById("reName").value = cube.sprite.name; 		 // .value = <input>
 				document.getElementById("reInform").value = cube.sprite.information; 
 				document.getElementById("reEtape").value = cube.sprite.etape; 
-				document.getElementById("DeleteToSprite").innerHTML = cube.sprite.etape
+				document.getElementById("form_idSprite").value = cube.sprite.idBDD;
+				document.getElementById('form_position').value = cube.sprite.position.x +';'+cube.sprite.position.y +';'+ cube.sprite.position.z;
+				document.getElementById('form_name').value = cube.sprite.name;
+				document.getElementById('form_description').value = cube.sprite.information;
+				document.getElementById('form_etape').value = cube.sprite.etape;
 				
-
+			
 			}
 
 		})

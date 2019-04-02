@@ -74,6 +74,9 @@
                      {{ form_row(formEtape.description, {'attr':{'placeholder' : "Description de l etape"}}) }}
                      {{ form_row(formEtape.position, {'attr':{'placeholder' : "position de l etape"}}) }}
                      {{ form_row(formEtape.camera, {'attr':{'placeholder' : "Camera de l etape"}}) }}
+                     {{ form_row(formEtape.etape, {'attr':{'placeholder' : "Etape de l etape", 'readonly':'readonly'}}) }}
+                     
+{#                      {{ form_widget(formEtape.etape, {'readonly' : true})}}#}
 				{{ form_end(formEtape) }}
         	    
 			
@@ -114,6 +117,7 @@
 			<div id="getEachSpriteCamera" hidden>{{ etape.camera}}  </div>
 			<div id="getEachSpriteDescription" hidden>{{ etape.description}}  </div>
 			<div id="getEachSpriteEtape" hidden>{{ etape.etape}}  </div>
+			<div id="getEachSpriteId" >{{ etape.id}}  </div>
 			<script>cube.spriteHtmlForJs()</script>
 
         {% endfor %}

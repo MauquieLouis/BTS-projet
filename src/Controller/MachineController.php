@@ -166,7 +166,7 @@ class MachineController extends AbstractController
         if($formDeleteSprite->isSubmitted())
         {
 //             dd($formDeleteSprite->getData());
-            $spriteGoDelete = $repositoryEtapes->findBy(['etape'=> $formDeleteSprite->getData()['idSprite'] ]);
+            $spriteGoDelete = $repositoryEtapes->findBy(['id'=> $formDeleteSprite->getData()['idSprite'] ]);
             foreach($spriteGoDelete as $spritedelete)
             {
                 $em->remove($spritedelete);
