@@ -316,6 +316,29 @@ class Machines{
 ////////////////////////////////////////////////////////////////////////////////////////////
 	
 	}
+	spriteHtmlForJs()
+	{
+//		
+//		cube.addPoints({
+//			position: intersects[0].point,
+//			camera: camera.position,
+//			name: nVarNom,
+//			info : nVarInfo,
+//			etape : nVarEtape,
+//			scene : cube
+//		});
+//		cube.addTooltip(cube.points[cube.points.length-1]);
+		
+		console.log(document.getElementById('getEachSpriteName').innerHTML);
+		console.log(document.getElementById('getEachSpritePosition').innerHTML);
+		console.log(document.getElementById('getEachSpriteCamera').innerHTML);
+		console.log(document.getElementById('getEachSpriteDescription').innerHTML);
+		console.log(document.getElementById('getEachSpriteEtape').innerHTML);
+	}
+	consoleLog(pString)
+	{
+		console.log(pString);
+	}
 	
 }
 /* FIN CLASSE Machines*/
@@ -334,9 +357,11 @@ const pageHeader = document.getElementById('page-header');
 
 const imageFileNameMachine = document.getElementById('filename');
 var cutFileName = imageFileNameMachine.innerHTML;
+
 const getMachineName = document.getElementById('machineNamed');
 var machineNamed = getMachineName.innerHTML;
 
+var getNameEachSprite = document.getElementById('getEachSprite');
 
 var spriteActive = false;
 
@@ -360,7 +385,7 @@ const camera = new THREE.PerspectiveCamera(75, (windowWidth / windowHeight), 0.1
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.rotateSpeed = 0.5;
 controls.autoRotate = false;
-controls.enableZoom = false;
+//controls.enableZoom = false;
 //controls.autoRotate = true;
 camera.position.set(0, 0, 140);
 controls.update();
@@ -471,9 +496,18 @@ function onClick(e)
 		( (e.clientX-ecartWidthMenuCanvas) / windowWidth ) * 2 - 1,
 		- ( (e.clientY-ecartHeightMenuCanvas) / windowHeight ) * 2 + 1
 	);
-
+	
+	//Ajout d'information  dans la partie creation d'un sprite ////////////////////////////
+//	document.getElementById('form_name').value = "etape3" ;
+//	document.getElementById('form_description').value = ;
+//	document.getElementById('form_position').value = ;
+//	document.getElementById('form_camera').value = ;
+//	document.getElementById('form_etape').value = 3;
+		
+	///////////////////////////////////////////////////////////////////////////////////////
+	
 	rayCaster.setFromCamera(mouse, camera);
-
+	
 	let intersects = rayCaster.intersectObjects(scene.children); // Regarde ce qui rencontre les "enfants" de la scène: tooltip, sphère...
 	//console.log( intersects[0].point)
 
@@ -493,11 +527,13 @@ function onClick(e)
 			{
 				cube.sprite = intersect.object;
 				
-				document.getElementById("tooltipName").innerHTML = cube.sprite.name; 
+				document.getElementById("tooltipName").innerHTML = cube.sprite.name; //.innerHTML = <div>
 				document.getElementById("tooltipInfo").innerHTML = cube.sprite.information;
-				document.getElementById("reName").value = cube.sprite.name; 
+				document.getElementById("reName").value = cube.sprite.name; 		 // .value = <input>
 				document.getElementById("reInform").value = cube.sprite.information; 
 				document.getElementById("reEtape").value = cube.sprite.etape; 
+				
+
 			}
 
 		})
@@ -726,7 +762,7 @@ function Keyboard(event)
 	console.log(event);
 	if(event.keyCode == 90) //z
 	{
-		
+		console.log(document.getElementById('getEachSprite').innerHTML)
 	}
 	if(event.keyCode == 81) //q
 	{
@@ -742,7 +778,14 @@ function Keyboard(event)
 	}
 	if(event.keyCode == 68) //d
 	{
-
+		//addSpriteName.value= "position 1";
+		//Ajout d'information  dans la partie creation d'un sprite ////////////////////////////
+		document.getElementById('form_name').value = "etape3" ;
+		document.getElementById('form_description').value = "ceci est letape 3";
+		document.getElementById('form_position').value = "53;10;10" ;
+		document.getElementById('form_camera').value = "-130;0;0" ;
+		document.getElementById('form_etape').value = "3";
+			
 	}
 	if(event.keyCode == 69) //e
 	{

@@ -44,9 +44,9 @@ class MachineController extends AbstractController
         $machines = $repository->findAll();
 ///////////////////////////////////////////////////////////////////////        
         
-        $machine = new Machine();
+        
 //         $formMachine = $this->createForm(NewMachineFormType::class, $machine);   //Création d'un nouvel objet formulaire agissant sur le nouvel utilisateur créé auparavant
-        $formMachine = $this->createFormBuilder($machine)     //creation du formulaire
+        $formMachine = $this->createFormBuilder(new Machine())     //creation du formulaire
         ->add('name', TextType::class)
         ->add('description', TextareaType::class)
         ->add('imagefilename', TextType::class,array('attr' => array('maxlength' =>255))) //Pour un maximum de 255 caract�res
@@ -117,11 +117,13 @@ class MachineController extends AbstractController
     /**
      * @Route("/modele/{slug}", name="modele3D")
      */
-    public function viewModele($slug, EntityManagerInterface $em)
+    public function viewModele($slug, EntityManagerInterface $em, Request $request)
     {
         $repositoryMachine = $em->getRepository(Machine::class);
         $repositoryMaintenance = $em->getRepository(Maintenance::class);
+        $repositoryEtapes = $em->getRepository(Etapes::class);
         
+        $etapes = $repositoryEtapes->findBy(['maintenance' =>  $repositoryMaintenance->findOneBy(['id' =>$slug])->getId()]);
         //$machine = $repositoryMachine->findOneBy(['id'=> $slug]);
         $machine = $repositoryMachine->findOneBy(['id'=>  $repositoryMaintenance->findOneBy(['id' =>$slug])->getIdMachine()
         ]);
@@ -130,9 +132,44 @@ class MachineController extends AbstractController
             throw $this->createNotFoundException(sprintf('No machine for slug "%s"', $slug));
         }
         
+        //////// CREATION DE SPRITE ou ETAPE ///////////////////////////////////
+        $sprite = new Etapes();
+        //         $formMachine = $this->createForm(NewMachineFormType::class, $machine);   //Création d'un nouvel objet formulaire agissant sur le nouvel utilisateur créé auparavant
+        $formSprite = $this->createFormBuilder($sprite)     //creation du formulaire
+        ->add('name', TextType::class)
+        ->add('description', TextareaType::class)
+        ->add('position', TextType::class)
+        ->add('camera', TextType::class)
+        ->add('etape', TextType::class)
+        ->add('Enregistrer', SubmitType::class,  array('label' =>'Save Etape'))
+        ->getForm();
+        $formSprite->handleRequest($request);
+        
+        if (($formSprite->getClickedButton() && 'Enregistrer' === $formSprite->getClickedButton()->getName())) //BOUTON SAUVEGARDER + APERCU
+        {
+       
+            /////
+            $createSprite = $formSprite->getData();
+            $this->setData($createSprite);
+//             $machine = $repositoryMaintenance->findOneBy(['id' =>$slug])
+            $createSprite->setMachine($machine);
+            $createSprite->setMaintenance($repositoryMaintenance->findOneBy(['id' => $slug]));
+            $em->persist($createSprite);        //Pour ajouter � la base de donn�e
+            $em->flush();
+            $request = 0;
+           // return $this->render('home/index.html.twig',);
+        }
+        
+        
+        ///////////////////////////////////////////////////////////////
+        
+        
+        
         return $this->render('machine/viewmodel.html.twig', [
             'controller_name' => 'MachineController',
+            'formEtape' => $formSprite->createView(),
             'machine' => $machine,
+            'etapes' => $etapes,
         ]);
     }
 }

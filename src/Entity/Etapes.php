@@ -17,12 +17,12 @@ class Etapes
     private $id;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="string")
      */
     private $position;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="string")
      */
     private $camera;
 
@@ -58,24 +58,24 @@ class Etapes
         return $this->id;
     }
 
-    public function getPosition(): ?float
+    public function getPosition(): ?string
     {
         return $this->position;
     }
 
-    public function setPosition(float $position): self
+    public function setPosition(string $position): self
     {
         $this->position = $position;
 
         return $this;
     }
 
-    public function getCamera(): ?float
+    public function getCamera(): ?string
     {
         return $this->camera;
     }
 
-    public function setCamera(float $camera): self
+    public function setCamera(string $camera): self
     {
         $this->camera = $camera;
 
