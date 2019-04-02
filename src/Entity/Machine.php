@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -30,6 +32,16 @@ class Machine
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $imagefilename;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Maintenance", mappedBy="idMachine")
+     */
+    private $maintenances;
+
+    public function __construct()
+    {
+        $this->maintenances = new ArrayCollection();
+    }
 
     public function getId(): ?int
     { 
@@ -68,6 +80,37 @@ class Machine
     public function setImagefilename(?string $imagefilename): self
     {
         $this->imagefilename = $imagefilename;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Maintenance[]
+     */
+    public function getMaintenances(): Collection
+    {
+        return $this->maintenances;
+    }
+
+    public function addMaintenance(Maintenance $maintenance): self
+    {
+        if (!$this->maintenances->contains($maintenance)) {
+            $this->maintenances[] = $maintenance;
+            $maintenance->setIdMachine($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMaintenance(Maintenance $maintenance): self
+    {
+        if ($this->maintenances->contains($maintenance)) {
+            $this->maintenances->removeElement($maintenance);
+            // set the owning side to null (unless already changed)
+            if ($maintenance->getIdMachine() === $this) {
+                $maintenance->setIdMachine(null);
+            }
+        }
 
         return $this;
     }
