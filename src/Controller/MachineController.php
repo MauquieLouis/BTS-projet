@@ -14,6 +14,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\DBAL\Driver\Connection;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -83,6 +84,7 @@ class MachineController extends AbstractController
        
        
        $machinegetID = $em->getRepository(Machine::class)->findOneBy(['id'=> $machine]);
+//        dd($machinegetID->getName());
 //         if(!$maintenance)
 //         {
 //             throw $this->createNotFoundException(sprintf('No maintenance for machine "%s"', $machine));
@@ -91,7 +93,8 @@ class MachineController extends AbstractController
         $maintenance = new Maintenance();
         $FormMaintenance = $this->createFormBuilder($maintenance)     //creation du formulaire
         ->add('nom', TextType::class)
-        ->add('Enregistrer', SubmitType::class,  array('label' =>'Save Maintenance'))
+        ->add('picturefile', FileType::class )
+        ->add('Enregistrer', SubmitType::class,  array('label' =>'Sauver la maintenance'))
         ->getForm();
         $FormMaintenance->handleRequest($request);
         
@@ -100,6 +103,14 @@ class MachineController extends AbstractController
             $createMaintenance = $FormMaintenance->getData();
             $this->setData($createMaintenance);
             $createMaintenance->setIdMachine($machinegetID);
+            
+            $nom = $FormMaintenance['nom']->getData().$machinegetID->getId().'.jpg';
+            
+            $FormMaintenance['picturefile']->getData()->move(
+                ('image/machine/'.$machinegetID->getName().'/'.$FormMaintenance['nom']->getData()),              //.$document->getId()  => à rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                $nom
+                );
+            $createMaintenance->setPicturefilename($nom);
             $em->persist($createMaintenance);        //Pour ajouter ï¿½ la base de donnï¿½e
             $em->flush();
             $request = 0;

@@ -34,6 +34,16 @@ class Maintenance
      */
     private $etapes;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $picturefile;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $picturefilename;
+
     public function __construct()
     {
         $this->etapes = new ArrayCollection();
@@ -95,6 +105,30 @@ class Maintenance
                 $etape->setMaintenance(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPicturefile(): ?string
+    {
+        return $this->picturefile;
+    }
+
+    public function setPicturefile(?string $picturefile): self
+    {
+        $this->picturefile = $picturefile;
+
+        return $this;
+    }
+
+    public function getPicturefilename(): ?string
+    {
+        return $this->picturefilename;
+    }
+
+    public function setPicturefilename(?string $picturefilename): self
+    {
+        $this->picturefilename = $picturefilename;
 
         return $this;
     }
