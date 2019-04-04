@@ -31,12 +31,16 @@ h4
 }
 h5
 {
-	
 }
 h6
 {
 }
-
+li
+{
+	list-style-type:none;
+	margin:0;
+	padding:0;
+}
 /* - - - - - - - - - - - - - - - -  - - - - - - - - - - */
 /* - - - - - - - - - - -CLASSE HTML - - - - - - - - - - */
 .backgroundLoginForm
@@ -178,17 +182,31 @@ h6
 }
 .listeUser
 {
-	height:32px;
-	border: 2px solid #00A1D7;
-	margin-top:3px;
-	border-radius:6px;
-	transition: background 1s ease, border 1s ease;
+	margin-bottom:4px;
+	height:30px;
+	box-shadow:5px 2px 3px #AAAAAA;
+/* 	border-bottom:1px solid #BDBDBD; */
 }
+li:nth-child(odd)
+{
+	background:#BBBBBB !important;
+	transition: background 0.4s;
+}
+li:nth-child(even)
+{
+	background:#DDDDDD !important;
+	transition: background 0.4s;
+} 
+li:nth-child(odd):hover
+{
+	background:#B4B4B4 !important;
+}
+li:nth-child(even):hover
+{
+	background:#D5D5D5 !important;
+} 
 .listeUser:hover
 {
-	background:#DBDBDB;
-	border: 2px solid #007BA4;
-	transition: background 1s ease, border 1s ease;
 }
 .logoLogout
 {
@@ -272,22 +290,24 @@ h6
 {
 	float:right;
 	margin-right:10px;
-	color:#42B7DE;
+	color:#007BA4;
 }
 .userLogo
 {
 	margin-left:5px;
 	color: #1A4857;
+
 }
 .userName
 {
 	font-weight:bold;
 	margin-left:10px;
-	color:#007BA4;
+	color: #1A4857;
 }
 .userSurname
 {
 	margin-left:3px;
+	color: #1A4857;
 }
 /*- = - = - = - = - = - = - = R E S P O N S I V E = - = - = - = - = - = -*/
 @media(max-width: 767px)
@@ -313,7 +333,7 @@ h6
 	}
 }
 /*- = - = - = - = - = - = - = B O R D U R E S = - = - = - = - = - = - = -*/
-/* .BorderJaune
+.BorderJaune
 {
 	border: 2px solid #DFDF0C;
 }
@@ -344,5 +364,5 @@ h6
 .BorderVert
 {
 	border: 2px solid #228D0F;
-} */
+}
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
