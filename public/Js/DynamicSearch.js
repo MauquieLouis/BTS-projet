@@ -33,7 +33,7 @@ console.log('Dynamic Search!');
 //				console.log(resultats);
 			}else{
 				//console.log(resultats);
-				span.parent().parent().hide();
+				span.parent().parent().parent().parent().hide();
 			}
 		});
 	});
