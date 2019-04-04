@@ -333,7 +333,7 @@ li:nth-child(even):hover
 	}
 }
 /*- = - = - = - = - = - = - = B O R D U R E S = - = - = - = - = - = - = -*/
-.BorderJaune
+/* .BorderJaune
 {
 	border: 2px solid #DFDF0C;
 }
@@ -364,5 +364,5 @@ li:nth-child(even):hover
 .BorderVert
 {
 	border: 2px solid #228D0F;
-}
+} */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
