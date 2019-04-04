@@ -226,6 +226,7 @@ class MachineController extends AbstractController
         {
        
             /////
+            dd("rater");
             $createSprite = $formSprite->getData();
             $this->setData($createSprite);
 //             $machine = $repositoryMaintenance->findOneBy(['id' =>$slug])
@@ -234,27 +235,76 @@ class MachineController extends AbstractController
             $em->persist($createSprite);        //Pour ajouter � la base de donn�e
             $em->flush();
             $request = 0;
-           // return $this->render('home/index.html.twig',);
+//             window.location.reload()
+            return $this->redirectToRoute('modele3D',['slug'=> $slug]);
+           // return $this->render('/modele/'.$slug.'.html.twig',);
         }
+        
+        
+        ////SAUVEGARDER TOUTES LES SPRITES !!! /////////////////////////////////////
+        $formSaveAllSprite = $this->createFormBuilder()
+        ->add('name', TextType::class)
+        ->add('description', TextareaType::class)
+        ->add('position', TextType::class)
+        ->add('camera', TextType::class)
+        ->add('etape', TextType::class)
+        ->add('Sauvegarder', SubmitType::class,  array('label' =>'Sauver la machine'))
+        ->getForm();
+        
+        $formSaveAllSprite->handleRequest($request);
+        if($formSaveAllSprite->isSubmitted())
+        {
+            
+            $createSprite = $formSaveAllSprite->getData();
+           
+            $this->setData($createSprite);
+            $nametosplit = $createSprite->getName();
+            dd($nametosplit);
+            //             $machine = $repositoryMaintenance->findOneBy(['id' =>$slug])
+            $createSprite->setMachine($machine);
+            $createSprite->setMaintenance($repositoryMaintenance->findOneBy(['id' => $slug]));
+            $em->persist($createSprite);        //Pour ajouter � la base de donn�e
+            $em->flush();
+            $request = 0;
+            //             window.location.reload()
+            return $this->redirectToRoute('modele3D',['slug'=> $slug]);
+            
+            
+            //             dd($formSaveAllSprite->getData());
+            //$spriteGoDelete = $repositoryEtapes->findBy(['id'=> $formSaveAllSprite->getData()['idSprite'] ]);
+            
+            //             foreach($spriteGoDelete as $spritedelete)
+                //             {
+                //                 $em->remove($spritedelete);
+                //                 $em->flush();
+                //                 return $this->redirectToRoute('modele3D',['slug'=> $slug]);
+                //             }
+            
+        }
+        ////////////////////////////////////////////////////////////////////////////
+        
+        
+        
+        
         $formDeleteSprite = $this->createFormBuilder()
         ->add('idSprite', TextType::class)
         ->getForm();
         $formDeleteSprite->handleRequest($request);
         if($formDeleteSprite->isSubmitted())
         {
-//             dd($formDeleteSprite->getData());
+             dd($formDeleteSprite->getData());
             $spriteGoDelete = $repositoryEtapes->findBy(['id'=> $formDeleteSprite->getData()['idSprite'] ]);
             foreach($spriteGoDelete as $spritedelete)
             {
                 $em->remove($spritedelete);
                 $em->flush();
+                return $this->redirectToRoute('modele3D',['slug'=> $slug]);
             }
 
         }
       
         ///////////////////////////////////////////////////////////////
-        
-        
+      
         
         return $this->render('machine/viewmodel.html.twig', [
             'controller_name' => 'MachineController',
@@ -262,6 +312,7 @@ class MachineController extends AbstractController
             'formDelete'=> $formDeleteSprite->createView(),
             'machine' => $machine,
             'etapes' => $etapes,
+            'saveAllSprites' =>$formSaveAllSprite->createView(),
             
         ]);
     }
