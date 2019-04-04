@@ -50,17 +50,72 @@ class MachineController extends AbstractController
         $formMachine = $this->createFormBuilder(new Machine())     //creation du formulaire
         ->add('name', TextType::class)
         ->add('description', TextareaType::class)
-        ->add('imagefilename', TextType::class,array('attr' => array('maxlength' =>255))) //Pour un maximum de 255 caractï¿½res
+//         ->add('imagefilename', TextType::class,array('attr' => array('maxlength' =>255))) //Pour un maximum de 255 caractï¿½res
+        ->add('picturedevant', FileType::class )
+        ->add('picturegauche', FileType::class )
+        ->add('picturederriere', FileType::class )
+        ->add('picturedroite', FileType::class )
+        ->add('picturedessus', FileType::class )
+        ->add('picturedessous', FileType::class )
         ->add('Enregistrer', SubmitType::class,  array('label' =>'Save Machine'))
         ->getForm();
         $formMachine->handleRequest($request);
         
         if (($formMachine->getClickedButton() && 'Enregistrer' === $formMachine->getClickedButton()->getName())) //BOUTON SAUVEGARDER + APERCU
-        {
+        {        
             $blog = $formMachine->getData();
             $this->setData($blog);
+            $blog->setPicturedevant('1.jpg');
+            $blog->setPicturegauche('2.jpg');
+            $blog->setPicturederriere('3.jpg');
+            $blog->setPicturedroite('4.jpg');
+            $blog->setPicturedessus('5.jpg');
+            $blog->setPicturedessous('6.jpg');
             $em->persist($blog);        //Pour ajouter ï¿½ la base de donnï¿½e
             $em->flush();
+         
+            ///Gestion des images //////////
+//             $nommachine = preg_split("/[\s,;:.#'\"\/\{\-\_]+/",$formMachine['picturedevant']->getData());
+//             $nomcomplete= "" ;
+//             for ($i = 0; $i < count($nommachine); $i++) {
+//                 $nomcomplete =  $nomcomplete.$nommachine[$i];
+//             }
+            
+//             $nom = $nomcomplete.$machinegetID->getId().'.jpg';
+            $nom = '.jpg';
+            $formMachine['picturedevant']->getData()->move(
+                ('image/machine/'.$blog->getId().'/'),              //.$document->getId()  => à rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                '1'.$nom
+                );
+            $formMachine['picturegauche']->getData()->move(
+                ('image/machine/'.$blog->getId().'/'),              //.$document->getId()  => à rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                '2'.$nom
+                );
+            $formMachine['picturederriere']->getData()->move(
+                ('image/machine/'.$blog->getId().'/'),              //.$document->getId()  => à rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                '3'.$nom
+                );
+            $formMachine['picturedroite']->getData()->move(
+                ('image/machine/'.$blog->getId().'/'),              //.$document->getId()  => à rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                '4'.$nom
+                );
+            $formMachine['picturedessus']->getData()->move(
+                ('image/machine/'.$blog->getId().'/'),              //.$document->getId()  => à rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                '5'.$nom
+                );
+            $formMachine['picturedessous']->getData()->move(
+                ('image/machine/'.$blog->getId().'/'),              //.$document->getId()  => à rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                '6'.$nom
+                );
+            
+            ////////////////////////////////
+
+            $em->persist($blog);        //Pour ajouter ï¿½ la base de donnï¿½e
+            $em->flush();
+            
+            
+            
+            
             $request = 0;
             return $this->render('home/index.html.twig',);
         }
@@ -104,13 +159,23 @@ class MachineController extends AbstractController
             $this->setData($createMaintenance);
             $createMaintenance->setIdMachine($machinegetID);
             
-            $nom = $FormMaintenance['nom']->getData().$machinegetID->getId().'.jpg';
+            $nommachine = preg_split("/[\s,;:.#'\"\/\{\-\_]+/",$FormMaintenance['nom']->getData());
+            $nomcomplete= "" ;
+            for ($i = 0; $i < count($nommachine); $i++) {
+                $nomcomplete =  $nomcomplete.$nommachine[$i];
+            }
             
+            $nom = $nomcomplete.$machinegetID->getId().'.jpg';
+            
+
+            $createMaintenance->setPicturefile($nomcomplete);
+            $createMaintenance->setPicturefilename($nom);
+            $em->persist($createMaintenance);        //Pour ajouter ï¿½ la base de donnï¿½e
+            $em->flush();
             $FormMaintenance['picturefile']->getData()->move(
-                ('image/machine/'.$machinegetID->getName().'/'.$FormMaintenance['nom']->getData()),              //.$document->getId()  => à rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                ('image/machine/'.$machinegetID->getId().'/'.$createMaintenance->getId()),              //.$document->getId()  => à rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
                 $nom
                 );
-            $createMaintenance->setPicturefilename($nom);
             $em->persist($createMaintenance);        //Pour ajouter ï¿½ la base de donnï¿½e
             $em->flush();
             $request = 0;
@@ -122,6 +187,7 @@ class MachineController extends AbstractController
             'controller_name' => 'MachineController',
             'formMaintenance' => $FormMaintenance->createView(),
             'maintenances' => $maintenances,
+            'machineID' => $machinegetID->getId(),
         ]);
     }
     

@@ -40,6 +40,36 @@ class Machine
      */
     private $maintenances;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $picturedevant;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $picturegauche;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $picturederriere;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $picturedroite;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $picturedessus;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $picturedessous;
+
   
     public function __construct()
     {
@@ -114,6 +144,78 @@ class Machine
                 $maintenance->setIdMachine(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPicturedevant(): ?string
+    {
+        return $this->picturedevant;
+    }
+
+    public function setPicturedevant(string $picturedevant): self
+    {
+        $this->picturedevant = $picturedevant;
+
+        return $this;
+    }
+
+    public function getPicturegauche(): ?string
+    {
+        return $this->picturegauche;
+    }
+
+    public function setPicturegauche(string $picturegauche): self
+    {
+        $this->picturegauche = $picturegauche;
+
+        return $this;
+    }
+
+    public function getPicturederriere(): ?string
+    {
+        return $this->picturederriere;
+    }
+
+    public function setPicturederriere(string $picturederriere): self
+    {
+        $this->picturederriere = $picturederriere;
+
+        return $this;
+    }
+
+    public function getPicturedroite(): ?string
+    {
+        return $this->picturedroite;
+    }
+
+    public function setPicturedroite(string $picturedroite): self
+    {
+        $this->picturedroite = $picturedroite;
+
+        return $this;
+    }
+
+    public function getPicturedessus(): ?string
+    {
+        return $this->picturedessus;
+    }
+
+    public function setPicturedessus(string $picturedessus): self
+    {
+        $this->picturedessus = $picturedessus;
+
+        return $this;
+    }
+
+    public function getPicturedessous(): ?string
+    {
+        return $this->picturedessous;
+    }
+
+    public function setPicturedessous(string $picturedessous): self
+    {
+        $this->picturedessous = $picturedessous;
 
         return $this;
     }

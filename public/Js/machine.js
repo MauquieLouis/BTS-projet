@@ -283,6 +283,8 @@ class Machines{
 		
 		//création modèle de cube
 		var geometry2 = new THREE.BoxGeometry( 100, 100, 100 ); // Creation d'une boite de 100 de côtés
+		console.log(imageSurface[0]);
+		console.log(imageSurface[1]);
 		
 //////////////////CHARGEMENT DES IMAGES/////////////////////////////////////////////////////
 		var image1 = new THREE.TextureLoader().load('../../image/machine/'+machine+'/'+imageSurface[0]); 
@@ -363,7 +365,7 @@ const pageHeader = document.getElementById('page-header');
 
 const imageFileNameMachine = document.getElementById('filename');
 var cutFileName = imageFileNameMachine.innerHTML;
-
+console.log(cutFileName);
 const getMachineName = document.getElementById('machineNamed');
 var machineNamed = getMachineName.innerHTML;
 
