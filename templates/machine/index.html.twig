@@ -14,18 +14,21 @@
             {% for machine in Machines %}
             <div class="col-12 col-md-6 col-lg-4 col-xl-3 BorderVert">
                 <div class="card card-listeMachine" style="width: 98%; height:20rem; display:inline-block; margin-top:5px;">
-                	<div style="height:80px;">
+                	<div class="card-img-listeMachine" style="height:80px;">
                 	<img class="card-img-top" src="{{ asset('/image/machine/')~machine.id~('/')~machine.picturedevant }}" style="height:100px; width:auto;">
                 	</div>
                 	<div class="card-body card-body-listeMachine BorderViolet" style="width:100%">
-                		<div class="card-title"><h3>{{ machine.name }}</h3></div>
-                		<div class="card-text">
-                		     <h4>Description : </h4>{{ machine.description }}
+                		<div class="card-title-listeMachine BorderJaune"><h3>{{ machine.name }}</h3></div>
+                		<div class="card-text-listeMachine BorderViolet">
+{#                     		<div class="card-text BorderJaune">#}
+                    		     <h4>Description : </h4>{{ machine.description }}
+{#                 		 	</div>#}
             		 	</div>
             		 	<div class="card-button-listeMachine">
                         	<a href = {{ path('maintenanceModele3D', {'machine' : machine.id }) }} class="btn btn-primary">
-                        	   Accès machine &nbsp; &nbsp; <i class="fas fa-long-arrow-alt-right"></i>
+                        	   <div style="font-size:14px;">Accès machine &nbsp;<i class="fas fa-long-arrow-alt-right"></div></i>
                         	</a>
+                        	{% if is_granted('ROLE_ADMIN') %}<a href="#" class="btn btn-secondary"><div style="font-size:14px;"><div class="d-none d-xl-inline-block">Modifier</div> <i class="fas fa-edit"></i></div></a>{% endif %}
                     	</div>
                 	</div>
                 </div>
@@ -49,7 +52,7 @@
 		</br></br>
 		
 <!-- ============================ FORMULAIRE CREATION MACHINE ========================================= -->	
-	
+	{% if is_granted('ROLE_ADMIN') %}
 	<div id="formMachine" class="col-12 offset-md-2 col-md-8 offset-lg-3 col-lg-6" hidden>
         <h2>Creer une nouvelle machine :</h2>
 		{{ form_start(formMachine) }}
@@ -57,6 +60,7 @@
             {{ form_row(formMachine.description, {'attr':{'placeholder' : "Information sur la machine"}}) }}
         {{ form_end(formMachine) }}
     </div>
+    {% endif %}
     <script>
 	form = document.getElementById('formMachine');
     function HideFormMachine()
