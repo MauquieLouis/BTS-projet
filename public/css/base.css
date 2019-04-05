@@ -148,6 +148,28 @@ li
 {
 	background:#32A7CE;
 }
+.card-listeMachine
+{
+	height:100%;
+	background:#E1E1E1 !important;
+}
+.card-ajout-listeMachine
+{
+	border:5px solid #42B7DE;
+}
+.card-button-listeMachine
+{
+	position:absolute;
+	bottom:10px;
+	left:10px;
+}
+.card-body-listeMachine
+{
+	border-top:1px solid #999999;
+	position:absolute;
+	bottom:0px;
+	height:220px;
+}
 .divText
 {
 	position: relative;
@@ -350,5 +372,5 @@ li
 .BorderVert
 {
 	border: 2px solid #228D0F;
-} */
+}*/
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - -*/

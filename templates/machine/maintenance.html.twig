@@ -9,26 +9,32 @@
 {% block title %}Admin{% endblock %}
 
 {% block body %}
-	
-	<div class="row AdminRow2">
-	<div class="col-12 offset-md-3 col-md-6 AdminRow1 TitlePage">
-    {% for maintenance in maintenances %}	
-    	<a href = {{ path('modele3D', {'slug' : maintenance.id }) }}>
-    	
-		<img src="..\..\image\machine\{{ machineID}}\{{ maintenance.id }}\{{ maintenance.picturefilename }}" alt="Italian Trulli" height="30" width="30">
-        {{ maintenance.nom }}</a>
-		</br>
-		
-    {% endfor %}
-    
-    
-    {{ form_start(formMaintenance) }}
-        {{ form_row(formMaintenance.nom, {'attr':{'placeholder' : "Nom de la maintenance"}}) }}
-    {{ form_end(formMaintenance) }}
-{#     		<h1>Aperçu Machine {{ machine.id }}</h1>#}
-{#     		<div id="filename" hidden>{{ machine.imagefilename }}</div>#}
-{#     		<div id="machineNamed" hidden>{{ machine.name }}</div>#}
-    	</div>
+	<div class="row">
+		<div class="col-12 offset-md-3 col-md-6 TitlePage">
+			<h1>Maintenances disponible <i class="fas fa-paste"></i></h1>
+		</div>
 	</div>
-
+	<div class="row">
+    	<div class="offset-1 col-10 offset-md-1 col-md-10">
+    		<div class="row">
+                {% for maintenance in maintenances %}	
+                	<div class="col-12 col-md-6 col-lg-4 col-xl-3 BorderVert">
+                    	<a href = {{ path('modele3D', {'slug' : maintenance.id }) }} style="width:100%; height:100%;">
+                    	<div style="width:100%; height:100%;">      
+                    		<img src="..\..\image\machine\{{ machineID }}\{{ maintenance.id }}\{{ maintenance.picturefilename }}" alt="Italian Trulli" height="30" width="30">
+                            {{ maintenance.nom }}</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <!-- ============================ FORMULAIRE CREATION MAINTENANCE ========================================= -->
+    
+	<div id="formMachine" class="col-12 offset-md-2 col-md-8 offset-lg-3 col-lg-6">
+    	<h2>Creer une nouvelle machine :</h2>
+        {{ form_start(formMaintenance) }}
+       	    {{ form_row(formMaintenance.nom, {'attr':{'placeholder' : "Nom de la maintenance"}}) }}
+   		{{ form_end(formMaintenance) }}
+	</div>
 {% endblock %}
