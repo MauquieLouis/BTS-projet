@@ -96,13 +96,13 @@ class Machines{
 	}
 	addTooltip(point) // c'est utile avant l'apparition du cube
 	{
-		console.log("Function : addToolTip(point)");
+//		console.log("Function : addToolTip(point)");
 		let spriteMap = new THREE.TextureLoader().load( "../../image/machine/ampoule.png" );
 		let spriteMaterial = new THREE.SpriteMaterial( { map: spriteMap} );
 		let sprite = new THREE.Sprite( spriteMaterial );
 		sprite.name = point.name;
 		sprite.information	= point.info; 
-		console.log(point.camera);
+		//console.log(point.camera);
 		sprite.cameraPosX	= point.camera.x;
 		sprite.cameraPosY	= point.camera.y;
 		sprite.cameraPosZ	= point.camera.z;
@@ -283,6 +283,7 @@ class Machines{
 		
 		//création modèle de cube
 		var geometry2 = new THREE.BoxGeometry( 100, 100, 100 ); // Creation d'une boite de 100 de côtés
+
 		
 //////////////////CHARGEMENT DES IMAGES/////////////////////////////////////////////////////
 		var image1 = new THREE.TextureLoader().load('../../image/machine/'+machine+'/'+imageSurface[0]); 
@@ -321,11 +322,11 @@ class Machines{
 	}
 	spriteHtmlForJs()
 	{
-		let positionSprite = (document.getElementById('getEachSpritePosition').innerHTML);
+		var positionSprite = (document.getElementById('getEachSpritePosition').innerHTML);
 		let posSpriteSplite = positionSprite.split(';');
 		let cameraPositionSprite = (document.getElementById('getEachSpriteCamera').innerHTML);
 		let camPosSpriteSplite = cameraPositionSprite.split(';');
-		console.log(posSpriteSplite[0]);	console.log(posSpriteSplite[1]);	console.log(posSpriteSplite[2]);
+		//console.log(posSpriteSplite[0]);	console.log(posSpriteSplite[1]);	console.log(posSpriteSplite[2]);
 		cube.addPoints({
 			position: new THREE.Vector3(posSpriteSplite[0],posSpriteSplite[1],posSpriteSplite[2]),
 //			position: new THREE.Vector3(-30,1,-30),
@@ -337,7 +338,12 @@ class Machines{
 			idBDD: document.getElementById('getEachSpriteId').innerHTML
 		});
 		cube.addTooltip(cube.points[cube.points.length-1]);
-		
+		document.getElementById("getEachSpriteName").remove();
+		document.getElementById("getEachSpritePosition").remove();
+		document.getElementById("getEachSpriteCamera").remove();
+		document.getElementById("getEachSpriteDescription").remove();
+		document.getElementById("getEachSpriteEtape").remove();
+		document.getElementById("getEachSpriteId").remove();
 
 
 	}
@@ -345,7 +351,21 @@ class Machines{
 	{
 		console.log(pString);
 	}
-	
+	checkAllSprites()
+	{
+		console.log(this.points);
+		console.log(this.points[0].camera.x);
+		console.log(this.points[0].camera.y);
+		console.log(this.points[0].camera.z);
+		console.log(this.points[0].position.x);
+		console.log(this.points[0].position.y);
+		console.log(this.points[0].position.z);
+		console.log(this.points[0].etape);
+		console.log(this.points[0].idBDD);
+		console.log(this.points[0].info);
+		console.log(this.points[0].name);
+		
+	}
 }
 /* FIN CLASSE Machines*/
 
@@ -363,7 +383,7 @@ const pageHeader = document.getElementById('page-header');
 
 const imageFileNameMachine = document.getElementById('filename');
 var cutFileName = imageFileNameMachine.innerHTML;
-
+//console.log(cutFileName);
 const getMachineName = document.getElementById('machineNamed');
 var machineNamed = getMachineName.innerHTML;
 
@@ -423,7 +443,7 @@ material.transparent = true;
 sphere = new THREE.Mesh(geometrysphere, material);
 scene.add(sphere);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-console.log(camera.position);
+//console.log(camera.position);
 //création des cubes
 let cube = new Machines();
 // cube.addPoints({
@@ -463,15 +483,15 @@ let cube = new Machines();
 //	etape : '1',
 //	scene : cube
 //});
-cube.addPoints({
-	position: new THREE.Vector3(54, 0, 0),
-	camera: camera.position,
-	name: 'Etape numero 2',
-	info : 'trapper',
-	etape : '1',
-	scene : cube,
-	idBDD:2
-});
+//cube.addPoints({
+//	position: new THREE.Vector3(54, 0, 0),
+//	camera: camera.position,
+//	name: 'Etape numero 2',
+//	info : 'trapper',
+//	etape : '1',
+//	scene : cube,
+//	idBDD:2
+//});
 cube.RestoreMachine(scene,cutFileName,machineNamed);
 		//var image2 = new THREE.TextureLoader().load('images/machine1/derriere.jpg');
 		//var image3 = new THREE.TextureLoader().load('images/machine1/espace.jpg');
@@ -490,12 +510,7 @@ const rayCaster = new THREE.Raycaster();
 onResize();
 
 
-function modifValider()
-{
-	cube.sprite.name = document.getElementById("reName").value ;
-	cube.sprite.information = document.getElementById("reInform").value ;
-	cube.sprite.etape = document.getElementById("reEtape").value ;
-}
+
 
 function onClick(e)
 {
@@ -520,11 +535,9 @@ function onClick(e)
 
 	if (cube.edition == 0) // si edition=0 alors on affiche le sprite
 	{
-		///////AFFICHE LES POSITIONS DE LA CAMERA////////////////
-		document.getElementById("posCamX").value = camera.position.x;
-		document.getElementById("posCamY").value = camera.position.y;
-		document.getElementById("posCamZ").value = camera.position.z;		
-		/////////////////////////////////////////////////////////
+		///////AFFICHE LES POSITIONS DE LA CAMERA sur l'ecran ////////////////
+		
+		//////////////////////////////////////////////////////////////////////
 		cube.createSprite = 'stop'; 
 
 		
@@ -533,12 +546,12 @@ function onClick(e)
 			if(intersect.object.type === 'Sprite')
 			{
 				cube.sprite = intersect.object;
-				
+				console.log(cube.sprite.position.x);
 				document.getElementById("tooltipName").innerHTML = cube.sprite.name; //.innerHTML = <div>
 				document.getElementById("tooltipInfo").innerHTML = cube.sprite.information;
-				document.getElementById("reName").value = cube.sprite.name; 		 // .value = <input>
-				document.getElementById("reInform").value = cube.sprite.information; 
-				document.getElementById("reEtape").value = cube.sprite.etape; 
+			
+				
+
 				document.getElementById("form_idSprite").value = cube.sprite.idBDD;
 				document.getElementById('form_position').value = cube.sprite.position.x +';'+cube.sprite.position.y +';'+ cube.sprite.position.z;
 				document.getElementById('form_name').value = cube.sprite.name;
@@ -792,11 +805,11 @@ function Keyboard(event)
 	{
 		//addSpriteName.value= "position 1";
 		//Ajout d'information  dans la partie creation d'un sprite ////////////////////////////
-		document.getElementById('form_name').value = "etape3" ;
-		document.getElementById('form_description').value = "ceci est letape 3";
-		document.getElementById('form_position').value = "53;10;10" ;
-		document.getElementById('form_camera').value = "-130;0;0" ;
-		document.getElementById('form_etape').value = "3";
+//		document.getElementById('form_name').value = "etape3" ;
+//		document.getElementById('form_description').value = "ceci est letape 3";
+//		document.getElementById('form_position').value = "53;10;10" ;
+//		document.getElementById('form_camera').value = "-130;0;0" ;
+//		document.getElementById('form_etape').value = "3";
 			
 	}
 	if(event.keyCode == 69) //e

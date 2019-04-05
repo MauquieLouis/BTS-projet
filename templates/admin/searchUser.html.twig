@@ -9,15 +9,22 @@
     	</div>
 	</div>
 	<div class="row">
-		<div class="col-12 offset-md-4 col-md-4">
-			<div class="row displayRow">
+		<div class="col-12 offset-md-4 col-md-4 BorderBleu">
+			<div class="row displayRow BorderJaune">
+			<div class="col-12">
 			{{ form_start(form) }}
-				{{ form_label(form.Recherche,'Recherche') }}
-	            {{ form_widget(form.Recherche) }}
-	        	<button type="Submit" class =""><i class="fas fa-search" style='font-size:27px;'></i></button>
+				<div class="col-12 BorderVert">
+					<h3>{{ form_label(form.Recherche,'Recherche') }}</h3>
+				</div>
+				<div class="col-10 BorderVert">
+	            {{ form_widget(form.Recherche,{'attr' : {'class' : 'form-control'}}) }}
+	            </div>
+	            <div class="col-1 BorderVert">
+	        		<button type="Submit" class =""><i class="fas fa-search" style='font-size:27px;'></i></button>
+	        	</div>
 	        {{ form_end(form) }}
 	        </div>
-	        
+	        </div>
         </div>
     </div>
     <div class="row BorderViolet">
@@ -42,8 +49,9 @@
     	<div class="col-12 offset-md-2 col-md-8" id="AffichageListe">
     		    {% for resultat in rechercheResultat %}
     		    	{% if resultat %}
-    		    		<a href="{{ path('admin_UserControl_searchUser_id', {id: resultat.id}) }}">
-        		    		<div class="listeUser" name="listeUser">
+    		    		<li class="listeUser">
+    		    		<a href="{{ path('admin_UserControl_searchUser_id', {id: resultat.id}) }}" class="click" style="width:100%; height:100%;">
+        		    		<div class="" name="listeUser" style="height:100%;">
         		    			<div class="elemListeUser userLogo" id="userLogo">
         		    			{% if "ROLE_ADMIN" in resultat.roles %}
     		    					<i class="fas fa-user-graduate" name="admin"></i>
@@ -54,11 +62,12 @@
     		    				 {% endif %} 		    				 
     		    				 </div>
     		               		<div class="elemListeUser userName" id="userName"><span>{{ resultat.Nom }}</span></div>
-    		               		<div class="elemListeUser userSurname"><span>{{ resultat.prenom }}</span></div>
+    		               		<div class="elemListeUser userSurname">{{ resultat.prenom }}</div>
     		               		<div class="elemListeUser userEmail">{{ resultat.email }} </div>
         		            	</br>
         		            </div>
     		            </a>
+    		            </li>
     		        {% endif %}
     		    {% endfor %}
     	</div>
@@ -110,7 +119,7 @@
 		{
 			for(var i=0; i< table.length; i++)
 			{
-				table[i].parentNode.parentNode.hidden = param; //table[i].parentNode.parentNode.hidden ? false : true;
+				table[i].parentNode.parentNode.parentNode.parentNode.hidden = param; //table[i].parentNode.parentNode.hidden ? false : true;
 			}
 		}
 		function ShowOnlyAdmin()

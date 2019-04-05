@@ -14,7 +14,10 @@
 	<div class="col-12 offset-md-3 col-md-6 AdminRow1 TitlePage">
     {% for maintenance in maintenances %}	
     	<a href = {{ path('modele3D', {'slug' : maintenance.id }) }}>
-		{{ maintenance.nom }}</b></br>
+    	
+		<img src="..\..\image\machine\{{ machineID}}\{{ maintenance.id }}\{{ maintenance.picturefilename }}" alt="Italian Trulli" height="30" width="30">
+        {{ maintenance.nom }}</a>
+		</br>
 		
     {% endfor %}
     

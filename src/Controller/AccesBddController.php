@@ -11,7 +11,10 @@ use App\Entity\Machine;
 use App\Repository\MachineRepository;
 use App\Entity\User;
 use App\Repository\UserRepository;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+/**
+ *@IsGranted("ROLE_USER")
+ */
 class AccesBddController extends AbstractController
 {
     /**
