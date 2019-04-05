@@ -121,7 +121,7 @@ class MachineController extends AbstractController
             
             
             $request = 0;
-            return $this->render('home/index.html.twig',);
+            return $this->redirectToRoute('machine',);
         }
         return $this->render('machine/index.html.twig', [
             'formMachine' => $formMachine->createView(),
@@ -263,24 +263,29 @@ class MachineController extends AbstractController
         ->add('Sauvegarder', SubmitType::class,  array('label' =>'Sauver la maintenance'))
         ->getForm();
         $formSaveAllSprite->handleRequest($request);
-
+        $saveRequest = $request;
         
         if($formSaveAllSprite->isSubmitted())
         {
             //             dd($formSaveAllSprite->getClickedButton()->getName());
-            $createSprite = $formSaveAllSprite->getData();
-            $this->setData($createSprite);
-            $createSprite->setMachine($machine);
-            $createSprite->setMaintenance($repositoryMaintenance->findOneBy(['id' => $slug]));
-            $em->persist($createSprite);        //Pour ajouter � la base de donn�e
-            $em->flush();
-            
-            //             dd($createSprite);
-            if('val' === $formSaveAllSprite->getClickedButton()->getName())
+            for($k=36;$k<38;$k++)
             {
+                
+                $createSprite = $formSaveAllSprite->getData();
+                $this->setData($createSprite);
+                $createSprite->setName($k);
+                $createSprite->setMachine($machine);
+                $createSprite->setMaintenance($repositoryMaintenance->findOneBy(['id' => $slug]));
+                $em->persist($createSprite);        //Pour ajouter � la base de donn�e
+                $em->flush();
                 $request = 0;
-                return $this->redirectToRoute('modele3D',['slug'=> $slug]);
             }
+            //             dd($createSprite);
+//             if('val' === $formSaveAllSprite->getClickedButton()->getName())
+//             {
+          
+                return $this->redirectToRoute('modele3D',['slug'=> $slug]);
+//             }
             
             //             dd($formSaveAllSprite->getData());
             //$spriteGoDelete = $repositoryEtapes->findBy(['id'=> $formSaveAllSprite->getData()['idSprite'] ]);
