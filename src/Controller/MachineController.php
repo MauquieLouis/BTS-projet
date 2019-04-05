@@ -84,27 +84,27 @@ class MachineController extends AbstractController
 //             $nom = $nomcomplete.$machinegetID->getId().'.jpg';
             $nom = '.jpg';
             $formMachine['picturedevant']->getData()->move(
-                ('image/machine/'.$blog->getId().'/'),              //.$document->getId()  => à rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                ('image/machine/'.$blog->getId().'/'),              //.$document->getId()  => ï¿½ rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
                 '1'.$nom
                 );
             $formMachine['picturegauche']->getData()->move(
-                ('image/machine/'.$blog->getId().'/'),              //.$document->getId()  => à rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                ('image/machine/'.$blog->getId().'/'),              //.$document->getId()  => ï¿½ rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
                 '2'.$nom
                 );
             $formMachine['picturederriere']->getData()->move(
-                ('image/machine/'.$blog->getId().'/'),              //.$document->getId()  => à rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                ('image/machine/'.$blog->getId().'/'),              //.$document->getId()  => ï¿½ rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
                 '3'.$nom
                 );
             $formMachine['picturedroite']->getData()->move(
-                ('image/machine/'.$blog->getId().'/'),              //.$document->getId()  => à rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                ('image/machine/'.$blog->getId().'/'),              //.$document->getId()  => ï¿½ rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
                 '4'.$nom
                 );
             $formMachine['picturedessus']->getData()->move(
-                ('image/machine/'.$blog->getId().'/'),              //.$document->getId()  => à rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                ('image/machine/'.$blog->getId().'/'),              //.$document->getId()  => ï¿½ rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
                 '5'.$nom
                 );
             $formMachine['picturedessous']->getData()->move(
-                ('image/machine/'.$blog->getId().'/'),              //.$document->getId()  => à rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                ('image/machine/'.$blog->getId().'/'),              //.$document->getId()  => ï¿½ rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
                 '6'.$nom
                 );
             
@@ -173,7 +173,7 @@ class MachineController extends AbstractController
             $em->persist($createMaintenance);        //Pour ajouter ï¿½ la base de donnï¿½e
             $em->flush();
             $FormMaintenance['picturefile']->getData()->move(
-                ('image/machine/'.$machinegetID->getId().'/'.$createMaintenance->getId()),              //.$document->getId()  => à rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                ('image/machine/'.$machinegetID->getId().'/'.$createMaintenance->getId()),              //.$document->getId()  => ï¿½ rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
                 $nom
                 );
             $em->persist($createMaintenance);        //Pour ajouter ï¿½ la base de donnï¿½e

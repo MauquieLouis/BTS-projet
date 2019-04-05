@@ -182,31 +182,17 @@ li
 }
 .listeUser
 {
-	margin-bottom:4px;
-	height:30px;
-	box-shadow:5px 2px 3px #AAAAAA;
-/* 	border-bottom:1px solid #BDBDBD; */
+	height:32px;
+	border: 2px solid #00A1D7;
+	margin-top:3px;
+	border-radius:6px;
+	transition: background 1s ease, border 1s ease;
 }
-li:nth-child(odd)
-{
-	background:#BBBBBB !important;
-	transition: background 0.4s;
-}
-li:nth-child(even)
-{
-	background:#DDDDDD !important;
-	transition: background 0.4s;
-} 
-li:nth-child(odd):hover
-{
-	background:#B4B4B4 !important;
-}
-li:nth-child(even):hover
-{
-	background:#D5D5D5 !important;
-} 
 .listeUser:hover
 {
+	background:#DBDBDB;
+	border: 2px solid #007BA4;
+	transition: background 1s ease, border 1s ease;
 }
 .logoLogout
 {
@@ -302,12 +288,12 @@ li:nth-child(even):hover
 {
 	font-weight:bold;
 	margin-left:10px;
-	color: #1A4857;
+	color:#007BA4;
 }
 .userSurname
 {
 	margin-left:3px;
-	color: #1A4857;
+	color: #00A1D7;
 }
 /*- = - = - = - = - = - = - = R E S P O N S I V E = - = - = - = - = - = -*/
 @media(max-width: 767px)
