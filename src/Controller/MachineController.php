@@ -12,6 +12,7 @@ use App\Form\NewMachineFormType;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\DBAL\Driver\Connection;
+
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -19,9 +20,12 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\HttpFoundation\Session\Session;
  
 class MachineController extends AbstractController
 {
@@ -179,7 +183,7 @@ class MachineController extends AbstractController
             $em->persist($createMaintenance);        //Pour ajouter � la base de donn�e
             $em->flush();
             $request = 0;
-            return $this->render('home/index.html.twig',);
+            return $this->redirectToRoute('maintenanceModele3D',['machine' => $machine]);
         }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         
@@ -196,6 +200,9 @@ class MachineController extends AbstractController
      */
     public function viewModele($slug, EntityManagerInterface $em, Request $request)
     {
+        $session = new Session();
+      
+        
         $repositoryMachine = $em->getRepository(Machine::class);
         $repositoryMaintenance = $em->getRepository(Maintenance::class);
         $repositoryEtapes = $em->getRepository(Etapes::class);
@@ -212,108 +219,116 @@ class MachineController extends AbstractController
         //////// CREATION DE SPRITE ou ETAPE ///////////////////////////////////
         $sprite = new Etapes();
         //         $formMachine = $this->createForm(NewMachineFormType::class, $machine);   //Création d'un nouvel objet formulaire agissant sur le nouvel utilisateur créé auparavant
-        $formSprite = $this->createFormBuilder($sprite)     //creation du formulaire
-        ->add('name', TextType::class)
-        ->add('description', TextareaType::class)
-        ->add('position', TextType::class)
-        ->add('camera', TextType::class)
-        ->add('etape', TextType::class)
-        ->add('Enregistrer', SubmitType::class,  array('label' =>'Save Etape'))
-        ->getForm();
-        $formSprite->handleRequest($request);
+      
         
-        if (($formSprite->getClickedButton() && 'Enregistrer' === $formSprite->getClickedButton()->getName())) //BOUTON SAUVEGARDER + APERCU
-        {
+        ////SAVE DUNE SPRITE A LA FOIS     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//         $formSprite = $this->createFormBuilder($sprite)     //creation du formulaire
+//         ->add('name', TextType::class)
+//         ->add('description', TextareaType::class)
+//         ->add('position', TextType::class)
+//         ->add('camera', TextType::class)
+//         ->add('etape', TextType::class)
+//         ->add('Enregistrer', SubmitType::class,  array('label' =>'Save Etape'))
+//         ->getForm();
+//         $formSprite->handleRequest($request);
+        
+//         if (($formSprite->getClickedButton() && 'Enregistrer' === $formSprite->getClickedButton()->getName())) //BOUTON SAUVEGARDER + APERCU
+//         {
        
-            /////
-            dd("rater");
-            $createSprite = $formSprite->getData();
-            $this->setData($createSprite);
-//             $machine = $repositoryMaintenance->findOneBy(['id' =>$slug])
-            $createSprite->setMachine($machine);
-            $createSprite->setMaintenance($repositoryMaintenance->findOneBy(['id' => $slug]));
-            $em->persist($createSprite);        //Pour ajouter � la base de donn�e
-            $em->flush();
-            $request = 0;
-//             window.location.reload()
-            return $this->redirectToRoute('modele3D',['slug'=> $slug]);
-           // return $this->render('/modele/'.$slug.'.html.twig',);
-        }
-        
+//             /////
+//            // dd("rater");
+//             $createSprite = $formSprite->getData();
+//             $this->setData($createSprite);
+// //             $machine = $repositoryMaintenance->findOneBy(['id' =>$slug])
+//             $createSprite->setMachine($machine);
+//             $createSprite->setMaintenance($repositoryMaintenance->findOneBy(['id' => $slug]));
+//             $em->persist($createSprite);        //Pour ajouter � la base de donn�e
+//             $em->flush();
+//             $request = 0;
+// //             window.location.reload()
+//             return $this->redirectToRoute('modele3D',['slug'=> $slug]);
+//            // return $this->render('/modele/'.$slug.'.html.twig',);
+//         }
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         
         ////SAUVEGARDER TOUTES LES SPRITES !!! /////////////////////////////////////
-        $formSaveAllSprite = $this->createFormBuilder()
+        
+        $formSaveAllSprite = $this->createFormBuilder($sprite)
         ->add('name', TextType::class)
         ->add('description', TextareaType::class)
         ->add('position', TextType::class)
         ->add('camera', TextType::class)
         ->add('etape', TextType::class)
-        ->add('Sauvegarder', SubmitType::class,  array('label' =>'Sauver la machine'))
+        ->add('val', SubmitType::class, array('label' =>'testdetoutsave'))
+        ->add('Sauvegarder', SubmitType::class,  array('label' =>'Sauver la maintenance'))
         ->getForm();
-        
         $formSaveAllSprite->handleRequest($request);
+
+        
         if($formSaveAllSprite->isSubmitted())
         {
-            
+            //             dd($formSaveAllSprite->getClickedButton()->getName());
             $createSprite = $formSaveAllSprite->getData();
-           
             $this->setData($createSprite);
-            $nametosplit = $createSprite->getName();
-            dd($nametosplit);
-            //             $machine = $repositoryMaintenance->findOneBy(['id' =>$slug])
             $createSprite->setMachine($machine);
             $createSprite->setMaintenance($repositoryMaintenance->findOneBy(['id' => $slug]));
             $em->persist($createSprite);        //Pour ajouter � la base de donn�e
             $em->flush();
-            $request = 0;
-            //             window.location.reload()
-            return $this->redirectToRoute('modele3D',['slug'=> $slug]);
             
+            //             dd($createSprite);
+            if('val' === $formSaveAllSprite->getClickedButton()->getName())
+            {
+                $request = 0;
+                return $this->redirectToRoute('modele3D',['slug'=> $slug]);
+            }
             
             //             dd($formSaveAllSprite->getData());
             //$spriteGoDelete = $repositoryEtapes->findBy(['id'=> $formSaveAllSprite->getData()['idSprite'] ]);
             
             //             foreach($spriteGoDelete as $spritedelete)
-                //             {
-                //                 $em->remove($spritedelete);
-                //                 $em->flush();
-                //                 return $this->redirectToRoute('modele3D',['slug'=> $slug]);
-                //             }
+            //             {
+            //                 $em->remove($spritedelete);
+            //                 $em->flush();
+            //                 return $this->redirectToRoute('modele3D',['slug'=> $slug]);
+            //             }
             
         }
         ////////////////////////////////////////////////////////////////////////////
         
         
         
+        ////////////DELETE SPRITE ////////////////////////////////////////////
         
-        $formDeleteSprite = $this->createFormBuilder()
-        ->add('idSprite', TextType::class)
-        ->getForm();
-        $formDeleteSprite->handleRequest($request);
-        if($formDeleteSprite->isSubmitted())
-        {
-             dd($formDeleteSprite->getData());
-            $spriteGoDelete = $repositoryEtapes->findBy(['id'=> $formDeleteSprite->getData()['idSprite'] ]);
-            foreach($spriteGoDelete as $spritedelete)
-            {
-                $em->remove($spritedelete);
-                $em->flush();
-                return $this->redirectToRoute('modele3D',['slug'=> $slug]);
-            }
+//         $formDeleteSprite = $this->createFormBuilder()
+//         ->add('idSprite', TextType::class)
+//         ->getForm();
+//         $formDeleteSprite->handleRequest($request);
+//         if($formDeleteSprite->isSubmitted())
+//         {
+//              dd($formDeleteSprite->getData());
+//             $spriteGoDelete = $repositoryEtapes->findBy(['id'=> $formDeleteSprite->getData()['idSprite'] ]);
+//             foreach($spriteGoDelete as $spritedelete)
+//             {
+//                 $em->remove($spritedelete);
+//                 $em->flush();
+//                 return $this->redirectToRoute('modele3D',['slug'=> $slug]);
+//             }
 
-        }
+//         }
       
-        ///////////////////////////////////////////////////////////////
+     ///////////////////////////////////////////////////////////////////////////////
       
         
         return $this->render('machine/viewmodel.html.twig', [
             'controller_name' => 'MachineController',
-            'formEtape' => $formSprite->createView(),
-            'formDelete'=> $formDeleteSprite->createView(),
+         //   'formEtape' => $formSprite->createView(),
+           // 'formDelete'=> $formDeleteSprite->createView(),
             'machine' => $machine,
             'etapes' => $etapes,
             'saveAllSprites' =>$formSaveAllSprite->createView(),
             
         ]);
+        
+        
     }
 }

@@ -14,10 +14,16 @@
     {{ form_start(formEvent) }}
     {{ form_row(formEvent.title, {'attr':{'placeholder' : "Titre de l'evenement"}}) }}
     {{ form_row(formEvent.description, {'attr':{'placeholder' : "Description de l'evenement"}}) }}
-    {{ form_row(formEvent.usersid, {'attr':{'placeholder' : "Technicien(s) impliques"}}) }}
+    {{ form_row(formEvent.usersid) }}
+   	{{ form_row(formEvent.machinesid) }} 
     {{ form_row(formEvent.dateStart, {'attr':{'placeholder' : "Date de l'evenement"}}) }}
     {{ form_row(formEvent.frequence, {'attr':{'placeholder' : "Frequence de repetition (ne rien mettre si ponctuel)"}}) }}
-
+	<script>
+		function EditButton(idButton)
+		{
+			document.getElementById("new_user_form_"+idButton).disabled ? (document.getElementById("new_user_form_"+idButton).disabled = false) : (document.getElementById("new_user_form_"+idButton).disabled = true);
+		}
+	</script>
    	<button type="submit">Enregistrer</button>
     {{ form_end(formEvent) }}
 {% endblock %}

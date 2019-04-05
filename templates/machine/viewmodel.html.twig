@@ -9,8 +9,8 @@
 {% block title %}Admin{% endblock %}
 
 {% block body %}
-	<button onClick="cube.checkAllSprites()">Check All Sprites</button>
-	
+	<button id="testchercker" onClick="cube.checkAllSprites();">Check All Sprites</button>
+	<button onClick="cube.checkAllSprites();//document.getElementById('form_Sauvegarder').click();">testcchek</button>
 	<div class="row AdminRow2">
     	<div class="col-12 offset-md-3 col-md-6 AdminRow1 TitlePage">
     		<h1>Aperçu Machine {{ machine.id }}</h1>
@@ -41,12 +41,12 @@
             	<div class="SpriteNbr" id="SpriteNb">0</div>
             		
             	
-            		{{ form_start(formDelete) }}
+{#             		{{ form_start(formDelete) }}#}
             		
-            			<div id="DeleteToSprite">{{ form_row(formDelete.idSprite)}}</div>
-            			<button type="submit">Delete Etape</button>
+{#             			<div id="DeleteToSprite">{{ form_row(formDelete.idSprite)}}</div>#}
+{#             			<button type="submit">Delete Etape</button>#}
             			
-            		{{ form_end(formDelete) }}            	 
+{#             		{{ form_end(formDelete) }}            	 #}
             	
             	<div >Name :</div>
             	<div class="informationTooltip" id="tooltipName" ></div>
@@ -62,17 +62,19 @@
             	<button onClick="cube.EtapeChangement(-1)" class="posCubex"> < </button><button class="posCubes" onClick="cube.EtapeChangement(1)"> > </button></br>
             	
 
-            	{{ form_start(formEtape) }}
-            		<div class="addNomSprite"> {{ form_row(formEtape.name) }}</div>
-                     {{ form_row(formEtape.description, {'attr':{'placeholder' : "Description de l etape"}}) }}
-                     {{ form_row(formEtape.position, {'attr':{'placeholder' : "position de l etape"}}) }}
-                     {{ form_row(formEtape.camera, {'attr':{'placeholder' : "Camera de l etape"}}) }}
-                     {{ form_row(formEtape.etape, {'attr':{'placeholder' : "Etape de l etape", 'readonly':'readonly'}}) }}
+{#             	{{ form_start(formEtape) }}#}
+{#             		<div class="addNomSprite"> {{ form_row(formEtape.name) }}</div>#}
+{#                      {{ form_row(formEtape.description, {'attr':{'placeholder' : "Description de l etape"}}) }}#}
+{#                      {{ form_row(formEtape.position, {'attr':{'placeholder' : "position de l etape"}}) }}#}
+{#                      {{ form_row(formEtape.camera, {'attr':{'placeholder' : "Camera de l etape"}}) }}#}
+{#                      {{ form_row(formEtape.etape, {'attr':{'placeholder' : "Etape de l etape", 'readonly':'readonly'}}) }}#}
                      
-{#                      {{ form_widget(formEtape.etape, {'readonly' : true})}}#}
-				{{ form_end(formEtape) }}
+
+{# 				{{ form_end(formEtape) }}#}
         	    <h2>Sauvegarde de toutes les etapes</h2>
-        	     {{ form_start(saveAllSprites) }}           			
+        	     {{ form_start(saveAllSprites) }}
+        	     
+        	     	       			
 	 			 {{ form_end(saveAllSprites) }}  
 			
             </div>
