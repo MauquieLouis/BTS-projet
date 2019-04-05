@@ -6,25 +6,90 @@ var mm = now.getMonth();
 var dow = now.getDay();
 var yyyy = now.getFullYear();
 
+var nbYear = 6; //Nombre paire
+var caseHeight = "50px"; //Hauteur de la case
+var windowWidth = parseInt(document.body.clientWidth)-30; //Définition de la taille de la fenêtre
+
 //----Couleurs des cases----//
 var colorOtherMonth = "lightgray";
 var colorMonth = "#ececec";
 var colorToday = "deepskyblue";
 var colorSelectDay = "white";
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////Calcul nb de jour de le mois/////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function maxDays(mm, yyyy){
+var arrD = new Array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+var annBissex = ((yyyy%4==0 && yyyy%100!=0)||yyyy%400==0)?1:0; //Si c'est une année bisextile, annBissex = 1 sinon = 0
+return arrD[mm]+((mm==1)?(annBissex?1:0):0); 
+}
+
+
+
+
+
 //----------Evènements----------//
 table.init("event");
+console.log(table.retour);
 var tabEvent = table.retour;
 var de = new Array();
 var me = new Array();
 var ye = new Array();
+
+var frequenceDay = 7;
+var frequenceMonth;
+var frequenceYear;
+//alert(maxDays(parseInt(tabEvent[0][4].date.substr(5, 2))-1, parseInt(tabEvent[0][4].date.substr(0, 4))));
 //----Dates evènement----//
+
 for(var j=0; j < parseInt(tabEvent.length); j++){
-	de[j] = parseInt(tabEvent[j][4].date.substr(8, 2));
-	me[j] = parseInt(tabEvent[j][4].date.substr(5, 2));
-	ye[j] = parseInt(tabEvent[j][4].date.substr(0, 4));
+
+	var frequenceE = 1;//tabEvent[j][6];
+	de[j] = new Array();
+	me[j] = new Array();
+	ye[j] = new Array();
+	frequenceMonth = 0;
+	frequenceYear = 0;
+
+	de[j][0]=parseInt(tabEvent[j][4].date.substr(8, 2));
+	me[j][0]=parseInt(tabEvent[j][4].date.substr(5, 2));
+	ye[j][0]=parseInt(tabEvent[j][4].date.substr(0, 4));
+	//itteration = (nbYear/2*365)/frequenceE*7
+	
+	var l = 0
+	for(var k=1; k < 5; k++, l++){
+		//alert(me[j][1]);
+		var nbDays = maxDays(parseInt(me[j][l]-1+frequenceMonth), parseInt(ye[j][l]+frequenceYear));
+		//alert(nbDays);
+		//alert(parseInt(me[j][l])-1+frequenceMonth + ", " + parseInt(ye[j][l])+frequenceYear);
+		
+		if(de[j][l]+frequenceDay > parseInt(nbDays)){
+			frequenceMonth = Math.trunc((de[j][l]+frequenceDay)/nbDays);
+			de[j][k] = de[j][l]-nbDays+frequenceDay;
+		
+		}	
+		else{
+			de[j][k] = de[j][l]+frequenceDay;
+			frequenceMonth = 0;
+		}
+		if (parseInt(me[j][l])+frequenceMonth > 12){
+			me[j][k] = frequenceMonth;
+			frequenceYear++;
+		}
+		else{
+			me[j][k] = parseInt(me[j][l])+frequenceMonth;
+		}
+
+		ye[j][k] = parseInt(ye[j][l])+frequenceYear;
+	}
+	alert(de[j][1] + "/" + me[j][1] + "/" + ye[j][1] + "---" + de[j][2] + "/" + me[j][2] + "/" + ye[j][2]);
+	alert(de[j][3] + "/" + me[j][3] + "/" + ye[j][3] + "---" + de[j][4] + "/" + me[j][4] + "/" + ye[j][4]);
+
+
 }
 //------------------------------//
+
 
 //----Date clicker----//
 var wDate = new Date();
@@ -35,15 +100,6 @@ var idPrec = "";
 //var maVariable = <?php echo $_SESSION["mavariable"]; ?>;
 
 //alert(maVariable);
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////Calcul nb de jour de le mois/////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function maxDays(mm, yyyy){
-	var arrD = new Array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
-	var annBissex = ((yyyy%4==0 && yyyy%100!=0)||yyyy%400==0)?1:0; //Si c'est une année bisextile, annBissex = 1 sinon = 0
-	return arrD[mm]+((mm==1)?(annBissex?1:0):0); 
-}
-
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////Au click sur une case/////////////////////////////////////////////////
@@ -52,7 +108,6 @@ function clickOnCase(id){
 	
 	//----Si aucun id n'est passé, on prend celui d'aujourd'hui----//
 	if(id.substr(0, 2) != "sp"){
-		
 		for (var i=0;i<=41;i++){
 			if(eval("sp"+i).style.backgroundColor == colorToday)id = "sp"+i;
 		}
@@ -79,8 +134,8 @@ function clickOnCase(id){
 	var aa = 0;
 
 	//----Coloriage de la case clicker et appel de la fonction affichageEvent----//
-	for (var i=0;i<=41;i++, aa++){
-		var balise = eval("sp"+aa);
+	for (var i=0;i<=41;i++){
+		var balise = eval("sp"+i);
 		if(parseInt(balise.innerHTML)==dw 
 		&& balise.innerHTML != ""	
 		&& balise.style.backgroundColor != colorOtherMonth){
@@ -116,14 +171,18 @@ function affichageEvent(id){
 	text += " :</br>";
 
 	//---------------Affichage du contenu de l'évènement-----------------//
-	var frequenceE = tabEvent[1][6];
+
 	var textEvent = "";
 	for(var j=0; j < parseInt(tabEvent.length); j++){
-		if(de[j] == dw 
-		&& me[j] == mw
-		&& ye[j] == yw)
-			textEvent += "<table><tr><td align=left><span id=title>" + tabEvent[j][0] + "</span></td><td><span id=content>" + tabEvent[j][1]+ "</span></td></tr></table>";
+		for(var k=0; k<5; k++)
+		{
+			if(de[j][k] == dw 
+			&& me[j][k] == mw
+			&& ye[j][k] == yw)
+				textEvent += "<table border=1><tr><td align=left><span id=title>" + tabEvent[j][0] + "</span></td><td><span id=content>" + tabEvent[j][1]+ "</span></td></tr></table>";
 
+		}
+		
 	}
 	
 	text += (textEvent=="")?"Aucun évènement prévu pour le moment..."+"</br>":textEvent;
@@ -136,7 +195,7 @@ function chMonth(plusOuMoins){
 	if (plusOuMoins == "-")
 	{
 		if(currM == 0){ 	//Si le mois courant est janvier, 
-			(document.calForm.selYear.value == parseInt(yyyy)-2)?alert("!"):document.calForm.selYear.value--;
+			(document.calForm.selYear.value == parseInt(yyyy)-nbYear/2)?alert("!"):document.calForm.selYear.value--;
 			document.calForm.selMonth.value=11;
 		}
 		else
@@ -145,7 +204,7 @@ function chMonth(plusOuMoins){
 	}
 	else if (plusOuMoins == "+"){
 		if(currM == 11){ 	//Si le mois courant est décembre
-			(document.calForm.selYear.value == parseInt(yyyy)+2)?alert("!"):document.calForm.selYear.value++;
+			(document.calForm.selYear.value == parseInt(yyyy)+nbYear/2)?alert("!"):document.calForm.selYear.value++;
 			document.calForm.selMonth.value=0;
 		}
 		else
@@ -169,8 +228,8 @@ function chMonth(plusOuMoins){
 function writeCalendar(){
 	var arrM = new Array("Janvier","Fevrier","Mars","Avril","Mai","Juin","Juillet","Aout","Septembre","Octobre","Novembre","Decembre");
 	var arrY = new Array();
-	for (i=0;i<=4;i++)				//5 années serront sélèctionnable
-		arrY[i] = yyyy - 2 + i;
+	for (i=0;i<=nbYear;i++)				//5 années serront sélèctionnable
+		arrY[i] = yyyy - nbYear/2 + i;
 	var arrD = new Array("Lun","Mar","Mer","Jeu","Ven","Sam","Dim");
 
 	var text = "";
@@ -190,8 +249,8 @@ function writeCalendar(){
 	text += "</td>";
 	text += "<td align=right>";
 	text += "<select name=selYear onChange='changeCal()'>";	//Quand on selectionne une année, la fonction changeCal() est appelé
-	for (i=0;i<=4;i++)		//Remplissage de la balise de selection de l'année
-		(i==2)?text += "<option value= " + arrY[i] + " Selected>" + arrY[i] + "</option>": text += "<option value= " + arrY[i] + ">" + arrY[i] + "</option>";//L'année courante est séléctionnée au lancement
+	for (i=0;i<=nbYear;i++)		//Remplissage de la balise de selection de l'année
+		(i==nbYear/2)?text += "<option value= " + arrY[i] + " Selected>" + arrY[i] + "</option>": text += "<option value= " + arrY[i] + ">" + arrY[i] + "</option>";//L'année courante est séléctionnée au lancement
 	
 	text += "</select>";
 	text += "</td>";
@@ -253,7 +312,7 @@ function changeCal(){
 		arrN[i] = aa ;
 		if ((arrN[i]==dd)&&(mm==currM)&&(yyyy==currY)){ //Aujourd'hui
 			eval("sp"+i).style.backgroundColor=colorToday;
-			clickOnCase("none");
+			//clickOnCase("none");
 		}
 		else
 			eval("sp"+i).style.backgroundColor=colorMonth;
@@ -268,37 +327,40 @@ function changeCal(){
 	//-------------------------------------------------------------------------------------------------//
 	
 	//------------------------Définition de la taille et remplissage des cases-------------------------//
-	var windowWidth = parseInt(document.body.clientWidth)-30; //Définition de la taille de la fenêtre
 	//----Parcour de toutes les cases----//
 	for (i=0;i<=41;i++){
-		eval("sp"+i).style.height = "50px";	//Définition de la hauteur des cases
-		eval("sp"+i).style.width = (document.body.clientWidth < 738)?windowWidth/7+"px":windowWidth/21+"px"; //Définition de la largeur des cases en fontion de la taille de la fenêtre
+		eval("sp"+i).style.height = caseHeight;	//Définition de la hauteur des cases
+		eval("sp"+i).style.width = (windowWidth < 738)?windowWidth/7+"px":windowWidth/21+"px"; //Définition de la largeur des cases en fontion de la taille de la fenêtre
 		eval("sp"+i).innerHTML = arrN[i]; //Remplissage des cases
 		//----Parcour de tous les évènements----//
 		for(var j=0; j < parseInt(tabEvent.length); j++){
-			if((eval("sp"+i).innerHTML == de[j] && currY == ye[j]) //Si le jour et l'année de l'évènement sont affiché
-			&& (	(currM+1 == me[j] && eval("sp"+i).style.backgroundColor != colorOtherMonth) //Et le mois (avec la bonne couleur)
-				||	(((prevM+1 == me[j] && i<15) //Ou le mois precedent 
-					||	(nextM+1 == me[j] && i>15)) //Ou le mois suivant 
-						&& ( eval("sp"+i).style.backgroundColor == colorOtherMonth))))//(avec la bonne couleur)
-					eval("sp"+i).innerHTML += "<a><br><i  class=\"far fa-dot-circle\"></i></br></a>"; //Alort affiché un cercle
-		}	  
+			for(var k=0; k<5; k++){
+				if((eval("sp"+i).innerHTML == de[j][k] && mmyyyy.getFullYear() == ye[j][k]) //Si le jour et l'année de l'évènement sont affiché
+					&& (	(mmyyyy.getMonth()+1 == me[j][k] && eval("sp"+i).style.backgroundColor != colorOtherMonth) //Et le mois (avec la bonne couleur)
+						||	(((prevM+1 == me[j][k] && i<15) //Ou le mois precedent 
+							||	(nextM+1 == me[j][k] && i>15)) //Ou le mois suivant 
+							&& ( eval("sp"+i).style.backgroundColor == colorOtherMonth))))//(avec la bonne couleur)
+						eval("sp"+i).innerHTML += "<a><br><i  class=\"far fa-dot-circle\"></i></br></a>"; //Alort affiché un cercle
+
+			}
+		}	
+			  
 		//--------------------------------------//
 		
 		//----Recoloration du jour sélèctionné----//
-		if(eval("sp"+i).innerHTML == wDate.getDate() 
+		if(parseInt(eval("sp"+i).innerHTML) == wDate.getDate() 
 		&& currM+1 == wDate.getMonth()
 		&& currY == wDate.getFullYear()
 		&& eval("sp"+i).style.backgroundColor != colorOtherMonth
 		&& eval("sp"+i).style.backgroundColor != colorToday)
 			eval("sp"+i).style.backgroundColor = colorSelectDay;
-	}						  
+	}	
 	//-------------------------------------------------------------------------------------------------//
 }
 
 //-------Redimenssion du calendrier en fonction de la taille de la fenêtre-------//
 window.onresize = function resize(){ 
-	var windowWidth = parseInt(document.body.clientWidth)-30;
+	windowWidth = parseInt(document.body.clientWidth)-30;
 	if(windowWidth < 738)
 		for (i=0;i<=41;i++)eval("sp"+i).style.width = windowWidth/7+"px";
 	else
