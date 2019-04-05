@@ -12,6 +12,7 @@ use App\Form\NewMachineFormType;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\DBAL\Driver\Connection;
+
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -19,9 +20,11 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
  
 class MachineController extends AbstractController
 {
@@ -242,7 +245,11 @@ class MachineController extends AbstractController
         
         
         ////SAUVEGARDER TOUTES LES SPRITES !!! /////////////////////////////////////
+        
         $formSaveAllSprite = $this->createFormBuilder()
+        ->add('tableausprites', CollectionType::class,[
+            'action' => TextType::class,
+        ])
         ->add('name', TextType::class)
         ->add('description', TextareaType::class)
         ->add('position', TextType::class)
@@ -258,8 +265,8 @@ class MachineController extends AbstractController
             $createSprite = $formSaveAllSprite->getData();
            
             $this->setData($createSprite);
+            dd($createSprite);
             $nametosplit = $createSprite->getName();
-            dd($nametosplit);
             //             $machine = $repositoryMaintenance->findOneBy(['id' =>$slug])
             $createSprite->setMachine($machine);
             $createSprite->setMaintenance($repositoryMaintenance->findOneBy(['id' => $slug]));
