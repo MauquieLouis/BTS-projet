@@ -115,18 +115,18 @@
         	{
 				if(isOpen) //Quand on click : ferme le menu
 				{
-					icon.style.transform = 'none';
+					icon.style.transform = 'none';			//On enlève les rotations appliquées auparavant
 					logout.style.transform ='none';
 					setting.style.transform ='none';	
- 					icon.style.right = '10px';
+ 					icon.style.right = '10px';				//On décales toutes les icones vers la droite (en dehors de l'écrans)
  					logout.style.right = '-40px';
  					setting.style.right = '-40px';
- 					setTimeout(delayIcon, 700); 
+ 					setTimeout(delayIcon, 700); 			//On met un delay avant de cacher les icon pour avoir le temps de voir l'animation
 				}
 				else	//Quand on click : ouvre le menu
 				{
-					delayIcon()
-					setTimeout(returnMenu,1.1);
+					delayIcon()								//on affiche les icon(on enleve juste la propriété hidden)
+					setTimeout(returnMenu,120);				//puis un délai pour l'animation
 				}	
         	}
         	function delayIcon()
@@ -135,11 +135,11 @@
         		setting.hidden ? setting.hidden = false : setting.hidden = true;
         	}
         	function returnMenu()
-        	{
-				icon.style.transform ='rotate(-540deg)';
+        	{  	
+				icon.style.transform ='rotate(-540deg)';			//rotation des icones
 				logout.style.transform ='rotate(-360deg)';
 				setting.style.transform ='rotate(-540deg)';	
-				icon.style.right = '140px';
+				icon.style.right = '140px';							//déplacement vers la gauche
 				logout.style.right = '20px';
 				setting.style.right = '80px';
             }

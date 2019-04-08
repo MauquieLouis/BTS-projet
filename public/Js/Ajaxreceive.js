@@ -27,11 +27,29 @@ var table = {
 		}
 		
 		xhReq.send();
-
-	},
+		return this.retour;
+	}, 
 };
 
+
+function getCurrentUser(){
+	var xhReq = new XMLHttpRequest();
+	var currentUser;
+	xhReq.onreadystatechange = function() {
+		if (this.readyState == 4 && (this.status == 200 || this.status == 0)) {
+			currentUser = JSON.parse(this.responseText);
+		}
+	};
+	xhReq.open("post","variables/sendsession",false);
+
+	xhReq.send();
+
+	return currentUser;
+}
+
+console.log(table.init("event"))
 //PROCEDURE D'UTLISATION-------------------------------------------------//
 //table.init("selected")	// selected === nom de la table selectionée
 //table.retour[i][n]		// i : ligne	n : colonne
 //-----------------------------------------------------------------------//
+

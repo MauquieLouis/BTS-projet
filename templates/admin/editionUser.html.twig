@@ -5,7 +5,17 @@
 {% block body %}
 	<div class="row BorderJaune">
     	<div class="col-12 offset-md-3 col-md-6 BorderRouge TitlePage">	
-			<h1>Edition Utilisateur {{ user.Nom }}</h1>
+    		<div class="row">
+    			<div class=" col-12 col-lg-5">
+					<h1>Edition Utilisateur</h1>
+				</div>
+			  	<div class="userEdit col-10 col-lg-5">
+			        <h1>{{ user.Nom }} {{ user.prenom }}</h1>
+			 	</div>
+			 	<div class="col-2 col-lg-2">
+			 		<h1><i class="fas fa-user-edit"></i></h1>
+			 	</div>
+			</div>
 		</div>
 	</div>
 	<div class="row">
@@ -80,11 +90,11 @@
 		<div class="row col-12 offset-md-3 col-md-6 BorderViolet titreFormulaire"><h3>Suppression compte</h3></div>
     	<div class="col-12 offset-md-3 col-md-6 formPart">
     		<div class="col-11 offset-md-1 col-md-10">
-        		<button class="btn btn-danger" onclick="DeleteAccount();"><i class="fas fa-trash-alt"></i> Supprimer le compte</button>
+        		<button class="btn btn-danger" href="#formDelete" onclick="DeleteAccount();"><i class="fas fa-trash-alt"></i> Supprimer le compte</button>
         		<div id="confirm" hidden>
         			<h3>Êtes vous sûr ?</h3>
         			<h4>Toute suppression est définitive... Il est absoluement impossible de revenir en arrière !</h4>
-        			<div class="row">
+        			<div class="row" id="formDelete">
         			    {{ form_start(formDelete) }}
         					<button type="submit" class="btn btn-link"><i class="fas fa-check-circle"></i> Oui, Supprimer</button>
         			    {{ form_end(formDelete) }}
