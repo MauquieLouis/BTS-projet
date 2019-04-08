@@ -26,9 +26,6 @@ return arrD[mm]+((mm==1)?(annBissex?1:0):0);
 }
 
 
-
-
-
 //----------Evènements----------//
 table.init("event");
 console.log(table.retour);
@@ -45,29 +42,25 @@ var frequenceYear;
 
 for(var j=0; j < parseInt(tabEvent.length); j++){
 
-	var frequenceE = 1;//tabEvent[j][6];
+	var frequenceDay = tabEvent[j][6];
 	de[j] = new Array();
 	me[j] = new Array();
 	ye[j] = new Array();
 	frequenceMonth = 0;
 	frequenceYear = 0;
-
 	de[j][0]=parseInt(tabEvent[j][4].date.substr(8, 2));
 	me[j][0]=parseInt(tabEvent[j][4].date.substr(5, 2));
 	ye[j][0]=parseInt(tabEvent[j][4].date.substr(0, 4));
 	//itteration = (nbYear/2*365)/frequenceE*7
-	
 	var l = 0
-	for(var k=1; k < 5; k++, l++){
+	for(var k=1; k < 2; k++, l++){
 		//alert(me[j][1]);
 		var nbDays = maxDays(parseInt(me[j][l]-1+frequenceMonth), parseInt(ye[j][l]+frequenceYear));
 		//alert(nbDays);
 		//alert(parseInt(me[j][l])-1+frequenceMonth + ", " + parseInt(ye[j][l])+frequenceYear);
-		
 		if(de[j][l]+frequenceDay > parseInt(nbDays)){
 			frequenceMonth = Math.trunc((de[j][l]+frequenceDay)/nbDays);
 			de[j][k] = de[j][l]-nbDays+frequenceDay;
-		
 		}	
 		else{
 			de[j][k] = de[j][l]+frequenceDay;
@@ -80,13 +73,10 @@ for(var j=0; j < parseInt(tabEvent.length); j++){
 		else{
 			me[j][k] = parseInt(me[j][l])+frequenceMonth;
 		}
-
 		ye[j][k] = parseInt(ye[j][l])+frequenceYear;
 	}
 	//alert(de[j][1] + "/" + me[j][1] + "/" + ye[j][1] + "---" + de[j][2] + "/" + me[j][2] + "/" + ye[j][2]);
 	//alert(de[j][3] + "/" + me[j][3] + "/" + ye[j][3] + "---" + de[j][4] + "/" + me[j][4] + "/" + ye[j][4]);
-
-
 }
 //------------------------------//
 
@@ -259,10 +249,8 @@ function writeCalendar(){
 	text += "<tr><td>";
 	text += "<table border=1>";
 	text += "<tr>";
-	for (i=0;i<=6;i++){
+	for (i=0;i<=6;i++)
 		text += "<td align=center><span>" + arrD[i] + "</span></td>"; //Affiche des jours de la semaine
-	
-	}
 	text += "</tr>";
 	aa = 0;
 	for (k=0;k<=5;k++){
@@ -340,7 +328,7 @@ function changeCal(){
 						||	(((prevM+1 == me[j][k] && i<15) //Ou le mois precedent 
 							||	(nextM+1 == me[j][k] && i>15)) //Ou le mois suivant 
 							&& ( eval("sp"+i).style.backgroundColor == colorOtherMonth))))//(avec la bonne couleur)
-						eval("sp"+i).innerHTML += "<a><br><i  class=\"far fa-dot-circle\"></i></br></a>"; //Alort affiché un cercle
+						eval("sp"+i).innerHTML += "<a><br><i style=\"font-size:10px\" class=\"far fa-dot-circle\"></i></br></a>"; //Alort affiché un cercle
 
 			}
 		}	

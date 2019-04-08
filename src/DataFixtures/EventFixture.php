@@ -13,7 +13,7 @@ class EventFixture extends BaseFixture
     {
         // $product = new Product();
         // $manager->persist($product);
-        $this->createMany(20,'event', function()
+        $this->createMany(5,'event', function()
         {
             $event = new Event();
             $event->setTitle($this->faker->title);
@@ -25,10 +25,10 @@ class EventFixture extends BaseFixture
             $values[] = $this->faker->numberBetween(1,5);
             $event->setMachinesid($values);
             $date = new \DateTime();           
-            $jour = $this->faker->numberBetween(1,1000);
+            $jour = $this->faker->numberBetween(1,100);
             $date->modify('+'.$jour.' day'); 
             $event->setDateStart($date);
-            $event->setFrequence($this->faker->randomDigit);
+            $event->setFrequence(7);
             return $event;
         });
        
