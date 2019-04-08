@@ -25,7 +25,7 @@ class User implements UserInterface /*, EquatableInterface*/
     private $email;
     
     /**
-     * @ORM\Column(type="json")
+     * @ORM\Column()
      */
     private $roles = [];
     
