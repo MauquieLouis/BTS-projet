@@ -337,6 +337,10 @@ li
 {
 	border-bottom: 1px solid #AAAAAA;
 }
+.userEdit
+{
+	border: 1px solid #004257;
+}
 .userEmail
 {
 	float:right;

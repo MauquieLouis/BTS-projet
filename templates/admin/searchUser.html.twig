@@ -61,8 +61,8 @@
     		    				 	<i class="fas fa-user-lock" name="nouveau"></i>
     		    				 {% endif %} 		    				 
     		    				 </div>
-    		               		<div class="elemListeUser userName" id="userName"><span>{{ resultat.Nom }}</span></div>
-    		               		<div class="elemListeUser userSurname">{{ resultat.prenom }}</div>
+    		               		<span><div class="elemListeUser userName" name="userName">{{ resultat.Nom }}</div>
+    		               		<div class="elemListeUser userSurname">{{ resultat.prenom }}</div></span>
     		               		<div class="elemListeUser userEmail">{{ resultat.email }} </div>
         		            	</br>
         		            </div>
@@ -134,9 +134,7 @@
 			}
 		}
 	</script>
-	    {% block javascripts %} <!--  Fichier Javascript -->
-     	<script src="{{ asset('bootstrap/Js/jquery.js') }}"></script>
-		<script src="{{ asset('Js/Ajaxreceive.js') }}"></script>
-		<script src="{{ asset('Js/DynamicSearch.js') }}"></script>
-    {% endblock %}
+ 	<script src="{{ asset('bootstrap/Js/jquery.js') }}"></script>
+	<script src="{{ asset('Js/Ajaxreceive.js') }}"></script>
+	<script src="{{ asset('Js/DynamicSearch.js') }}"></script>
 {% endblock %}
