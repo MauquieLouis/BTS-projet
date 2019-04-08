@@ -3,41 +3,64 @@
 {% block title %}Hello MachineController!{% endblock %}
 
 {% block body %}
-	<div class="row BorderJaune">
-    	<div class="col-12 offset-md-3 col-md-6 BorderRouge TitlePage">
+	<div class="row">
+    	<div class="col-12 offset-md-3 col-md-6 TitlePage">
     		<h1>Gestion Machines <i class="fas fa-cube"></i></h1>
     	</div>
 	</div>
-	
-    {% for machine in Machines %}
-    <div class="card" style="width: 18rem;">
-    	<div class="card-body">
-    		<div class="card-title">{{ machine.name }}</div>
-    		<div class="card-text">
-    		     Description : {{ machine.description }}
-    		 </div>
-        	<a href = {{ path('maintenanceModele3D', {'machine' : machine.id }) }} class="btn btn-info">
-        	   Accéder aux Informations de la machine
-        	</a>
-    	</div>
+	<div class="offset-1 col-10 offset-md-1 col-md-10 offset-lg-1 col-lg-10 offset-xl-1 col-xl-10 BorderRouge">
+    	<div class="row"><h2><i class="fas fa-digital-tachograph"></i>Liste machines : </h2></div>
+    	<div class="row">
+            {% for machine in Machines %}
+            <div class="col-12 col-md-6 col-lg-4 col-xl-3 BorderVert">
+                <div class="card card-listeMachine" style="width: 98%; height:20rem; display:inline-block; margin-top:5px;">
+                	<div class="card-img-listeMachine" style="height:80px;">
+                	<img class="card-img-top" src="{{ asset('/image/machine/')~machine.id~('/')~machine.picturedevant }}" style="height:100px; width:auto;">
+                	</div>
+                	<div class="card-body card-body-listeMachine BorderViolet" style="width:100%">
+                		<div class="card-title-listeMachine BorderJaune"><h3>{{ machine.name }}</h3></div>
+                		<div class="card-text-listeMachine BorderViolet">
+{#                     		<div class="card-text BorderJaune">#}
+                    		     <h4>Description : </h4>{{ machine.description }}
+{#                 		 	</div>#}
+            		 	</div>
+            		 	<div class="card-button-listeMachine">
+                        	<a href = {{ path('maintenanceModele3D', {'machine' : machine.id }) }} class="btn btn-primary">
+                        	   <div style="font-size:14px;">Accès machine &nbsp;<i class="fas fa-long-arrow-alt-right"></div></i>
+                        	</a>
+                        	{% if is_granted('ROLE_ADMIN') %}<a href="#" class="btn btn-secondary"><div style="font-size:14px;"><div class="d-none d-xl-inline-block">Modifier</div> <i class="fas fa-edit"></i></div></a>{% endif %}
+                    	</div>
+                	</div>
+                </div>
+            </div>
+            {% endfor %}
+            <div class="col-12 col-md-6 col-lg-4 col-xl-3 BorderVert">
+            	<a href="#formMachine" onclick="HideFormMachine();">
+                    <div class="card-ajout-listeMachine" style="width: 98%; height:20rem; display:inline-block; margin-right:5px; margin-top:5px;">
+                    	<div class="row" style="height:50%">
+                    		<div class="col-12 offset-md-4 col-md-4" style="text-align:center; margin-top:30%;">
+                    			<h3><i class="fas fa-plus-circle" style="font-size:40px"></i></h3>
+                    			</br><h3>Ajouter une machine</h3>
+                    		</div>
+                    	</div>
+                    </div>
+                </a>
+            </div>
+        </div>
     </div>
-    {% endfor %}
 
 		</br></br>
 		
-		<!-- Création Machine -->
-		<button type="button" class="btn btn-info" onclick="HideFormMachine();"><i class="fas fa-plus-circle"></i> Ajouter une machine</button>
-	
+<!-- ============================ FORMULAIRE CREATION MACHINE ========================================= -->	
+	{% if is_granted('ROLE_ADMIN') %}
 	<div id="formMachine" class="col-12 offset-md-2 col-md-8 offset-lg-3 col-lg-6" hidden>
         <h2>Creer une nouvelle machine :</h2>
 		{{ form_start(formMachine) }}
             {{ form_row(formMachine.name, {'attr':{'placeholder' : "Nom de la machine"}}) }}
             {{ form_row(formMachine.description, {'attr':{'placeholder' : "Information sur la machine"}}) }}
-    {#         {{ form_row(formMachine.imagefilename, {'attr':{'placeholder' : "Information sur la machine"}}) }}#}
-    {#     {{ form_row(formMachine.Enregistrer) }}#}
-    
         {{ form_end(formMachine) }}
     </div>
+    {% endif %}
     <script>
 	form = document.getElementById('formMachine');
     function HideFormMachine()

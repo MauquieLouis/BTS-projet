@@ -353,17 +353,29 @@ class Machines{
 	}
 	checkAllSprites()
 	{
+	
+		for(var p=0;p<this.points.length;p++)
+		{
+			document.getElementById("form_name").value=document.getElementById("form_name").value + this.points[p].name;
+			document.getElementById("form_description").value=this.points[p].info;
+			document.getElementById("form_position").value=this.points[p].position.x+';'+ this.points[p].position.y +';'+ this.points[p].position.z;
+			document.getElementById("form_camera").value=this.points[p].camera.x +';'+ this.points[p].camera.y +';'+ this.points[p].camera.z;
+			document.getElementById("form_etape").value=this.points[p].etape;
+//			document.getElementById('form_Sauvegarder').click();
+		}
+//		document.getElementById('form_val').click();
 		console.log(this.points);
-		console.log(this.points[0].camera.x);
-		console.log(this.points[0].camera.y);
-		console.log(this.points[0].camera.z);
-		console.log(this.points[0].position.x);
-		console.log(this.points[0].position.y);
-		console.log(this.points[0].position.z);
-		console.log(this.points[0].etape);
-		console.log(this.points[0].idBDD);
-		console.log(this.points[0].info);
-		console.log(this.points[0].name);
+//		console.log(this.points[0].camera.x);
+//		console.log(this.points[0].camera.y);
+//		console.log(this.points[0].camera.z);
+//		console.log(this.points[0].position.x);
+//		console.log(this.points[0].position.y);
+//		console.log(this.points[0].position.z);
+//		console.log(this.points[0].etape);
+//		console.log(this.points[0].idBDD);
+//		console.log(this.points[0].info);
+//		console.log(this.points[0].name);
+		
 		
 	}
 }
@@ -552,7 +564,7 @@ function onClick(e)
 			
 				
 
-				document.getElementById("form_idSprite").value = cube.sprite.idBDD;
+//				document.getElementById("form_idSprite").value = cube.sprite.idBDD;
 				document.getElementById('form_position').value = cube.sprite.position.x +';'+cube.sprite.position.y +';'+ cube.sprite.position.z;
 				document.getElementById('form_name').value = cube.sprite.name;
 				document.getElementById('form_description').value = cube.sprite.information;
@@ -791,7 +803,7 @@ function Keyboard(event)
 	}
 	if(event.keyCode == 81) //q
 	{
-
+		console.log(document.getElementById(form_tableausprites));
 	}
 	if(event.keyCode == 82) //r
 	{

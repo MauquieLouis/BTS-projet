@@ -4,29 +4,29 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+
 use App\Entity\Event;
 use App\Repository\EventRepository;
 use App\Entity\Machine;
 use App\Repository\MachineRepository;
 use App\Entity\User;
 use App\Repository\UserRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-/**
- *@IsGranted("ROLE_USER")
- */
-class AccesBddController extends AbstractController
+
+
+class AjaxReceiveController extends AbstractController
 {
     /**
      * @Route("accesbdd/sendevent", name="sendevent") 
      */
     public function SendEvent(EventRepository $repo){
-        $repo = $this->getDoctrine()->getRepository(Event::class);
+      //  $repo = $this->getDoctrine()->getRepository(Event::class);
         $table = $repo->findAll();
 
         $tabl = array();
-        $j = 0;
         for ($i=0; $i < sizeof($table); $i++){
+            $j = 0;
             $tabl[$i][$j] = $table[$i]->getId();
             $tabl[$i][$j++] = $table[$i]->getTitle();
             $tabl[$i][$j++] = $table[$i]->getDescription();
@@ -35,49 +35,47 @@ class AccesBddController extends AbstractController
             $tabl[$i][$j++] = $table[$i]->getDateStart();
             $tabl[$i][$j++] = $table[$i]->getDateEnd();
             $tabl[$i][$j++] = $table[$i]->getFrequence();
-            $j=0;
         }
         
         $message = json_encode($tabl);
         echo ($message);
 
-        return $this->render('acces_bdd/index.html.twig');
+        return $this->render('ajax_receive/index.html.twig');
     }
 
      /**
      * @Route("accesbdd/sendmachine", name="sendmachine") 
      */
     public function SendMachine(MachineRepository $repo){
-        $repo = $this->getDoctrine()->getRepository(Machine::class);
+     //   $repo = $this->getDoctrine()->getRepository(Machine::class);
         $table = $repo->findAll();
 
         $tabl = array();
         
-        $j = 0;
         for ($i=0; $i < sizeof($table); $i++){
+            $j=0;
             $tabl[$i][$j] = $table[$i]->getId();
             $tabl[$i][$j++] = $table[$i]->getName();
             $tabl[$i][$j++] = $table[$i]->getDescription();
             $tabl[$i][$j++] = $table[$i]->getImagefilename();
-            $j=0;
         }
         
         $message = json_encode($tabl);
         echo ($message);
         
-        return $this->render('acces_bdd/index.html.twig');
+        return $this->render('ajax_receive/index.html.twig'); 
     }
 
     /**
      * @Route("accesbdd/senduser", name="senduser") 
      */
     public function SendUser(UserRepository $repo){
-        $repo = $this->getDoctrine()->getRepository(User::class);
+      //  $repo = $this->getDoctrine()->getRepository(User::class);
         $table = $repo->findAll();
-
+        //dd($table);
         $tabl = array();
-        $j = 0;
         for ($i=0; $i < sizeof($table); $i++){
+            $j=0; 
             $tabl[$i][$j] = $table[$i]->getId();
             $tabl[$i][$j++] = $table[$i]->getEmail();
             //$tabl[$i][$j++] = $table[$i]->getUsername();
@@ -85,13 +83,38 @@ class AccesBddController extends AbstractController
             $tabl[$i][$j++] = $table[$i]->getNom();
             $tabl[$i][$j++] = $table[$i]->getPrenom();
             $tabl[$i][$j++] = $table[$i]->getDatecreation();
-            $j=0;
         }
         
         $message = json_encode($tabl);
 
         echo ($message);
 
-        return $this->render('acces_bdd/index.html.twig');
+        return $this->render('ajax_receive/index.html.twig');
+    }
+
+    /**
+     * @Route("variables/sendsession", name="sendsession") 
+     */
+    public function SendSession(SessionInterface $session,UserRepository $repo){
+        $user = $repo->findby(
+            [ 'email' => $session->all()["_security.last_username"] ]
+        );
+        dd($session);
+        $tabl = array();
+
+        $j=0;
+        $tabl[$j] = $user[0]->getId();
+        $tabl[++$j] = $user[0]->getEmail();
+        //$tabl[$j++] = $user[0]->getUsername();
+        $tabl[++$j] = $user[0]->getRoles();
+        $tabl[++$j] = $user[0]->getNom();
+        $tabl[++$j] = $user[0]->getPrenom();
+        $tabl[++$j] = $user[0]->getDatecreation();
+        
+        $message = json_encode($tabl);
+        
+        echo ($message);
+
+        return $this->render('ajax_receive/index.html.twig');
     }
 }
