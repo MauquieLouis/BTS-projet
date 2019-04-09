@@ -6,9 +6,12 @@ use App\Entity\Machine;
 use App\Entity\Maintenance;
 use App\Entity\Etapes;
 
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+
 use App\Form\NewMachineFormType;
+use App\Form\EtapesType;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\DBAL\Driver\Connection;
@@ -23,10 +26,23 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
- 
+
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
+
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
+/**
+ * @IsGranted("ROLE_USER")
+ * 
+ * @author Mod_loc
+ *
+ */
 class MachineController extends AbstractController
 {
     protected $data;
@@ -55,7 +71,7 @@ class MachineController extends AbstractController
         ->add('name', TextType::class)
         ->add('description', TextareaType::class)
 //         ->add('imagefilename', TextType::class,array('attr' => array('maxlength' =>255))) //Pour un maximum de 255 caract�res
-        ->add('picturedevant', FileType::class, array('multiple' => true,) )
+        ->add('picturedevant', FileType::class )
         ->add('picturegauche', FileType::class )
         ->add('picturederriere', FileType::class )
         ->add('picturedroite', FileType::class )
@@ -253,21 +269,44 @@ class MachineController extends AbstractController
         
         ////SAUVEGARDER TOUTES LES SPRITES !!! /////////////////////////////////////
         
-        $formSaveAllSprite = $this->createFormBuilder($sprite)
-        ->add('name', TextType::class)
-        ->add('description', TextareaType::class)
-        ->add('position', TextType::class)
-        ->add('camera', TextType::class)
-        ->add('etape', TextType::class)
-        ->add('val', SubmitType::class, array('label' =>'testdetoutsave'))
-        ->add('Sauvegarder', SubmitType::class,  array('label' =>'Sauver la maintenance'))
-        ->getForm();
+        $formSaveAllSprite = $this->createForm(EtapesType::class, $sprite);
+        //$this->createFormBuilder($sprite)
+//         ->add('name', TextType::class)
+//         ->add('description', TextareaType::class)
+//         ->add('position', TextType::class)
+//         ->add('camera', TextType::class)
+//         ->add('etape', TextType::class)
+       
+// //         ->add('categories', EntityType::class, array(
+// //             'class'        => Etapes::class,
+// //             'choice_label' => 'name',
+// //             'multiple'     => true,
+// //         ))
+//         ->add('val', SubmitType::class, array('label' =>'testdetoutsave'))
+//         ->add('Sauvegarder', SubmitType::class,  array('label' =>'Sauver la maintenance'))
+//         ->getForm();
         $formSaveAllSprite->handleRequest($request);
         $saveRequest = $request;
         
         if($formSaveAllSprite->isSubmitted())
         {
             //             dd($formSaveAllSprite->getClickedButton()->getName());
+            $sprites = array('45','46','47');
+            
+            foreach ($sprites as $name) {
+                $product = new Etapes();
+                $product = $formSaveAllSprite->getData();
+                $this->setData($product);
+               
+                $product->setMachine($machine);
+                $product->setMaintenance($repositoryMaintenance->findOneBy(['id' => $slug]));
+                $product->setName($name);
+                
+                $em->persist($product);
+            }
+            
+            $em->flush();
+            dd('google');
             for($k=36;$k<38;$k++)
             {
                 

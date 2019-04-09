@@ -34,18 +34,20 @@
                 </div>
             </div>
             {% endfor %}
-            <div class="col-12 col-md-6 col-lg-4 col-xl-3 BorderVert">
-            	<a href="#formMachine" onclick="HideFormMachine();">
-                    <div class="card-ajout-listeMachine" style="width: 98%; height:20rem; display:inline-block; margin-right:5px; margin-top:5px;">
-                    	<div class="row" style="height:50%">
-                    		<div class="col-12 offset-md-4 col-md-4" style="text-align:center; margin-top:30%;">
-                    			<h3><i class="fas fa-plus-circle" style="font-size:40px"></i></h3>
-                    			</br><h3>Ajouter une machine</h3>
-                    		</div>
-                    	</div>
-                    </div>
-                </a>
-            </div>
+             {% if is_granted('ROLE_ADMIN') %}
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3 BorderVert">
+                	<a href="#formMachine" onclick="HideFormMachine();">
+                        <div class="card-ajout-listeMachine" style="width: 98%; height:20rem; display:inline-block; margin-right:5px; margin-top:5px;">
+                        	<div class="row" style="height:50%">
+                        		<div class="col-12 offset-md-4 col-md-4" style="text-align:center; margin-top:30%;">
+                        			<h3><i class="fas fa-plus-circle" style="font-size:40px"></i></h3>
+                        			</br><h3>Ajouter une machine</h3>
+                        		</div>
+                        	</div>
+                        </div>
+                    </a>
+                </div>
+            {% endif %}
         </div>
     </div>
 

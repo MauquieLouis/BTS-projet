@@ -356,14 +356,14 @@ class Machines{
 	
 		for(var p=0;p<this.points.length;p++)
 		{
-			document.getElementById("form_name").value=document.getElementById("form_name").value + this.points[p].name;
-			document.getElementById("form_description").value=this.points[p].info;
-			document.getElementById("form_position").value=this.points[p].position.x+';'+ this.points[p].position.y +';'+ this.points[p].position.z;
-			document.getElementById("form_camera").value=this.points[p].camera.x +';'+ this.points[p].camera.y +';'+ this.points[p].camera.z;
-			document.getElementById("form_etape").value=this.points[p].etape;
-//			document.getElementById('form_Sauvegarder').click();
+			document.getElementById("etapes_name").value=document.getElementById("etapes_name").value + this.points[p].name;
+			document.getElementById("etapes_description").value=this.points[p].info;
+			document.getElementById("etapes_position").value=this.points[p].position.x+';'+ this.points[p].position.y +';'+ this.points[p].position.z;
+			document.getElementById("etapes_camera").value=this.points[p].camera.x +';'+ this.points[p].camera.y +';'+ this.points[p].camera.z;
+			document.getElementById("etapes_etape").value=this.points[p].etape;
+//			document.getElementById('etapes_Sauvegarder').click();
 		}
-//		document.getElementById('form_val').click();
+//		document.getElementById('etapes_val').click();
 		console.log(this.points);
 //		console.log(this.points[0].camera.x);
 //		console.log(this.points[0].camera.y);
@@ -532,11 +532,11 @@ function onClick(e)
 	);
 	
 	//Ajout d'information  dans la partie creation d'un sprite ////////////////////////////
-//	document.getElementById('form_name').value = "etape3" ;
-//	document.getElementById('form_description').value = ;
-	
-	document.getElementById('form_camera').value = camera.position.x+';'+camera.position.y+';'+camera.position.z;
-//	document.getElementById('form_etape').value = 3;
+//	document.getElementById('etapes_name').value = "etape3" ;
+//	document.getElementById('etapes_description').value = ;
+
+	document.getElementById('etapes_camera').value = camera.position.x+';'+camera.position.y+';'+camera.position.z;
+//	document.getElementById('etapes_etape').value = 3;
 
 	///////////////////////////////////////////////////////////////////////////////////////
 	
@@ -564,11 +564,11 @@ function onClick(e)
 			
 				
 
-//				document.getElementById("form_idSprite").value = cube.sprite.idBDD;
-				document.getElementById('form_position').value = cube.sprite.position.x +';'+cube.sprite.position.y +';'+ cube.sprite.position.z;
-				document.getElementById('form_name').value = cube.sprite.name;
-				document.getElementById('form_description').value = cube.sprite.information;
-				document.getElementById('form_etape').value = cube.sprite.etape;
+//				document.getElementById("etapes_idSprite").value = cube.sprite.idBDD;
+				document.getElementById('etapes_position').value = cube.sprite.position.x +';'+cube.sprite.position.y +';'+ cube.sprite.position.z;
+				document.getElementById('etapes_name').value = cube.sprite.name;
+				document.getElementById('etapes_description').value = cube.sprite.information;
+				document.getElementById('etapes_etape').value = cube.sprite.etape;
 				
 			
 			}
@@ -803,7 +803,7 @@ function Keyboard(event)
 	}
 	if(event.keyCode == 81) //q
 	{
-		console.log(document.getElementById(form_tableausprites));
+		console.log(document.getElementById(etapes_tableausprites));
 	}
 	if(event.keyCode == 82) //r
 	{
@@ -817,11 +817,11 @@ function Keyboard(event)
 	{
 		//addSpriteName.value= "position 1";
 		//Ajout d'information  dans la partie creation d'un sprite ////////////////////////////
-//		document.getElementById('form_name').value = "etape3" ;
-//		document.getElementById('form_description').value = "ceci est letape 3";
-//		document.getElementById('form_position').value = "53;10;10" ;
-//		document.getElementById('form_camera').value = "-130;0;0" ;
-//		document.getElementById('form_etape').value = "3";
+//		document.getElementById('etapes_name').value = "etape3" ;
+//		document.getElementById('etapes_description').value = "ceci est letape 3";
+//		document.getElementById('etapes_position').value = "53;10;10" ;
+//		document.getElementById('etapes_camera').value = "-130;0;0" ;
+//		document.getElementById('etapes_etape').value = "3";
 			
 	}
 	if(event.keyCode == 69) //e
