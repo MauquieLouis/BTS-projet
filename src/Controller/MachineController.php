@@ -55,7 +55,7 @@ class MachineController extends AbstractController
         ->add('name', TextType::class)
         ->add('description', TextareaType::class)
 //         ->add('imagefilename', TextType::class,array('attr' => array('maxlength' =>255))) //Pour un maximum de 255 caract�res
-        ->add('picturedevant', FileType::class )
+        ->add('picturedevant', FileType::class, array('multiple' => true,) )
         ->add('picturegauche', FileType::class )
         ->add('picturederriere', FileType::class )
         ->add('picturedroite', FileType::class )
