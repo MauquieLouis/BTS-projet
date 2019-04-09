@@ -228,10 +228,10 @@ function writeCalendar(){
 		table += "</table>"
 	//text += "<span id = eve><span>"; //Création de la balise, avec l'id 'eve'
 	//text = "</form>";
-	document.write(text); 	//Ecriture d'une calendirer
-	changeCalWeek();
+	return text;
 }
-
+var calWeekHTML= document.write(calWeekWhriteHTML()); 	//Ecriture d'une calendirer
+changeCalWeek();
 window.onresize = function resize(){ 
 	windowWidth = parseInt(document.body.clientWidth);
 	if(windowWidth < 768)
@@ -239,4 +239,3 @@ window.onresize = function resize(){
 	else
 		for (i=0;i<14;i++)eval("sp"+i).style.width = windowWidth/6+"px";
 };
-writeCalendar();
