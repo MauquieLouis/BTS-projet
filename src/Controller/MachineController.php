@@ -291,22 +291,23 @@ class MachineController extends AbstractController
         if($formSaveAllSprite->isSubmitted())
         {
             //             dd($formSaveAllSprite->getClickedButton()->getName());
-            $sprites = array('45','46','47');
+//             $sprites = array('45','46','47');
             
-            foreach ($sprites as $name) {
-                $product = new Etapes();
-                $product = $formSaveAllSprite->getData();
-                $this->setData($product);
+//             foreach ($sprites as $name) {
+//                 $product = new Etapes();
+//                 $product = $formSaveAllSprite->getData();
+//                 $this->setData($product);
                
-                $product->setMachine($machine);
-                $product->setMaintenance($repositoryMaintenance->findOneBy(['id' => $slug]));
-                $product->setName($name);
+//                 $product->setMachine($machine);
+//                 $product->setMaintenance($repositoryMaintenance->findOneBy(['id' => $slug]));
+//                 $product->setName($name);
                 
-                $em->persist($product);
-            }
+//                 $em->persist($product);
+//             }
             
-            $em->flush();
-            dd('google');
+//             $em->flush();
+//             dd('google');
+
             for($k=36;$k<38;$k++)
             {
                 
@@ -317,8 +318,9 @@ class MachineController extends AbstractController
                 $createSprite->setMaintenance($repositoryMaintenance->findOneBy(['id' => $slug]));
                 $em->persist($createSprite);        //Pour ajouter � la base de donn�e
                 $em->flush();
-                $request = 0;
+                $em->clear();
             }
+                $request = 0;
             //             dd($createSprite);
 //             if('val' === $formSaveAllSprite->getClickedButton()->getName())
 //             {
