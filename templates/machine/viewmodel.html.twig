@@ -41,7 +41,10 @@
                     
                 </div>
             
-            	<button onclick="cube.ToggleSprite()" class="SpriteNbr spriteCreate"><img id="btnSprite" class="buttonSprite SpriteNbr" src="../../image/machine/ampoule.png" width="50" height="30">Sprite</button>
+            	<button onclick="cube.ToggleSprite(); IsHiddenFormEtape()" class="SpriteNbr spriteCreate btn btn-info">
+            		<img id="btnSprite" class="buttonSprite SpriteNbr" src="../../image/machine/ampoule.png" width="50" height="30">
+            		Ajouter une étape
+            	</button>
             	<div class="SpriteNbr" id="SpriteNb">0</div>
               {% endif %}     	
             	
@@ -77,11 +80,13 @@
 {# 				{{ form_end(formEtape) }}#}
 
                 {% if is_granted('ROLE_ADMIN') %}
-            	    <h2>Sauvegarde de toutes les etapes</h2>
-            	     {{ form_start(saveAllSprites) }}
-            	     
-            	     	       			
-	 				 {{ form_end(saveAllSprites) }} 
+                	<div id="formEtape" hidden>
+                	    <h2>Sauvegarde de toutes les etapes</h2>
+                	     {{ form_start(saveAllSprites) }}
+                	     
+                	     	       			
+    	 				 {{ form_end(saveAllSprites) }} 
+	 				 </div>
 	 				 {% endif %}
 			
             </div>
@@ -99,6 +104,14 @@
 		<div class="col-12 col-md-9">
     		<script src="{{ asset('Js/machine.js')}}"></script>
 		</div>
+		<!-- CACHER OU AFFICHER LE FORMULAIRE -->
+		<script>
+			formEtape = document.getElementById('formEtape');
+			function IsHiddenFormEtape()
+			{
+				formEtape.hidden = formEtape.hidden ? false : true;
+			}
+		</script>
 		<script>
 			modele = document.getElementById('myCanvasElement');
 			menuModele = document.getElementById('menuModele');
