@@ -283,6 +283,17 @@ li
 	border: 2px solid #007BA4;
 	transition: background 1s ease, border 1s ease;
 }
+.loader
+{
+	position : absolute;
+	z-index: 9999;
+	top :50%;
+	left : 50%;
+	height : 100px;
+	width : 100px;
+	transform: translate(-50%,-50%); /* décalage de 50% de sa propre taille */
+	cursor : wait;
+}
 .logoLogout
 {
 	color:#ECECEC;

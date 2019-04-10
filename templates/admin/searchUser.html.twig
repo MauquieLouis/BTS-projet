@@ -2,7 +2,8 @@
 
 {% block title %}Admin- Recherche Utilisateur{% endblock %}
 
-{% block body %}	
+{% block body %}
+
 	<div class="row BorderJaune">
     	<div class="col-12 offset-md-3 col-md-6 BorderRouge TitlePage">
     		<h1>Rechercher un Utilisateur </h1>
@@ -76,6 +77,7 @@
     		    {% endfor %}
     	</div>
     </div>
+
 	<script>
 		affichageListe = document.getElementById('AffichageListe');
 		listeIcon = affichageListe.getElementsByTagName('i');
@@ -141,6 +143,7 @@
 			}
 		}
 	</script>
+	<script src="{{ asset('bootstrap/Js/bootstrap.js') }}"></script>
  	<script src="{{ asset('bootstrap/Js/jquery.js') }}"></script>
 	<script src="{{ asset('Js/Ajaxreceive.js') }}"></script>
 	<script src="{{ asset('Js/DynamicSearch.js') }}"></script>
