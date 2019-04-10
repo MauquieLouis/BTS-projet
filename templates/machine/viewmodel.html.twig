@@ -9,11 +9,12 @@
 {% block title %}Admin{% endblock %}
 
 {% block body %}
-	<button id="testchercker" onClick="cube.checkAllSprites();">Check All Sprites</button>
-	<button onClick="cube.checkAllSprites();//document.getElementById('form_Sauvegarder').click();">testcchek</button>
+{# 	<button id="testchercker" onClick="cube.checkAllSprites();">Check All Sprites</button>#}
+{# 	<button onClick="cube.checkAllSprites();//document.getElementById('form_Sauvegarder').click();">testcchek</button>#}
 	<div class="row AdminRow2">
     	<div class="col-12 offset-md-3 col-md-6 AdminRow1 TitlePage">
-    		<h1>Aperçu Machine {{ machine.id }}</h1>
+{#     		<h1>Aperçu Machine {{ machine.id }}</h1>#}
+    		<h1>Aperçu {{ machine.name}}</h1>
 {#     		<div id="filename" hidden>{{ machine.imagefilename }}</div>#}
 			<div id="filename" hidden>{{ machine.picturedroite }};{{ machine.picturegauche }};{{ machine.picturedessus }};{{ machine.picturedessous }};{{ machine.picturedevant }};{{ machine.picturederriere }}
 			</div>
@@ -28,8 +29,11 @@
 				<button onClick="cube.cubeMove(-1)" class="posCube d-none d-md-inline-block" id="btnFleche" style="display:inline-block;"> < </button>
 				<button class="posCube d-none d-md-inline-block" onClick="cube.cubeMove(1)" id="btnFleche2" style="display:inline-block;"> > </button></br>
 			</div>
-
+	       
+	       
+	      
             <div class="menu2 col-12 col-md-6 d-md-block" id="menuModele">	
+             {% if is_granted('ROLE_ADMIN') %}
                 <div id="bt2">Machine
                     <button onClick="cube.moveSprite('x', 2)">+x</button><button onClick="cube.moveSprite('x', -2)">-x</button>
                     <button onClick="cube.moveSprite('y', 2)">+y</button><button onClick="cube.moveSprite('y', -2)">-y</button>
@@ -37,9 +41,12 @@
                     
                 </div>
             
-            	<button onclick="cube.ToggleSprite()" class="SpriteNbr spriteCreate"><img id="btnSprite" class="buttonSprite SpriteNbr" src="../../image/machine/ampoule.png" width="50" height="30">Sprite</button>
+            	<button onclick="cube.ToggleSprite(); IsHiddenFormEtape()" class="SpriteNbr spriteCreate btn btn-info">
+            		<img id="btnSprite" class="buttonSprite SpriteNbr" src="../../image/machine/ampoule.png" width="50" height="30">
+            		Ajouter une étape
+            	</button>
             	<div class="SpriteNbr" id="SpriteNb">0</div>
-            		
+              {% endif %}     	
             	
 {#             		{{ form_start(formDelete) }}#}
             		
@@ -59,8 +66,19 @@
             	<!--<button onclick="modifValider()" id="btnValiderModif">OK !</button>-->
 
             		
-            	<button onClick="cube.EtapeChangement(-1)" class="posCubex"> < </button><button class="posCubes" onClick="cube.EtapeChangement(1)"> > </button></br>
-            	
+            	<button onClick="cube.EtapeChangement(-1)" class="" title="Etape precedente"> < </button><button class="" onClick="cube.EtapeChangement(1)" title="Etape suivante"> > </button></br>
+            	<div id="selectEtape">
+            		<select>
+            		    {% for etape in etapes %}
+    	            		<option value="{{ etape.etape }}">
+{#    	            			{{ etape.id }}#}
+{#     	            			{{ etape.etape }}#}
+    	            			{{ etape.description }}
+    	            		</option>
+    	            	{% endfor %}	
+	            		
+            		</select>
+            	</div>
 
 {#             	{{ form_start(formEtape) }}#}
 {#             		<div class="addNomSprite"> {{ form_row(formEtape.name) }}</div>#}
@@ -71,11 +89,16 @@
                      
 
 {# 				{{ form_end(formEtape) }}#}
-        	    <h2>Sauvegarde de toutes les etapes</h2>
-        	     {{ form_start(saveAllSprites) }}
-        	     
-        	     	       			
-	 			 {{ form_end(saveAllSprites) }}  
+
+                {% if is_granted('ROLE_ADMIN') %}
+                	<div id="formEtape" hidden>
+                	    <h2>Sauvegarde de toutes les etapes</h2>
+                	     {{ form_start(saveAllSprites) }}
+                	     
+                	     	       			
+    	 				 {{ form_end(saveAllSprites) }} 
+	 				 </div>
+	 				 {% endif %}
 			
             </div>
         </div>
@@ -92,6 +115,27 @@
 		<div class="col-12 col-md-9">
     		<script src="{{ asset('Js/machine.js')}}"></script>
 		</div>
+		<!-- CACHER OU AFFICHER LE FORMULAIRE -->
+		<script src="{{ asset('bootstrap/Js/jquery.js') }}"></script>
+		<script>
+		$('#selectEtape').change(function()
+		{
+			console.log('REMY');
+			var optionSelect = ($( "#selectEtape option:selected" ).val());
+// 			console.log(optionSelect);
+// 			console.log(cube.etapeEnCours);
+ 			cube.etapeEnCours = parseInt(optionSelect);
+//  			console.log(cube.etapeEnCours);
+ 			cube.EtapeChangement(0);
+		});
+		</script>
+		<script>
+			formEtape = document.getElementById('formEtape');
+			function IsHiddenFormEtape()
+			{
+				formEtape.hidden = formEtape.hidden ? false : true;
+			}
+		</script>
 		<script>
 			modele = document.getElementById('myCanvasElement');
 			menuModele = document.getElementById('menuModele');
