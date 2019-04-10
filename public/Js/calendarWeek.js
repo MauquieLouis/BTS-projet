@@ -114,7 +114,7 @@ function affichageEvent(id){
 
 	//}
 	
-	text += (textEvent=="")?"Aucun évènement prévu..."+"</br>":textEvent;
+	//text += (textEvent=="")?"Aucun évènement prévu..."+"</br>":textEvent;
 	for (var i=0; i<14; i++){
 		eval("ev"+i).innerHTML = text; 	//La balise dont l'id vaut 'eve' affiche le text
 	}
@@ -125,29 +125,37 @@ function changeCalWeek(){
 	//alert(currYear);
 	var currWeek = parseInt(document.calWeekForm.selWeek.value);
 	var j = 0;	
-	var firstDay = currWeek*7;
-	while (firstDay > 31)
+	var firstDay = currWeek*7-7+(yyyy-currYear);//*(yyyy-currYear);
+	while (firstDay > maxDays(j, currYear))
 	{
-		//alert(maxDays(j, currYear));
-
 		firstDay -= maxDays(j, currYear);
 		j++;
 	}
-	eval("month").innerHTML=arrM[j];
-	var k =0;
 
+	var k =0;
+	var prevM= "";
+	var nextM="";
+	var m ="";
 	for (var i=0; i<14; i++){
 		eval("ev"+i).style.height = "26px";
 		(windowWidth < 768)?eval("sp"+i).style.width = windowWidth/2-27+"px":eval("sp"+i).style.width = windowWidth/6+"px";
-		if(firstDay+i-7<1){
-			eval("sp"+i).innerHTML = firstDay+i-7+ maxDays((j-1==-1)?11:j-1, (j-1==-1)?currYear-1:currYear);
+		
+		if(firstDay+i<1){
+			eval("sp"+i).innerHTML = firstDay+i+ maxDays((j==0)?11:j-1, (j-1==-1)?currYear-1:currYear);
+			prevM=arrM[(j==0)?11:j-1];
 		}
-		else if (firstDay+i-7> maxDays((j==11)?0:j, (j==11)?currYear+1:currYear)){
-			eval("sp"+i).innerHTML = firstDay+i-7 - maxDays((j==11)?0:j, (j==11)?currYear+1:currYear);	
+		else if (firstDay+i> maxDays(j, currYear)){
+			eval("sp"+i).innerHTML = firstDay+i - maxDays(j, currYear);
+			nextM=arrM[(j==11)?0:j+1];
 		}
-		else eval("sp"+i).innerHTML = firstDay+i-7;
-		(eval("sp"+i).innerHTML == dd && currYear == yyyy && j==mm)?eval("sp"+i).style.backgroundColor = colorToday:eval("sp"+i).style.backgroundColor = colorMonth;
+		else {
+			eval("sp"+i).innerHTML = firstDay+i;
+			(eval("sp"+i).innerHTML == dd && currYear == yyyy && j==mm)?eval("sp"+i).style.backgroundColor = colorToday:eval("sp"+i).style.backgroundColor = colorMonth;
+			m=arrM[j];
+		}
+		
 	}
+	eval("month").innerHTML = ((prevM!="")?prevM+ "-":"")+ m +((nextM!="")?"-"+nextM:"");
 }
 
 function chWeek(plusOuMoins){
@@ -177,7 +185,8 @@ function chWeek(plusOuMoins){
 	changeCalWeek();
 
 }
-function writeCalendar(){
+
+function calWeekWhriteHTML(){
 	var arrD = new Array("Lun","Mar","Mer","Jeu","Ven","Sam","Dim");
 	var arrM = new Array("Janvier","Fevrier","Mars","Avril","Mai","Juin","Juillet","Aout","Septembre","Octobre","Novembre","Decembre");
 
@@ -221,7 +230,6 @@ function writeCalendar(){
 						text += "</table>";
 					text += "</td>";
 				}
-
 				text+= "</tr>";
 			table += "</table>";
 		text += "</td></tr>";
@@ -232,7 +240,8 @@ function writeCalendar(){
 }
 var calWeekHTML= document.write(calWeekWhriteHTML()); 	//Ecriture d'une calendirer
 changeCalWeek();
-window.onresize = function resize(){ 
+
+window.onresize = function resize(){
 	windowWidth = parseInt(document.body.clientWidth);
 	if(windowWidth < 768)
 		for (i=0;i<14;i++)eval("sp"+i).style.width = windowWidth/2-27+"px";
