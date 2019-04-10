@@ -15,6 +15,8 @@ use App\Form\EtapesType;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\DBAL\Driver\Connection;
+use Doctrine\Common\Persistence\ObjectManager;
+
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -32,6 +34,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
 
 
 
@@ -214,7 +217,7 @@ class MachineController extends AbstractController
     /**
      * @Route("/modele/{slug}", name="modele3D")
      */
-    public function viewModele($slug, EntityManagerInterface $em, Request $request)
+    public function viewModele($slug, EntityManagerInterface $em, Request $request, ObjectManager $manager)
     {
         $session = new Session();
       
@@ -311,17 +314,23 @@ class MachineController extends AbstractController
        
             for($k=36;$k<38;$k++)
             {
-                
-                $createSprite = $formSaveAllSprite->getData();
-                $this->setData($createSprite);
-                $createSprite->setName($k);
-                $createSprite->setMachine($machine);
-                $createSprite->setMaintenance($repositoryMaintenance->findOneBy(['id' => $slug]));
-                $em->persist($createSprite);        //Pour ajouter � la base de donn�e
-                $em->flush();
-                $em->clear();
+                $createSprite2 = new Etapes();
+                $createSprite2 = $formSaveAllSprite->getData();
+                $this->setData($createSprite2);
+                $createSprite2->setName($k);
+                $createSprite2->setMachine($machine);
+                $createSprite2->setMaintenance($repositoryMaintenance->findOneBy(['id' => $slug]));
+//                 dd($createSprite2);
+                $manager->persist($createSprite2);
+//                 $em->persist($createSprite2);        //Pour ajouter � la base de donn�e
+//                 $em->flush();
+              //  $em->clear();
+               
+              
             }
-                $request = 0;
+           
+            $manager->flush();
+               // $request = 0;
             //             dd($createSprite);
 //             if('val' === $formSaveAllSprite->getClickedButton()->getName())
 //             {
@@ -355,7 +364,7 @@ class MachineController extends AbstractController
         if($formDeleteSprite->isSubmitted() && 'Suppression' === $formDeleteSprite->getClickedButton()->getName())
         {
             // dd($formDeleteSprite->getData());
-            dd('lu');
+           
             $spriteGoDelete = $repositoryEtapes->findBy(['id'=> $formDeleteSprite->getData()['idSprite'] ]);
             foreach($spriteGoDelete as $spritedelete)
             {
