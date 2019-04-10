@@ -67,7 +67,18 @@
 
             		
             	<button onClick="cube.EtapeChangement(-1)" class="" title="Etape precedente"> < </button><button class="" onClick="cube.EtapeChangement(1)" title="Etape suivante"> > </button></br>
-            	
+            	<div id="selectEtape">
+            		<select>
+            		    {% for etape in etapes %}
+    	            		<option value="{{ etape.etape }}">
+{#    	            			{{ etape.id }}#}
+{#     	            			{{ etape.etape }}#}
+    	            			{{ etape.description }}
+    	            		</option>
+    	            	{% endfor %}	
+	            		
+            		</select>
+            	</div>
 
 {#             	{{ form_start(formEtape) }}#}
 {#             		<div class="addNomSprite"> {{ form_row(formEtape.name) }}</div>#}
@@ -105,6 +116,19 @@
     		<script src="{{ asset('Js/machine.js')}}"></script>
 		</div>
 		<!-- CACHER OU AFFICHER LE FORMULAIRE -->
+		<script src="{{ asset('bootstrap/Js/jquery.js') }}"></script>
+		<script>
+		$('#selectEtape').change(function()
+		{
+			console.log('REMY');
+			var optionSelect = ($( "#selectEtape option:selected" ).val());
+// 			console.log(optionSelect);
+// 			console.log(cube.etapeEnCours);
+ 			cube.etapeEnCours = parseInt(optionSelect);
+//  			console.log(cube.etapeEnCours);
+ 			cube.EtapeChangement(0);
+		});
+		</script>
 		<script>
 			formEtape = document.getElementById('formEtape');
 			function IsHiddenFormEtape()

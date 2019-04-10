@@ -318,7 +318,7 @@ class MachineController extends AbstractController
                 $createSprite->setMaintenance($repositoryMaintenance->findOneBy(['id' => $slug]));
                 $em->persist($createSprite);        //Pour ajouter � la base de donn�e
                 $em->flush();
-                $em->clear();
+//                 $em->clear();
             }
                 $request = 0;
             //             dd($createSprite);
