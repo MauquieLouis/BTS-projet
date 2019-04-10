@@ -48,7 +48,7 @@ class Etapes
     private $machine;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Maintenance", inversedBy="etapes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Maintenance", inversedBy="etapes", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $maintenance;

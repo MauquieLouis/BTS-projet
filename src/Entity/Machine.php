@@ -36,7 +36,7 @@ class Machine
     private $imagefilename;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Maintenance", mappedBy="idMachine")
+     * @ORM\OneToMany(targetEntity="App\Entity\Maintenance", mappedBy="idMachine", cascade={"persist"})
      */
     private $maintenances;
 

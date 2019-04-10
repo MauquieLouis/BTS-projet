@@ -13,6 +13,9 @@
 {# 	<button onClick="cube.checkAllSprites();//document.getElementById('form_Sauvegarder').click();">testcchek</button>#}
 	<div class="row AdminRow2">
     	<div class="col-12 offset-md-3 col-md-6 AdminRow1 TitlePage">
+        	
+    	
+    	
 {#     		<h1>Aperçu Machine {{ machine.id }}</h1>#}
     		<h1>Aperçu {{ machine.name}}</h1>
 {#     		<div id="filename" hidden>{{ machine.imagefilename }}</div>#}
@@ -33,28 +36,23 @@
 	       
 	      
             <div class="menu2 col-12 col-md-6 d-md-block" id="menuModele">	
-             {% if is_granted('ROLE_ADMIN') %}
+            {% if is_granted('ROLE_ADMIN') %}
                 <div id="bt2">Machine
                     <button onClick="cube.moveSprite('x', 2)">+x</button><button onClick="cube.moveSprite('x', -2)">-x</button>
                     <button onClick="cube.moveSprite('y', 2)">+y</button><button onClick="cube.moveSprite('y', -2)">-y</button>
-                    <button onClick="cube.moveSprite('z', 2)">+z</button><button onClick="cube.moveSprite('z', -2)">-z</button>
-                    
+                    <button onClick="cube.moveSprite('z', 2)">+z</button><button onClick="cube.moveSprite('z', -2)">-z</button> 
                 </div>
-            
-            	<button onclick="cube.ToggleSprite(); IsHiddenFormEtape()" class="SpriteNbr spriteCreate btn btn-info">
-            		<img id="btnSprite" class="buttonSprite SpriteNbr" src="../../image/machine/ampoule.png" width="50" height="30">
-            		Ajouter une étape
-            	</button>
-            	<div class="SpriteNbr" id="SpriteNb">0</div>
-              {% endif %}     	
-            	
-{#             		{{ form_start(formDelete) }}#}
-            		
-{#             			<div id="DeleteToSprite">{{ form_row(formDelete.idSprite)}}</div>#}
-{#             			<button type="submit">Delete Etape</button>#}
-            			
-{#             		{{ form_end(formDelete) }}            	 #}
-            	
+                
+                <button onclick="cube.ToggleSprite(); IsHiddenFormEtape()" class="SpriteNbr spriteCreate btn btn-info">
+                	<img id="btnSprite" class="buttonSprite SpriteNbr" src="../../image/machine/ampoule.png" width="50" height="30">
+                	Ajouter une étape
+                </button>
+                <div class="SpriteNbr" id="SpriteNb">0</div>
+                
+{#                 {{ form_start(formDelete) }}           		#}
+{#                 	<div id="DeleteToSprite">{{ form_row(formDelete.idSprite)}}</div>#}
+{#                 {{ form_end(formDelete) }}            	 #}
+            {% endif %}  
             	<div >Name :</div>
             	<div class="informationTooltip" id="tooltipName" ></div>
             	
@@ -73,6 +71,7 @@
     	            		<option value="{{ etape.etape }}">
 {#    	            			{{ etape.id }}#}
 {#     	            			{{ etape.etape }}#}
+                                {{ etape.name  }}
     	            			{{ etape.description }}
     	            		</option>
     	            	{% endfor %}	
@@ -163,6 +162,8 @@
 			<script>console.log(document.getElementById("getEachSpriteName").innerHTML);cube.spriteHtmlForJs();</script>
 
         {% endfor %}
+        
+       
 	 
 {% endblock %}
 
