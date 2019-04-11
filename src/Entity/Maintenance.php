@@ -24,13 +24,13 @@ class Maintenance
     private $nom;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Machine", inversedBy="maintenances")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Machine", inversedBy="maintenances", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $idMachine;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Etapes", mappedBy="maintenance", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Etapes", mappedBy="maintenance", orphanRemoval=true, cascade={"persist"})
      */
     private $etapes;
 

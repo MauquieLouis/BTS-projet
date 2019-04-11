@@ -28,7 +28,7 @@
                     	<a href = {{ path('modele3D', {'slug' : maintenance.id }) }} style="width:100%; height:100%;">
                     		<div class="card-listMaintenance" style="width:99%; margin-top:5px;">
                             	<div class="card-img-listMaintenance BorderBleu">      
-                            		<img src="..\..\image\machine\{{ machineID }}\{{ maintenance.id }}\{{ maintenance.picturefilename }}" alt="Italian Trulli" height="48" width="50">
+                            		<img src="..\..\image\machine\{{ machineID }}\{{ maintenance.id }}\{{ maintenance.picturefilename }}" alt="{{ maintenance.nom }}" height="48" width="50">
                          		</div>
                                 <div class="card-text-listMaintenance BorderViolet">     
                        			    {{ maintenance.nom }}
