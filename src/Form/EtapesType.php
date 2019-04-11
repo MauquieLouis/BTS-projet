@@ -24,11 +24,11 @@ class EtapesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('name', TextType::class)
-        ->add('description', TextareaType::class)
-        ->add('position', TextType::class)
-        ->add('camera', TextType::class)
-        ->add('etape', TextType::class)
+        ->add('name', TextType::class,array())
+        ->add('description', TextareaType::class,array())
+        ->add('position', TextType::class,array())
+        ->add('camera', TextType::class,array())
+        ->add('etape', TextType::class,array())
         ->add('val', SubmitType::class, array('label' =>'testdetoutsave'))
         ->add('Sauvegarder', SubmitType::class,  array('label' =>'Sauver la maintenance'))
         

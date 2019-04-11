@@ -215,13 +215,21 @@ class MachineController extends AbstractController
     }
     
     /**
-     * @Route("/modele/{slug}", name="modele3D")
+     * @Route("/modele/{slug}/{tableau}", name="modele3D")
      */
-    public function viewModele($slug, EntityManagerInterface $em, Request $request, ObjectManager $manager)
+    public function viewModele($slug, EntityManagerInterface $em, Request $request, ObjectManager $manager, $tableau)
     {
         $session = new Session();
-      
-        
+//         if ($tableau !== '0') 
+//         {
+//             $arr = array(); // On crée l'array qui recevra les données
+//             for ($i = 0 ; isset($_GET['arr' . $i]) ; $i++)
+//             {
+//                 $arr[$i] = $_GET['arr' . $i]; // On y met les données
+//             }
+          
+//             dd($arr);
+//         }
         $repositoryMachine = $em->getRepository(Machine::class);
         $repositoryMaintenance = $em->getRepository(Maintenance::class);
         $repositoryEtapes = $em->getRepository(Etapes::class);
@@ -297,8 +305,13 @@ class MachineController extends AbstractController
             $sprite = $formSaveAllSprite->getData();
             $this->setData($sprite);
 //             $sprite->setName($k);
+            $nameFromSprites = json_decode($sprite->getName());
+            $descriptionFromSprites = json_decode($sprite->getDescription());
+            dd($nameFromSprites[0]->object->matrix[12]);
+//             dd(json_decode($sprite->getName()));
             $sprite->setMachine($machine);
             $sprite->setMaintenance($repositoryMaintenance->findOneBy(['id' => $slug]));
+            dd($sprite);
             //                 dd($sprite);
             $em->persist($sprite);
             for($k=36;$k<39;$k++)
