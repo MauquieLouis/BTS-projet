@@ -21,8 +21,27 @@ class AjaxReceiveController extends AbstractController
      * @Route("accesbdd/sendevent", name="sendevent") 
      */
     public function SendEvent(EventRepository $repo){
-      //  $repo = $this->getDoctrine()->getRepository(Event::class);
+        $table = $repo->findAll();
 
+        $tabl = array();
+        
+        for ($i=0; $i < sizeof($table); $i++){
+            $j = 0;
+            $tabl[$i][$j] = $table[$i]->getId();
+            $tabl[$i][++$j] = $table[$i]->getTitle();
+            $tabl[$i][++$j] = $table[$i]->getDescription();
+            $tabl[$i][++$j] = $table[$i]->getUsersid();
+            $tabl[$i][++$j] = $table[$i]->getMachinesid();
+            $tabl[$i][++$j] = $table[$i]->getDateStart();
+            $tabl[$i][++$j] = $table[$i]->getDateEnd();
+            $tabl[$i][++$j] = $table[$i]->getFrequence();
+        }
+        $message = json_encode($tabl);
+
+        echo ($message);
+        
+        return $this->render('ajax_receive/index.html.twig'); 
+    }
        /* if($parse){
             $table = $repo->findOneBy([
                 'id'=>$parse
@@ -49,7 +68,7 @@ class AjaxReceiveController extends AbstractController
             echo ($message);
         }
         else{*/
-            $table = $repo->findAll();
+/*            $table = $repo->findAll();
 
             $tabl = array();
             for ($i=0; $i < sizeof($table); $i++){
@@ -64,19 +83,18 @@ class AjaxReceiveController extends AbstractController
                 $tabl[$i][++$j] = $table[$i]->getFrequence();
             }
 
-            $message = json_encode($tabl);
-            echo ($message);
+            $message = json_encode(tabl);
+            echo ($message);*/
         //}
 
-        
-        return $this->render('ajax_receive/index.html.twig');
-    }
+        /*
+        return $this->render('ajax_receive/index.html.twig');*/
+    //}
 
      /**
      * @Route("accesbdd/sendmachine", name="sendmachine") 
      */
     public function SendMachine(MachineRepository $repo){
-     //   $repo = $this->getDoctrine()->getRepository(Machine::class);
         $table = $repo->findAll();
 
         $tabl = array();
@@ -101,7 +119,6 @@ class AjaxReceiveController extends AbstractController
     public function SendUser(UserRepository $repo){
       //  $repo = $this->getDoctrine()->getRepository(User::class);
         $table = $repo->findAll();
-        //dd($table);
         $tabl = array();
         for ($i=0; $i < sizeof($table); $i++){
             $j=0; 
@@ -128,7 +145,6 @@ class AjaxReceiveController extends AbstractController
         $user = $repo->findby(
             [ 'email' => $session->all()["_security.last_username"] ]
         );
-        dd($session);
         $tabl = array();
 
         $j=0;
