@@ -32,11 +32,7 @@ class AdminController extends AbstractController
      */
     public function index()
     {
-        $filesystem = new Filesystem();
-        try {
-            
-        }catch(Exception $e){
-        }
+
         return $this->render('admin/index.html.twig', [
             
         ]);
@@ -49,6 +45,16 @@ class AdminController extends AbstractController
      */
     public function UserControl()
     {
+        $filesystem = new Filesystem();
+        try {
+            $filesystem->mkdir('fichier/logs');
+        }catch(Exception $e){
+            
+        }
+        $fileExist = $filesystem->exists('fichier/logs');
+        $filesystem->dumpFile('fichier/logs/logs.txt','User '.$this->getUser()->getEmail().' access to UserControl \r\n');
+        $filesystem->appendToFile('fichier/logs/logs.txt','User '.$this->getUser()->getEmail().' access to UserControl \r\n');
+//         dd($fileExist);
         return $this->render('admin/userControl.html.twig', [
             
         ]);
