@@ -294,42 +294,33 @@ class MachineController extends AbstractController
       
         if($formSaveAllSprite->isSubmitted() && 'Sauvegarder' === $formSaveAllSprite->getClickedButton()->getName() )
         {
-            //             dd($formSaveAllSprite->getClickedButton()->getName());
-//             $sprites = array('45','46','47');
-           
-//             foreach ($sprites as $name) {
-//                 $product = new Etapes();
-//                 $product = $formSaveAllSprite->getData();
-//                 $this->setData($product);
-               
-//                 $product->setMachine($machine);
-//                 $product->setMaintenance($repositoryMaintenance->findOneBy(['id' => $slug]));
-//                 $product->setName($name);
-                
-//                 $em->persist($product);
-//             }
-            
-//             $em->flush();
-//             dd('google');
-       
-            for($k=36;$k<38;$k++)
+            $sprite = $formSaveAllSprite->getData();
+            $this->setData($sprite);
+//             $sprite->setName($k);
+            $sprite->setMachine($machine);
+            $sprite->setMaintenance($repositoryMaintenance->findOneBy(['id' => $slug]));
+            //                 dd($sprite);
+            $em->persist($sprite);
+            for($k=36;$k<39;$k++)
             {
-                $createSprite2 = new Etapes();
-                $createSprite2 = $formSaveAllSprite->getData();
-                $this->setData($createSprite2);
+                $createSprite2 = clone $sprite;
+//                 $createSprite2 = $formSaveAllSprite->getData();
+//                 $this->setData($createSprite2);
                 $createSprite2->setName($k);
-                $createSprite2->setMachine($machine);
-                $createSprite2->setMaintenance($repositoryMaintenance->findOneBy(['id' => $slug]));
+//                 $createSprite2->setMachine($machine);
+//                 $createSprite2->setMaintenance($repositoryMaintenance->findOneBy(['id' => $slug]));
 //                 dd($createSprite2);
-                $manager->persist($createSprite2);
-//                 $em->persist($createSprite2);        //Pour ajouter � la base de donn�e
+                $em->persist($createSprite2);
+          
+          
+          //                 $em->persist($createSprite2);        //Pour ajouter � la base de donn�e
 //                 $em->flush();
               //  $em->clear();
                
               
             }
-           
-            $manager->flush();
+            $em->flush();
+          
                // $request = 0;
             //             dd($createSprite);
 //             if('val' === $formSaveAllSprite->getClickedButton()->getName())
@@ -357,7 +348,7 @@ class MachineController extends AbstractController
         
         $formDeleteSprite = $this->createFormBuilder()
         ->add('idSprite', TextType::class)
-        ->add('Suppression', SubmitType::class,  array('label' =>'Sauver la maintenance'))
+        ->add('Suppression', SubmitType::class,  array('label' =>'Supprimer une etape'))
         ->getForm();
         $formDeleteSprite->handleRequest($request);
         
