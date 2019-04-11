@@ -136,6 +136,8 @@ class Machines{
 			document.getElementById("tooltipName").innerHTML = cube.sprite.name; //affiche sur le web le nom
 			document.getElementById("tooltipInfo").innerHTML = cube.sprite.information;
 			document.getElementById("tooltipEtape").innerHTML = cube.sprite.etape;
+			document.getElementById("form_idSprite").value = cube.sprite.idBDD;
+			
 			//sprite.scale.multiplyScalar(8)
 			//sprite.name ="pantoufle"
 			//this.scene.remove(sprite) //supprime le sprite ///////////

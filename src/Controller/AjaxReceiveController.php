@@ -118,3 +118,5 @@ class AjaxReceiveController extends AbstractController
         return $this->render('ajax_receive/index.html.twig');
     }
 }
+
+

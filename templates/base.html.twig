@@ -13,6 +13,9 @@
 
     </head>
     <body>
+		<div id="loader">
+			<img src="{{ asset('/image/loading.gif') }}" class="loader">
+		</div>
 		<div class="container-fluid " id="container-fluid">	<!-- Division utile pour mettre en place les 12 colonnes avec bootstrap -->
       		<header class="page-header" id="page-header">	<!-- Entête de la page ( toute la partie haute avec le logo farella) -->
     			<div class ="menu row">		<!-- Nouvelle ligne pour le menu (partie avec le background bleu + image ) -->
@@ -92,12 +95,19 @@
            		<div class = "alert alert-info flashmessage"> {{ message }}</div> 
             {% endfor %}
             <!-- ////////////////////////////////////////////////////////////////////////////////// -->
+            <div class="block-body" style="display:none;">
             {% block body %}   
 
             {% endblock %}
+            </div>
         {% block javascripts %} <!--  Fichier Javascript -->
         	<script src="{{ asset('bootstrap/Js/bootstrap.js') }}"></script>
         	<script src="{{ asset('bootstrap/Js/jquery.js') }}"></script>
+	        <script>
+    		$(window).load(function(){
+    			console.log('window load !');
+    		});
+			</script>
         {% endblock %}
         </div>
         <script>
@@ -126,7 +136,7 @@
 				else	//Quand on click : ouvre le menu
 				{
 					delayIcon()								//on affiche les icon(on enleve juste la propriété hidden)
-					setTimeout(returnMenu,120);				//puis un délai pour l'animation
+					setTimeout(returnMenu,30);				//puis un délai pour l'animation
 				}	
         	}
         	function delayIcon()
@@ -167,6 +177,14 @@
             {
 				menuLien.hidden  =  menuLien.hidden ? false : true ;
             }
+        </script>
+		<script type="text/javascript">
+            $(document).ready(function() {
+                console.log("MASSY");
+                $(".loader").hide()
+                $('.block-body').show();
+//             	$(".loader").fadeOut("1000");
+            })
         </script>
     </body>
 </html>

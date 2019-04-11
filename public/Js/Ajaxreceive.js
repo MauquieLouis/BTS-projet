@@ -46,8 +46,13 @@ function getCurrentUser(){
 
 	return currentUser;
 }
+<<<<<<< HEAD
 //table.init("event");
 console.log(table.init("event"));
+=======
+/*
+console.log(table.init("event"))*/
+>>>>>>> branch 'master' of https://github.com/MauquieLouis/BTS-projet.git
 //PROCEDURE D'UTLISATION-------------------------------------------------//
 //table.init("selected")	// selected === nom de la table selectionée
 //table.retour[i][n]		// i : ligne	n : colonne
