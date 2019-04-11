@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+      
+{% block stylesheets %}
+    	<link href="{{ asset('css/base.css') }}" rel="stylesheet" />
+    	<link href="{{ asset('bootstrap/css/bootstrap.css') }}" rel="stylesheet" />
+    	<link rel="stylesheet" href="{{ asset('css/all.css') }}">
+    	<link rel="stylesheet" href="{{ asset('css/viewMachine.css') }}">
+{% endblock %}
+{% block title %}Admin{% endblock %}
+
+{% block body %}
+{# 	<button id="testchercker" onClick="cube.checkAllSprites();">Check All Sprites</button>#}
+{# 	<button onClick="cube.checkAllSprites();//document.getElementById('form_Sauvegarder').click();">testcchek</button>#}
+	<div class="row AdminRow2">
+    	<div class="col-12 offset-md-3 col-md-6 AdminRow1 TitlePage">
+        	
+
+    		<h1>Edition {{ machine.name}}</h1>
+    		<div id="machineNamed" hidden>{{ machine.id }}</div>
+    		
+    		{{ form_start(formMachine) }}
+    		
+    			<button type="submit" class="btn btn-primary">Sauvegarder</button>
+    		{{ form_end(formMachine) }}
+    		{{ form_start(formDeleteMachine) }}
+    			
+    			<button type="submit" class="btn btn-danger">Supprimer la machine</button>
+    	    {{ form_end(formDeleteMachine) }}
+    	
+    	</div>
+	</div>
+	<div class="row ">
+
+ 	</div>
+        
+       
+	 
+{% endblock %}
+
+
+
+
+

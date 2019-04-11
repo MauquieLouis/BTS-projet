@@ -35,7 +35,8 @@
                            		</div>
                        		</div>
                         </a>
-                        
+                        {% if is_granted('ROLE_ADMIN') %}<a href="{{ path('maintenanceedition', {'id' : maintenance.id }) }}" class="btn btn-secondary"><div style="font-size:14px;"><div class="d-none d-xl-inline-block">Modifier</div> <i class="fas fa-edit"></i></div></a>{% endif %}
+                    
                     </div>
                 {% endfor %}
                 {% if is_granted('ROLE_ADMIN') %}
@@ -58,6 +59,7 @@
         	<h2>Creer une nouvelle maintenance :</h2>
             {{ form_start(formMaintenance) }}
            	    {{ form_row(formMaintenance.nom, {'attr':{'placeholder' : "Nom de la maintenance"}}) }}
+           	    <button type="submit" class="btn btn-primary">Enregistrer</button>
        		{{ form_end(formMaintenance) }}
     	</div>
         <script>
