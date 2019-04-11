@@ -46,8 +46,8 @@ function getCurrentUser(){
 
 	return currentUser;
 }
-
-console.log(table.init("event"))
+/*
+console.log(table.init("event"))*/
 //PROCEDURE D'UTLISATION-------------------------------------------------//
 //table.init("selected")	// selected === nom de la table selectionée
 //table.retour[i][n]		// i : ligne	n : colonne
