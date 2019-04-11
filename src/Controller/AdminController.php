@@ -13,6 +13,8 @@ use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use App\Repository\UserRepository;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 class AdminController extends AbstractController
 {
@@ -30,6 +32,11 @@ class AdminController extends AbstractController
      */
     public function index()
     {
+        $filesystem = new Filesystem();
+        try {
+            
+        }catch(Exception $e){
+        }
         return $this->render('admin/index.html.twig', [
             
         ]);
