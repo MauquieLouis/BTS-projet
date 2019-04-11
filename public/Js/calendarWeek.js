@@ -22,33 +22,23 @@ class calWeek{
 		switch (plusOuMoins) {
 		  case '-':
 			  if(this.currWeek == 1){ 	//Si le mois courant est janvier, 
-				  
 				  this.currWeek = 52;
-				  //document.calWeekForm.selWeek.value=52;
-				  //eval("year").innerHTML 
 				  this.currYear = parseInt(eval("year").innerHTML)-1;
 			  }
 			  else
 				  this.currWeek--;
-				  //document.calWeekForm.selWeek.value--;
 			  break;
 		  case '+':
 			  if(this.currWeek == 52){//Si le mois courant est décembre
 				  this.currWeek=1;
 				  this.currYear=parseInt(eval("year").innerHTML)+1;
-				  //document.calWeekForm.selWeek.value=1;
-				  //eval("year").innerHTML = parseInt(eval("year").innerHTML)+1;
 				}
 				else
 					this.currWeek++;
-					//document.calWeekForm.selWeek.value++;
 			  break;
 		  default :
 			  this.currWeek = nbWeek(dd, mm, yyyy);
 		  		this.currYear = yyyy;
-		  		alert("tamer");
-			  //document.calWeekForm.selWeek.value = nbWeek(dd, mm, yyyy);
-		  		//eval("year").innerHTML = yyyy;
 		}
 		eval("year").innerHTML = this.currYear;
 		document.calWeekForm.selWeek.value = this.currWeek;

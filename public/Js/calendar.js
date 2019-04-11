@@ -1,34 +1,4 @@
 
-function chMonth(plusOuMoins){
-	currM = parseInt(document.calForm.selMonth.value);
-	currY = parseInt(document.calForm.selYear.value);
-	if (plusOuMoins == "-")
-	{
-		if(currM == 0){ 	//Si le mois courant est janvier, 
-			(document.calForm.selYear.value == parseInt(yyyy)-nbYear/2)?alert("!"):document.calForm.selYear.value--;
-			document.calForm.selMonth.value=11;
-		}
-		else
-			document.calForm.selMonth.value--;
-		calendarMonth.changeCal();
-	}
-	else if (plusOuMoins == "+"){
-		if(currM == 11){ 	//Si le mois courant est décembre
-			(document.calForm.selYear.value == parseInt(yyyy)+nbYear/2)?alert("!"):document.calForm.selYear.value++;
-			document.calForm.selMonth.value=0;
-		}
-		else
-			document.calForm.selMonth.value++;
-		calendarMonth.changeCal();
-		
-	}
-	else if (plusOuMoins == "+-"){
-		document.calForm.selMonth.value = mm;
-		document.calForm.selYear.value = yyyy;
-		calendarMonth.changeCal();
-		clickOnCase("none");
-	}
-}
 class calMonth{
 	currYear;
 	currWeek;
@@ -45,12 +15,43 @@ class calMonth{
 		this.currWeek = currWeek;
 	}
 
+
+	chMonth(plusOuMoins){
+		this.currMonth = parseInt(document.calForm.selMonth.value);
+		this.currYear = parseInt(document.calForm.selYear.value);
+		switch (plusOuMoins) {
+		  case '-':
+			  if(this.currMonth == 0){ 	//Si le mois courant est janvier, 
+					(this.currYear == parseInt(yyyy)-nbYear/2)?alert("!"):this.currYear--;
+					this.currMonth =11;
+				}
+				else
+					this.currMonth--;
+				break;
+		  case '+':
+			  if(this.currMonth == 11){ 	//Si le mois courant est décembre
+					(this.currYear == parseInt(yyyy)+nbYear/2)?alert("!"):this.currYear++;
+					this.currMonth=0;
+				}
+				else
+					this.currMonth++;
+				
+			  break;
+		  case '+-':
+			 	this.currMonth = mm;
+		  		this.currYear = yyyy;
+		  		break;
+		  default :
+			  break;
+		}
+		document.calForm.selMonth.value = this.currMonth;
+		document.calForm.selYear.value = this.currYear;
+		this.changeCal();
+	}
+	
 	changeCal(){
-		this.currMonth = parseInt(document.calForm.selMonth.value); //Mois qui est affiché
 		var prevM = (this.currMonth==0)?11:this.currMonth-1; //Mois précédent au mois affiché
 		var nextM = (this.currMonth==11)?0:this.currMonth+1;
-		this.currYear = parseInt(document.calForm.selYear.value); //Récupération de l'année qui est affichée
-		
 		var mmyyyy = new Date();
 		mmyyyy.setFullYear(this.currYear);
 		mmyyyy.setMonth(this.currMonth);
@@ -58,7 +59,7 @@ class calMonth{
 		var day1 = mmyyyy.getDay();
 		if (day1 == 0)
 			day1 = 7;
-		var arrN = new Array(41);
+		var arrN = new Array(calendarMonth.nbCases-1);
 		var aa;
 		//------------------Coloration et définition du contenu de chaque case du tableau------------------//
 		
@@ -82,7 +83,7 @@ class calMonth{
 		
 		//----Mois suivant----//
 		aa = 1;
-		for (i=day1+maxDays(this.currMonth,this.currYear)-1;i<=41;i++,aa++){
+		for (i=day1+maxDays(this.currMonth,this.currYear)-1;i<calendarMonth.nbCases;i++,aa++){
 			arrN[i] = aa;
 			eval("sp"+i).style.backgroundColor = colorOtherMonth;
 		}
@@ -105,17 +106,8 @@ class calMonth{
 							eval("sp"+i).innerHTML += "<a><br><i style=\"font-size:10px\" class=\"far fa-dot-circle\"></i></br></a>"; //Alort affiché un cercle
 
 				}
-			}	
-				  
+			}	  
 			//--------------------------------------//
-			
-			//----Recoloration du jour sélèctionné----//
-			if(parseInt(eval("sp"+i).innerHTML) == wDate.getDate() 
-			&& this.currMonth+1 == wDate.getMonth()
-			&& this.currYear == wDate.getFullYear()
-			&& eval("sp"+i).style.backgroundColor != colorOtherMonth
-			&& eval("sp"+i).style.backgroundColor != colorToday)
-				eval("sp"+i).style.backgroundColor = colorSelectDay;
 		}	
 		//-------------------------------------------------------------------------------------------------//
 	}
@@ -127,14 +119,14 @@ class calMonth{
 		text += "<tr><td>";
 		text += "<table width=100%><tr>";
 		text += "<td align=left>";
-		text += "<span onClick='chMonth(\"-\")'><i class=\"fas fa-chevron-left\"></i></span>";
-		text += "<select name=selMonth onChange='changeCalMonth()'>"; //Quand on selectionne un mois, la fonction changeCal() est appelé
+		text += "<span onClick='calendarMonth.chMonth(\"-\")'><i class=\"fas fa-chevron-left\"></i></span>";
+		text += "<select name=selMonth onChange='calendarMonth.chMonth()'>"; //Quand on selectionne un mois, la fonction changeCal() est appelé
 		for (i=0;i<=11;i++)		//Remplissage de la balise de selection du mois
 			(i==mm)?text += "<option value= " + i + " Selected>" + arrM[i] + "</option>": text += "<option value= " + i + ">" + arrM[i] + "</option>";//Le mois courant est séléctionné au lancement
 		
 		text += "</select>";	
-		text += "<span onClick='chMonth(\"+\")'><i class=\"fas fa-chevron-right\"></i>     </span>";
-		text += "<span onClick='chMonth(\"+-\")'>    <i class=\"fas fa-calendar-day\"></i></span>"
+		text += "<span onClick='calendarMonth.chMonth(\"+\")'><i class=\"fas fa-chevron-right\"></i>     </span>";
+		text += "<span onClick='calendarMonth.chMonth(\"+-\")'>    <i class=\"fas fa-calendar-day\"></i></span>"
 		text += "</td>";
 		text += "<td align=right>";
 		text += "<select name=selYear onChange='changeCalMonth()'>";	//Quand on selectionne une année, la fonction changeCal() est appelé
@@ -180,7 +172,7 @@ class calMonth{
 var calendarMonth = new calMonth();
 document.getElementById("btCalMonth").addEventListener("click", function(){
 	document.getElementById("calPlace").innerHTML = calendarMonth.writeHTML(); 	//Ecriture d'une calendirer
-	calendarMonth.changeCal();
+	calendarMonth.chMonth();
 });
 
 
@@ -188,8 +180,8 @@ document.getElementById("btCalMonth").addEventListener("click", function(){
 window.onresize = function resize(){ 
 	windowWidth = parseInt(document.body.clientWidth)-30;
 	if(windowWidth < 738)
-		for (i=0;i<=41;i++)eval("sp"+i).style.width = windowWidth/7+"px";
+		for (i=0;i<calendarMonth.nbCases;i++)eval("sp"+i).style.width = windowWidth/7+"px";
 	else
-		for (i=0;i<=41;i++)eval("sp"+i).style.width = windowWidth/21+"px";
+		for (i=0;i<=calendarMonth.nbCases;i++)eval("sp"+i).style.width = windowWidth/21+"px";
 };
 
