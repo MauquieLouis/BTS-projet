@@ -6,6 +6,8 @@
 	<div class="row BorderJaune">
 		<div class="col-12">
      		<script src="{{ asset('bootstrap/Js/jquery.js') }}"></script>
+			<script src="{{ asset('../Js/calendarFunctions.js') }}"></script>
+     		     		
      		<script src="Js/Ajaxreceive.js"></script>
 
     		<div class="col-12 offset-md-4 col-md-4 BorderRouge">
@@ -14,12 +16,14 @@
     					<td><div id=btCalWeek>Semaines</div></td>
     				</tr>
     			</table>
-    			<div id=tamer></div> 	
+    			<div id=calPlace></div> 	
     			<script src="{{ asset('../Js/calendarWeek.js') }}"></script>
-    			<script src="{{ asset('../Js/calendar.js') }}"></script>	
+				<script src="{{ asset('../Js/calendar.js') }}"></script>
     				
     		</div>
-
+			<div class="col-12 offset-md-8 col-md-4 BorderRouge" id=EventPlace></div> 
 		</div>
+		
 	</div>
+	
 {% endblock %} 
