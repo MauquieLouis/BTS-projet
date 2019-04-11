@@ -13,6 +13,8 @@ use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use App\Repository\UserRepository;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 class AdminController extends AbstractController
 {
@@ -30,6 +32,7 @@ class AdminController extends AbstractController
      */
     public function index()
     {
+
         return $this->render('admin/index.html.twig', [
             
         ]);
@@ -42,6 +45,16 @@ class AdminController extends AbstractController
      */
     public function UserControl()
     {
+        $filesystem = new Filesystem();
+        try {
+            $filesystem->mkdir('fichier/logs');
+        }catch(Exception $e){
+            
+        }
+        $fileExist = $filesystem->exists('fichier/logs');
+        $filesystem->dumpFile('fichier/logs/logs.txt','User '.$this->getUser()->getEmail().' access to UserControl \r\n');
+        $filesystem->appendToFile('fichier/logs/logs.txt','User '.$this->getUser()->getEmail().' access to UserControl \r\n');
+//         dd($fileExist);
         return $this->render('admin/userControl.html.twig', [
             
         ]);

@@ -4,7 +4,7 @@
 //table.init("user");
 //var tableUser = table.retour;
 
-console.log(getCurrentUser());
+//console.log(getCurrentUser());
 
 //console.log(tableUser);
 //console.log('Dynamic Search!');
