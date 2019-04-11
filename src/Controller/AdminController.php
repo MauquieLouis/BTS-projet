@@ -64,7 +64,8 @@ class AdminController extends AbstractController
             $em->persist($user);                                                                     //On ajoute à la base de données
             $em->flush();
             // = = = = =  A J O U T E R   M E S S A G E   C O N F I R M A T I O N   C R E A T I O N   C O M P T E = = = = =//
-            return $this->redirectToRoute('Home');                                                   //On retourne soit à l'acceuil ou soit sur la page Admin
+            $this->addFlash('success', 'Compte enregistré !');
+            return $this->redirectToRoute('admin_UserControl');                                                   //On retourne soit à l'acceuil ou soit sur la page Admin
         }
         return $this->render('admin/newUser.html.twig', [
             'form' => $form->createView(),
@@ -90,9 +91,6 @@ class AdminController extends AbstractController
             $resultat =$form->getData()['Recherche'];
             $rechercheResultatsNom = $userRepository->loadByElementBegin('Nom',$resultat);                      //Les trois lignes sont des requêtes personnalisées
             $rechercheResultatsPrenom = $userRepository->loadByElementBegin('prenom',$resultat);                //Elles récupèrent tout les champs commencant par
-            //$rechercheResultatsMail = $userRepository->loadByElementBegin('email',$resultat);                   //le résultat de la recherche.
-            //$rechercheResultatsPrenom = $userRepository->findBy(['prenom'=> $resultat]);
-            //$rechercheResultatsMail = $userRepository->findBy(['email'=> $resultat]);
             $rechercheResultats = [];
             $testPositif = 0;
             foreach($rechercheResultatsNom as $recherche)
@@ -111,37 +109,15 @@ class AdminController extends AbstractController
                 $testPositif ? $testPositif =0 : $rechercheResultats[] = $recherche;
                 
             }
-//             foreach($rechercheResultatsMail as $recherche)
+//             if(!$rechercheResultats)
 //             {
-//                 foreach($rechercheResultats as $compareId)
-//                 {
-//                     if($recherche->getId() == $compareId->getId())
-//                     {
-//                         $testPositif = 1;
-//                     }
-//                 }
-//                 $testPositif ? $testPositif =0 : $rechercheResultats[] = $recherche;
-//                 if($testPositif != 1)
-//                 {
-//                     $rechercheResultats[] = $recherche;
-//                 }else
-//                 {
-//                     $testPositif =0;
-//                 }
-            //}
-            if(!$rechercheResultats)
+//                 goto listeUser;
+//             }
+            if(!$resultat || !$rechercheResultats)
             {
-                goto listeUser;
+               // listeUser:
+                $rechercheResultats = $userRepository->findAll(); 
             }
-            if(!$resultat)
-            {
-                listeUser:
-                $rechercheResultats = $userRepository->findAll();
-                
-            }
-            //dd($rechercheResultats);
-            
-            //return $this->redirectToRoute('admin_UserControl_searchUser_param',['paramRecherche' => $rechercheResultats]);
             return $this->render('admin/searchUser.html.twig', ['form' => $form->createView(), 'rechercheResultat' => $rechercheResultats]);
         }
         return $this->render('admin/searchUser.html.twig', ['form' => $form->createView(), 'rechercheResultat' => $userRepository->findAll()/*$userRepository->loadByAlphaOrder()*/]);
@@ -209,6 +185,17 @@ class AdminController extends AbstractController
                 'formRoles' => $formRoles->createView(),
                 'formDelete' => $formDelete->createView()
             ]);
+    }
+    //////////////////////////////////////////////////////////////////////////
+    // = = = = = = = = = = RECHERCHER UTILISATEUR = = = = = = = = = = = = = //
+    //////////////////////////////////////////////////////////////////////////
+    /**
+     * @Route("/admin/controlUser/logs", name="admin_UserControl_Logs")
+     */
+    public function Logs()
+    {
+        
+        return $this->render('admin/logs.html.twig');
     }
     
 }

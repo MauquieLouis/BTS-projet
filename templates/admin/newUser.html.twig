@@ -11,8 +11,39 @@
 	<div class="row">
 		<div class="col-12 offset-md-2 col-md-8">
 			{{ form_start(form) }}
-				{{ form_widget(form) }}
-				<button type="Submit" class ="">Valider la création du compte</button>
+				<div class="row BorderVert">
+					<div class="col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8 titreFormulaire">
+						<h3>Informations du compte</h3>
+					</div>
+    				<div class="col-12 offset-sm-1 col-sm-10 offset-md-2 col-md-8 offset-lg-3 col-lg-6 BorderBleu" style="margin-top:12px;">
+    				    {{ form_widget(form.nom, {'attr': {'placeholder' : 'Nom', 'class' : 'form-control'} }) }}
+    				</div>
+{# 					<div class="col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8 titreFormulaire" style="margin-top:20px;">#}
+{# 						<h3>{{ form_label(form.prenom, 'Prénom') }}</h3>#}
+{# 					</div>#}
+    				<div class="col-12 offset-sm-1 col-sm-10 offset-md-2 col-md-8 offset-lg-3 col-lg-6 BorderBleu" style="margin-top:12px;">
+    				    {{ form_widget(form.prenom, {'attr': {'placeholder' : 'Prénom', 'class' : 'form-control'} }) }}
+    				</div>
+{# 					<div class="col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8 titreFormulaire" style="margin-top:20px;">#}
+{# 						<h3>{{ form_label(form.email, 'Email') }}</h3>#}
+{# 					</div>#}
+    				<div class="col-12 offset-sm-1 col-sm-10 offset-md-2 col-md-8 offset-lg-3 col-lg-6 BorderBleu" style="margin-top:12px;">
+    				    {{ form_widget(form.email, {'attr': {'placeholder' : 'Email', 'class' : 'form-control'} }) }}
+    				</div>
+    				<div class="col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8 titreFormulaire" style="margin-top:20px;">
+    				    <h3>Mot de passe</h3>
+    				</div>
+    				<div class="col-12 offset-sm-1 col-sm-10 offset-md-2 col-md-8 offset-lg-3 col-lg-6 BorderBleu" style="margin-top:12px;">
+							<h4>Le mot de passe est généré automatiquement,</br> (par défaut le nom de l'utilisateur).</br>
+							L'utilisateur devra changer son mot de passe lors de sa première connexion.</h4>
+					</div>
+    				<div class="col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8 titreFormulaire" style="margin-top:20px;">
+    				    <h3>Enregistrer</h3>
+    				</div>
+    				<div class="col-12 offset-sm-1 col-sm-10 offset-md-2 col-md-8 offset-lg-3 col-lg-6 BorderBleu" style="margin-top:12px;">
+						<button type="Submit" class ="btn btn-primary">Valider la création du compte</button>
+					</div>
+				</div>
 			{{ form_end(form) }}
 		</div>
 	</div>
