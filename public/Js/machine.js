@@ -380,6 +380,33 @@ class Machines{
 		
 		
 	}
+	
+	testSaveTable()
+	{
+		var spriteDescription=[];
+		for(var j=0;j< this.sprites.length;j++)
+		{
+			spriteDescription[j] = this.sprites[j].information;
+			
+		}
+		console.log(spriteDescription)
+		console.log(this.sprites);
+		var jsonDescription = JSON.stringify( spriteDescription );
+		var json = JSON.stringify( this.sprites );
+		console.log(json);
+		document.getElementById('etapes_name').value = json;
+		document.getElementById('etapes_description').value = jsonDescription;
+		
+//		var url = 'http://127.0.0.1:8000/modele/21/viewmodel.html.twig?'; // Début de l'URL
+//		for (let i=0; i< this.sprites.length;i++)
+//		{
+//		    url += 'arr' + i + '=' + this.sprites[i].name + '&'; // On ajoute les valeurs du tableau
+//		}
+//	
+//		url = url.substring(0, url.length - 2); // On retire le "&" de trop
+//		
+		//document.location.href = url; // Et on envoie à PHP
+	}
 }
 /* FIN CLASSE Machines*/
 

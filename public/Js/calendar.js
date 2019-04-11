@@ -190,7 +190,7 @@ function chMonth(plusOuMoins){
 		}
 		else
 			document.calForm.selMonth.value--;
-		changeCal();
+		changeCalMonth();
 	}
 	else if (plusOuMoins == "+"){
 		if(currM == 11){ 	//Si le mois courant est décembre
@@ -199,13 +199,13 @@ function chMonth(plusOuMoins){
 		}
 		else
 			document.calForm.selMonth.value++;
-		changeCal();
+		changeCalMonth();
 		
 	}
 	else if (plusOuMoins == "+-"){
 		document.calForm.selMonth.value = mm;
 		document.calForm.selYear.value = yyyy;
-		changeCal();
+		changeCalMonth();
 		clickOnCase("none");
 	}
 
@@ -215,7 +215,7 @@ function chMonth(plusOuMoins){
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////Création du fond///////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function writeCalendar(){
+function calMonthWhriteHTML(){
 	var arrM = new Array("Janvier","Fevrier","Mars","Avril","Mai","Juin","Juillet","Aout","Septembre","Octobre","Novembre","Decembre");
 	var arrY = new Array();
 	for (i=0;i<=nbYear;i++)				//5 années serront sélèctionnable
@@ -229,7 +229,7 @@ function writeCalendar(){
 	text += "<table width=100%><tr>";
 	text += "<td align=left>";
 	text += "<span onClick='chMonth(\"-\")'><i class=\"fas fa-chevron-left\"></i></span>";
-	text += "<select name=selMonth onChange='changeCal()'>"; //Quand on selectionne un mois, la fonction changeCal() est appelé
+	text += "<select name=selMonth onChange='changeCalMonth()'>"; //Quand on selectionne un mois, la fonction changeCal() est appelé
 	for (i=0;i<=11;i++)		//Remplissage de la balise de selection du mois
 		(i==mm)?text += "<option value= " + i + " Selected>" + arrM[i] + "</option>": text += "<option value= " + i + ">" + arrM[i] + "</option>";//Le mois courant est séléctionné au lancement
 	
@@ -238,7 +238,7 @@ function writeCalendar(){
 	text += "<span onClick='chMonth(\"+-\")'>    <i class=\"fas fa-calendar-day\"></i></span>"
 	text += "</td>";
 	text += "<td align=right>";
-	text += "<select name=selYear onChange='changeCal()'>";	//Quand on selectionne une année, la fonction changeCal() est appelé
+	text += "<select name=selYear onChange='changeCalMonth()'>";	//Quand on selectionne une année, la fonction changeCal() est appelé
 	for (i=0;i<=nbYear;i++)		//Remplissage de la balise de selection de l'année
 		(i==nbYear/2)?text += "<option value= " + arrY[i] + " Selected>" + arrY[i] + "</option>": text += "<option value= " + arrY[i] + ">" + arrY[i] + "</option>";//L'année courante est séléctionnée au lancement
 	
@@ -265,14 +265,13 @@ function writeCalendar(){
 	text += "</table>";
 	text += "<span id = eve><span>"; //Création de la balise, avec l'id 'eve'
 	text += "</form>";
-	document.write(text); 	//Ecriture d'une calendirer
-	changeCal();
+	return text; 	//Ecriture d'une calendirer
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////Affichage du mois//////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function changeCal(){
+function changeCalMonth(){
 	var currM = parseInt(document.calForm.selMonth.value); //Mois qui est affiché
 	var prevM = (currM==0)?11:currM-1; //Mois précédent au mois affiché
 	var nextM = (currM==11)?0:currM+1;
@@ -346,6 +345,11 @@ function changeCal(){
 	//-------------------------------------------------------------------------------------------------//
 }
 
+document.getElementById("btCalMonth").addEventListener("click", function(){
+	document.getElementById("tamer").innerHTML = calMonthWhriteHTML(); 	//Ecriture d'une calendirer
+	changeCalMonth();
+});
+
 //-------Redimenssion du calendrier en fonction de la taille de la fenêtre-------//
 window.onresize = function resize(){ 
 	windowWidth = parseInt(document.body.clientWidth)-30;
@@ -355,4 +359,3 @@ window.onresize = function resize(){
 		for (i=0;i<=41;i++)eval("sp"+i).style.width = windowWidth/21+"px";
 };
 
-writeCalendar();

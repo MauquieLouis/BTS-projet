@@ -56,8 +56,10 @@ function clickOnCase(id){
 	//----Recoloriage de la case clicker précèdament----//
 	if (idPrec != ""
 		&& eval(idPrec).style.backgroundColor != colorToday
-		&& eval(idPrec).style.backgroundColor != colorOtherMonth)
+		&& eval(idPrec).style.backgroundColor != colorOtherMonth){
 		eval(idPrec).style.backgroundColor = colorMonth;
+	}
+
 	
 	var aa = 0;
 
@@ -121,41 +123,55 @@ function affichageEvent(id){
 }
 
 function changeCalWeek(){
+	//---Définition de l'année et de la semaine courante---//
 	var currYear = parseInt(eval("year").innerHTML);
-	//alert(currYear);
 	var currWeek = parseInt(document.calWeekForm.selWeek.value);
-	var j = 0;	
-	var firstDay = currWeek*7-7+(yyyy-currYear);//*(yyyy-currYear);
-	while (firstDay > maxDays(j, currYear))
-	{
-		firstDay -= maxDays(j, currYear);
-		j++;
-	}
 
-	var k =0;
+	//--Définition des variables servant au calcul des jours--//
+	var nbMonth = 0; //Futur numéro mois courrant
+	//Calcul du premier jour à afficher//
+	var firstDayYearSate = new Date();
+	firstDayYearSate.setMonth(0);
+	firstDayYearSate.setDate(1);
+	firstDayYearSate.setFullYear(currYear);
+	var D = firstDayYearSate.getDay();
+
+	var firstDay = (currWeek-1)*7-(D-2);//Premier jour à afficher
+	while (firstDay > maxDays(nbMonth, currYear))
+	{
+		firstDay -= maxDays(nbMonth, currYear);
+		nbMonth++;	
+	}
 	var prevM= "";
 	var nextM="";
-	var m ="";
+	var currM ="";
 	for (var i=0; i<14; i++){
 		eval("ev"+i).style.height = "26px";
 		(windowWidth < 768)?eval("sp"+i).style.width = windowWidth/2-27+"px":eval("sp"+i).style.width = windowWidth/6+"px";
 		
 		if(firstDay+i<1){
-			eval("sp"+i).innerHTML = firstDay+i+ maxDays((j==0)?11:j-1, (j-1==-1)?currYear-1:currYear);
-			prevM=arrM[(j==0)?11:j-1];
+			eval("sp"+i).innerHTML = firstDay+i+ maxDays((nbMonth==0)?11:nbMonth-1, (nbMonth-1==-1)?currYear-1:currYear);
+			prevM=arrM[(nbMonth==0)?11:nbMonth-1];
+			eval("sp"+i).style.background = colorOtherMonth;
+			eval("ev"+i).style.background = colorOtherMonth;
 		}
-		else if (firstDay+i> maxDays(j, currYear)){
-			eval("sp"+i).innerHTML = firstDay+i - maxDays(j, currYear);
-			nextM=arrM[(j==11)?0:j+1];
+		else if (firstDay+i> maxDays(nbMonth, currYear)){
+			eval("sp"+i).innerHTML = firstDay+i - maxDays(nbMonth, currYear);
+			nextM=arrM[(nbMonth==11)?0:nbMonth+1];
+			eval("sp"+i).style.background = colorOtherMonth;
+			eval("ev"+i).style.background = colorOtherMonth;
 		}
 		else {
 			eval("sp"+i).innerHTML = firstDay+i;
-			(eval("sp"+i).innerHTML == dd && currYear == yyyy && j==mm)?eval("sp"+i).style.backgroundColor = colorToday:eval("sp"+i).style.backgroundColor = colorMonth;
-			m=arrM[j];
+			(eval("sp"+i).innerHTML == dd && currYear == yyyy && nbMonth==mm)?eval("sp"+i).style.backgroundColor = colorToday:eval("sp"+i).style.backgroundColor = colorMonth;
+			currM=arrM[nbMonth];
+			eval("sp"+i).style.background = colorMonth;
+			eval("ev"+i).style.background = colorMonth;
 		}
 		
 	}
-	eval("month").innerHTML = ((prevM!="")?prevM+ "-":"")+ m +((nextM!="")?"-"+nextM:"");
+	eval("month").innerHTML = ((prevM!="")?prevM+ "-":"")+ currM +((nextM!="")?"-"+nextM+" ":" ");
+
 }
 
 function chWeek(plusOuMoins){
@@ -194,22 +210,24 @@ function calWeekWhriteHTML(){
 	text = "<form name=calWeekForm>";
 	text += "<table border=1>";
 		text += "<tr><td>";
-
-			text += "<span onClick='chWeek(\"+-\")'>    <i class=\"fas fa-calendar-day\"></i></span>";
-			text += "<span onClick='chWeek(\"-\")'><i class=\"fas fa-chevron-left\"></i></span>";
-			text += "<select name=selWeek onChange='changeCalWeek()'>"; //Quand on selectionne un mois, la fonction changeCal() est appelé
+		text += "<table>"
+			text += "<tr><td>";
+			text += "<span onClick='chWeek(\"+-\")'>    <i style=\"font-size:30px\" class=\"fas fa-calendar-day\"></i></span>";
+			text += "</td><td width="+ parseInt(windowWidth/4)+"px"+" align=center>"
+			text += "<span onClick='chWeek(\"-\")'><i style=\"font-size:30px\" class=\"fas fa-chevron-left\"></i></span>";
+			text += "<select style=\"font-size:20px\" name=selWeek onChange='changeCalWeek()'>"; //Quand on selectionne un mois, la fonction changeCal() est appelé
 			for (i=1;i<=52	;i++)		//Remplissage de la balise de selection du mois
 				(i==nbWeek(dd, mm, yyyy))?text += "<option value= " + i + " Selected>" + "Sem" + i + "</option>": text += "<option value= " + i + ">" + "Sem" + i + "</option>";//Le mois courant est séléctionné au lancement
 			text += "</select>";
-			text += "<span onClick='chWeek(\"+\")'><i class=\"fas fa-chevron-right\"></i>     </span>";				
-			//text += "</td><td>";		
+			text += "<span onClick='chWeek(\"+\")'><i style=\"font-size:30px\" class=\"fas fa-chevron-right\"></i>     </span>";				
+			text += "</td></tr></table><tr align=center><td>";		
 			text += "<span id=month>"+arrM[mm]+"</span>";
 			text += "<span id=year>   "+yyyy+"</span>";
 		text += "</td></tr>";
 		text += "<tr><td>";
 			text += "<table border=1>";
 				text += "<tr><td>";
-					text += "<table border=1>";
+					text += "<table>";
 						for (i=0;i<=6;i++)
 							text += "<tr align=center><td ><div style=\"height:50px\">" + arrD[i] + "</div></td></tr>"; //Affiche des jours de la semaine
 					text += "</table>";
@@ -238,8 +256,14 @@ function calWeekWhriteHTML(){
 	//text = "</form>";
 	return text;
 }
-var calWeekHTML= document.write(calWeekWhriteHTML()); 	//Ecriture d'une calendirer
-changeCalWeek();
+document.getElementById("btCalWeek").addEventListener("click", function(){
+	document.getElementById("tamer").innerHTML = calWeekWhriteHTML(); 	//Ecriture d'une calendirer
+	changeCalWeek();
+});
+
+
+
+
 
 window.onresize = function resize(){
 	windowWidth = parseInt(document.body.clientWidth);

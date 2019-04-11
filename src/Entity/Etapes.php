@@ -27,7 +27,7 @@ class Etapes
     private $camera;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string")
      */
     private $name;
 
