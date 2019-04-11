@@ -215,9 +215,9 @@ class MachineController extends AbstractController
     }
     
     /**
-     * @Route("/modele/{slug}/{tableau}", name="modele3D")
+     * @Route("/modele/{slug}", name="modele3D")
      */
-    public function viewModele($slug, EntityManagerInterface $em, Request $request, ObjectManager $manager, $tableau)
+    public function viewModele($slug, EntityManagerInterface $em, Request $request, ObjectManager $manager)
     {
         $session = new Session();
 //         if ($tableau !== '0') 
@@ -302,24 +302,62 @@ class MachineController extends AbstractController
       
         if($formSaveAllSprite->isSubmitted() && 'Sauvegarder' === $formSaveAllSprite->getClickedButton()->getName() )
         {
+  
             $sprite = $formSaveAllSprite->getData();
             $this->setData($sprite);
 //             $sprite->setName($k);
+            
             $nameFromSprites = json_decode($sprite->getName());
             $descriptionFromSprites = json_decode($sprite->getDescription());
-            dd($nameFromSprites[0]->object->matrix[12]);
+            $posCameraFromSprites = json_decode($sprite->getCamera());
+            $OrdreFromSprites = json_decode($sprite->getEtape());
+            $getOdreEtapeAndLengthTableau = json_decode($sprite->getPosition());
+            
+            
+            $sprite->setName($nameFromSprites[0]->object->name);
+            $sprite->setDescription($descriptionFromSprites[0]);
+            $sprite->setPosition($nameFromSprites[0]->object->matrix[12].';'.$nameFromSprites[0]->object->matrix[13].';'.$nameFromSprites[0]->object->matrix[14]);
+            $sprite->setCamera($posCameraFromSprites[0]);
+            $sprite->setEtape($getOdreEtapeAndLengthTableau[0]);
+            //Récupérer le nom
+            //  $nameFromSprites[0]->object->name
+            
+            // Récupérer la position X Y Z :
+//             $positionFromSprites[0]->object->matrix[12];
+//             $positionFromSprites[0]->object->matrix[13];
+//             $positionFromSprites[0]->object->matrix[14];
+
+            //Récupérer la position de la caméra
+           //   $posCameraFromSprites[0]
+                
+            //récupérer la description
+            //  $descriptionFromSprites[0]
+            
+            //récupérer l'odre de l'étape
+                
+            
+      //      dd(count($getOdreEtapeAndLengthTableau));
+            
+            
 //             dd(json_decode($sprite->getName()));
             $sprite->setMachine($machine);
             $sprite->setMaintenance($repositoryMaintenance->findOneBy(['id' => $slug]));
-            dd($sprite);
+          //  dd($sprite);
             //                 dd($sprite);
             $em->persist($sprite);
-            for($k=36;$k<39;$k++)
+          
+            for($k=1; $k<= (count($getOdreEtapeAndLengthTableau)-1); $k++)
             {
+                
                 $createSprite2 = clone $sprite;
 //                 $createSprite2 = $formSaveAllSprite->getData();
 //                 $this->setData($createSprite2);
-                $createSprite2->setName($k);
+                $createSprite2->setName($nameFromSprites[$k]->object->name);
+                $createSprite2->setDescription($descriptionFromSprites[$k]);
+                $createSprite2->setPosition($nameFromSprites[$k]->object->matrix[12].';'.$nameFromSprites[$k]->object->matrix[13].';'.$nameFromSprites[$k]->object->matrix[14]);
+                $createSprite2->setCamera($posCameraFromSprites[$k]);
+                $createSprite2->setEtape($getOdreEtapeAndLengthTableau[$k]);
+                
 //                 $createSprite2->setMachine($machine);
 //                 $createSprite2->setMaintenance($repositoryMaintenance->findOneBy(['id' => $slug]));
 //                 dd($createSprite2);

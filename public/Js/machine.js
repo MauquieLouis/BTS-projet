@@ -384,18 +384,32 @@ class Machines{
 	testSaveTable()
 	{
 		var spriteDescription=[];
+		var spritePosCamera=[];
+		var spriteOrdre=[];
+		let spritePosition=[];
 		for(var j=0;j< this.sprites.length;j++)
 		{
 			spriteDescription[j] = this.sprites[j].information;
-			
+			spritePosCamera[j] = this.sprites[j].cameraPosX + ';' + this.sprites[j].cameraPosY + ';' + this.sprites[j].cameraPosZ ;
+//			spriteOrdre[j] = this.sprites[j].etape;
+			spritePosition[j] = this.sprites[j].etape;
 		}
-		console.log(spriteDescription)
-		console.log(this.sprites);
+
+		
+//		console.log(this.sprites[0])
+		var jsonName = JSON.stringify( this.sprites );
 		var jsonDescription = JSON.stringify( spriteDescription );
-		var json = JSON.stringify( this.sprites );
-		console.log(json);
-		document.getElementById('etapes_name').value = json;
+		let jsonPosCamera = JSON.stringify( spritePosCamera );
+		let jsonOdre = JSON.stringify( spritePosition ); 
+		console.log(spritePosition);
+
+		document.getElementById('etapes_name').value = jsonName;
 		document.getElementById('etapes_description').value = jsonDescription;
+		document.getElementById('etapes_camera').value = jsonPosCamera;
+		document.getElementById('etapes_etape').value = 888;
+		document.getElementById('etapes_position').value = jsonOdre;
+		
+		
 		
 //		var url = 'http://127.0.0.1:8000/modele/21/viewmodel.html.twig?'; // Début de l'URL
 //		for (let i=0; i< this.sprites.length;i++)
@@ -564,7 +578,9 @@ function onClick(e)
 //	document.getElementById('etapes_name').value = "etape3" ;
 //	document.getElementById('etapes_description').value = ;
 
-	document.getElementById('etapes_camera').value = camera.position.x+';'+camera.position.y+';'+camera.position.z;
+	//document.getElementById('etapes_camera').value = camera.position.x+';'+camera.position.y+';'+camera.position.z;
+	
+	
 //	document.getElementById('etapes_etape').value = 3;
 
 	///////////////////////////////////////////////////////////////////////////////////////
