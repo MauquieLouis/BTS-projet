@@ -9,24 +9,34 @@ var table = {
 		};
 		
 		switch(String(tableSelected)){
-
 			case "event":
-				if (id) {
-					xhReq.open("post","accesbdd/sendevent/"+String(id),false);		//arg2 url de l'echo de la table SQl recuperé un PHP
+				if (id === undefined) {
+					xhReq.open("post","accesbdd/sendevent/undefined",false);		//arg2 url de l'echo de la table SQl recuperé un PHP
 				}
 				else
 				{
-					xhReq.open("post","accesbdd/sendevent",false);		//arg2 url de l'echo de la table SQl recuperé un PHP
+					xhReq.open("post","accesbdd/sendevent/"+String(id),false);		//arg2 url de l'echo de la table SQl recuperé un PHP
 				}
-
 			break;
 
 			case "machine":
-				xhReq.open("post","accesbdd/sendmachine",false);	//arg2 url de l'echo de la table SQl recuperé un PHP
+				if (id === undefined) {
+						xhReq.open("post","accesbdd/sendmachine/undefined",false);		//arg2 url de l'echo de la table SQl recuperé un PHP
+					}
+				else
+				{
+					xhReq.open("post","accesbdd/sendmachine/"+String(id),false);	//arg2 url de l'echo de la table SQl recuperé un PHP
+				}
 			break;
-
+			
 			case "user":
-				xhReq.open("post","../../accesbdd/senduser",false);	//arg2 url de l'echo de la table SQl recuperé un PHP
+				if (id === undefined) {
+					xhReq.open("post","../../accesbdd/senduser/undefined",false);		//arg2 url de l'echo de la table SQl recuperé un PHP
+				}
+				else
+				{
+					xhReq.open("post","../../accesbdd/senduser/"+String(id),false);	//arg2 url de l'echo de la table SQl recuperé un PHP
+				}
 			break;
 			
 			default:
@@ -55,6 +65,27 @@ var table = {
 
 	}*/
 };
+
+console.log("USER:");
+console.log(table.init("user"));
+
+console.log("EVENT:");
+console.log(table.init("event"));
+
+console.log("MACHINE:");
+console.log(table.init("machine"));
+
+console.log("USER:2");
+console.log(table.init("user",2));
+
+console.log("EVENT:2");
+console.log(table.init("event",2));
+
+console.log("MACHINE:2");
+console.log(table.init("machine",2));
+
+console.log("CurrentUser");
+console.log(table.GetCurrentUser());
 
 ///PROCEDURE D'UTLISATION-------------------------------------------------//
 //table.init("selected")	// selected === nom de la table selectionée

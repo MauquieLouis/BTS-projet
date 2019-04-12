@@ -18,11 +18,45 @@ use App\Repository\UserRepository;
 class AjaxReceiveController extends AbstractController
 {
     /**
-     * @Route("accesbdd/sendevent", name="sendevent") 
+     * @Route("accesbdd/sendevent/{parse}", name="sendevent") 
      */
-    public function SendEvent(EventRepository $repo){
-        $table = $repo->findAll();
+    public function SendEvent(EventRepository $repo,$parse){
+        if($parse && $parse != "undefined"){    //Si aucun id n'est passer en param on fait un SELECT * FROM event; sinon SELECT * FROM event WHERE id = $parse;
+           $table = $repo->findOneBy([
+                'id'=>$parse
+            ]);
+            
+            if($table === null){
+                $message = json_encode("empty");
+                echo ($message);
 
+                return $this->render('ajax_receive/index.html.twig'); 
+            }
+
+            $tabl = array();
+            $j = 0; 
+            $tabl[$j] = $table->getId();
+            $tabl[++$j] = $table->getTitle();
+            $tabl[++$j] = $table->getDescription();
+            $tabl[++$j] = $table->getUsersid();
+            $tabl[++$j] = $table->getMachinesid();
+            $tabl[++$j] = $table->getDateStart();
+            $tabl[++$j] = $table->getDateEnd();
+            $tabl[++$j] = $table->getFrequence();
+            
+            $message = json_encode($tabl);
+            echo ($message);
+        
+            return $this->render('ajax_receive/index.html.twig'); 
+        }
+
+        $table = $repo->findAll();
+        if($table === null){
+            $message = json_encode("empty");
+            echo ($message);
+
+            return $this->render('ajax_receive/index.html.twig'); 
+        }
         $tabl = array();
         
         for ($i=0; $i < sizeof($table); $i++){
@@ -36,67 +70,56 @@ class AjaxReceiveController extends AbstractController
             $tabl[$i][++$j] = $table[$i]->getDateEnd();
             $tabl[$i][++$j] = $table[$i]->getFrequence();
         }
+
         $message = json_encode($tabl);
 
         echo ($message);
         
         return $this->render('ajax_receive/index.html.twig'); 
     }
-       /* if($parse){
-            $table = $repo->findOneBy([
+
+     /**
+     * @Route("accesbdd/sendmachine/{parse}", name="sendmachine") 
+     */
+    public function SendMachine(MachineRepository $repo,$parse){
+
+        if($parse && $parse != "undefined"){    //Si aucun id n'est passer en param on fait un SELECT * FROM machine; sinon SELECT * FROM machine WHERE id = $parse;
+           $table = $repo->findOneBy([
                 'id'=>$parse
             ]);
+            if($table === null){
+                $message = json_encode("empty");
+                echo ($message);
 
-            //dd($table);
-
+                return $this->render('ajax_receive/index.html.twig'); 
+            }
             $tabl = array();
-
+            
             $j = 0; 
             $tabl[$j] = $table->getId();
-            $tabl[++$j] = $table->getTitle();
+            $tabl[++$j] = $table->getName();
             $tabl[++$j] = $table->getDescription();
-            $tabl[++$j] = $table->getUsersid();
-            $tabl[++$j] = $table->getMachinesid();
-            $tabl[++$j] = $table->getDateStart();
-            
-            $tabl[++$j] = $table->getDateEnd();
-            $tabl[++$j] = $table->getFrequence();
-            
-            //dd($tabl);
+            $tabl[++$j] = $table->getImagefilename();
+            $tabl[++$j] = $table->getPicturedevant();
+            $tabl[++$j] = $table->getPicturegauche();
+            $tabl[++$j] = $table->getPicturederriere();
+            $tabl[++$j] = $table->getPicturedroite();
+            $tabl[++$j] = $table->getPicturedessus();
+            $tabl[++$j] = $table->getPicturedessous();
             
             $message = json_encode($tabl);
             echo ($message);
+        
+            return $this->render('ajax_receive/index.html.twig'); 
         }
-        else{*/
-/*            $table = $repo->findAll();
 
-            $tabl = array();
-            for ($i=0; $i < sizeof($table); $i++){
-                $j = 0;
-                $tabl[$i][$j] = $table[$i]->getId();
-                $tabl[$i][++$j] = $table[$i]->getTitle();
-                $tabl[$i][++$j] = $table[$i]->getDescription();
-                $tabl[$i][++$j] = $table[$i]->getUsersid();
-                $tabl[$i][++$j] = $table[$i]->getMachinesid();
-                $tabl[$i][++$j] = $table[$i]->getDateStart();
-                $tabl[$i][++$j] = $table[$i]->getDateEnd();
-                $tabl[$i][++$j] = $table[$i]->getFrequence();
-            }
-
-            $message = json_encode(tabl);
-            echo ($message);*/
-        //}
-
-        /*
-        return $this->render('ajax_receive/index.html.twig');*/
-    //}
-
-     /**
-     * @Route("accesbdd/sendmachine", name="sendmachine") 
-     */
-    public function SendMachine(MachineRepository $repo){
         $table = $repo->findAll();
+        if($table === null){
+            $message = json_encode("empty");
+            echo ($message);
 
+            return $this->render('ajax_receive/index.html.twig'); 
+        }
         $tabl = array();
         
         for ($i=0; $i < sizeof($table); $i++){
@@ -105,6 +128,12 @@ class AjaxReceiveController extends AbstractController
             $tabl[$i][++$j] = $table[$i]->getName();
             $tabl[$i][++$j] = $table[$i]->getDescription();
             $tabl[$i][++$j] = $table[$i]->getImagefilename();
+            $tabl[$i][++$j] = $table[$i]->getPicturedevant();
+            $tabl[$i][++$j] = $table[$i]->getPicturegauche();
+            $tabl[$i][++$j] = $table[$i]->getPicturederriere();
+            $tabl[$i][++$j] = $table[$i]->getPicturedroite();
+            $tabl[$i][++$j] = $table[$i]->getPicturedessus();
+            $tabl[$i][++$j] = $table[$i]->getPicturedessous();
         }
         
         $message = json_encode($tabl);
@@ -114,12 +143,45 @@ class AjaxReceiveController extends AbstractController
     }
 
     /**
-     * @Route("accesbdd/senduser", name="senduser") 
+     * @Route("accesbdd/senduser/{parse}", name="senduser") 
      */
-    public function SendUser(UserRepository $repo){
-      //  $repo = $this->getDoctrine()->getRepository(User::class);
+    public function SendUser(UserRepository $repo,$parse){
+
+        if($parse && $parse != "undefined"){        //Si aucun id n'est passer en param on fait un SELECT * FROM user; sinon SELECT * FROM user WHERE id = $parse
+            $table = $repo->findOneBy([
+                'id'=>$parse
+            ]);
+            if($table === null){
+                $message = json_encode("empty");
+                echo ($message);
+
+                return $this->render('ajax_receive/index.html.twig'); 
+            }
+            $tabl = array();
+            
+            $j = 0; 
+            $tabl[$j] = $table->getId();
+            $tabl[++$j] = $table->getEmail();
+            //$tabl[++$j] = $table->getUsername();
+            $tabl[++$j] = $table->getRoles();
+            $tabl[++$j] = $table->getNom();
+            $tabl[++$j] = $table->getPrenom();
+            $tabl[++$j] = $table->getDatecreation();
+
+            $message = json_encode($tabl);
+            echo ($message);
+
+            return $this->render('ajax_receive/index.html.twig');
+        }
         $table = $repo->findAll();
+        if($table === null){
+            $message = json_encode("empty");
+            echo ($message);
+
+            return $this->render('ajax_receive/index.html.twig'); 
+        }
         $tabl = array();
+
         for ($i=0; $i < sizeof($table); $i++){
             $j=0; 
             $tabl[$i][$j] = $table[$i]->getId();
@@ -130,7 +192,6 @@ class AjaxReceiveController extends AbstractController
             $tabl[$i][++$j] = $table[$i]->getPrenom();
             $tabl[$i][++$j] = $table[$i]->getDatecreation();
         }
-        
         $message = json_encode($tabl);
 
         echo ($message);
@@ -143,7 +204,9 @@ class AjaxReceiveController extends AbstractController
      */
     public function SendSession(SessionInterface $session,UserRepository $repo){
         $user = $repo->findby(
-            [ 'email' => $session->all()["_security.last_username"] ]
+            [ 
+                'email' => $session->all()["_security.last_username"]
+            ]
         );
         $tabl = array();
 
