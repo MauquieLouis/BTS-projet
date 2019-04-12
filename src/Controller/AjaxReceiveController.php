@@ -13,6 +13,8 @@ use App\Entity\Machine;
 use App\Repository\MachineRepository;
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Entity\Maintenance;
+use App\Repository\MaintenanceRepository;
 
 
 class AjaxReceiveController extends AbstractController
@@ -25,7 +27,7 @@ class AjaxReceiveController extends AbstractController
            $table = $repo->findOneBy([
                 'id'=>$parse
             ]);
-            
+
             if($table === null){
                 $message = json_encode("empty");
                 echo ($message);
@@ -134,6 +136,60 @@ class AjaxReceiveController extends AbstractController
             $tabl[$i][++$j] = $table[$i]->getPicturedroite();
             $tabl[$i][++$j] = $table[$i]->getPicturedessus();
             $tabl[$i][++$j] = $table[$i]->getPicturedessous();
+        }
+        
+        $message = json_encode($tabl);
+        echo ($message);
+        
+        return $this->render('ajax_receive/index.html.twig'); 
+    }
+
+    /**
+     * @Route("accesbdd/sendmaintenance/{parse}", name="sendmaintenance") 
+     */
+    public function SendMaintenance(MaintenanceRepository $repo,$parse){
+
+        if($parse && $parse != "undefined"){    //Si aucun id n'est passer en param on fait un SELECT * FROM machine; sinon SELECT * FROM machine WHERE id = $parse;
+           $table = $repo->findOneBy([
+                'id'=>$parse
+            ]);
+            if($table === null){
+                $message = json_encode("empty");
+                echo ($message);
+
+                return $this->render('ajax_receive/index.html.twig'); 
+            }
+            $tabl = array();
+            
+            $j = 0; 
+            $tabl[$j] = $table->getId();
+            $tabl[++$j] = $table->getIdMachine();
+            $tabl[++$j] = $table->getNom();
+            $tabl[++$j] = $table->getPicturefile();
+            $tabl[++$j] = $table->getPicturefilename();
+            
+            $message = json_encode($tabl);
+            echo ($message);
+        
+            return $this->render('ajax_receive/index.html.twig'); 
+        }
+
+        $table = $repo->findAll();
+        if($table === null){
+            $message = json_encode("empty");
+            echo ($message);
+
+            return $this->render('ajax_receive/index.html.twig'); 
+        }
+        $tabl = array();
+        
+        for ($i=0; $i < sizeof($table); $i++){
+            $j=0;
+            $tabl[$i][$j] = $table[$i]->getId();
+            $tabl[$i][++$j] = $table[$i]->getIdMachine()->getId();
+            $tabl[$i][++$j] = $table[$i]->getNom();
+            $tabl[$i][++$j] = $table[$i]->getPicturefile();
+            $tabl[$i][++$j] = $table[$i]->getPicturefilename();
         }
         
         $message = json_encode($tabl);

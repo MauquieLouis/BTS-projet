@@ -38,6 +38,16 @@ var table = {
 					xhReq.open("post","../../accesbdd/senduser/"+String(id),false);	//arg2 url de l'echo de la table SQl recuperé un PHP
 				}
 			break;
+
+			case "maintenance":
+				if (id === undefined) {
+					xhReq.open("post","accesbdd/sendmaintenance/undefined",false);		//arg2 url de l'echo de la table SQl recuperé un PHP
+				}
+				else
+				{
+					xhReq.open("post","accesbdd/sendmaintenance/"+String(id),false);	//arg2 url de l'echo de la table SQl recuperé un PHP
+				}
+			break;
 			
 			default:
 				console.log("table::initTable::switch(tableSelected) => DROP TO DEFAULT at AjaxReceive.js ln33");
@@ -65,27 +75,6 @@ var table = {
 
 	}*/
 };
-
-console.log("USER:");
-console.log(table.init("user"));
-
-console.log("EVENT:");
-console.log(table.init("event"));
-
-console.log("MACHINE:");
-console.log(table.init("machine"));
-
-console.log("USER:2");
-console.log(table.init("user",2));
-
-console.log("EVENT:2");
-console.log(table.init("event",2));
-
-console.log("MACHINE:2");
-console.log(table.init("machine",2));
-
-console.log("CurrentUser");
-console.log(table.GetCurrentUser());
 
 ///PROCEDURE D'UTLISATION-------------------------------------------------//
 //table.init("selected")	// selected === nom de la table selectionée
