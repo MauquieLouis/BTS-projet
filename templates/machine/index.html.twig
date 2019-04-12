@@ -58,7 +58,7 @@
 	<div id="formMachine" class="col-12 offset-md-2 col-md-8 offset-lg-3 col-lg-6" hidden>
         <h2>Creer une nouvelle machine :</h2>
 		{{ form_start(formMachine) }}
-            {{ form_row(formMachine.name, {'attr':{'placeholder' : "Nom de la machine"}}) }}
+            {{ form_row(formMachine.name) }}
             {{ form_row(formMachine.description, {'attr':{'placeholder' : "Information sur la machine"}}) }}
             <button type="submit" class="btn btn-primary">Valider</button>
         {{ form_end(formMachine) }}

@@ -12,6 +12,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
+use Symfony\Component\HttpFoundation\File\File;
+
 class NewMachineType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
