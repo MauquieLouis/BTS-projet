@@ -252,25 +252,25 @@ class MachineController extends AbstractController
         $machine = $repository->findOneBy(['id' => $id]);
         $maintenances = $repositoryMaintenance->findBy(['idMachine'=> $machine->getId()]);
        
-        $machine->setPicturedevant(new File('image\machine\\'.$machine->getId().'\\'.$machine->getPicturedevant())
-            );
-        $machine->setPicturegauche(new File('image\machine\\'.$machine->getId().'\\'.$machine->getPicturegauche())
-            );
-        $machine->setPicturederriere(new File('image\machine\\'.$machine->getId().'\\'.$machine->getPicturederriere())
-            );
-        $machine->setPicturedroite(new File('image\machine\\'.$machine->getId().'\\'.$machine->getPicturedroite())
-            );
-        $machine->setPicturedessus(new File('image\machine\\'.$machine->getId().'\\'.$machine->getPicturedessus())
-            );
-        $machine->setPicturedessous(new File('image\machine\\'.$machine->getId().'\\'.$machine->getPicturedessous())
-            );
+//         $machine->setPicturedevant(new File('image\machine\\'.$machine->getId().'\\'.$machine->getPicturedevant())
+//             );
+//         $machine->setPicturegauche(new File('image\machine\\'.$machine->getId().'\\'.$machine->getPicturegauche())
+//             );
+//         $machine->setPicturederriere(new File('image\machine\\'.$machine->getId().'\\'.$machine->getPicturederriere())
+//             );
+//         $machine->setPicturedroite(new File('image\machine\\'.$machine->getId().'\\'.$machine->getPicturedroite())
+//             );
+//         $machine->setPicturedessus(new File('image\machine\\'.$machine->getId().'\\'.$machine->getPicturedessus())
+//             );
+//         $machine->setPicturedessous(new File('image\machine\\'.$machine->getId().'\\'.$machine->getPicturedessous())
+//             );
 //         dd($machine);
         $formMachine = $this->createForm(NewMachineType::class, $machine);
         $formMachine->handleRequest($request);
-//         dd($formMachine);
+//          dd($formMachine);
         if($formMachine->isSubmitted() && $formMachine->isValid())
         {
-            dd('45');
+            
             $newMachine = new Machine();
             $newMachine = $formMachine->getData();
             $newMachine->setPicturedevant('1.jpg');
@@ -289,6 +289,7 @@ class MachineController extends AbstractController
         $formDeleteMachine->handleRequest($request);
         if($formDeleteMachine->isSubmitted() &&$formDeleteMachine->isValid() )
         {
+            dd('deletemachine');
             for($i=0;$i< count($maintenances);$i++)
             {
                 $em->remove($maintenances[$i]);   
