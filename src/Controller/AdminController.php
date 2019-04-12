@@ -48,12 +48,16 @@ class AdminController extends AbstractController
         $filesystem = new Filesystem();
         try {
             $filesystem->mkdir('fichier/logs');
+//             $filesystem->dumpFile('fichier/logs/logs.txt','User control,'."\n");
+            $fileExist = $filesystem->exists('fichier/logs/logs.txt');
+            if($fileExist)
+            {
+                $filesystem->appendToFile('fichier/logs/logs.txt',$this->getUser()->getEmail().'; UserControl; '.(new \DateTime())->format('y-m-d h:i:s')."\n");
+            }
         }catch(Exception $e){
-            
+            dd('catch(Exception $e){');
         }
-        $fileExist = $filesystem->exists('fichier/logs');
-        $filesystem->dumpFile('fichier/logs/logs.txt','User '.$this->getUser()->getEmail().' access to UserControl \r\n');
-        $filesystem->appendToFile('fichier/logs/logs.txt','User '.$this->getUser()->getEmail().' access to UserControl \r\n');
+
 //         dd($fileExist);
         return $this->render('admin/userControl.html.twig', [
             
