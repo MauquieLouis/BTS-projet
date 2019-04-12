@@ -5,6 +5,7 @@ class Machines{
 		this.image = image;			// ne sert à rien je crois
 		this.points = [];			// Ajoute les sprites à l'ouverture de la page web.
 		this.sprites = [];			// Conteneur de sprites
+		this.spritesPushInBdd= [];	// Conteneur de sprites à ajouter dans la bdd
 		this.cubes= [];				// Conteneur de cubes et normalement il n'y a qu'une cube
 		this.scene = null;			// contient la scene de la page web
 		this.cube = null;			// pointeur sur un cube du containeur cubes
@@ -383,22 +384,22 @@ class Machines{
 	
 	testSaveTable()
 	{
-		var spriteDescription=[];
-		var spritePosCamera=[];
-		var spriteOrdre=[];
+		let spriteDescription=[];
+		let spritePosCamera=[];
+		let spriteOrdre=[];
 		let spritePosition=[];
-		for(var j=0;j< this.sprites.length;j++)
+		for(let j=0;j< this.spritesPushInBdd.length;j++)
 		{
-			spriteDescription[j] = this.sprites[j].information;
-			spritePosCamera[j] = this.sprites[j].cameraPosX + ';' + this.sprites[j].cameraPosY + ';' + this.sprites[j].cameraPosZ ;
+			spriteDescription[j] = this.spritesPushInBdd[j].information;
+			spritePosCamera[j] = this.spritesPushInBdd[j].cameraPosX + ';' + this.spritesPushInBdd[j].cameraPosY + ';' + this.spritesPushInBdd[j].cameraPosZ ;
 //			spriteOrdre[j] = this.sprites[j].etape;
-			spritePosition[j] = this.sprites[j].etape;
+			spritePosition[j] = this.spritesPushInBdd[j].etape;
 		}
 
 		
 //		console.log(this.sprites[0])
-		var jsonName = JSON.stringify( this.sprites );
-		var jsonDescription = JSON.stringify( spriteDescription );
+		let jsonName = JSON.stringify( this.spritesPushInBdd );
+		let jsonDescription = JSON.stringify( spriteDescription );
 		let jsonPosCamera = JSON.stringify( spritePosCamera );
 		let jsonOdre = JSON.stringify( spritePosition ); 
 		console.log(spritePosition);
@@ -408,18 +409,7 @@ class Machines{
 		document.getElementById('etapes_camera').value = jsonPosCamera;
 		document.getElementById('etapes_etape').value = 888;
 		document.getElementById('etapes_position').value = jsonOdre;
-		
-		
-		
-//		var url = 'http://127.0.0.1:8000/modele/21/viewmodel.html.twig?'; // Début de l'URL
-//		for (let i=0; i< this.sprites.length;i++)
-//		{
-//		    url += 'arr' + i + '=' + this.sprites[i].name + '&'; // On ajoute les valeurs du tableau
-//		}
-//	
-//		url = url.substring(0, url.length - 2); // On retire le "&" de trop
-//		
-		//document.location.href = url; // Et on envoie à PHP
+
 	}
 }
 /* FIN CLASSE Machines*/
@@ -653,7 +643,7 @@ function onClick(e)
 		if(cube.sprites[cube.sprites.length-1].position.z <= (intersects[0].object.geometry.parameters.depth/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.z >= (intersects[0].object.geometry.parameters.depth/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.z += cube.initEcartTooltip;}
 		if(cube.sprites[cube.sprites.length-1].position.z >= -(intersects[0].object.geometry.parameters.depth/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.z <= -(intersects[0].object.geometry.parameters.depth/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.z -= cube.initEcartTooltip;}
 		console.log(cube.sprites[cube.sprites.length-1].name);
-
+		cube.spritesPushInBdd.push(cube.sprites[cube.sprites.length-1]);
 		cube.ToggleSprite();
 	}
 	else //sinon c'est qu'on est en ready et on passe en start

@@ -28,7 +28,7 @@
                         	<a href = {{ path('maintenanceModele3D', {'machine' : machine.id }) }} class="btn btn-primary">
                         	   <div style="font-size:14px;">Accès machine &nbsp;<i class="fas fa-long-arrow-alt-right"></div></i>
                         	</a>
-                        	{% if is_granted('ROLE_ADMIN') %}<a href="#" class="btn btn-secondary"><div style="font-size:14px;"><div class="d-none d-xl-inline-block">Modifier</div> <i class="fas fa-edit"></i></div></a>{% endif %}
+                        	{% if is_granted('ROLE_ADMIN') %}<a href="{{ path('machineedition', {'id' : machine.id }) }}" class="btn btn-secondary"><div style="font-size:14px;"><div class="d-none d-xl-inline-block">Modifier</div> <i class="fas fa-edit"></i></div></a>{% endif %}
                     	</div>
                 	</div>
                 </div>
@@ -60,6 +60,7 @@
 		{{ form_start(formMachine) }}
             {{ form_row(formMachine.name, {'attr':{'placeholder' : "Nom de la machine"}}) }}
             {{ form_row(formMachine.description, {'attr':{'placeholder' : "Information sur la machine"}}) }}
+            <button type="submit" class="btn btn-primary">Valider</button>
         {{ form_end(formMachine) }}
     </div>
     {% endif %}

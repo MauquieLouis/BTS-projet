@@ -149,6 +149,13 @@ function clickOnCase(id, cal){
 			affichageEvent(balise, cal);
 			idPrec = balise;
 		}
+		//----Recoloration du jour sélèctionné----//
+		if(parseInt(eval("sp"+i).innerHTML) == wDate.getDate() 
+		&& this.currMonth+1 == wDate.getMonth()
+		&& this.currYear == wDate.getFullYear()
+		&& eval("sp"+i).style.backgroundColor != colorOtherMonth
+		&& eval("sp"+i).style.backgroundColor != colorToday)
+			eval("sp"+i).style.backgroundColor = colorSelectDay;
 	}
 }
 
