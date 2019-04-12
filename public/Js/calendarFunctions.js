@@ -124,8 +124,8 @@ function clickOnCase(id, cal){
 
 	//----------Si la case clicker fait partis d'un autre mois, alors on change de mois----------//
 	if(cal == calendarMonth){
-		if(parseInt(id.slice(2)) > (42-15)  && eval(id).style.backgroundColor == colorOtherMonth)chMonth("+");
-		else if(parseInt(id.slice(2)) < 15 && eval(id).style.backgroundColor == colorOtherMonth)chMonth("-");
+		if(parseInt(id.slice(2)) > (42-15)  && eval(id).style.backgroundColor == colorOtherMonth)cal.chMonth("+");
+		else if(parseInt(id.slice(2)) < 15 && eval(id).style.backgroundColor == colorOtherMonth)cal.chMonth("-");
 	}
 
 	
@@ -201,5 +201,26 @@ function affichageEvent(id, val){
 	
 	text += (textEvent=="")?"Aucun évènement prévu pour le moment..."+"</br>":textEvent;
 	//eval("ev"+i).innerHTML = text; 	//La balise dont l'id vaut 'eve' affiche le text
-	document.getElementById("calPlace").innerHTML = text;
+	//document.getElementById("calPlace").innerHTML = text;
 }
+
+window.onresize = function resize(){
+	windowWidth = parseInt(document.body.clientWidth);
+	if(windowWidth < 768){
+		//alert("tonperetamer");
+		alert(eval("greatTab").style.width);
+		eval("calform").style.width = windowWidth + "px";
+	}
+	else
+		eval("calForm").style.width = windowWidth/21+"px";
+};
+//for (i=0;i<calendarMonth.nbCases;i++)
+/*window.onresize = function resize(){
+	alert("<768");
+	windowWidth = parseInt(document.body.clientWidth);
+	if(windowWidth < 768)
+		alert("<768");
+		//for (i=0;i<14;i++)eval("sp"+i).style.width = windowWidth/2-27+"px";
+	else
+		for (i=0;i<14;i++)eval("sp"+i).style.width = windowWidth/6+"px";
+};*/

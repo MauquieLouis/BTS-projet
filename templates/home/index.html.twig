@@ -3,6 +3,7 @@
 {% block title %}Acceuil{% endblock %}
 
 {% block body %}
+	<link rel="stylesheet" type="text/css" href="../css/calendarStyle.css" />
 	<div class="row BorderJaune">
 		<div class="col-12">
      		<script src="{{ asset('bootstrap/Js/jquery.js') }}"></script>
@@ -11,19 +12,20 @@
      		<script src="Js/Ajaxreceive.js"></script>
 
     		<div class="col-12 offset-md-4 col-md-4 BorderRouge">
-    			<table border=1>
-    				<tr><td><div id=btCalMonth>Mois</div></td>
-    					<td><div id=btCalWeek>Semaines</div></td>
-    				</tr>
-    			</table>
+    			
+    			<button class=selCal id=btCalMonth>Mois</button></td>
+    			<button class=selCal id=btCalWeek>Semaines</button></td>
     			<div id=calPlace></div> 	
     			<script src="{{ asset('../Js/calendarWeek.js') }}"></script>
 				<script src="{{ asset('../Js/calendar.js') }}"></script>
-    				
+    			<script>	
+    				document.getElementById("calPlace").innerHTML = calendarWeek.writeHTML(); 	//Ecriture d'une calendirer
+    				calendarWeek.chWeek();
+    			</script>
     		</div>
-			<div class="col-12 offset-md-8 col-md-4 BorderRouge" id=EventPlace></div> 
-		</div>
 		
+		</div>
+		<div class="col-12 offset-md-8 col-md-4 BorderRouge" id=EventPlace></div> 
 	</div>
 	
 {% endblock %} 

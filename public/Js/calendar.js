@@ -115,21 +115,21 @@ class calMonth{
 	writeHTML(){
 		var text = "";
 		text = "<form name=calForm>";
-		text += "<table border=1>";
+		text += "<table id=\"greatTab\" class=\"tabStyle\">";
 		text += "<tr><td>";
 		text += "<table width=100%><tr>";
-		text += "<td align=left>";
-		text += "<span onClick='calendarMonth.chMonth(\"-\")'><i class=\"fas fa-chevron-left\"></i></span>";
-		text += "<select name=selMonth onChange='calendarMonth.chMonth()'>"; //Quand on selectionne un mois, la fonction changeCal() est appelé
+		text += "<td class=\"row\">";
+		text += "<span class=\"col-2\" onClick='calendarMonth.chMonth(\"-\")'><i style=\"font-size:30px\" class=\"fas fa-chevron-left\"></i></span>";
+		text += "<select class=\"col-6 form-control form-control-sm\" name=selMonth onChange='calendarMonth.chMonth()'>"; //Quand on selectionne un mois, la fonction changeCal() est appelé
 		for (i=0;i<=11;i++)		//Remplissage de la balise de selection du mois
 			(i==mm)?text += "<option value= " + i + " Selected>" + arrM[i] + "</option>": text += "<option value= " + i + ">" + arrM[i] + "</option>";//Le mois courant est séléctionné au lancement
 		
 		text += "</select>";	
-		text += "<span onClick='calendarMonth.chMonth(\"+\")'><i class=\"fas fa-chevron-right\"></i>     </span>";
-		text += "<span onClick='calendarMonth.chMonth(\"+-\")'>    <i class=\"fas fa-calendar-day\"></i></span>"
+		text += "<span class=\"col-2\" onClick='calendarMonth.chMonth(\"+\")'><i style=\"font-size:30px\" class=\"fas fa-chevron-right\"></i></span>";
+		text += "<span class=\"col-2\" onClick='calendarMonth.chMonth(\"+-\")'><i style=\"font-size:30px\" class=\"fas fa-calendar-day\"></i></span>"
 		text += "</td>";
 		text += "<td align=right>";
-		text += "<select name=selYear onChange='changeCalMonth()'>";	//Quand on selectionne une année, la fonction changeCal() est appelé
+		text += "<select name=selYear class=\"col-7 form-control form-control-sm\" onChange='calendarMonth.chMonth()'>";	//Quand on selectionne une année, la fonction changeCal() est appelé
 		for (i=0;i<=nbYear;i++)		//Remplissage de la balise de selection de l'année
 			(i==nbYear/2)?text += "<option value= " + arrY[i] + " Selected>" + arrY[i] + "</option>": text += "<option value= " + arrY[i] + ">" + arrY[i] + "</option>";//L'année courante est séléctionnée au lancement
 		
@@ -138,19 +138,18 @@ class calMonth{
 		text += "</tr></table>";
 		text += "</td></tr>";
 		text += "<tr><td>";
-		text += "<table border=1>";
+		text += "<table class=\"tabStyle\">";
 		text += "<tr>";
 		for (i=0;i<=6;i++)
-			text += "<td align=center><span>" + arrD[i] + "</span></td>"; //Affiche des jours de la semaine
+			text += "<td class=\"dayStyle\"><span>" + arrD[i] + "</span></td>"; //Affiche des jours de la semaine
 		text += "</tr>";
 		var aa = 0;
 		for (k=0;k<=5;k++){
 			text += "<tr>";
 			for (i=0;i<=6;i++, aa++)
-				text += "<td align=center><div id=sp" + aa + " onClick='clickOnCase(this.id, calendarMonth)'></div></td>"; //Affiche des 42 case des jours, quand on séléctionne une case, la fonction affichage event est appelé
+				text += "<td class=\"caseStyle\" align=center><div id=sp" + aa + " onClick='clickOnCase(this.id, calendarMonth)'></div></td>"; //Affiche des 42 case des jours, quand on séléctionne une case, la fonction affichage event est appelé
 			text += "</tr>";
 		}
-		
 		text += "</table>";
 		text += "</td></tr>";
 		text += "</table>";
@@ -158,16 +157,7 @@ class calMonth{
 		text += "</form>";
 		return text; 	//Ecriture d'une calendirer
 	}
-	
-	
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////Création du fond///////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////Affichage du mois//////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 var calendarMonth = new calMonth();
 document.getElementById("btCalMonth").addEventListener("click", function(){
@@ -177,11 +167,5 @@ document.getElementById("btCalMonth").addEventListener("click", function(){
 
 
 //-------Redimenssion du calendrier en fonction de la taille de la fenêtre-------//
-window.onresize = function resize(){ 
-	windowWidth = parseInt(document.body.clientWidth)-30;
-	if(windowWidth < 738)
-		for (i=0;i<calendarMonth.nbCases;i++)eval("sp"+i).style.width = windowWidth/7+"px";
-	else
-		for (i=0;i<=calendarMonth.nbCases;i++)eval("sp"+i).style.width = windowWidth/21+"px";
-};
+
 
