@@ -41,34 +41,40 @@ class Machine
     private $maintenances;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $picturedevant;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $picturegauche;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $picturederriere;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $picturedroite;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $picturedessus;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $picturedessous;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\ModeleMachine", inversedBy="machines")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $modele;
 
   
     public function __construct()
@@ -216,6 +222,18 @@ class Machine
     public function setPicturedessous(string $picturedessous): self
     {
         $this->picturedessous = $picturedessous;
+
+        return $this;
+    }
+
+    public function getModele(): ?ModeleMachine
+    {
+        return $this->modele;
+    }
+
+    public function setModele(?ModeleMachine $modele): self
+    {
+        $this->modele = $modele;
 
         return $this;
     }

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Machine;
 use App\Entity\Maintenance;
 use App\Entity\Etapes;
+use App\Entity\ModeleMachine;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Form\NewMachineType;
 use App\Form\EtapesType;
 use App\Form\NewMaintenanceType;
+use App\Form\NewModeleType;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\DBAL\Driver\Connection;
@@ -251,39 +253,20 @@ class MachineController extends AbstractController
         $repositoryMaintenance = $em->getRepository(Maintenance::class);
         $machine = $repository->findOneBy(['id' => $id]);
         $maintenances = $repositoryMaintenance->findBy(['idMachine'=> $machine->getId()]);
-        $machine->setPicturedevant(new File('image\machine\\'.$machine->getId().'\\'.$machine->getPicturedevant())
-            );
-        $machine->setPicturegauche(new File('image\machine\\'.$machine->getId().'\\'.$machine->getPicturegauche())
-            );
-        $machine->setPicturederriere(new File('image\machine\\'.$machine->getId().'\\'.$machine->getPicturederriere())
-            );
-        $machine->setPicturedroite(new File('image\machine\\'.$machine->getId().'\\'.$machine->getPicturedroite())
-            );
-        $machine->setPicturedessus(new File('image\machine\\'.$machine->getId().'\\'.$machine->getPicturedessus())
-            );
-        $machine->setPicturedessous(new File('image\machine\\'.$machine->getId().'\\'.$machine->getPicturedessous())
-            );
-      
+
         $formMachine = $this->createForm(NewMachineType::class, $machine);
         $formMachine->handleRequest($request);
-//          dd($formMachine);
+
         if($formMachine->isSubmitted() && $formMachine->isValid())
         {
-            dd($machine->getPicturedessous());
-            
             $newMachine = new Machine();
             $newMachine = $formMachine->getData();
-            $newMachine->setPicturedevant('1.jpg');
-            $newMachine->setPicturegauche('2.jpg');
-            $newMachine->setPicturederriere('3.jpg');
-            $newMachine->setPicturedroite('4.jpg');
-            $newMachine->setPicturedessus('5.jpg');
-            $newMachine->setPicturedessous('6.jpg');
             $em->persist($newMachine);
             $em->flush();
             $this->addFlash('info', 'Modifications enregistrées');
             return $this->redirectToRoute('machine');
         }
+        
         $formDeleteMachine = $this->createFormBuilder()
         ->getForm();
         $formDeleteMachine->handleRequest($request);
@@ -301,7 +284,7 @@ class MachineController extends AbstractController
         }     
         return $this->render('machine/editionmachine.html.twig', [
             'formMachine' => $formMachine->createView(),
-            'machine' => $machine,
+//             'machine' => $machine,
             'formDeleteMachine' => $formDeleteMachine->createView(),
         ]);
     }    
@@ -313,11 +296,12 @@ class MachineController extends AbstractController
         //      Recuperation de toutes les machines existantes         //
         $repositoryMaintenance = $em->getRepository(Maintenance::class);        
         $maintenances = $repositoryMaintenance->findOneBy(['id' => $id]); 
-        $maintenances->setPicturefile(new File('image\machine\\'.$maintenances->getIdMachine()->getId().'\\'.$maintenances->getId().'/'.$maintenances->getPicturefilename())
-            );
+//         $maintenances->setPicturefile(new File('image\machine\\'.$maintenances->getIdMachine()->getId().'\\'.$maintenances->getId().'/'.$maintenances->getPicturefilename())
+//             );
      //   $maintenances->setNom('99');
         $formMaintenances = $this->createForm(NewMaintenanceType::class,$maintenances);
         $formMaintenances->handleRequest($request);
+//         dd($formMaintenances);
         if($formMaintenances->isSubmitted() && $formMaintenances->isValid())
         {            
             $newMaintenance = new Maintenance();
@@ -350,6 +334,70 @@ class MachineController extends AbstractController
             'formMaintenance' => $formMaintenances->createView(),
         //    'machine' => $machine,
             'formDeleteMaintenance' => $formDeleteMaintenance->createView(),
+        ]);
+    }
+    /**
+     * @Route("/modeles", name="modelesmachines")
+     */
+    public function showModelesMachines(Request $request, EntityManagerInterface $em)
+    {
+        $repositoryModele = $em->getRepository(ModeleMachine::class);
+        $modeles = $repositoryModele->findAll();
+        $newModele = new ModeleMachine();
+        $formModele = $this->createForm(NewModeleType::class,$newModele);
+        $formModele->handleRequest($request);
+        if( ($formModele->isSubmitted() && $formModele->isValid() ))
+        {
+            $newModele = $formModele->getData();
+            $em->persist($newModele);
+            $em->flush();
+            if ($newModele->getFaceAvant()) {
+               
+                $formModele['faceAvant']->getData()->move(
+                    ('image/modele/'.$newModele->getId()),              //.$document->getId()  => ï¿½ rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                    '1.jpg'
+                    );
+            }
+            $em->persist($newModele);
+            $em->flush();
+            return $this->redirectToRoute('machine');
+        }
+        return $this->render('machine/modelesmachine.html.twig', [
+            'formModele' => $formModele->createView(),
+               'modeles' => $modeles,
+           // 'formDeleteMaintenance' => $formDeleteModele->createView(),
+        ]);
+    }
+    /**
+     * @Route("/modeles/edition/{id}", name="modeleedition")
+     */
+    public function EditionModelesMachines(Request $request, EntityManagerInterface $em, $id)
+    {
+        $repositoryModele = $em->getRepository(ModeleMachine::class);
+        $modele = $repositoryModele->findOneBy(['id' => $id]);
+//         $newModele = new ModeleMachine();
+//         $formModele = $this->createForm(NewModeleType::class,$newModele);
+//         $formModele->handleRequest($request);
+//         if( ($formModele->isSubmitted() && $formModele->isValid() ))
+//         {
+//             $newModele = $formModele->getData();
+//             $em->persist($newModele);
+//             $em->flush();
+//             if ($newModele->getFaceAvant()) {
+                
+//                 $formModele['faceAvant']->getData()->move(
+//                     ('image/modele/'.$newModele->getId()),              //.$document->getId()  => ï¿½ rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+//                     '1.jpg'
+//                     );
+//             }
+//             $em->persist($newModele);
+//             $em->flush();
+//             return $this->redirectToRoute('machine');
+//         }
+        return $this->render('machine/editionmodele.html.twig', [
+//             'formModele' => $formModele->createView(),
+//             'modeles' => $modeles,
+            // 'formDeleteMaintenance' => $formDeleteModele->createView(),
         ]);
     }
 }
