@@ -352,12 +352,55 @@ class MachineController extends AbstractController
             $em->persist($newModele);
             $em->flush();
             if ($newModele->getFaceAvant()) {
-               
+                $nom = '1.jpg';
+                $newModele->setFaceAvant($nom);
                 $formModele['faceAvant']->getData()->move(
-                    ('image/modele/'.$newModele->getId()),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
-                    '1.jpg'
+                    ('image/modele/'.$newModele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                    $nom
                     );
             }
+            if ($newModele->getFaceGauche()) {
+                $nom = '2.jpg';
+                $newModele->setFaceGauche($nom);
+                $formModele['faceGauche']->getData()->move(
+                    ('image/modele/'.$newModele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                    $nom
+                    );
+            }
+            if ($newModele->getFaceArriere()) {
+                $nom = '3.jpg';
+                $newModele->setFaceArriere($nom);
+                $formModele['faceArriere']->getData()->move(
+                    ('image/modele/'.$newModele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                    $nom
+                    );
+            }
+            if ($newModele->getFaceDroite()) {
+                $nom = '4.jpg';
+                $newModele->setFaceDroite($nom);
+                $formModele['faceDroite']->getData()->move(
+                    ('image/modele/'.$newModele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                    $nom
+                    );
+            }
+            if ($newModele->getFaceHaut()) {
+                $nom = '5.jpg';
+                $newModele->setFaceHaut($nom);
+                $formModele['faceHaut']->getData()->move(
+                    ('image/modele/'.$newModele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                    $nom
+                    );
+            }
+            if ($newModele->getFaceBas()) {
+                $nom = '6.jpg';
+                $newModele->setFaceBas($nom);
+                $formModele['faceBas']->getData()->move(
+                    ('image/modele/'.$newModele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                    $nom
+                    );
+            }
+            
+            
             $em->persist($newModele);
             $em->flush();
             return $this->redirectToRoute('machine');
@@ -379,10 +422,69 @@ class MachineController extends AbstractController
         $formModele->handleRequest($request);
         if($formModele->isSubmitted() && $formModele->isValid())
         {
-            
+           
+            $newModele = new Maintenance();
+            $newModele = $formModele->getData();
+            if ($newModele->getFaceAvant()) {
+                $nom = '1.jpg';
+                $newModele->setFaceAvant($nom);
+                $formModele['faceAvant']->getData()->move(
+                    ('image/modele/'.$modele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                    $nom
+                    );
+            }
+            else{ $newModele->setFaceAvant('1.jpg');}
+            if ($newModele->getFaceGauche()) {
+                $nom = '2.jpg';
+                $newModele->setFaceGauche($nom);
+                $formModele['faceGauche']->getData()->move(
+                    ('image/modele/'.$modele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                    $nom
+                    );
+            }
+            else{ $newModele->setFaceGauche('2.jpg');}
+            if ($newModele->getFaceArriere()) {
+                $nom = '3.jpg';
+                $newModele->setFaceArriere($nom);
+                $formModele['faceArriere']->getData()->move(
+                    ('image/modele/'.$modele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                    $nom
+                    );
+            }
+            else{ $newModele->setFaceArriere('3.jpg');}
+            if ($newModele->getFaceDroite()) {
+                $nom = '4.jpg';
+                $newModele->setFaceDroite($nom);
+                $formModele['faceDroite']->getData()->move(
+                    ('image/modele/'.$modele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                    $nom
+                    );
+            }
+            else{ $newModele->setFaceDroite('4.jpg');}
+            if ($newModele->getFaceHaut()) {
+                $nom = '5.jpg';
+                $newModele->setFaceHaut($nom);
+                $formModele['faceHaut']->getData()->move(
+                    ('image/modele/'.$modele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                    $nom
+                    );
+            }
+            else{ $newModele->setFaceHaut('5.jpg');}
+            if ($newModele->getFaceBas()) {
+                $nom = '6.jpg';
+                $newModele->setFaceBas($nom);
+                $formModele['faceBas']->getData()->move(
+                    ('image/modele/'.$modele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                    $nom
+                    );
+            } else{ $newModele->setFaceBas('6.jpg');}
+            $em->persist($newModele);
+            $em->flush();
+            return $this->redirectToRoute('modelesmachines');
+          
         }
         return $this->render('machine/editionmodele.html.twig', [
-//             'formModele' => $formModele->createView(),
+            'formModele' => $formModele->createView(),
 //             'modeles' => $modeles,
             // 'formDeleteMaintenance' => $formDeleteModele->createView(),
         ]);
