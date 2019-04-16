@@ -20,13 +20,14 @@
                 	 <img class="card-img-top" src="{{ asset('/image/modele/')~modele.id~('/')~modele.faceAvant }}" style="height:100px; width:auto;">
                 	</div>
                 	<div class="card-body card-body-listeMachine BorderViolet" style="width:100%">
-                		<div class="card-title-listeMachine BorderJaune"><h3>{{ modele.id }}</h3></div>
+                	<a href = {{ path('machine', {'modele' : modele.id }) }} class="btn btn-primary">
+                        	   <div style="font-size:14px;">Accès aux machines  &nbsp;<i class="fas fa-long-arrow-alt-right"></div></i>
+                	</a>
+{#                 		<div class="card-title-listeMachine BorderJaune"><h3>{{ modele.id }}</h3></div>#}
                 		<div class="card-text-listeMachine BorderViolet">
             		 	</div>
             		 	<div class="card-button-listeMachine">
-{#                         	<a href = {{ path('maintenanceModele3D', {'machine' : machine.id }) }} class="btn btn-primary">#}
-{#                         	   <div style="font-size:14px;">Accès modele  &nbsp;<i class="fas fa-long-arrow-alt-right"></div></i>#}
-{#                         	</a>#}
+                        	
                         	{% if is_granted('ROLE_ADMIN') %}
                         	<a href="{{ path('modeleedition', {'id' : modele.id }) }}" class="btn btn-secondary">
                             	<div style="font-size:14px;">

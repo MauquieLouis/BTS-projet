@@ -58,62 +58,37 @@ class MachineController extends AbstractController
         return $this->data;
     }
     /**
-     * @Route("/machine", name="machine")
+     * @Route("/machine/{modele}", name="machine")
      */
-    public function index(Request $request, EntityManagerInterface $em)
+    public function index(Request $request, EntityManagerInterface $em, $modele)
     {
 //      Recuperation de toutes les machines existantes ////////////////
         $repository = $em->getRepository(Machine::class);
-        $machines = $repository->findAll();
+        $repositoryModele = $em->getRepository(ModeleMachine::class);
+        $modeleMachine = $repositoryModele->findOneBy(['id'=> $modele]);
+        $machines = $repository->findBy(['modele'=> $modeleMachine]);
         $machine = new Machine();
+     
+        $machine->setModele($modeleMachine);
         $formMachine = $this->createForm(NewMachineType::class, $machine);     //creation du formulaire
         $formMachine->handleRequest($request);
+//         dd($modeleMachine);
         if($formMachine->isSubmitted() && $formMachine->isValid())
         {  
             $blog = $formMachine->getData();
             $this->setData($blog);
-            $blog->setPicturedevant('1.jpg');
-            $blog->setPicturegauche('2.jpg');
-            $blog->setPicturederriere('3.jpg');
-            $blog->setPicturedroite('4.jpg');
-            $blog->setPicturedessus('5.jpg');
-            $blog->setPicturedessous('6.jpg');
-            $em->persist($blog);        //Pour ajouter � la base de donn�e
-            $em->flush();
-            $nom = '.jpg';
-            $formMachine['picturedevant']->getData()->move(
-                ('image/machine/'.$blog->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
-                '1'.$nom
-                );
-            $formMachine['picturegauche']->getData()->move(
-                ('image/machine/'.$blog->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
-                '2'.$nom
-                );
-            $formMachine['picturederriere']->getData()->move(
-                ('image/machine/'.$blog->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
-                '3'.$nom
-                );
-            $formMachine['picturedroite']->getData()->move(
-                ('image/machine/'.$blog->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
-                '4'.$nom
-                );
-            $formMachine['picturedessus']->getData()->move(
-                ('image/machine/'.$blog->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
-                '5'.$nom
-                );
-            $formMachine['picturedessous']->getData()->move(
-                ('image/machine/'.$blog->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
-                '6'.$nom
-                );
+
+       
             $em->persist($blog);        //Pour ajouter � la base de donn�e
             $em->flush();    
             $request = 0;
-            return $this->redirectToRoute('machine',);
+            return $this->redirectToRoute('machine',['modele'=> $modele]);
         }
         return $this->render('machine/index.html.twig', [
             'formMachine' => $formMachine->createView(),
             'controller_name' => 'MachineController',
             'Machines' => $machines,
+            'modele' => $modeleMachine,
         ]);
     }
     
@@ -173,15 +148,19 @@ class MachineController extends AbstractController
         $session = new Session();
         $repositoryMachine = $em->getRepository(Machine::class);
         $repositoryMaintenance = $em->getRepository(Maintenance::class);
-        $repositoryEtapes = $em->getRepository(Etapes::class);        
+        $repositoryEtapes = $em->getRepository(Etapes::class);       
+        $repositoryModele = $em->getRepository(ModeleMachine::class);
         $etapes = $repositoryEtapes->findBy(['maintenance' =>  $repositoryMaintenance->findOneBy(['id' =>$slug])->getId()]);
         //$machine = $repositoryMachine->findOneBy(['id'=> $slug]);
         $machine = $repositoryMachine->findOneBy(['id'=>  $repositoryMaintenance->findOneBy(['id' =>$slug])->getIdMachine()
         ]);
+       
+        $modeleMachine = $repositoryModele->findOneBy(['id'=> $machine->getModele()->getId()]);
         if(!$machine)
         {
             throw $this->createNotFoundException(sprintf('No machine for slug "%s"', $slug));
         }        
+       
         //////// CREATION DE SPRITE ou ETAPE ///////////////////////////////////
         $sprite = new Etapes();
         $formSaveAllSprite = $this->createForm(EtapesType::class, $sprite);
@@ -240,7 +219,8 @@ class MachineController extends AbstractController
             'formDelete'=> $formDeleteSprite->createView(),
             'machine' => $machine,
             'etapes' => $etapes,
-            'saveAllSprites' =>$formSaveAllSprite->createView(),            
+            'saveAllSprites' =>$formSaveAllSprite->createView(),  
+            'modeleMachine' =>$modeleMachine,
         ]);   
     }
     
@@ -403,7 +383,7 @@ class MachineController extends AbstractController
             
             $em->persist($newModele);
             $em->flush();
-            return $this->redirectToRoute('machine');
+            return $this->redirectToRoute('modelesmachines');
         }
         return $this->render('machine/modelesmachine.html.twig', [
             'formModele' => $formModele->createView(),

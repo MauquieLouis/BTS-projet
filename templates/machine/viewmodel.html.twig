@@ -19,9 +19,9 @@
 {#     		<h1>Aperçu Machine {{ machine.id }}</h1>#}
     		<h1>Aperçu {{ machine.name}}</h1>
 {#     		<div id="filename" hidden>{{ machine.imagefilename }}</div>#}
-			<div id="filename" hidden>{{ machine.picturedroite }};{{ machine.picturegauche }};{{ machine.picturedessus }};{{ machine.picturedessous }};{{ machine.picturedevant }};{{ machine.picturederriere }}
-			</div>
+			<div id="filename" hidden>{{ modeleMachine.faceDroite }};{{ modeleMachine.faceGauche }};{{ modeleMachine.faceHaut }};{{ modeleMachine.faceBas }};{{ modeleMachine.faceAvant }};{{ modeleMachine.faceArriere }}</div>
     		<div id="machineNamed" hidden>{{ machine.id }}</div>
+    		<div id="modeleID" hidden>{{ modeleMachine.id }}</div>
     		<button class ="btn btn-secondary d-md-none" onclick="showModele();" type="button">Affichage Modèle 3D</button>
     	</div>
 	</div>
@@ -116,18 +116,18 @@
 		</div>
 		<!-- CACHER OU AFFICHER LE FORMULAIRE -->
 		<script src="{{ asset('bootstrap/Js/jquery.js') }}"></script>
-		<script>
-		$('#selectEtape').change(function()
-		{
-			console.log('REMY');
-			var optionSelect = ($( "#selectEtape option:selected" ).val());
-// 			console.log(optionSelect);
-// 			console.log(cube.etapeEnCours);
- 			cube.etapeEnCours = parseInt(optionSelect);
-//  			console.log(cube.etapeEnCours);
- 			cube.EtapeChangement(0);
-		});
-		</script>
+{# 		<script>#}
+{# 		$('#selectEtape').change(function()#}
+{# 		{#}
+{# 			console.log('REMY');#}
+{# 			var optionSelect = ($( "#selectEtape option:selected" ).val());#}
+{# // 			console.log(optionSelect);#}
+{# // 			console.log(cube.etapeEnCours);#}
+{#  			cube.etapeEnCours = parseInt(optionSelect);#}
+{# //  			console.log(cube.etapeEnCours);#}
+{#  			cube.EtapeChangement(0);#}
+{# 		});#}
+{# 		</script>#}
 		<script>
 			formEtape = document.getElementById('formEtape');
 			function IsHiddenFormEtape()
@@ -163,7 +163,7 @@
 
         {% endfor %}
         
-       
+      
 	 
 {% endblock %}
 

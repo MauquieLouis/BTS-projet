@@ -19,7 +19,7 @@ class NewMachineType extends AbstractType
         $builder
             ->add('name', TextType::class)
             ->add('description', TextType::class)
-            ->add('picturedevant', FileType::class ,  ['data_class' => null, 'required' => false] )
+//             ->add('picturedevant', FileType::class ,  ['data_class' => null, 'required' => false] )
 //             ->add('picturegauche', FileType::class, ['data_class' => null, 'required' => false]  )
 //             ->add('picturederriere', FileType::class, ['data_class' => null, 'required' => false]  )
 //             ->add('picturedroite', FileType::class, ['data_class' => null, 'required' => false]  )
