@@ -375,25 +375,12 @@ class MachineController extends AbstractController
     {
         $repositoryModele = $em->getRepository(ModeleMachine::class);
         $modele = $repositoryModele->findOneBy(['id' => $id]);
-//         $newModele = new ModeleMachine();
-//         $formModele = $this->createForm(NewModeleType::class,$newModele);
-//         $formModele->handleRequest($request);
-//         if( ($formModele->isSubmitted() && $formModele->isValid() ))
-//         {
-//             $newModele = $formModele->getData();
-//             $em->persist($newModele);
-//             $em->flush();
-//             if ($newModele->getFaceAvant()) {
-                
-//                 $formModele['faceAvant']->getData()->move(
-//                     ('image/modele/'.$newModele->getId()),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
-//                     '1.jpg'
-//                     );
-//             }
-//             $em->persist($newModele);
-//             $em->flush();
-//             return $this->redirectToRoute('machine');
-//         }
+        $formModele = $this->createForm(NewModeleType::class,$modele);
+        $formModele->handleRequest($request);
+        if($formModele->isSubmitted() && $formModele->isValid())
+        {
+            
+        }
         return $this->render('machine/editionmodele.html.twig', [
 //             'formModele' => $formModele->createView(),
 //             'modeles' => $modeles,
