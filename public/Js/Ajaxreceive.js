@@ -51,6 +51,7 @@ var table = {
 			
 			default:
 				console.log("table::initTable::switch(tableSelected) => DROP TO DEFAULT at AjaxReceive.js ln33");
+				return -1;
 			break;
 		}
 		
@@ -87,7 +88,6 @@ var table = {
 	}
 };
 
-console.log(table.GetCurrentUser());
 console.log(table.ByDate("2014-01-01","2019-12-31"));
 
 ///PROCEDURE D'UTLISATION-------------------------------------------------//

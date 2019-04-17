@@ -12,6 +12,7 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Entity\Maintenance;
 use App\Repository\MaintenanceRepository;
+
 class AjaxReceiveController extends AbstractController
 {
     /**
@@ -23,7 +24,7 @@ class AjaxReceiveController extends AbstractController
                 'id'=>$parse
             ]);
             if($table === null){
-                $message = json_encode("empty");
+                $message = json_encode(null);
                 echo ($message);
                 return $this->render('ajax_receive/index.html.twig'); 
             }
@@ -45,7 +46,7 @@ class AjaxReceiveController extends AbstractController
         }
         $table = $repo->findAll();
         if($table === null){
-            $message = json_encode("empty");
+            $message = json_encode(null);
             echo ($message);
             return $this->render('ajax_receive/index.html.twig'); 
         }
@@ -76,7 +77,7 @@ class AjaxReceiveController extends AbstractController
                 'id'=>$parse
             ]);
             if($table === null){
-                $message = json_encode("empty");
+                $message = json_encode(null);
                 echo ($message);
                 return $this->render('ajax_receive/index.html.twig'); 
             }
@@ -101,7 +102,7 @@ class AjaxReceiveController extends AbstractController
         }
         $table = $repo->findAll();
         if($table === null){
-            $message = json_encode("empty");
+            $message = json_encode(null);
             echo ($message);
             return $this->render('ajax_receive/index.html.twig'); 
         }
@@ -135,7 +136,7 @@ class AjaxReceiveController extends AbstractController
                 'id'=>$parse
             ]);
             if($table === null){
-                $message = json_encode("empty");
+                $message = json_encode(null);
                 echo ($message);
                 return $this->render('ajax_receive/index.html.twig'); 
             }
@@ -155,7 +156,7 @@ class AjaxReceiveController extends AbstractController
         }
         $table = $repo->findAll();
         if($table === null){
-            $message = json_encode("empty");
+            $message = json_encode(null);
             echo ($message);
             return $this->render('ajax_receive/index.html.twig'); 
         }
@@ -184,7 +185,7 @@ class AjaxReceiveController extends AbstractController
                 'id'=>$parse
             ]);
             if($table === null){
-                $message = json_encode("empty");
+                $message = json_encode(null);
                 echo ($message);
                 return $this->render('ajax_receive/index.html.twig'); 
             }
@@ -204,7 +205,7 @@ class AjaxReceiveController extends AbstractController
         }
         $table = $repo->findAll();
         if($table === null){
-            $message = json_encode("empty");
+            $message = json_encode(null);
             echo ($message);
             return $this->render('ajax_receive/index.html.twig'); 
         }
@@ -273,7 +274,6 @@ class AjaxReceiveController extends AbstractController
             $tabl[$i][++$j] = $events[$i]->getFrequence();
         }
 
-        //dd($tabl);
         $message = json_encode($tabl);
         echo ($message);
         return $this->render('ajax_receive/index.html.twig');
