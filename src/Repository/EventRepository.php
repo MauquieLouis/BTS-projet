@@ -47,4 +47,24 @@ class EventRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findAllBetweenDates($dateMin,$dateMax): array
+    {
+        // automatically knows to select Products
+        // the "p" is an alias you'll use in the rest of the query
+        $qb = $this->createQueryBuilder('p')
+            ->andWhere('p.dateStart >= :dateMin')
+            ->andWhere('p.dateStart <= :dateMax')
+            ->setParameter('dateMin', $dateMin)
+            ->setParameter('dateMax', $dateMax)
+            ->orderBy('p.dateStart', 'ASC')
+            ->getQuery();
+
+        return $qb->execute();
+
+        // to get just one result:
+        // $product = $qb->setMaxResults(1)->getOneOrNullResult();
+    }
+
+
 }
