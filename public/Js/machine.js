@@ -381,7 +381,7 @@ const geometrysphere = new THREE.SphereGeometry(400, 400, 400);
 const textureLoader = new THREE.TextureLoader();
 const material = new THREE.MeshBasicMaterial({
 // 	map: texture,
- 	color: 0x007BA4,
+ 	color: 0xECECEC,
 	side: THREE.DoubleSide
 })
 material.transparent = true;

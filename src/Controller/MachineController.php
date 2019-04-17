@@ -57,6 +57,23 @@ class MachineController extends AbstractController
     {
         return $this->data;
     }
+    public function rmAllDir($strDirectory)
+    {
+//         dd('function rmAllDir');
+        $handle = opendir($strDirectory);
+        while(false !== ($entry = readdir($handle))){
+            if($entry != '.' && $entry != '..'){
+                if(is_dir($strDirectory.'/'.$entry)){
+                    $this->rmAllDir($strDirectory.'/'.$entry);
+                }
+                elseif(is_file($strDirectory.'/'.$entry)){
+                    unlink($strDirectory.'/'.$entry);
+                }
+            }
+        }
+        rmdir($strDirectory.'/'.$entry);
+        closedir($handle);
+    }
     /**
      * @Route("/machine/{modele}", name="machine")
      */
@@ -397,12 +414,14 @@ class MachineController extends AbstractController
     public function EditionModelesMachines(Request $request, EntityManagerInterface $em, $id)
     {
         $repositoryModele = $em->getRepository(ModeleMachine::class);
+        $repositoryMachine = $em->getRepository(Machine::class);
         $modele = $repositoryModele->findOneBy(['id' => $id]);
+        $machines = $repositoryMachine->findBy(['modele' => $modele->getId()]);
+
         $formModele = $this->createForm(NewModeleType::class,$modele);
         $formModele->handleRequest($request);
         if($formModele->isSubmitted() && $formModele->isValid())
         {
-           
             $newModele = new Maintenance();
             $newModele = $formModele->getData();
             if ($newModele->getFaceAvant()) {
@@ -463,10 +482,26 @@ class MachineController extends AbstractController
             return $this->redirectToRoute('modelesmachines');
           
         }
+        $formDeleteModele = $this->createFormBuilder()
+        ->getForm();
+        $formDeleteModele->handleRequest($request);
+        if($formDeleteModele->isSubmitted() &&$formDeleteModele->isValid() )
+        {
+            $this->rmAllDir('image/modele/'.$modele->getId());
+            foreach($machines as $machine)
+            {
+                $this->rmAllDir('image/machine/'.$machine->getId());
+            }
+//             dd('fin');
+            $em->remove($modele);
+            $em->flush();
+            $this->addFlash('danger', "Modèle supprimé");
+            return $this->redirectToRoute('modelesmachines');
+        }
         return $this->render('machine/editionmodele.html.twig', [
             'formModele' => $formModele->createView(),
 //             'modeles' => $modeles,
-            // 'formDeleteMaintenance' => $formDeleteModele->createView(),
+            'formDeleteModele' => $formDeleteModele->createView(),
         ]);
     }
 }

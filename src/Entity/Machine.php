@@ -36,14 +36,14 @@ class Machine
     private $imagefilename;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Maintenance", mappedBy="idMachine", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Maintenance", mappedBy="idMachine", orphanRemoval=true, cascade={"persist"})
      */
     private $maintenances;
 
    
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\ModeleMachine", inversedBy="machines")
+     * @ORM\ManyToOne(targetEntity="App\Entity\ModeleMachine", inversedBy="machines", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $modele;

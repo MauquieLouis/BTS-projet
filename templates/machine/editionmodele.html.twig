@@ -11,17 +11,19 @@
 {% block body %}
 	<div class="row AdminRow2">
     	<div class="col-12 offset-md-3 col-md-6 AdminRow1 TitlePage">
-<h2>Hello !</h2>
+			<h1>Gestion du modèle !</h1>
 
     		{{ form_start(formModele) }}
     		
     			<button type="submit" class="btn btn-primary">Sauvegarder</button>
     		{{ form_end(formModele) }}
     		
-{#     		{{ form_start(formDeleteMaintenance) }}#}
+    		
+    		{{ form_start(formDeleteModele) }}
     			
-{#     			<button type="submit" class="btn btn-danger">Supprimer la maintenance</button>#}
-{#     	    {{ form_end(formDeleteMaintenance) }}#}
+    			<button type="submit" class="btn btn-danger">Supprimer la maintenance</button>
+    	    {{ form_end(formDeleteModele) }}
+    	
     	
     	</div>
 	</div>
