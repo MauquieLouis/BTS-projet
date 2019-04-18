@@ -51,7 +51,7 @@
                 				<div class="row menuLien menuLien" id="menuLien">   					
                 					<div class="col-12 col-md-3 ">
                     					 {% if is_granted('ROLE_ADMIN') %}
-                    						<a href="{{ path('admin_UserControl') }}"><h2>Gestion Utilisateurs</h2></a>
+                    						<a href="{{ path('admin_UserControl') }}"><h2>Utilisateurs</h2></a>
                       				    {% else %}
                     						<h2>Btnn1</h2>
                       				    {% endif %}
@@ -65,7 +65,7 @@
                         				</div>
                         				<div class="col-12 col-md-3 ">
                         					 {% if is_granted('ROLE_ADMIN') %}
-                        						<a href="{{ path('event') }}"><h2>Créer un évènement</h2></a>
+                        						<a href="{{ path('event') }}"><h2>Événements</h2></a>
                           				    {% else %}
                         						<h2>Btnn2</h2>
                           				    {% endif %}

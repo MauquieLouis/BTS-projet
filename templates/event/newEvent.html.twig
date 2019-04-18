@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello EventController!{% endblock %}
+
+{% block body %}
+
+	<h1>Entrer un nouvel evenement :</h1>
+    {{ form_start(formEvent) }}
+        {{ form_row(formEvent.title, {'attr':{'placeholder' : "Titre de l'evenement"}}) }}
+        {{ form_row(formEvent.description, {'attr':{'placeholder' : "Description de l'evenement"}}) }}
+        <ul class="listeUserId" data-prototype="{{ form_row(formEvent.usersid.vars.prototype)|e }}">
+        </ul>
+        <button type="button" class="add_tag_link" id="buttonAdd" hidden>+ UsersId</button>
+    
+        {{ form_row(formEvent.dateStart, {'attr':{'placeholder' : "Date de l'evenement"}}) }}
+        {{ form_row(formEvent.frequence, {'attr':{'placeholder' : "Frequence de repetition (ne rien mettre si ponctuel)"}}) }}
+    
+       	<button onclick="EnableAllInput();" type="submit">Enregistrer</button>
+    {{ form_end(formEvent) }}
+   
+    <script src="{{ asset('bootstrap/Js/jquery.js') }}"></script>
+    <script>
+        var $addTagButton = $('#buttonAdd');					//Bouton +UsersId
+        var $newLinkLi = $('<li></li>').append($addTagButton);
+        var lastUserId;
+        var $collectionHolder;
+        var lastUserSelectIndex, lastUserSelect, lastUserSelected;
+        var allUserInput = [];
+
+        jQuery(document).ready(function() {
+
+            // Get the ul that holds the collection of tags
+            $collectionHolder = $('ul.listeUserId');
+// 			console.log(lastUserSelected);
+            // add the "add a tag" anchor and li to the tags ul
+            $collectionHolder.append($newLinkLi);
+
+            // count the current form inputs we have (e.g. 2), use that as the new
+            // index when inserting a new item (e.g. 2)
+            $collectionHolder.data('index', $collectionHolder.find(':input').length);
+// 			console.log($collectionHolder.data);
+            $addTagButton.on('click', function(e) {
+                // add a new tag form (see next code block)
+                addTagForm($collectionHolder, $newLinkLi);
+//                 console.log($collectionHolder.data);
+            });
+            addTagForm($collectionHolder, $newLinkLi);
+            
+            lastUserSelect = lastUserSelected
+			var AttenteActivation = 0;
+			$("form").submit(function( event ){					//Lorsque le form est validé il faut réactiver toutes les entrées car 
+				for(var i =0; i < allUserInput.length; i++)		//sinon elles ne seront pas renvoyés.
+				{
+					$(allUserInput[i]).prop("disabled", false);
+// 					if(allUserInput[i] == allUserInput.length )
+				}
+			});
+        });
+        function addTagForm($collectionHolder, $newLinkLi)
+        {
+        	 // Get the data-prototype explained earlier
+            var prototype = $collectionHolder.data('prototype');
+
+            // get the new index
+            var index = $collectionHolder.data('index');
+			lastUserSelectIndex = index ;
+			console.log(lastUserSelectIndex);
+			//$lastUserSelect = null;
+			lastUserSelected = '#new_event_form_usersid_' + index + '_user';
+			lastUserSelected2 = '#new_event_form_usersid_' + (index-1) + '_user';
+			console.log(lastUserSelected);
+			allUserInput.push(lastUserSelected);
+			console.log(allUserInput);
+			console.log(lastUserSelected2);
+			if(index-1 != 0)
+			{
+				$(lastUserSelected2).prop("disabled", true);
+			}
+// 			console.log(lastUserSelected);
+            var newForm = prototype;
+            // You need this only if you didn't set 'label' => false in your tags field in TaskType
+            // Replace '__name__label__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            // newForm = newForm.replace(/__name__label__/g, index);
+
+            // Replace '__name__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            newForm = newForm.replace(/__name__/g, index);
+
+            // increase the index with one for the next item
+            $collectionHolder.data('index', index + 1);
+
+            // Display the form in the page in an li, before the "Add a tag" link li
+            var $newFormLi = $('<li></li>').append(newForm);
+            $newLinkLi.before($newFormLi);
+
+			$(lastUserSelected).change(function(){
+				console.log('test')
+				var current = lastUserSelected;
+				addTagForm($collectionHolder, $newLinkLi);
+				})
+            }
+
+    </script>
+{% endblock %}
