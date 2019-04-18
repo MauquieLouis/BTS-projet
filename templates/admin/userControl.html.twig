@@ -1,37 +1,85 @@
 {% extends 'base.html.twig' %}
-
+ 
 {% block title %}Panneau Contrôle Comptes{% endblock %}
 
 {% block body %}
-	<div class="row AdminRow2">
-    	<div class="col-12 offset-md-3 col-md-8 AdminRow1">
+	<div class="row BorderJaune " style="margin-top:20px;">
+    	<div class="col-12 offset-md-3 col-md-6 BorderRouge TitlePage">
     		<h1>Panneau de contrôle</h1>
     	</div>
 	</div>
-	<div class="row AdminRow2">
-		<a href="{{ path('admin_UserControl_newUser') }}" class="col-12 offset-md-1 col-md-8 BtnAdmin-Style AdminRow1">
-			<div class="divText">
-				<h3>|+| Ajouter Un Utilisateur </h3>
+	<div class="row" style="margin-top:20px;">
+		<div class="col-12 offset-md-1 col-md-8 offset-xl-2 col-xl-7 BorderGris">
+    		<div class="row">
+    			<div class="col-12 col-md-7 col-xl-7">
+    				<a href="{{ path('admin_UserControl_searchUser') }}">
+        				<div class="row BtnGros BorderRouge" style="margin-right:3px;">
+        					<div class="textButtonCenter">
+        						<i class="fas fa-search"></i> Recherche utilisateur</br>
+        						<i class="fas fa-user-edit"></i> Edition utilisateur
+    						</div>
+        				</div>
+    				</a>
+    			</div>
+    			<div class="col-12 col-md-5 col-xl-5 BorderVert">
+    				<div class="row BorderJaune BtnLignePetit BtnLignePetit1">
+    					<div class="col-12">
+    						<div class="textButtonCenter">Historique actions</div>
+    					</div>
+					</div>	
+					<a href="{{ path('admin_UserControl_Logs') }}">
+        				<div class="row BorderJaune BtnLignePetit BtnLignePetit2">
+        					<div class="col-12">
+        						<div class="textButtonCenter">Journal log</div>
+        						
+        					</div>
+        				</div>
+    				</a>
+    			</div>
+    		</div>
+    		<a href="{{ path('admin_UserControl_newUser') }}">
+        		<div class="row">
+    				<div class="col-12 BorderBleu BtnLigneGrande">			
+						<div class="textButtonCenter"><i class="fas fa-user-plus"></i> Ajouter un utilisateur</div>
+    				</div>
+        		</div>
+    		</a>
+		</div>
+		<div class="col-12 col-md-2 col-xl-1 BorderViolet BtnBordure">
+			<div class="col-12 BtnColonne">
+				<div class="textButtonCenter">Bonus</div>
 			</div>
-		</a>
+		</div>
 	</div>
-	<div class="row AdminRow2">
-		<a class="col-12 offset-md-2 col-md-3 BtnAdmin-Style BtnAdmin-Style-ligne AdminRow1">
-			<div class="divText">
-				<h3>Historiques Actions... </h3>
-			</div>
-		</a>
-		<a class="col-12 col-md-3 BtnAdmin-Style BtnAdmin-Style-ligne AdminRow1">
-			<div class="divText">
-				<h3>+ Bonus ... </h3>
-			</div>
-		</a>
-	</div>
-	<div class="row AdminRow2">
-		<a class="col-12 offset-md-1 col-md-8 BtnAdmin-Style AdminRow1">
-			<div class="divText">
-				<h3>|°\| Rechercher Un Utilisateur </h3>
-			</div>
-		</a>
-	</div>
+{# 	<div class="row BorderJaune">#}
+{#     	<div class="col-12 offset-md-3 col-md-6 BorderRouge TitlePage">#}
+{#     		<h1>Panneau de contrôle</h1>#}
+{#     	</div>#}
+{# 	</div>#}
+{# 	<div class="row BorderBleu">#}
+{# 		<a href="{{ path('admin_UserControl_newUser') }}" class="col-12 offset-md-2 col-md-8 BtnAdmin-Style AdminRow1">#}
+{# 			<div class="divText">#}
+{# 				<h3><i class="fas fa-user-plus" style='font-size:27px;'></i> Ajouter Un Utilisateur </h3>#}
+{# 			</div>#}
+{# 		</a>#}
+{# 	</div>#}
+{# 	<div class="row BorderBleu">#}
+{# 		<a class="col-12 offset-md-3 col-md-3 BtnAdmin-Style BtnAdmin-Style-ligne BorderVert">#}
+{# 			<div class="divText">#}
+{# 				<h3>Historiques Actions... </h3>#}
+{# 			</div>#}
+{# 		</a>#}
+{# 		<a class="col-12 col-md-3 BtnAdmin-Style BtnAdmin-Style-ligne BorderVert">#}
+{# 			<div class="divText">#}
+{# 				<h3>+ Bonus ... </h3>#}
+{# 			</div>#}
+{# 		</a>#}
+{# 	</div>#}
+{# 	<div class="row BorderBleu">#}
+{# 		<a href="{{ path('admin_UserControl_searchUser') }}" class="col-12 offset-md-2 col-md-8 BtnAdmin-Style BorderVert">#}
+{# 			<div class="divText">#}
+{# 				<h3><i class="fas fa-search" style='font-size:27px;'></i> Recherche utilisateur </h3>#}
+{# 			</div>#}
+{# 		</a>#}
+{# 	</div>#}
 {% endblock %}

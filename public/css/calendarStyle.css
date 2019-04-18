@@ -1,0 +1,40 @@
+.tabStyle {
+border:medium solid deepskyblue;
+border-collapse:collapse;
+width:100%;
+text-align:center;
+}
+
+.selCal:hover {
+	background-color: #e7e7e7; color: black;
+}
+
+.selCal{
+	background:deepskyblue;
+}
+
+th, td {
+padding:4px;
+}
+
+.caseStyle{
+	border:medium solid #e7e7e7;
+}
+
+.dayStyle{
+	background-color: deepskyblue; color: white;
+}
+
+.dayStyle2{
+	 border: 2px solid deepskyblue;
+	 color: black 	 ;
+}
+
+.caseStyle:hover{
+background:deepskyblue;
+}
+
+.rowtitle {
+background: #9CF;
+font-weight:bold;
+}

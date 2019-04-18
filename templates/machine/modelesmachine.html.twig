@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+      
+{% block stylesheets %}
+    	<link href="{{ asset('css/base.css') }}" rel="stylesheet" />
+    	<link href="{{ asset('bootstrap/css/bootstrap.css') }}" rel="stylesheet" />
+    	<link rel="stylesheet" href="{{ asset('css/all.css') }}">
+    	<link rel="stylesheet" href="{{ asset('css/viewMachine.css') }}">
+{% endblock %}
+{% block title %}Admin{% endblock %}
+
+{% block body %}
+{# 	<button id="testchercker" onClick="cube.checkAllSprites();">Check All Sprites</button>#}
+{# 	<button onClick="cube.checkAllSprites();//document.getElementById('form_Sauvegarder').click();">testcchek</button>#}
+	<div class="row AdminRow2">
+    	<div class="col-12 offset-md-3 col-md-6 AdminRow1 TitlePage">
+        <h1>Visualisation des modèles </h1>
+        {% for modele in modeles %}
+        		<div class="card card-listeMachine" style="width: 98%; height:20rem; display:inline-block; margin-top:5px;">
+                	<div class="card-img-listeMachine" style="height:80px;">
+                	 <img class="card-img-top" src="{{ asset('/image/modele/')~modele.id~('/')~modele.faceAvant }}" style="height:100px; width:auto;">
+                	</div>
+                	<div class="card-body card-body-listeMachine BorderViolet" style="width:100%">
+                	<a href = {{ path('machine', {'modele' : modele.id }) }} class="btn btn-primary">
+                        	   <div style="font-size:14px;">AccÃ¨s aux machines  &nbsp;<i class="fas fa-long-arrow-alt-right"></div></i>
+                	</a>
+{#                 		<div class="card-title-listeMachine BorderJaune"><h3>{{ modele.id }}</h3></div>#}
+                		<div class="card-text-listeMachine BorderViolet">
+            		 	</div>
+            		 	<div class="card-button-listeMachine">
+                        	
+                        	{% if is_granted('ROLE_ADMIN') %}
+                        	<a href="{{ path('modeleedition', {'id' : modele.id }) }}" class="btn btn-secondary">
+                            	<div style="font-size:14px;">
+                        			<div class="d-none d-xl-inline-block">Modifier</div> <i class="fas fa-edit"></i>
+                            	</div>
+                        	</a>
+                    	{% endif %}
+        				</div>
+                	</div>
+                </div>
+       
+        	{{ modele.id }}
+        	
+                    	
+        {% endfor %}
+        
+		{{ form_start(formModele) }}
+		    {{ form_row(formModele.nom) }}
+			{{ form_row(formModele.faceAvant) }}
+			{{ form_row(formModele.faceGauche) }}
+			{{ form_row(formModele.faceArriere) }}
+			{{ form_row(formModele.faceDroite) }}
+			{{ form_row(formModele.faceHaut) }}
+			{{ form_row(formModele.faceBas) }}
+			<button type="submit" class="btn btn-primary">Sauvegarder</button>
+		{{ form_end(formModele) }}
+
+    	</div>
+	</div>
+	<div class="row ">
+
+ 	</div>
+        
+       
+	 
+{% endblock %}
+
+
+
+
+

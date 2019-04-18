@@ -1,37 +1,62 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Connexion{% endblock %}
 
 {% block body %}
-<div class=" offset-sm-2 col-sm-8 offset-sm-2  offset-md-2 col-md-6  displayRow">
-    <form method="post">
-        {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
-    
-        <h1 class="h3 mb-3 font-weight-normal">Entrez vos identifiants</h1>
-        <label for="inputEmail" class="sr-only">Email</label>
-        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
-        <label for="inputPassword" class="sr-only">Mot de passe</label>
-        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Mot de passe" required>
-    
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-    
-        {#}
-            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-            See https://symfony.com/doc/current/security/remember_me.html
-    
-            <div class="checkbox mb-3">
-                <label>
-                    <input type="checkbox" name="_remember_me"> Remember me
-                </label>
+    <div class="row BorderJaune">
+        <div class="offset-1 col-10 offset-sm-2 col-sm-8 offset-md-3 col-md-6 offset-lg-4 col-lg-4 BorderVert backgroundLoginForm">
+            <div class="row BorderRouge">
+                <div class="TitlePage offset-1 col-10">
+                	<h1 class="h3 mb-3 font-weight-normal">Connexion au compte Farella</h1>
+                </div>
             </div>
-        #}
-        
-        <button class="btn btn-lg btn-primary" type="submit">
-                  Connexion
-        </button>
-    </form>
-</div>
+            <div class="row BorderViolet">
+                <div class="col-12">
+                    <form method="post">
+                        {% if error %}
+                        	<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
+                        <div class="row BorderBleu">
+                            <div class="offset-1 col-10">
+                            	<label for="inputEmail" class="sr-only">Email </label>
+                            	<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
+                            	</br>
+                            </div>
+                        </div>
+                        <div class="row BorderBleu">
+                            <div class="offset-1 col-10">
+                            	<label for="inputPassword" class="sr-only">Mot de passe</label>
+                            	<input type="password" name="password" id="inputPassword" class="form-control" placeholder="Mot de passe" required>
+                            	</br>
+                            </div> 
+                        </div>
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                        
+                        {#}
+                        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+                        See https://symfony.com/doc/current/security/remember_me.html
+                        
+                        <div class="checkbox mb-3">
+                            <label>
+                                <input type="checkbox" name="_remember_me"> Remember me
+                            </label>
+                        </div>
+                        #}
+                        <div class="row BorderBleu">
+                            <div class="offset-1 col-10">
+                            	<button class="btn btn-lg btn-primary" type="submit", style="width:100%;">Se connecter</button>
+                            	</br>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="row BorderBleu">
+                        <div class="offset-1 col-10">
+                    		<a href="{{ path('MotDePasseOublie') }}" class="btn btn-link offset-2 col-8">Mot de passe oublié ?</a>
+                    	</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 

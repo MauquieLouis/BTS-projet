@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+      
+{% block stylesheets %}
+    	<link href="{{ asset('css/base.css') }}" rel="stylesheet" />
+    	<link href="{{ asset('bootstrap/css/bootstrap.css') }}" rel="stylesheet" />
+    	<link rel="stylesheet" href="{{ asset('css/all.css') }}">
+    	<link rel="stylesheet" href="{{ asset('css/viewMachine.css') }}">
+{% endblock %}
+{% block title %}Admin{% endblock %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-12 offset-md-3 col-md-6 TitlePage">
+			<h1>Maintenances disponible <i class="fas fa-paste"></i></h1>
+		</div>
+	</div>
+	<!-- ------------------ Infos de la machine ---------------------- -->
+	<div class="row">
+		<div class="col-12 offset-md-1 col-md-10">
+		
+		</div>
+	</div>
+	<div class="row">
+    	<div class="offset-1 col-10 offset-md-1 col-md-10">
+    		<div class="row">
+                {% for maintenance in maintenances %}	
+                	<div class="col-12 col-md-6 col-lg-4 col-xl-3 BorderVert">
+                    	<a href = {{ path('modele3D', {'slug' : maintenance.id }) }} style="width:100%; height:100%;">
+                    		<div class="card-listMaintenance" style="width:99%; margin-top:5px;">
+                            	<div class="card-img-listMaintenance BorderBleu">      
+                            		<img src="..\..\image\machine\{{ machineID }}\{{ maintenance.id }}\{{ maintenance.picturefilename }}" alt="{{ maintenance.nom }}" height="48" width="50">
+                         		</div>
+                                <div class="card-text-listMaintenance BorderViolet">     
+                       			    {{ maintenance.nom }}
+                           		</div>
+                       		</div>
+                        </a>
+                        {% if is_granted('ROLE_ADMIN') %}<a href="{{ path('maintenanceedition', {'id' : maintenance.id }) }}" class="btn btn-secondary"><div style="font-size:14px;"><div class="d-none d-xl-inline-block">Modifier</div> <i class="fas fa-edit"></i></div></a>{% endif %}
+                    
+                    </div>
+                {% endfor %}
+                {% if is_granted('ROLE_ADMIN') %}
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3 BorderVert">
+                	<div class="card-listMaintenance" style="width:99%;margin-top:5px;" href="#formMachine" onclick="HideFormMachine();">
+                    	<div style="width:100%; height:100%;" class="card-listMaintenance">  
+                    	 	<div class="card-textAdd-listMaintenance BorderViolet">   
+                    			<h3><i class="far fa-plus-square"></i> Ajouter une Maintenance   </h3>
+                    		</div>
+                        </div>
+                    </div>
+                </div>
+               {% endif %}
+            </div>
+        </div>
+    </div>
+    <!-- ============================ FORMULAIRE CREATION MAINTENANCE ========================================= -->
+  	    {% if is_granted('ROLE_ADMIN') %}
+		<div id="formMachine" class="col-12 offset-md-2 col-md-8 offset-lg-3 col-lg-6" hidden>
+        	<h2>Creer une nouvelle maintenance :</h2>
+            {{ form_start(formMaintenance) }}
+           	    {{ form_row(formMaintenance.nom, {'attr':{'placeholder' : "Nom de la maintenance"}}) }}
+           	    <button type="submit" class="btn btn-primary">Enregistrer</button>
+       		{{ form_end(formMaintenance) }}
+    	</div>
+        <script>
+        	form = document.getElementById('formMachine');
+            function HideFormMachine()
+            {
+        		form.hidden = form.hidden ? false : true;
+            }
+        </script>
+        {% endif %}
+    
+{% endblock %}

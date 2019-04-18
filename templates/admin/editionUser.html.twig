@@ -1,0 +1,150 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin{% endblock %}
+
+
+{% block body %}
+	<div class="row BorderJaune">
+    	<div class="col-12 offset-md-3 col-md-6 BorderRouge TitlePage">	
+    		<div class="row" style="margin-bottom:18px;">
+{#     			<div class=" col-12 col-lg-5">#}
+{# 					<h1>Edition Utilisateur</h1>#}
+{# 				</div>#}
+			  	<div class="userEdit offset-1 col-8 offset-lg-3 col-lg-6">
+			        <h1>{{ user.Nom }} {{ user.prenom }}</h1>
+			 	</div>
+			 	<div class="col-2 col-lg-2">
+			 		<h1><i class="fas fa-user-edit"></i></h1>
+			 	</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="row col-12 offset-md-2 col-md-8 offset-lg-3 col-lg-6 BorderBleu titreFormulaire"><h3>Modifier les Informations</h3></div>
+		<div class="col-12 offset-md-2 col-md-8 offset-lg-3 col-lg-6 formPart" id="formEdit">
+			{{ form_start(form) }}
+				<div class="row">
+				    {{ form_errors(form) }}
+				</div>
+				<div class="row">
+					<div class="d-none d-md-inline-block offset-md-1 col-md-2">
+				   	    {{ form_label(form.email, 'Nom') }}
+			   	    </div>
+				   	<div class="col-11 col-md-8">
+				        {{ form_widget(form.nom, {'attr': {'disabled': true , 'class' : 'form-control form-control-sm'}}) }}
+				    </div>
+				    <div class="col-1"><button id="boutonNom" onclick="EditButton('nom');" type="button" class="btn btn-sm btn-secondary"><i class="far fa-edit"></i></button></div>
+				</div>
+				<div class="row">
+				    <div class="d-none d-md-inline-block offset-md-1 col-md-2">
+				   		{{ form_label(form.email, 'Prénom') }}
+				   	</div>
+				   	<div class="col-11 col-md-8">
+				   	    {{ form_widget(form.prenom, {'attr': {'disabled': true , 'class' : 'form-control form-control-sm'}}) }}
+				    </div>
+				    <div class="col-1"><button id="boutonPrenom" onclick="EditButton('prenom')" type="button" class="btn btn-sm btn-secondary"><i class="far fa-edit"></i></button></div>
+				</div>
+				<div class="row">
+				    <div class="d-none d-md-inline-block offset-md-1 col-md-2">
+				    	{{ form_label(form.email, 'Email') }}
+			    	</div>
+				   	<div class="col-11 col-md-8">
+				   	    {{ form_widget(form.email, {'attr': {'disabled': true , 'class' : 'form-control form-control-sm'}}) }}
+				    </div>
+				    <div class="col-1"><button id="boutonEmail" onclick="EditButton('email')" type="button" class="btn btn-sm btn-secondary"><i class="far fa-edit"></i></button></div>
+				</div>
+				<div class="row">
+				 	<div class="col-11 offset-md-1 col-md-10" style="margin-top:8px;">
+						<button onclick="EnableInput();" type="Submit" class ="btn btn-primary" style="margin-bottom:15px;">Valider les modifications</button>
+					</div>
+				</div>
+			{{ form_end(form) }}
+		</div>
+	</div>
+	<div class="row sectionRoww" style="margin-bottom:10px;">
+		<div class="row col-12 offset-md-2 col-md-8 offset-lg-3 col-lg-6 BorderVert titreFormulaire"><h3>Changer les droits</h3></div>
+		<div class="row col-12 offset-md-2 col-md-8 offset-lg-3 col-lg-6 BorderVert formPart">
+			<div class="col-11 offset-md-1 col-md-10"><h4>Rôles actuel :</h4>
+			
+        		{% for roles in user.roles %}
+        			{% if roles != 'ROLE_NOUVEAU' %}
+{#         				{{ roles }} #}
+        				{% if roles == 'ROLE_ADMIN' %}
+        					Administrateur,  
+        				{% elseif roles == 'ROLE_USER' %}
+        					Utilisateur
+        				{% endif %}
+        			{% else %}
+        				{% if user.roles == ['ROLE_NOUVEAU'] %}
+        					Aucun rôle pour le moment, mot de passe non changé.
+        				{% endif %}
+        			{% endif %}
+        		{% endfor %}
+   			</div>
+            <div class="col-11 offset-md-1 col-md-10" id="formRoles_" hidden>
+                    {{ form_start(formRoles) }}
+                    	<div class="row">
+                        	<div class="d-none d-md-inline-block">
+                                {{ form_label(formRoles.Roles, 'Autorisations') }}
+                            </div>
+                            <div class="col-6">
+                                {{ form_widget(formRoles.Roles, {'attr': { 'class' : 'form-control form-control-sm'}}) }}
+           					</div>
+           					<div class="col-3">
+                            	<button type="submit" class="btn btn-info btn-sm"><i class="far fa-save"></i> <span class="d-none d-lg-inline-block">Sauver</span></button>
+                        	</div>
+         				</div>
+                    {{ form_end(formRoles) }}  
+            </div>
+            <div class="col-1">
+                {% if user.roles != ['ROLE_NOUVEAU'] %}
+            		<button id="boutonEmail" onclick="ActiveRoles();" type="button" class="btn btn-sm btn-secondary"><i class="far fa-edit"></i></button>
+        	    {% endif %}
+    	    </div>
+	    </div>
+	</div>
+	<div class="row">
+		<div class="row col-12 offset-md-2 col-md-8 offset-lg-3 col-lg-6 BorderViolet titreFormulaire"><h3>Suppression compte</h3></div>
+    	<div class="col-12 offset-md-2 col-md-8 offset-lg-3 col-lg-6  formPart">
+    		<div class="col-11 offset-md-1 col-md-10">
+        		<a class="btn btn-danger" href="#confirm" onclick="DeleteAccount();"><i class="fas fa-trash-alt"></i> Supprimer le compte</a>
+        		<div id="confirm" hidden>
+        			<h3>Êtes vous sûr ?</h3>
+        			<h4>Toute suppression est définitive... Il est absoluement impossible de revenir en arrière !</h4>	
+        			<div class="row">	
+        			    {{ form_start(formDelete) }}				
+        					<button type="submit" class="btn btn-link"><i class="fas fa-check-circle"></i> Oui, Supprimer</button>
+        			    {{ form_end(formDelete) }}
+        				<button class="btn btn-secondary" onclick="AbortDelete();"><i class="fas fa-times-circle"></i> Annuler</button>
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+	</div>
+	<!-- =================================SCRIPT========================================== -->
+	<script>
+		function EditButton(idButton)
+		{
+			document.getElementById("new_user_form_"+idButton).disabled ? (document.getElementById("new_user_form_"+idButton).disabled = false) : (document.getElementById("new_user_form_"+idButton).disabled = true);
+		}
+		function EnableInput()
+		{
+			document.getElementById("new_user_form_nom").disabled = false;
+			document.getElementById("new_user_form_prenom").disabled = false;
+			document.getElementById("new_user_form_email").disabled = false;
+		}
+		function ActiveRoles()
+		{
+			//document.getElementById('form_Roles').disabled ? document.getElementById('form_Roles').disabled = false : document.getElementById('form_Roles').disabled = true;
+			document.getElementById('formRoles_').hidden ? document.getElementById('formRoles_').hidden = false : document.getElementById('formRoles_').hidden = true;
+		}
+		function DeleteAccount()
+		{
+			document.getElementById('confirm').hidden = false;
+		}
+		function AbortDelete()
+		{
+			document.getElementById('confirm').hidden = true;
+		}
+	</script>
+{% endblock %}

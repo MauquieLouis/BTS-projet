@@ -1,20 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Acceuil{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	<link rel="stylesheet" type="text/css" href="../css/calendarStyle.css" />
+	<div class="row BorderJaune">
+		<div class="col-12">
+     		<script src="{{ asset('bootstrap/Js/jquery.js') }}"></script>
+			<script src="{{ asset('../Js/calendarFunctions.js') }}"></script>
+     		     		
+     		<script src="Js/Ajaxreceive.js"></script>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendlyy message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/Mod_loc/git/BTS-projet/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/Mod_loc/git/BTS-projet/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li>
-    </ul>
-</div>
+    		<div class="col-12 offset-md-4 col-md-4 BorderRouge">
+    			
+    			<button class=selCal id=btCalMonth>Mois</button></td>
+    			<button class=selCal id=btCalWeek>Semaines</button></td>
+    			<div id=calPlace></div> 	
+    			<script src="{{ asset('../Js/calendarWeek.js') }}"></script>
+				<script src="{{ asset('../Js/calendar.js') }}"></script>
+    			<script>	
+    				document.getElementById("calPlace").innerHTML = calendarWeek.writeHTML(); 	//Ecriture d'une calendirer
+    				calendarWeek.chWeek();
+    			</script>
+    		</div>
+		
+		</div>
+		<div class="col-12 offset-md-8 col-md-4 BorderRouge" id=EventPlace></div> 
+	</div>
+	
 {% endblock %} 

@@ -1,0 +1,152 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin- Recherche Utilisateur{% endblock %}
+
+{% block body %}
+
+	<div class="row BorderJaune">
+    	<div class="col-12 offset-md-3 col-md-6 BorderRouge TitlePage">
+    		<h1>Rechercher un Utilisateur </h1>
+    	</div>
+	</div>
+	<div class="row">
+		<div class="col-12 offset-md-4 col-md-4 BorderBleu">
+			<div class="row displayRow BorderJaune">
+			<div class="col-12">
+			{{ form_start(form) }}
+{# 				<div class="offset-1 col-10 BorderVert">#}
+{# 					<h3>{{ form_label(form.Recherche,'Recherche') }}</h3>#}
+{# 				</div>#}
+				<div class="offset-1 col-10 BorderVert">
+	            {{ form_widget(form.Recherche,{'attr' : {'class' : 'form-control', 'placeholder' : 'Recherche'}}) }}
+	            </div>
+{# 	            <div class="col-1 BorderVert">#}
+{# 	        		<button type="Submit" class =""><i class="fas fa-search" style='font-size:27px;'></i></button>#}
+{# 	        	</div>#}
+	        {{ form_end(form) }}
+	        </div>
+	        </div>
+        </div>
+    </div>
+    <div class="row BorderViolet">
+    	<div class=" offset-1 col-10 offset-md-2 col-md-8 BorderBleu">
+    		<div class="row BorderRouge buttonChoixListeDiv">
+        		<div class="offset-2 col-2 offset-md-0 col-md-3 BorderGris buttonlisteUsers" onclick="ShowOnly('admin');">	
+    				<h4 style="color:#1A4857;"  ><i class="fas fa-user-graduate buttonChoixListe"></i>
+    				<div class="d-none d-lg-inline-block ">: Administrateurs</div></h4>
+    			</div>
+    			<div class="col-2 offset-md-0 col-md-3 BorderGris buttonlisteUsers"  onclick="ShowOnly('user');">	
+    				<h4 style="color:#1A4857;" ><i class="fas fa-user buttonChoixListe"></i>
+    				<div class="d-none d-lg-inline-block ">: Utilisateurs</div></h4>
+    			</div>
+    			<div class="col-2 offset-md-0 col-md-3 BorderGris buttonlisteUsers"  onclick="ShowOnly('other');">
+    				<h4 style="color:#1A4857;" ><i class="fas fa-user-lock buttonChoixListe"></i>
+    				<div class="d-none d-lg-inline-block ">: Autres</div></h4>
+        		</div>
+        		<div class="col-2 offset-md-0 col-md-3 BorderGris buttonlisteUsers"  onclick="ShowOnly();">
+        		<h4 style="color:#1A4857;" ><i class="fas fa-users buttonChoixListe"></i>
+    				<div class="d-none d-lg-inline-block ">: Tous les comptes</div></h4>
+        		</div>
+    		</div>
+    	</div>
+    </div>
+    <div class="row">
+    	<div class="col-12 offset-md-2 col-md-8" id="AffichageListe">
+    		    {% for resultat in rechercheResultat %}
+    		    	{% if resultat %}
+    		    		<li class="listeUser">
+    		    		<a href="{{ path('admin_UserControl_searchUser_id', {id: resultat.id}) }}" class="click" style="width:100%; height:100%;">
+        		    		<div class="" name="listeUser" style="height:100%;">
+        		    			<div class="elemListeUser userLogo" id="userLogo">
+        		    			{% if "ROLE_ADMIN" in resultat.roles %}
+    		    					<i class="fas fa-user-graduate" name="admin"></i>
+    		    				 {% elseif "ROLE_USER" in resultat.roles%}
+    		    				 	<i class="fas fa-user" name="user"></i>
+    		    				 {% else %}
+    		    				 	<i class="fas fa-user-lock" name="nouveau"></i>
+    		    				 {% endif %} 		    				 
+    		    				 </div>
+    		               		<span><div class="elemListeUser userName" name="userName">{{ resultat.Nom }}</div>
+    		               		<div class="elemListeUser userSurname">{{ resultat.prenom }}</div></span>
+    		               		<div class="elemListeUser userEmail d-none d-md-inline-block">{{ resultat.email }} </div>
+        		            	</br>
+        		            </div>
+    		            </a>
+    		            </li>
+    		        {% endif %}
+    		    {% endfor %}
+    	</div>
+    </div>
+    <div class="row" style="margin-top:100px;">
+    </div>
+
+	<script>
+		affichageListe = document.getElementById('AffichageListe');
+		listeIcon = affichageListe.getElementsByTagName('i');
+		var listeAdmin = new Array();var listeUser = new Array();var listeOther = new Array();
+		var j = k = l = 0;
+		for(var i=0; i < listeIcon.length;i++)
+		{
+			switch(listeIcon[i].getAttribute("name"))
+			{
+			case ("admin"):
+				listeAdmin[j++] = listeIcon[i];
+				break;
+			case ("user"):
+				listeUser[k++] = listeIcon[i];
+				break;
+			default:
+				listeOther[l++] = listeIcon[i];
+				break;
+			}
+		}	
+		function ShowOnly(param)
+		{
+			switch(param)
+			{
+			case ("admin"):
+				ParseTable(listeUser,true);
+				ParseTable(listeOther,true);
+				ParseTable(listeAdmin,false);
+				break;			
+			case ("user"):
+				ParseTable(listeAdmin, true);
+				ParseTable(listeOther, true);
+				ParseTable(listeUser, false);
+				break;		
+			case ("other"):
+				ParseTable(listeAdmin, true);
+				ParseTable(listeOther, false);
+				ParseTable(listeUser, true);
+				break;		
+			default:
+				ParseTable(listeAdmin, false);
+				ParseTable(listeOther, false);
+				ParseTable(listeUser, false);	
+				break;
+			}
+		}
+		function ParseTable(table, param)				
+		{
+			for(var i=0; i< table.length; i++)		//Parcour la liste
+			{		//Inverse l'attribut hidden 
+				table[i].parentNode.parentNode.parentNode.parentNode.hidden = param; //table[i].parentNode.parentNode.hidden ? false : true;
+			}
+		}
+		function ShowOnlyAdmin()
+		{
+			for(var i=0; i< listeUser.length; i++)
+			{
+				listeUser[i].parentNode.parentNode.hidden = listeUser[i].parentNode.parentNode.hidden ? false : true;
+			}
+			for(var i=0; i< listeOther.length; i++)
+			{
+				listeOther[i].parentNode.parentNode.hidden = listeOther[i].parentNode.parentNode.hidden ? false : true;
+			}
+		}
+	</script>
+	<script src="{{ asset('bootstrap/Js/bootstrap.js') }}"></script>
+ 	<script src="{{ asset('bootstrap/Js/jquery.js') }}"></script>
+	<script src="{{ asset('Js/Ajaxreceive.js') }}"></script>
+	<script src="{{ asset('Js/DynamicSearch.js') }}"></script>
+{% endblock %}

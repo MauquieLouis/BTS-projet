@@ -7,65 +7,183 @@
         {% block stylesheets %}
         	<link href="{{ asset('css/base.css') }}" rel="stylesheet" />
         	<link href="{{ asset('bootstrap/css/bootstrap.css') }}" rel="stylesheet" />
-        	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+        	<link rel="stylesheet" href="{{ asset('css/all.css') }}">
         {% endblock %}
   
 
     </head>
     <body>
-		<div class="container-fluid ">	<!-- Division utile pour mettre en place les 12 colonnes avec bootstrap -->
-      		<header class="page-header">	<!-- Entête de la page ( toute la partie haute avec le logo farella) -->
+		<div id="loader">
+			<img src="{{ asset('/image/loading.gif') }}" class="loader">
+		</div>
+		<div class="container-fluid " id="container-fluid">	<!-- Division utile pour mettre en place les 12 colonnes avec bootstrap -->
+      		<header class="page-header" id="page-header">	<!-- Entête de la page ( toute la partie haute avec le logo farella) -->
     			<div class ="menu row">		<!-- Nouvelle ligne pour le menu (partie avec le background bleu + image ) -->
     				<div class="col-2">		<!-- Deux colonne pour l'image (peut importe la taille de l'écran (A AMELIORER) -->
     				<!-- Chargement de l'image (ligne en dessous -->
-  					<a href="{{ path('Home') }}"><img src = "{{ asset('/image/Farella.png') }}"  height="80"> <!--width="auto" --> </a> 
+{#     				{% if is_granted('ROLE_USER') %}#}
+  						<a href="{{ path('Home') }}">
+{#   					{% endif %}#}
+  					<img src = "{{ asset('/image/Farella.png') }}"  height="80" style="border-bottom: 1px solid #AAAAAA;"> 
+{#   					{% if is_granted('ROLE_USER') %}#}
+  						<!--width="auto" --> </a> 
+{#   					{% endif %}#}
     				</div> 
-    				<div class="offset-9 col-1">  <!--  On saute 9 colonnes (offset-9) puis on affiche sur la dernière colonne le logo de déconnexion -->
-                        {% if is_granted('ROLE_USER') %}	<!-- Si la personne connecté à au moins le role_user (ce qui est le cas pour n'importe quel utilisateur) on affiche le logo de déconexion -->
-    						<!-- On rend le logo clicable, puis il est chargé avec une biblithèque  -->
-    						<a href="{{ path('app_logout') }}"><div class="btnLogout"><p class="fas fa-power-off logoLogout" style='font-size:40px;'></p></div></a>
+                    <div class="offset-9 col-1">  <!--  On saute 9 colonnes (offset-9) puis on affiche sur la dernière colonne le logo de déconnexion -->
+    					{% if is_granted('ROLE_NOUVEAU') %}	<!-- Si la personne connecté à le role_nouveau (ce qui est le cas pour les nouveaux comptes) on affiche le logo de déconexion -->
+    						<div class="MenuUser" id="MenuUser">
+        						<!-- On rend le logo clicable, puis il est chargé avec une biblithèque  -->
+        						<a href="{{ path('app_logout') }}" class="btnMenuLogSet">
+        								<i class="fas fa-power-off logoLogout" id="logout" hidden></i>		
+        						</a>
+        						<a href="{{ path('compteInformations') }}" class="btnMenuLogSet">
+        							<i class="fas fa-cog logoSettings" id="settings" hidden></i>
+        						</a>
+    						</div>
+    						<i class="fas fa-caret-left logoMenu" style='font-size:40px;' onclick="OpenMenuUser(); isOpen = isOpen ? false : true;" id="iconSetting"></i>	
     					{% endif %}
     				</div>
 				</div>
+    				{% if is_granted('ROLE_USER') %}
+        				<div class="row titreBoutons menuLienEntier" id="menuLienEntier">
+        					<div class="col-12">
+        						<i class="fas fa-bars iconMenuLien" onclick="OpenMenuLien(); isOpenLien = isOpenLien ? false : true;"></i>
+                				<div class="row menuLien menuLien" id="menuLien">   					
+                					<div class="col-12 col-md-3 ">
+                    					 {% if is_granted('ROLE_ADMIN') %}
+                    						<a href="{{ path('admin_UserControl') }}"><h2>Gestion Utilisateurs</h2></a>
+                      				    {% else %}
+                    						<h2>Btnn1</h2>
+                      				    {% endif %}
+                    				</div>
+                        				<div class="col-12 col-md-3 ">
+                        					 {% if is_granted('ROLE_ADMIN') %}
+                        						<a href="{{ path('modelesmachines') }}"><h2>Accès Modèles</h2></a>
+                          				    {% else %}
+                        						<h2>Btnn2</h2>
+                          				    {% endif %}
+                        				</div>
+                        				<div class="col-12 col-md-3 ">
+                        					 {% if is_granted('ROLE_ADMIN') %}
+                        						<a href="{{ path('event') }}"><h2>Créer un évènement</h2></a>
+                          				    {% else %}
+                        						<h2>Btnn2</h2>
+                          				    {% endif %}
+                        					
+                    					</div>
+                        				<div class="col-12 col-md-3 ">
+                        					<h2>Futur Bouton 4</h2>
+                        				</div>
+                					</div>	
+            					</div>
+        					</div>
+    					{% endif %}	
       		</header> <!-- Fin du header -->
-      		
-      		<section class ="row sectionRoww">	<!-- Section pour le menu sur la gauche (les boutons) -->
-          		<div class= "col-lg-2 col-12 col-sm-12 col-md-2 menuGauche"> <!-- On prend deux colonnes si l'écran est en large ou medium, sinon en small ou xsmall on prend 12 colonnes -->
-          			<div class="row">	<!-- Nouvelle ligne -->
-              			<div class="col-6 col-md-12 BtnRow"> <!-- Dans cette ligne On prend 6 collones pour l'ecran en sm et xs et 12 pour md et plus -->
-              			    {% if is_granted('ROLE_ADMIN') %}
-              					<a href="{{ path('admin_UserControl') }}"><h4>Contrôle Utilisateurs</h4></a>
-              				{% else %}
-              					<h4>Btnn1</h4>
-              				{% endif %}
-              			</div>
-              			<div class="col-6 col-md-12 BtnRow">	<!--  Pareil qu'au dessus -->
-              				<h4 onclick="alert(0);">BTN 2</h4>
-              			</div>
-          			</div> <!--  Fin première ligne -->
-          			<div class="row">	<!--  même principe que la div class="row" juste au dessus -->
-              			<div class="col-6 col-md-12 BtnRow">
-              				<h4>BTN 3</h4>
-              			</div>
-              			<div class="col-6 col-md-12 BtnRow">
-              				<h4>BTN 4</h4>
-              			</div>
-          			</div>
-          		</div>
-          		<div class= "col-lg-10 col-12 col-sm-12 col-md-10 centreModifiable"> <!-- On prend 12 colonnes en xs et sm et 10 en md et + pour le reste de la page -->
-          			<div class="row displayRow">
-          				<div class="col-12">
-                            {% block body %}   
-            
-                            {% endblock %}
-                        </div>
-               		</div>
-                </div>
-            </section>
- 		</div>
+      		<!-- /////////////////////////////////////////////////////////////////////////////////// -->
+      		<!-- //==============================MESSAGE FLASH====================================// -->
+      		<!-- /////////////////////////////////////////////////////////////////////////////////// -->
+            {% for message in app.flashes('danger') %}
+           		<div class = "alert alert-danger flashmessage"> {{ message }}</div> 
+            {% endfor %}
+            {% for message in app.flashes('warning') %}
+           		<div class = "alert alert-warning flashmessage"> {{ message }}</div> 
+            {% endfor %}
+            {% for message in app.flashes('success') %}
+            	<div class = "alert alert-success flashmessage"> {{ message }}</div> 
+            {% endfor %}
+            {% for message in app.flashes('info') %}
+           		<div class = "alert alert-info flashmessage"> {{ message }}</div> 
+            {% endfor %}
+            <!-- ////////////////////////////////////////////////////////////////////////////////// -->
+            <div class="block-body" style="display:none;">
+            {% block body %}   
+
+            {% endblock %}
+            </div>
         {% block javascripts %} <!--  Fichier Javascript -->
         	<script src="{{ asset('bootstrap/Js/bootstrap.js') }}"></script>
         	<script src="{{ asset('bootstrap/Js/jquery.js') }}"></script>
+	        <script>
+    		$(window).load(function(){
+    			console.log('window load !');
+    		});
+			</script>
         {% endblock %}
+        </div>
+        <script>
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //------------------------------SCRIPT MENU LOGOUT + SETTINGS -----------------------------------------//
+        	var isOpen = false;
+        	var isOpenLien = true;
+			icon = document.getElementById('iconSetting');
+			menu = document.getElementById('MenuUser');
+			logout = document.getElementById('logout');
+			setting = document.getElementById('settings');
+			btnlogoutBG = document.getElementById('btnLogout');
+			btnSettingBG = document.getElementById('btnSettings');		
+        	function OpenMenuUser()
+        	{
+				if(isOpen) //Quand on click : ferme le menu
+				{
+					icon.style.transform = 'none';			//On enlève les rotations appliquées auparavant
+					logout.style.transform ='none';
+					setting.style.transform ='none';	
+ 					icon.style.right = '10px';				//On décales toutes les icones vers la droite (en dehors de l'écrans)
+ 					logout.style.right = '-40px';
+ 					setting.style.right = '-40px';
+ 					setTimeout(delayIcon, 700); 			//On met un delay avant de cacher les icon pour avoir le temps de voir l'animation
+				}
+				else	//Quand on click : ouvre le menu
+				{
+					delayIcon()								//on affiche les icon(on enleve juste la propriété hidden)
+					setTimeout(returnMenu,30);				//puis un délai pour l'animation
+				}	
+        	}
+        	function delayIcon()
+        	{
+        		logout.hidden ? logout.hidden = false : logout.hidden = true;
+        		setting.hidden ? setting.hidden = false : setting.hidden = true;
+        	}
+        	function returnMenu()
+        	{  	
+				icon.style.transform ='rotate(-540deg)';			//rotation des icones
+				logout.style.transform ='rotate(-360deg)';
+				setting.style.transform ='rotate(-540deg)';	
+				icon.style.right = '140px';							//déplacement vers la gauche
+				logout.style.right = '20px';
+				setting.style.right = '80px';
+            }
+            /////////////////////////////////////////////////////////////////////////////////////////////////
+            var isOpenLien = true;
+            menuLien = document.getElementById('menuLien');
+            menuLienEntier = document.getElementById('menuLienEntier');
+            function OpenMenuLien()
+            {
+                if(isOpenLien) //On cache le menu
+                {
+					menuLien.style.height = '0';
+					menuLienEntier.style.borderBottom = 'none';
+					hideLien();
+                }
+                else	//On affiche le Menu
+                {
+                    hideLien();
+                    menuLien.style.height = 'auto';
+                    menuLienEntier.style.transition='border-bottom 2s;'
+                    menuLienEntier.style.borderBottom = '1px solid #AAAAAA';
+                }
+            }
+            function hideLien()
+            {
+				menuLien.hidden  =  menuLien.hidden ? false : true ;
+            }
+        </script>
+		<script type="text/javascript">
+            $(document).ready(function() {
+                $(".loader").hide()
+                $('.block-body').show();
+//             	$(".loader").fadeOut("1000");
+            })
+        </script>
     </body>
 </html>

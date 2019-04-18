@@ -1,0 +1,118 @@
+.btnPositionduCube
+{
+/* 	border: 2px solid green; */
+	position : absolute;
+	z-index: 1;
+	
+}
+.enveloppe
+{
+	border: 5px solid blue;
+}
+.menu2
+{
+/* 	background-color  : #007BA4; */
+/* 	float:right;  */
+
+/* 	right:0px; */
+/* 	float:left; */
+	border: 2px solid  #007BA4; 
+/* 	top:0;  */
+/*	padding: 100px;  */
+/* 	width: 200px; */
+/* 	height:auto;  */
+}
+body
+{
+/*  	scrollbar-width:100px;  */
+/* 	overflow-y: scroll; */
+		
+/* 	scrollbar-color: red; */
+
+}
+::-webkit-scrollbar {
+	width : 0px;
+}
+.menu2.is-active
+{
+/* 	border: 3px solid purple; */
+	position: absolute
+	
+}
+.myCanvasElement
+{
+ 
+}
+canvas
+{
+/* 	position: absolute; */
+	
+	/* position: fixed;
+	margin-left : 220px; */
+/* 	float:right; */
+
+	float: right;
+	
+}
+
+.posCube
+{
+/* 	position: absolute; */
+/* 	border: 3px solid red; */
+/* 	left:900px; */
+/* 	height:150px; */
+/* 	width:500px; */
+/* 	display: inline-block; */
+/* 	color:#666666; */
+/* 	background-color:rgba(100,255,255,0.5); */
+	border-radius: 6px 6px 6px 6px;
+}
+.buttonSprite
+{
+/* 	position: absolute; */
+/* 	top:100px; */
+	height:30px;
+	width:50px;
+/* 	left:2px; */
+	
+	border-radius: 6px 6px 6px 6px;
+	
+}
+
+.informationTooltip
+{
+	display: inline-block;
+	border-bottom : 1px solid grey;
+	width: 100%;
+}
+
+.tooltip
+{
+	background-color  : #fff;
+	position : absolute;
+	/* border: 2000px solid green; */
+	top:0;
+	left:0;
+	padding: 10px;
+	opacity : 0;
+	transform : translate3d(-50%, -100%, 0)
+	transition : opacity .3s, transform .3s;
+}
+.SpriteNbr
+{
+	display: inline-block;
+}
+.tooltip.is-active
+{
+	opacity: 1;
+	
+	transform : translate3d(-50%, calc(-100% - 20px), 0);
+}
+.spriteCreate
+{
+	background-color  :  #007BA4;
+}
+.spriteCreate.on
+{
+	background-color  : #0f0;
+}
