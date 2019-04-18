@@ -87,14 +87,14 @@ class Machines{
 		sprite.cameraPosX	= point.camera.x;
 		sprite.cameraPosY	= point.camera.y;
 		sprite.cameraPosZ	= point.camera.z;
-		sprite.etape		= this.sprites.length//point.etape;
+		sprite.etape		= point.etape;//this.sprites.length//point.etape;
 		if(point.idBDD){sprite.idBDD = point.idBDD;}
 		sprite.position.copy(point.position.clone()); //.clone permet de cloner et de ne pas toucher la variable passée par référence l'objet méthode normalize
 		sprite.scale.multiplyScalar(9);
 		this.sprite = sprite;
 		this.scene.add(sprite);
 		this.sprites.push(sprite);
-		sprite.etape = this.sprites.length;
+		//sprite.etape = this.sprites.length;
 		document.getElementById("SpriteNb").innerHTML = cube.sprites.length;
 		sprite.onClick = () =>{
 			camera.position.x = sprite.cameraPosX;//sprite.cameraPosX 
@@ -176,16 +176,16 @@ class Machines{
 			{
 				if(this.sprite.etape == this.sprites[i].etape)  this.sprites.splice(i,1);				
 			}
-			for(var i=0; i<this.spritesPushInBdd.length;i++)
-			{
-				if(this.sprite.etape == this.spritesPushInBdd[i].etape)  this.spritesPushInBdd.splice(i,1);
-			}
+//			for(var i=0; i<this.spritesPushInBdd.length;i++)
+//			{
+//				if(this.sprite.etape == this.spritesPushInBdd[i].etape)  this.spritesPushInBdd.splice(i,1);
+//			}
 			console.log(this.sprites);
 			this.scene.remove(this.sprite);
 			this.sprite = null;
 			document.getElementById("SpriteNb").innerHTML = cube.sprites.length;
 		}
-		document.getElementById('btnSauvegarder').hidden = cube.spritesPushInBdd.length? false : true;
+		document.getElementById('btnSauvegarder').hidden = cube.sprites.length? false : true;
 	}
 	moveSprite(axe, speed) // deplace une sprite sur un axe
 	{
@@ -212,7 +212,7 @@ class Machines{
 		this.etapeEnCours += valeur;
 		if(this.etapeEnCours >= this.sprites.length){this.etapeEnCours = this.sprites.length;}//on bloque l'etape au maximum
 		if(this.etapeEnCours <1){ this.etapeEnCours = 1} //on descend pas en dessous de l'etape 1 et on boucle pas sur la derniere etape
-		console.log(this.etapeEnCours);
+		
 		this.sprites.forEach((sprite) => {
 			if(sprite.etape == this.etapeEnCours)
 			{
@@ -235,7 +235,7 @@ class Machines{
 			this.createSprite = 'ready';
 			console.log(this.edition)
 		}
-		document.getElementById('btnSauvegarder').hidden = cube.spritesPushInBdd.length? false : true;
+		document.getElementById('btnSauvegarder').hidden = cube.sprites.length? false : true;
 	}
 	RestoreMachine(scene,image,machine,modeleID)
 	{
@@ -321,13 +321,13 @@ class Machines{
 		let spritePosCamera=[];
 		let spriteOrdre=[];
 		let spritePosition=[];
-		for(let j=0;j< this.spritesPushInBdd.length;j++)
+		for(let j=0;j< this.sprites.length;j++)
 		{
-			spriteDescription[j] = this.spritesPushInBdd[j].information;
-			spritePosCamera[j] = this.spritesPushInBdd[j].cameraPosX + ';' + this.spritesPushInBdd[j].cameraPosY + ';' + this.spritesPushInBdd[j].cameraPosZ ;
-			spritePosition[j] = this.spritesPushInBdd[j].etape;
+			spriteDescription[j] = this.sprites[j].information;
+			spritePosCamera[j] = this.sprites[j].cameraPosX + ';' + this.sprites[j].cameraPosY + ';' + this.sprites[j].cameraPosZ ;
+			spritePosition[j] = parseInt(this.sprites[j].etape);
 		}
-		let jsonName = JSON.stringify( this.spritesPushInBdd );
+		let jsonName = JSON.stringify( this.sprites );
 		let jsonDescription = JSON.stringify( spriteDescription );
 		let jsonPosCamera = JSON.stringify( spritePosCamera );
 		let jsonOdre = JSON.stringify( spritePosition ); 
@@ -426,7 +426,7 @@ function onClick(e)
 			if(intersect.object.type === 'Sprite')
 			{
 				cube.sprite = intersect.object;
-				console.log(cube.sprite.position.x);
+//				console.log(cube.sprite.position.x);
 				document.getElementById("tooltipName").innerHTML = cube.sprite.name; //.innerHTML = <div>
 				document.getElementById("tooltipInfo").innerHTML = cube.sprite.information;
 				document.getElementById('etapes_position').value = cube.sprite.position.x +';'+cube.sprite.position.y +';'+ cube.sprite.position.z;
@@ -447,6 +447,7 @@ function onClick(e)
 			camera: camera.position,
 			name: nVarNom,
 			info : nVarInfo,
+			etape: cube.sprites.length+1,
 			scene : cube
 		});
 		cube.addTooltip(cube.points[cube.points.length-1]);
@@ -456,7 +457,7 @@ function onClick(e)
 		if(cube.sprites[cube.sprites.length-1].position.y >= -(intersects[0].object.geometry.parameters.height/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.y <= -(intersects[0].object.geometry.parameters.height/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.y -= cube.initEcartTooltip;}
 		if(cube.sprites[cube.sprites.length-1].position.z <= (intersects[0].object.geometry.parameters.depth/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.z >= (intersects[0].object.geometry.parameters.depth/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.z += cube.initEcartTooltip;}
 		if(cube.sprites[cube.sprites.length-1].position.z >= -(intersects[0].object.geometry.parameters.depth/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.z <= -(intersects[0].object.geometry.parameters.depth/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.z -= cube.initEcartTooltip;}
-		cube.spritesPushInBdd.push(cube.sprites[cube.sprites.length-1]);
+//		cube.sprites.push(cube.sprites[cube.sprites.length-1]);
 //		if(cube.spritesPushInBdd.length>0)
 //		{
 //			document.getElementById('btnSauvegarder').hidden = false;
@@ -621,7 +622,7 @@ function Keyboard(event)
 	}
 	if(event.keyCode == 77) //m
 	{
-		console.log(cube.spritesPushInBdd);
+		console.log(cube.sprites);
 	}
 }
 function onScreenChange()

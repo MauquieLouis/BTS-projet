@@ -185,6 +185,13 @@ class MachineController extends AbstractController
         $saveRequest = $request;      
         if($formSaveAllSprite->isSubmitted() && $formSaveAllSprite->isValid() )
         {  
+            $spriteGoDelete = $repositoryEtapes->findBy(['maintenance'=> $repositoryMaintenance->findOneBy(['id' =>$slug])]);
+            foreach($spriteGoDelete as $spritedelete)
+            {
+                $em->remove($spritedelete);
+                $em->flush();
+            }
+//             return $this->redirectToRoute('modele3D',['slug'=> $slug]);
             $sprite = $formSaveAllSprite->getData();
             $this->setData($sprite);
             $nameFromSprites = json_decode($sprite->getName());
@@ -193,7 +200,7 @@ class MachineController extends AbstractController
                 $descriptionFromSprites = json_decode($sprite->getDescription());
                 $posCameraFromSprites = json_decode($sprite->getCamera());
                 $getOdreEtapeAndLengthTableau = json_decode($sprite->getPosition());
-                dd($nameFromSprites[0]);
+//                 dd($nameFromSprites[0]);
                 if($nameFromSprites[0]->object->name)$sprite->setName($nameFromSprites[0]->object->name);
                 if($descriptionFromSprites[0])$sprite->setDescription($descriptionFromSprites[0]);
                 if($nameFromSprites[0]->object->matrix[12])$sprite->setPosition($nameFromSprites[0]->object->matrix[12].';'.$nameFromSprites[0]->object->matrix[13].';'.$nameFromSprites[0]->object->matrix[14]);
@@ -217,6 +224,20 @@ class MachineController extends AbstractController
             
                 return $this->redirectToRoute('modele3D',['slug'=> $slug]);
         }      
+        /// Maj Ordre des étapes
+        $formSaveOrdreEtapes = $this->createFormBuilder()
+        ->getForm();
+        $formSaveOrdreEtapes->handleRequest($request);
+        if($formSaveOrdreEtapes->isSubmitted() && $formSaveOrdreEtapes->isValid())
+        {
+            $spriteGoDelete = $repositoryEtapes->findBy(['maintenance'=> $repositoryMaintenance->findOneBy(['id' =>$slug])]);
+            foreach($spriteGoDelete as $spritedelete)
+            {
+                $em->remove($spritedelete);
+                $em->flush();
+            }
+                return $this->redirectToRoute('modele3D',['slug'=> $slug]);
+        }
         ////////////DELETE SPRITE ////////////////////////////////////////////        
         $formDeleteSprite = $this->createFormBuilder()
         ->add('idSprite', TextType::class)
@@ -241,6 +262,7 @@ class MachineController extends AbstractController
             'etapes' => $etapes,
             'saveAllSprites' =>$formSaveAllSprite->createView(),  
             'modeleMachine' =>$modeleMachine,
+            'toutsupprimer' => $formSaveOrdreEtapes->createView(),
         ]);   
     }
     
