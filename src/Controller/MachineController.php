@@ -130,21 +130,21 @@ class MachineController extends AbstractController
         {
             $createMaintenance = $FormMaintenance->getData();
             $this->setData($createMaintenance);
-            $createMaintenance->setIdMachine($machinegetID);            
-            $nommachine = preg_split("/[\s,;:.#'\"\/\{\-\_]+/",$FormMaintenance['nom']->getData());
-            $nomcomplete= "" ;
-            for ($i = 0; $i < count($nommachine); $i++) {
-                $nomcomplete =  $nomcomplete.$nommachine[$i];
-            }            
-            $nom = $nomcomplete.$machinegetID->getId().'.jpg';
-            $createMaintenance->setPicturefile($nomcomplete);
-            $createMaintenance->setPicturefilename($nom);
+            $createMaintenance->setIdMachine($machinegetID);
+            if ($createMaintenance->getPicturefile()) 
+            {
+                $nom = $machinegetID->getId().'.jpg';
+                $createMaintenance->setPicturefile($nom);
+                $createMaintenance->setPicturefilename($nom);
+            
+           
             $em->persist($createMaintenance);        //Pour ajouter ï¿½ la base de donnï¿½e
             $em->flush();
             $FormMaintenance['picturefile']->getData()->move(
                 ('image/machine/'.$machinegetID->getId().'/'.$createMaintenance->getId()),              //.$document->getId()  => ï¿½ rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
                 $nom
                 );
+            }
             $em->persist($createMaintenance);        //Pour ajouter ï¿½ la base de donnï¿½e
             $em->flush();
             $request = 0;
@@ -183,34 +183,37 @@ class MachineController extends AbstractController
         $formSaveAllSprite = $this->createForm(EtapesType::class, $sprite);
         $formSaveAllSprite->handleRequest($request);
         $saveRequest = $request;      
-        if($formSaveAllSprite->isSubmitted() && 'Sauvegarder' === $formSaveAllSprite->getClickedButton()->getName() )
+        if($formSaveAllSprite->isSubmitted() && $formSaveAllSprite->isValid() )
         {  
             $sprite = $formSaveAllSprite->getData();
             $this->setData($sprite);
             $nameFromSprites = json_decode($sprite->getName());
-            $descriptionFromSprites = json_decode($sprite->getDescription());
-            $posCameraFromSprites = json_decode($sprite->getCamera());
-            $OrdreFromSprites = json_decode($sprite->getEtape());
-            $getOdreEtapeAndLengthTableau = json_decode($sprite->getPosition());
-            $sprite->setName($nameFromSprites[0]->object->name);
-            $sprite->setDescription($descriptionFromSprites[0]);
-            $sprite->setPosition($nameFromSprites[0]->object->matrix[12].';'.$nameFromSprites[0]->object->matrix[13].';'.$nameFromSprites[0]->object->matrix[14]);
-            $sprite->setCamera($posCameraFromSprites[0]);
-            $sprite->setEtape($getOdreEtapeAndLengthTableau[0]);
-            $sprite->setMachine($machine);
-            $sprite->setMaintenance($repositoryMaintenance->findOneBy(['id' => $slug]));
-            $em->persist($sprite);
-            for($k=1; $k<= (count($getOdreEtapeAndLengthTableau)-1); $k++)
+            if($nameFromSprites)
             {
-                $createSprite2 = clone $sprite;
-                $createSprite2->setName($nameFromSprites[$k]->object->name);
-                $createSprite2->setDescription($descriptionFromSprites[$k]);
-                $createSprite2->setPosition($nameFromSprites[$k]->object->matrix[12].';'.$nameFromSprites[$k]->object->matrix[13].';'.$nameFromSprites[$k]->object->matrix[14]);
-                $createSprite2->setCamera($posCameraFromSprites[$k]);
-                $createSprite2->setEtape($getOdreEtapeAndLengthTableau[$k]);
-                $em->persist($createSprite2);
+                $descriptionFromSprites = json_decode($sprite->getDescription());
+                $posCameraFromSprites = json_decode($sprite->getCamera());
+                $getOdreEtapeAndLengthTableau = json_decode($sprite->getPosition());
+                dd($nameFromSprites[0]);
+                if($nameFromSprites[0]->object->name)$sprite->setName($nameFromSprites[0]->object->name);
+                if($descriptionFromSprites[0])$sprite->setDescription($descriptionFromSprites[0]);
+                if($nameFromSprites[0]->object->matrix[12])$sprite->setPosition($nameFromSprites[0]->object->matrix[12].';'.$nameFromSprites[0]->object->matrix[13].';'.$nameFromSprites[0]->object->matrix[14]);
+                if($posCameraFromSprites[0])$sprite->setCamera($posCameraFromSprites[0]);
+                if($getOdreEtapeAndLengthTableau[0])$sprite->setEtape($getOdreEtapeAndLengthTableau[0]);
+                $sprite->setMachine($machine);
+                $sprite->setMaintenance($repositoryMaintenance->findOneBy(['id' => $slug]));
+                $em->persist($sprite);
+                for($k=1; $k<= (count($getOdreEtapeAndLengthTableau)-1); $k++)
+                {
+                    $createSprite2 = clone $sprite;
+                    $createSprite2->setName($nameFromSprites[$k]->object->name);
+                    $createSprite2->setDescription($descriptionFromSprites[$k]);
+                    $createSprite2->setPosition($nameFromSprites[$k]->object->matrix[12].';'.$nameFromSprites[$k]->object->matrix[13].';'.$nameFromSprites[$k]->object->matrix[14]);
+                    $createSprite2->setCamera($posCameraFromSprites[$k]);
+                    $createSprite2->setEtape($getOdreEtapeAndLengthTableau[$k]);
+                    $em->persist($createSprite2);
+                }
+                $em->flush();
             }
-            $em->flush();
             
                 return $this->redirectToRoute('modele3D',['slug'=> $slug]);
         }      
@@ -269,7 +272,7 @@ class MachineController extends AbstractController
         $formDeleteMachine->handleRequest($request);
         if($formDeleteMachine->isSubmitted() &&$formDeleteMachine->isValid() )
         {
-            dd('deletemachine');
+       
             for($i=0;$i< count($maintenances);$i++)
             {
                 $em->remove($maintenances[$i]);   
@@ -277,7 +280,7 @@ class MachineController extends AbstractController
             $em->remove($machine);
             $em->flush();
             $this->addFlash('danger', "Machine supprimée");
-            return $this->redirectToRoute('machine');            
+            return $this->redirectToRoute('modelesmachines');            
         }     
         return $this->render('machine/editionmachine.html.twig', [
             'formMachine' => $formMachine->createView(),

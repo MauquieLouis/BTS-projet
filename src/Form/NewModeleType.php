@@ -17,7 +17,7 @@ class NewModeleType extends AbstractType
     {
         $builder
             ->add('nom', TextType::class)
-            ->add('faceAvant',  FileType::class, ['data_class' => null, 'required' => false] )
+            ->add('faceAvant',  FileType::class, ['data_class' => null, 'required' => true] )
             ->add('faceArriere',  FileType::class, ['data_class' => null, 'required' => false] )
             ->add('faceGauche',  FileType::class, ['data_class' => null, 'required' => false] )
             ->add('faceDroite',  FileType::class, ['data_class' => null, 'required' => false] )

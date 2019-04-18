@@ -35,7 +35,7 @@ class Machines{
 		[
 			new THREE.MeshBasicMaterial( { map: image1, side: THREE.DoubleSide, name:"droite"} ),// RIGHT SIDE
 			new THREE.MeshBasicMaterial( { map: image2, side: THREE.DoubleSide, name:"gauche"} ),// LEFT SIDE
-			new THREE.MeshBasicMaterial( { map: image3, side: THREE.DoubleSide, name:"haut"} ),// TOP SIDE
+			new THREE.MeshBasicMaterial( { map: image3, side: THREE.DoubleSide, name:"haut"} ),// TOP SIDE 
 			new THREE.MeshBasicMaterial( { map: image4, side: THREE.DoubleSide, name:"bas"} ),// BOTTOM SIDE
 			new THREE.MeshBasicMaterial( { map: image5, side: THREE.DoubleSide, name:"devant"} ),// FRONT SIDE
 			new THREE.MeshBasicMaterial( { map: image6, side: THREE.DoubleSide, name:"derriere"} ) // BACK SIDE
@@ -162,7 +162,7 @@ class Machines{
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	deleteSprite() // supprime une sprite.
 	{
-		console.log(this.sprites.length);
+//		console.log(this.sprites.length);
 		if (this.sprite)
 		{
 			if(this.sprite.etape >= 1)
@@ -172,11 +172,20 @@ class Machines{
 					if(this.sprites[i].etape>1) {this.sprites[i].etape -= 1; }
 				}
 			}
-			this.sprites.pop(this.sprite);
+			for(let i=0;i<this.sprites.length;i++)
+			{
+				if(this.sprite.etape == this.sprites[i].etape)  this.sprites.splice(i,1);				
+			}
+			for(var i=0; i<this.spritesPushInBdd.length;i++)
+			{
+				if(this.sprite.etape == this.spritesPushInBdd[i].etape)  this.spritesPushInBdd.splice(i,1);
+			}
+			console.log(this.sprites);
 			this.scene.remove(this.sprite);
 			this.sprite = null;
 			document.getElementById("SpriteNb").innerHTML = cube.sprites.length;
 		}
+		document.getElementById('btnSauvegarder').hidden = cube.spritesPushInBdd.length? false : true;
 	}
 	moveSprite(axe, speed) // deplace une sprite sur un axe
 	{
@@ -195,7 +204,7 @@ class Machines{
 		{
 			this.positionCamera = 3;
 		}
-		console.log(this.positionCamera);
+//		console.log(this.positionCamera);
 		camera.position.set(cube.positionsCamera[this.positionCamera].x,cube.positionsCamera[this.positionCamera].y,cube.positionsCamera[this.positionCamera].z);
 	}
 	EtapeChangement(valeur) //Passe d'une etape a l'autre. Appel dans index.html
@@ -226,6 +235,7 @@ class Machines{
 			this.createSprite = 'ready';
 			console.log(this.edition)
 		}
+		document.getElementById('btnSauvegarder').hidden = cube.spritesPushInBdd.length? false : true;
 	}
 	RestoreMachine(scene,image,machine,modeleID)
 	{
@@ -234,12 +244,13 @@ class Machines{
 		//création modèle de cube
 		var geometry2 = new THREE.BoxGeometry( 100, 100, 100 ); // Creation d'une boite de 100 de côtés
 //////////////////CHARGEMENT DES IMAGES/////////////////////////////////////////////////////
-		var image1 = new THREE.TextureLoader().load('../../image/modele/'+modeleID+'/'+imageSurface[0]); 
-		var image2 = new THREE.TextureLoader().load('../../image/modele/'+modeleID+'/'+imageSurface[1]);
-		var image3 = new THREE.TextureLoader().load('../../image/modele/'+modeleID+'/'+imageSurface[2]);
-		var image4 = new THREE.TextureLoader().load('../../image/modele/'+modeleID+'/'+imageSurface[3]);
-		var image5 = new THREE.TextureLoader().load('../../image/modele/'+modeleID+'/'+imageSurface[4]);
-		var image6 = new THREE.TextureLoader().load('../../image/modele/'+modeleID+'/'+imageSurface[5]);
+		
+		if(imageSurface[0]){var image1 = new THREE.TextureLoader().load('../../image/modele/'+modeleID+'/'+imageSurface[0]);}
+		if(imageSurface[1])var image2 = new THREE.TextureLoader().load('../../image/modele/'+modeleID+'/'+imageSurface[1]);
+		if(imageSurface[2])var image3 = new THREE.TextureLoader().load('../../image/modele/'+modeleID+'/'+imageSurface[2]);
+		if(imageSurface[3])var image4 = new THREE.TextureLoader().load('../../image/modele/'+modeleID+'/'+imageSurface[3]);
+		if(imageSurface[4])var image5 = new THREE.TextureLoader().load('../../image/modele/'+modeleID+'/'+imageSurface[4]);
+		if(imageSurface[5])var image6 = new THREE.TextureLoader().load('../../image/modele/'+modeleID+'/'+imageSurface[5]);
 ////////////////////////////////////////////////////////////////////////////////////////////	
 		var cubeMaterials = 
 		[
@@ -344,7 +355,6 @@ const getMachineName = document.getElementById('machineNamed');
 var machineNamed = getMachineName.innerHTML;
 var getNameEachSprite = document.getElementById('getEachSprite');
 var spriteActive = false;
-var ecartWidthMenuCanvas = 850;
 var ecartHeightMenuCanvas = menuHautSizeHeight.offsetHeight;
 var ratio = 1/2;
 var ratioHeight = 1/2;
@@ -354,6 +364,8 @@ var windowHeight = ((window.innerHeight)-ecartHeightMenuCanvas)*ratioHeight;
 const renderer = new THREE.WebGLRenderer({canvas: myCanvasElement});// Rendu
 renderer.setSize( windowWidth, windowHeight);
 container.appendChild(renderer.domElement);
+
+
 ///////////////////////////////////////////////////////////////////////////////
 // Création Environnement/scene et controle ///////////////////////////////////////////////////////////////
 const scene = new THREE.Scene();
@@ -371,11 +383,16 @@ controls.keys = {
 		RIGHT: 1, // right arrow
 		BOTTOM: 0 // down arrow
 	}
+
+
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////// Position des boutons de déplacement de la caméra //////////////////////
 const btnCameraFaceCube = document.querySelector('.btnPositionduCube'); 
 btnCameraFaceCube.style.top = ecartHeightMenuCanvas + windowHeight +'px';
 btnCameraFaceCube.style.right = windowWidth/2 - 30 + 'px';
+
 // Création sphère	////////////////////////////////////////////////////////////////////////////////////
 const geometrysphere = new THREE.SphereGeometry(400, 400, 400);
 const textureLoader = new THREE.TextureLoader();
@@ -392,7 +409,6 @@ let cube = new Machines();
 cube.RestoreMachine(scene,cutFileName,machineNamed,modeleID);
 cube.appear();
 const rayCaster = new THREE.Raycaster();
-onResize();
 function onClick(e)
 {
 	let mouse = new THREE.Vector2(
@@ -425,13 +441,12 @@ function onClick(e)
 	{
 		nVarNom = prompt("Name :");
 		nVarInfo = prompt("Informations :");
-		nVarEtape = prompt("Etape :");
+//		nVarEtape = prompt("Etape :");
 		cube.addPoints({
 			position: intersects[0].point,
 			camera: camera.position,
 			name: nVarNom,
 			info : nVarInfo,
-			etape : nVarEtape,
 			scene : cube
 		});
 		cube.addTooltip(cube.points[cube.points.length-1]);
@@ -442,6 +457,11 @@ function onClick(e)
 		if(cube.sprites[cube.sprites.length-1].position.z <= (intersects[0].object.geometry.parameters.depth/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.z >= (intersects[0].object.geometry.parameters.depth/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.z += cube.initEcartTooltip;}
 		if(cube.sprites[cube.sprites.length-1].position.z >= -(intersects[0].object.geometry.parameters.depth/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.z <= -(intersects[0].object.geometry.parameters.depth/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.z -= cube.initEcartTooltip;}
 		cube.spritesPushInBdd.push(cube.sprites[cube.sprites.length-1]);
+//		if(cube.spritesPushInBdd.length>0)
+//		{
+//			document.getElementById('btnSauvegarder').hidden = false;
+//		}
+		
 		cube.ToggleSprite();
 	}
 	else //sinon c'est qu'on est en ready et on passe en start
@@ -558,7 +578,7 @@ function onMouseMove(e)
 }
 function Keyboard(event)
 {
-	console.log(event);
+//	console.log(event);
 	if(event.keyCode == 90) //z
 	{
 		console.log(document.getElementById('getEachSprite').innerHTML)
@@ -601,19 +621,26 @@ function Keyboard(event)
 	}
 	if(event.keyCode == 77) //m
 	{
+		console.log(cube.spritesPushInBdd);
 	}
 }
 function onScreenChange()
 {
-	console.log("Changement de fenetre");
+//	console.log("Changement de fenetre");
+}
+function fn()
+{
+//	console.log('fn test');
+	onResize();
 }
 window.addEventListener('resize', onResize);
+window.addEventListener('load', fn, false );
 container.addEventListener('webkitfullscreenchange', onScreenChange);
 container.addEventListener('click', onClick);
 container.addEventListener('mousemove', onMouseMove);
 container.addEventListener('keydown', Keyboard, false);
-onResize();
 animate();
+onResize();
 
 
 

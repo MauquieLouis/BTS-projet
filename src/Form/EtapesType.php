@@ -29,8 +29,7 @@ class EtapesType extends AbstractType
         ->add('position', TextType::class,array())
         ->add('camera', TextType::class,array())
         ->add('etape', TextType::class,array())
-        ->add('val', SubmitType::class, array('label' =>'testdetoutsave'))
-        ->add('Sauvegarder', SubmitType::class,  array('label' =>'Sauver la maintenance'))
+//         ->add('Sauvegarder', SubmitType::class,  array('label' =>'Sauver la maintenance'))
         
         ;
     }

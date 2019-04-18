@@ -18,7 +18,7 @@ class NewMaintenanceType extends AbstractType
     {
         $builder
             ->add('nom', TextType::class)
-            ->add('picturefile', FileType::class, ['data_class' => null, 'required' => false] )
+            ->add('picturefile', FileType::class, ['data_class' => null, 'required' => true] )
             
         ;
     }

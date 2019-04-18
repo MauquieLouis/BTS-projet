@@ -43,7 +43,7 @@
                     <button onClick="cube.moveSprite('z', 2)">+z</button><button onClick="cube.moveSprite('z', -2)">-z</button> 
                 </div>
                 
-                <button onclick="cube.ToggleSprite(); IsHiddenFormEtape(); cube.testSaveTable();" class="SpriteNbr spriteCreate btn btn-info">
+                <button onclick="cube.ToggleSprite(); cube.testSaveTable();// IsHiddenFormEtape();" class="SpriteNbr spriteCreate btn btn-info">
                 	<img id="btnSprite" class="buttonSprite SpriteNbr" src="../../image/machine/ampoule.png" width="50" height="30">
                 	Ajouter une étape
                 </button>
@@ -90,13 +90,18 @@
 {# 				{{ form_end(formEtape) }}#}
 
                 {% if is_granted('ROLE_ADMIN') %}
-                	<div id="formEtape" hidden>
+                	
                 	    <h2>Sauvegarde de toutes les etapes</h2>
                 	     {{ form_start(saveAllSprites) }}
-                	     {{ form_row(saveAllSprites.name) }}
-                	     	       			
-    	 				 {{ form_end(saveAllSprites) }} 
-	 				 </div>
+                    	     
+                	     {{ form_widget(saveAllSprites.name, {'attr':{'hidden':true}}) }}
+                    	     {{ form_widget(saveAllSprites.description, {'attr':{'hidden':true}}) }}
+                    	     {{ form_widget(saveAllSprites.position, {'attr':{'hidden':true}}) }}         	     
+                    	     {{ form_widget(saveAllSprites.camera, {'attr':{'hidden':true}}) }}       	     
+                    	     {{ form_widget(saveAllSprites.etape, {'attr':{'hidden':true}}) }}
+                    	     <button type="submit" id="btnSauvegarder" onclick="cube.testSaveTable();" hidden>Sauvegarder</button>
+                         {{ form_end(saveAllSprites) }} 
+	 				 
 	 				 {% endif %}
 			
             </div>
@@ -159,7 +164,7 @@
 			<div id="getEachSpriteEtape" hidden>{{ etape.etape}}  </div>
 			<div id="getEachSpriteId" >{{ etape.id}}  </div>
 			
-			<script>console.log(document.getElementById("getEachSpriteName").innerHTML);cube.spriteHtmlForJs();</script>
+			<script>cube.spriteHtmlForJs();//console.log(document.getElementById("getEachSpriteName").innerHTML);</script>
 
         {% endfor %}
         
