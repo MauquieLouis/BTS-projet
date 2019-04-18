@@ -169,7 +169,9 @@ class Machines{
 			{
 				for(var i= this.sprite.etape; i<this.sprites.length;i++)
 				{
-					if(this.sprites[i].etape>1) {this.sprites[i].etape -= 1; }
+					console.log(this.sprites[1]);
+					if(this.sprites[parseInt(i)].etape>1)
+					{this.sprites[parseInt(i)].etape -= 1; }
 				}
 			}
 			for(let i=0;i<this.sprites.length;i++)

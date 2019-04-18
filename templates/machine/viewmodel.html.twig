@@ -99,7 +99,7 @@
                     	     {{ form_widget(saveAllSprites.position, {'attr':{'hidden':false}}) }}         	     
                     	     {{ form_widget(saveAllSprites.camera, {'attr':{'hidden':false}}) }}       	     
                     	     {{ form_widget(saveAllSprites.etape, {'attr':{'hidden':false}}) }}
-                    	     <button type="submit" id="btnSauvegarder" onclick="validationChangementEtape();cube.testSaveTable();" >Sauvegarder</button>
+                    	     <button type="submit" id="btnSauvegarder" onclick="cube.testSaveTable();validationChangementEtape();" >Sauvegarder</button>
                          {{ form_end(saveAllSprites) }} 
                            <table id="table" border="1">
                             <tr>
