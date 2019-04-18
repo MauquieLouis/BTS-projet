@@ -56,7 +56,7 @@ var table = {
 				return -1;			//ERROR : arg tablesSelected inconnu
 			break;
 		}
-		
+		//
 		xhReq.send();
 		return this.retour;
 	},
