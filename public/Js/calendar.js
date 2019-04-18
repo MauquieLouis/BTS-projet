@@ -51,7 +51,6 @@ class calMonth{
 	
 	changeCal(){
 		var prevM = (this.currMonth==0)?11:this.currMonth-1; //Mois précédent au mois affiché
-		var nextM = (this.currMonth==11)?0:this.currMonth+1;
 		var mmyyyy = new Date();
 		mmyyyy.setFullYear(this.currYear);
 		mmyyyy.setMonth(this.currMonth);
@@ -59,14 +58,23 @@ class calMonth{
 		var day1 = mmyyyy.getDay();
 		if (day1 == 0)
 			day1 = 7;
-		var arrN = new Array(calendarMonth.nbCases-1);
-		var aa;
+		var arrN = new Array(this.nbCases-1);
+		var aa;		
+		var caseDay;
+		var caseMonth;
+		var caseYear;
+
 		//------------------Coloration et définition du contenu de chaque case du tableau------------------//
 		
 		//----Mois précèdent----//
 		for (i=0;i<day1-1;i++){
+			caseMonth = (this.currMonth==0)?12:this.currMonth;
+			caseMonth = (caseMonth <10)?"0"+caseMonth:caseMonth;
+			caseYear = (this.currMonth==0)?this.currYear-1:this.currYear;
+			caseDay =((arrN[i]<10)?"0"+arrN[i]:arrN[i]);
 			arrN[i] = maxDays(prevM,this.currYear) - day1 + i+2;
 			eval("sp"+i).style.backgroundColor = colorOtherMonth;
+			eval("sp"+i).name = caseDay + "/" +caseMonth + "/" + caseYear;
 		}
 		
 		//----Mois en court----//
@@ -79,37 +87,37 @@ class calMonth{
 			}
 			else
 				eval("sp"+i).style.backgroundColor=colorMonth;
+			caseDay =((arrN[i]<10)?"0"+arrN[i]:arrN[i]);
+			caseMonth = ((parseInt(this.currMonth + 1)<10)?"0"+parseInt(this.currMonth + 1):parseInt(this.currMonth + 1));
+			eval("sp"+i).name = caseDay + "/" + caseMonth + "/" + this.currYear;
+			
 		}
 		
 		//----Mois suivant----//
 		aa = 1;
-		for (i=day1+maxDays(this.currMonth,this.currYear)-1;i<calendarMonth.nbCases;i++,aa++){
+		for (i=day1+maxDays(this.currMonth,this.currYear)-1;i<this.nbCases;i++,aa++){
+		
+			caseMonth = (this.currMonth==11)?1:this.currMonth+2;
+			caseMonth = (caseMonth <10)?"0"+caseMonth:caseMonth;
+			caseYear = (this.currMonth==11)?this.currYear+1:this.currYear;
+		
 			arrN[i] = aa;
+			
+			caseDay =((arrN[i]<10)?"0"+arrN[i]:arrN[i]);
 			eval("sp"+i).style.backgroundColor = colorOtherMonth;
+			eval("sp"+i).name = caseDay + "/" + caseMonth + "/" + caseYear;
+			
 		}
 		//-------------------------------------------------------------------------------------------------//
-		
 		//------------------------Définition de la taille et remplissage des cases-------------------------//
 		//----Parcour de toutes les cases----//
 		for (i=0;i< this.nbCases;i++){
 			eval("sp"+i).style.height = caseHeight;	//Définition de la hauteur des cases
 			eval("sp"+i).style.width = (windowWidth < 738)?windowWidth/7+"px":windowWidth/21+"px"; //Définition de la largeur des cases en fontion de la taille de la fenêtre
 			eval("sp"+i).innerHTML = arrN[i]; //Remplissage des cases
-			//----Parcour de tous les évènements----//
-			for(var j=0; j < parseInt(tabEvent.length); j++){
-				for(var k=0; k<5; k++){
-					if((eval("sp"+i).innerHTML == de[j][k] && mmyyyy.getFullYear() == ye[j][k]) //Si le jour et l'année de l'évènement sont affiché
-						&& (	(mmyyyy.getMonth()+1 == me[j][k] && eval("sp"+i).style.backgroundColor != colorOtherMonth) //Et le mois (avec la bonne couleur)
-							||	(((prevM+1 == me[j][k] && i<15) //Ou le mois precedent 
-								||	(nextM+1 == me[j][k] && i>15)) //Ou le mois suivant 
-								&& ( eval("sp"+i).style.backgroundColor == colorOtherMonth))))//(avec la bonne couleur)
-							eval("sp"+i).innerHTML += "<a><br><i style=\"font-size:10px\" class=\"far fa-dot-circle\"></i></br></a>"; //Alort affiché un cercle
-
-				}
-			}	  
-			//--------------------------------------//
 		}	
 		//-------------------------------------------------------------------------------------------------//
+		affichageNotifEvent(this, "sp");
 	}
 
 	writeHTML(){
@@ -126,7 +134,7 @@ class calMonth{
 		
 		text += "</select>";	
 		text += "<span class=\"col-2\" onClick='calendarMonth.chMonth(\"+\")'><i style=\"font-size:30px\" class=\"fas fa-chevron-right\"></i></span>";
-		text += "<span class=\"col-2\" onClick='calendarMonth.chMonth(\"+-\")'><i style=\"font-size:30px\" class=\"fas fa-calendar-day\"></i></span>"
+		text += "<span class=\"col-2\" onClick='calendarMonth.chMonth(\"+-\")'><i style=\"font-size:30px\" class=\"fas fa-calendar-day\"></i></span>";
 		text += "</td>";
 		text += "<td align=right>";
 		text += "<select name=selYear class=\"col-7 form-control form-control-sm\" onChange='calendarMonth.chMonth()'>";	//Quand on selectionne une année, la fonction changeCal() est appelé
@@ -147,7 +155,7 @@ class calMonth{
 		for (k=0;k<=5;k++){
 			text += "<tr>";
 			for (i=0;i<=6;i++, aa++)
-				text += "<td class=\"caseStyle\" align=center><div id=sp" + aa + " onClick='clickOnCase(this.id, calendarMonth)'></div></td>"; //Affiche des 42 case des jours, quand on séléctionne une case, la fonction affichage event est appelé
+				text += "<td class=\"caseStyle\" align=center><div name=1 id=sp" + aa + " onClick='clickOnCase(this.id, calendarMonth)'></div></td>"; //Affiche des 42 case des jours, quand on séléctionne une case, la fonction affichage event est appelé
 			text += "</tr>";
 		}
 		text += "</table>";

@@ -56,7 +56,7 @@ var table = {
 				return -1;			//ERROR : arg tablesSelected inconnu
 			break;
 		}
-		
+		//
 		xhReq.send();
 		return this.retour;
 	},
@@ -90,7 +90,7 @@ var table = {
 	}
 };
 
-console.log(table.ByDate("2014-01-01","2019-12-31"));
+console.log(table.ByDate("2019-05-31","2019-12-31"));
 
 ///PROCEDURE D'UTLISATION-------------------------------------------------//
 //table.init("selected",id)	// selected === nom de la table selectionée id==idselected ex: table.init("event",22); selected : event idselected : 22

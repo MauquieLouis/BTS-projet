@@ -68,33 +68,73 @@ class calWeek{
 		}
 		this.currMonth = nbMonth;
 		
+		var caseMonth;
+		var caseYear;
+		var caseDay;
+		
 		var prevM= "";
 		var nextM="";
 		var currM ="";
 		
-		for (var i=0; i<14; i++){
+		for (var i=0; i<this.nbCases; i++){
 			eval("ev"+i).style.height = "26px";
+			eval("ev"+i).innerHTML = "";
 			(windowWidth < 768)?eval("sp"+i).style.width = windowWidth/2-27+"px":eval("sp"+i).style.width = windowWidth/6+"px";
-			
+			//var whatColor = (i<this.nbCases/2)?1:0;
 			if(firstDay+i<1){
 				eval("sp"+i).innerHTML = firstDay+i+ maxDays((this.currMonth==0)?11:this.currMonth-1, (this.currMonth-1==-1)?this.currYear-1:this.currYear);
-				prevM=arrM[(this.currMonth==0)?11:this.currMonth-1];
+				caseDay = eval("sp"+i).innerHTML;
+				caseDay = (caseDay < 10)?"0"+caseDay:caseDay;
+				caseMonth = (this.currMonth==0)?11:this.currMonth-1;
+				caseYear = (this.currMonth==0)?this.currYear-1:this.currYear;
+				
+				prevM=arrM[caseMonth];
+				
+				caseMonth += 1;
+				caseMonth = (caseMonth <10)?"0"+caseMonth:caseMonth;
+				
+				//====>
 				eval("ev"+i).style.background = colorOtherMonth;
+				
+				eval("sp"+i).name = eval("sp"+i).innerHTML +"/"+ caseMonth + "/" + caseYear;
+				//eval("ev"+i).style.background = (whatColor == 1)?colorOtherMonth:colorMonth;
 			}
 			else if (firstDay+i> maxDays(this.currMonth, this.currYear)){
 				eval("sp"+i).innerHTML = firstDay+i - maxDays(this.currMonth, this.currYear);
-				nextM=arrM[(this.currMonth==11)?0:this.currMonth+1];
+				
+				caseDay = eval("sp"+i).innerHTML;
+				caseDay = (caseDay < 10)?"0"+caseDay:caseDay;
+				caseMonth = (this.currMonth==11)?0:this.currMonth+1;
+				caseYear = (this.currMonth==11)?this.currYear+1:this.currYear;
+				
+				nextM=arrM[caseMonth];
+				
+				caseMonth += 1;
+				caseMonth = (caseMonth <10)?"0"+caseMonth:caseMonth;
+				
+				//====>
+				//eval("ev"+i).style.background = (whatColor == 1)?colorOtherMonth:colorMonth;
+				
+				eval("sp"+i).name = caseDay +"/"+ caseMonth + "/" + caseYear;
 				eval("ev"+i).style.background = colorOtherMonth;
 			}
 			else {
 				eval("sp"+i).innerHTML = firstDay+i;
 				eval("sp"+i).style.background = colorMonth;
-				eval("ev"+i).style.background = colorMonth;
 				(eval("sp"+i).innerHTML == dd && this.currYear == yyyy && this.currMonth==mm)?eval("sp"+i).style.backgroundColor = colorToday:eval("sp"+i).style.backgroundColor = colorMonth;
 				currM=arrM[this.currMonth];
+				
+				caseDay = eval("sp"+i).innerHTML;
+				caseDay = (caseDay < 10)?"0"+caseDay:caseDay;
+				caseMonth = parseInt(this.currMonth+1);
+				caseMonth = (caseMonth<10)?"0"+caseMonth:caseMonth;
+				eval("sp"+i).name = caseDay +"/"+ caseMonth + "/" + this.currYear;
+				
+				//eval("ev"+i).style.background = (whatColor == 1)?colorOtherMonth:colorMonth;
 			}
 		}
 		eval("month").innerHTML = ((prevM!="")?prevM+ "-":"")+ currM +((nextM!="")?"-"+nextM+" ":" ");
+		affichageNotifEvent(this, "ev");
 	}
 	writeHTML(){
 	var text = "";
@@ -116,21 +156,22 @@ class calWeek{
 	text += "</td></tr>";
 	text += "<tr><td>";
 	text += "<table>"
-	text += "<tr><td>"
-	text += "<table>";
-	for (i=0;i<=6;i++)
-		text += "<tr class=\"dayStyle2\"><td ><div style=\"height:50px\">" + arrD[i] + "</div></td></tr>"; //Affiche des jours de la semaine
-	text += "</table>";
-	text += "</td>";	
+	text += "<tr>";
 	var aa = 0;
-	for (j=0; j<=1; j++)
+	for (var j=0; j<=1; j++)
 	{
+			text += "<td>"
+			text += "<table>";
+			for (i=0;i<=6;i++)
+				text += "<tr class=\"dayStyle2\"><td ><div style=\"height:50px\">" + arrD[i] + "</div></td></tr>"; //Affiche des jours de la semaine
+			text += "</table>";
+			text += "</td>";	
 		text += "<td>";
 		text += "<table>";
 		for (i=0;i<=6;i++, aa++){
-			text += "<tr><td class=\"caseStyle\" onClick='clickOnCase(sp"+aa+", calendarWeek)'>";
-			text += "<div id=sp"+ aa +">1</div>"
-			text += "<div id=ev"+ aa +"></div>"
+			text += "<tr><td class=\"caseStyle\"  onClick='clickOnCase(sp"+aa+", calendarWeek)'>";
+			text += "<div name=1 id=sp"+ aa +">1</div>"
+			text += "<div name=1 id=ev"+ aa +"></div>"
 			text +="</td></tr>";
 		}
 		text += "</table>";
