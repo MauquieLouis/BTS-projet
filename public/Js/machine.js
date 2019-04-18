@@ -29,7 +29,7 @@ class Machines{
 		var image3 = new THREE.TextureLoader().load(imgTop);
 		var image4 = new THREE.TextureLoader().load(imgBottom);
 		var image5 = new THREE.TextureLoader().load(imgFront);
-		var image6 = new THREE.TextureLoader().load(imgBack);
+		var image6 = new THREE.TextureLoader().load(imgBack); 
 ////////////////////////////////////////////////////////////////////////////////////////////	
 		var cubeMaterials = 
 		[
