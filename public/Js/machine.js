@@ -104,7 +104,7 @@ class Machines{
 			document.getElementById("tooltipName").innerHTML = cube.sprite.name; //affiche sur le web le nom
 			document.getElementById("tooltipInfo").innerHTML = cube.sprite.information;
 			document.getElementById("tooltipEtape").innerHTML = cube.sprite.etape;
-			document.getElementById("form_idSprite").value = cube.sprite.idBDD;
+//			document.getElementById("form_idSprite").value = cube.sprite.idBDD;
 		}
 	}
 	destroy(){ // detruit le cube en détruisant les sprites avant
@@ -505,7 +505,7 @@ function onResize()
 		ecartWidthMenuCanvas = window.innerWidth - renderer.context.drawingBufferWidth; //Récupère la position en X où commence le modele 3D
 		ecartHeightMenuCanvas = menuHautSizeHeight.offsetHeight; // Récupère la hauteur du menu d'en haut. Le modele 3D est juste en dessous
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		menuSmall.style.height = (window.innerHeight - menuHautSizeHeight.offsetHeight) +'px';		
+		//menuSmall.style.height = (window.innerHeight - menuHautSizeHeight.offsetHeight) +'px';		
 	}
 	else	// Mode telephone
 	{
@@ -633,7 +633,7 @@ function Keyboard(event)
 		console.log(index);
 	}
 }
-function onScreenChange(){}
+function onScreenChange(){console.log('screenchange');}
 function fn() // Lorsque la page est chargée la fonction se déclenche
 {
 	onResize();
@@ -771,6 +771,17 @@ function tableInitID()
 			}
 		}
 	}
+}
+function TableauBullesInfos()
+{
+	document.getElementById('TableauBullesInfos').hidden = false;// = document.getElementById('TableauBullesInfos').hidden : false;
+	document.getElementById('information').hidden = true;// = document.getElementById('information').hidden : true;
+//	document.getElementById('information').hidden = document.getElementById('TableauBullesInfos').hidden? false : true;
+}
+function InformationsShow()
+{
+	document.getElementById('TableauBullesInfos').hidden = true;
+	document.getElementById('information').hidden = false;// = document.getElementById('information').hidden : false;
 }
 window.addEventListener('resize', onResize);
 window.addEventListener('load', fn, false );

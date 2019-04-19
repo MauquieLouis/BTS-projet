@@ -37,47 +37,46 @@
 	       
 	      
             <div class="menu2 col-12 col-md-6 d-md-block" id="menuModele">	
-            {% if is_granted('ROLE_ADMIN') %}
-                <div id="bt2">Machine
-                    <button onClick="cube.moveSprite('x', 2)">+x</button><button onClick="cube.moveSprite('x', -2)">-x</button>
-                    <button onClick="cube.moveSprite('y', 2)">+y</button><button onClick="cube.moveSprite('y', -2)">-y</button>
-                    <button onClick="cube.moveSprite('z', 2)">+z</button><button onClick="cube.moveSprite('z', -2)">-z</button> 
-                </div>
-                
-                <button onclick="cube.ToggleSprite(); cube.testSaveTable();// IsHiddenFormEtape();" class="SpriteNbr spriteCreate btn btn-info">
-                	<img id="btnSprite" class="buttonSprite SpriteNbr" src="../../image/machine/ampoule.png" width="50" height="30">
-{#                 	Ajouter une étape#}
-                </button>
-                <div class="SpriteNbr" id="SpriteNb">0</div>
-                
-                {{ form_start(formDelete) }}           		
-                	<div id="DeleteToSprite">{{ form_row(formDelete.idSprite)}}</div>
-                {{ form_end(formDelete) }}            	 
-            {% endif %}  
-            	<div >Name :</div>
+           
+{#                 <div id="bt2">Machine#}
+{#                     <button onClick="cube.moveSprite('x', 2)">+x</button><button onClick="cube.moveSprite('x', -2)">-x</button>#}
+{#                     <button onClick="cube.moveSprite('y', 2)">+y</button><button onClick="cube.moveSprite('y', -2)">-y</button>#}
+{#                     <button onClick="cube.moveSprite('z', 2)">+z</button><button onClick="cube.moveSprite('z', -2)">-z</button> #}
+{#                 </div>#}
+		   <div style="border-bottom : 1px solid #aaaaaa;)">
+		   	<h3 style="border:2px solid grey; display:inline;" onclick="InformationsShow();">Informations </h3>
+		   	{% if is_granted('ROLE_ADMIN') %}<h3 style="border:2px solid grey; display:inline;" onclick="TableauBullesInfos();">Tableau des bulles infos</h3>{% endif %}
+		   </div>
+		<div id="information" hidden>
+           <div style=" margin-top: 30px;">     
+            	
+            	<div style="margin-left : 5%">Name :</div>
             	<div class="informationTooltip" id="tooltipName" ></div>
             	
-            	<div>Description :</div>
+            	<div style="margin-left : 5%">Description :</div>
             	<div class="informationTooltip" id="tooltipInfo"></div>
             
-            	<div>Etape :</div>
+            	<div style="margin-left : 5%">Ordre :</div>
             	<div class="informationTooltip" id="tooltipEtape"></div>
             	<!--<button onclick="modifValider()" id="btnValiderModif">OK !</button>-->
 
-            		
-            	<button onClick="cube.EtapeChangement(-1)" class="" title="Etape precedente"> < </button><button class="" onClick="cube.EtapeChangement(1)" title="Etape suivante"> > </button></br>
-            	<div id="selectEtape">
-            		<select>
-            		    {% for etape in etapes %}
-    	            		<option value="{{ etape.etape }}">
-
-                                {{ etape.name  }}
-    	            			{{ etape.description }}
-    	            		</option>
-    	            	{% endfor %}	
-	            		
-            		</select>
-            	</div>
+            	</br>	
+            	<button onClick="cube.EtapeChangement(-1)" class="btn btn-sm btn-secondary" title="Etape precedente"> < </button>
+            	Etape <h3 style="display: inline;">0/<div class="SpriteNbr" id="SpriteNb">0</div></h3>
+            	<button class="btn btn-sm btn-secondary" onClick="cube.EtapeChangement(1)" title="Etape suivante"> > </button>
+        	{% if is_granted('ROLE_ADMIN') %}
+                <button onclick="cube.ToggleSprite(); cube.testSaveTable();// IsHiddenFormEtape();" class="SpriteNbr spriteCreate btn btn-sm btn-outline-info">
+                	<img id="btnSprite" class="buttonSprite SpriteNbr" src="../../image/machine/ampoule.png" width="50" height="30">
+{#                 	Ajouter une étape#}
+                </button>
+                
+                
+{#                 {{ form_start(formDelete) }}           		#}
+{#                 	<div id="DeleteToSprite">{{ form_row(formDelete.idSprite)}}</div>#}
+{#                 	<button type="submit" class="btn btn-danger">Supprimer une �tape</button>#}
+{#                 {{ form_end(formDelete) }}            	 #}
+            {% endif %}  
+			</div>
 
 {#             	{{ form_start(formEtape) }}#}
 {#             		<div class="addNomSprite"> {{ form_row(formEtape.name) }}</div>#}
@@ -89,9 +88,10 @@
 
 {# 				{{ form_end(formEtape) }}#}
 
-                {% if is_granted('ROLE_ADMIN') %}
+{#                 {% if is_granted('ROLE_ADMIN') %}#}
                 	
-                	    <h2>Sauvegarde de toutes les etapes</h2>
+{#                 	    <h2>Sauvegarde de toutes les etapes</h2>#}
+                {% if is_granted('ROLE_ADMIN') %}
                 	     {{ form_start(saveAllSprites) }}
                     	     
                 	     {{ form_widget(saveAllSprites.name, {'attr':{'hidden':true}}) }}
@@ -99,9 +99,16 @@
                     	     {{ form_widget(saveAllSprites.position, {'attr':{'hidden':true}}) }}         	     
                     	     {{ form_widget(saveAllSprites.camera, {'attr':{'hidden':true}}) }}       	     
                     	     {{ form_widget(saveAllSprites.etape, {'attr':{'hidden':true}}) }}
-                    	     <button type="submit" id="btnSauvegarder" onclick="cube.testSaveTable();validationChangementEtape();" >Sauvegarder</button>
+                    	     <button type="submit" class="btn btn-primary" id="btnSauvegarder" onclick="cube.testSaveTable();validationChangementEtape();" >Sauvegarder</button>
                          {{ form_end(saveAllSprites) }} 
-                           <table id="table" class="avectri table table-striped" border="1">
+                {% endif %}
+        </div>                 
+                        <div style="margin-top: 30px; border-bottom : 1px solid #aaaaaa;">
+                       
+                        </div> 
+          			<div id="TableauBullesInfos" >
+						<div style="margin-top: 20px; width:90%; margin-left: 5%;">
+                         <table id="table" class="avectri table table-striped" border="1">
                             <tr>
                                 <th>Nom de l'etape</th>
                                 <th>Description</th>
@@ -119,15 +126,17 @@
                         	     </tr>
                         	{% endfor %}	
                         </table>
-                         <button onclick="upNdown('up');">&ShortUpArrow;</button>
-                         <button onclick="upNdown('down');">&ShortDownArrow;</button>
-                          <button onclick="triTableau();//cube.testSaveTable();validationChangementEtape();">Trier le tableau !</button>
-                          <button onclick="validationChangementEtape();")>Enregistrer changement</button>
-                          <button onclick="cube.deleteSprite();">Supprime un sprite</button>
-                         
-                         {{ form_start(toutsupprimer) }}
-	 				 	 {{ form_end(toutsupprimer) }}
- 				 {% endif %}
+                        
+                         <button class="btn btn-outline-info" onclick="upNdown('up');">&ShortUpArrow;</button>
+                         <button class="btn btn-outline-info" onclick="upNdown('down');">&ShortDownArrow;</button>
+                          <button class="btn btn-outline-info" onclick="triTableau();//cube.testSaveTable();validationChangementEtape();">Trier le tableau !</button>
+                          <button class="btn btn-outline-info" onclick="validationChangementEtape();")>Enregistrer changement</button>
+                          <button class="btn btn-outline-info" onclick="cube.deleteSprite();">Supprimer</button>
+                       </div>  
+{#                          {{ form_start(toutsupprimer) }}#}
+{# 	 				 	 {{ form_end(toutsupprimer) }}#}
+{# 		     {% endif %}#}
+				</div>
 				
             </div>
         </div>

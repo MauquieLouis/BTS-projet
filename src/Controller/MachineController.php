@@ -239,25 +239,10 @@ class MachineController extends AbstractController
                 return $this->redirectToRoute('modele3D',['slug'=> $slug]);
         }
         ////////////DELETE SPRITE ////////////////////////////////////////////        
-        $formDeleteSprite = $this->createFormBuilder()
-        ->add('idSprite', TextType::class)
-        ->add('Suppression', SubmitType::class,  array('label' =>'Supprimer une etape'))
-        ->getForm();
-        $formDeleteSprite->handleRequest($request);        
-        if($formDeleteSprite->isSubmitted() && 'Suppression' === $formDeleteSprite->getClickedButton()->getName())
-        {
-            $spriteGoDelete = $repositoryEtapes->findBy(['id'=> $formDeleteSprite->getData()['idSprite'] ]);
-            foreach($spriteGoDelete as $spritedelete)
-            {
-                $em->remove($spritedelete);
-                $em->flush();
-                return $this->redirectToRoute('modele3D',['slug'=> $slug]);
-            }
-        }
+
         return $this->render('machine/viewmodel.html.twig', [
             'controller_name' => 'MachineController',
          //   'formEtape' => $formSprite->createView(),
-            'formDelete'=> $formDeleteSprite->createView(),
             'machine' => $machine,
             'etapes' => $etapes,
             'saveAllSprites' =>$formSaveAllSprite->createView(),  
