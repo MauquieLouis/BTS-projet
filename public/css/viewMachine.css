@@ -33,6 +33,12 @@ body
 ::-webkit-scrollbar {
 	width : 0px;
 }
+.selected
+{
+/* 	color : blue; */
+	background-color : rgba(0,123,164,0.5) !important;
+/* 	background-opacity : 0.2; */
+}
 .menu2.is-active
 {
 /* 	border: 3px solid purple; */
