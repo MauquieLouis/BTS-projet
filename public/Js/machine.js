@@ -170,7 +170,6 @@ class Machines{
 			{
 				for(var i= this.sprite.etape; i<this.sprites.length;i++)
 				{
-					console.log(this.sprites[1]);
 					if(this.sprites[parseInt(i)].etape>1)
 					{this.sprites[parseInt(i)].etape -= 1; }
 				}
@@ -179,11 +178,17 @@ class Machines{
 			{
 				if(this.sprite.etape == this.sprites[i].etape)  this.sprites.splice(i,1);				
 			}
-//			for(var i=0; i<this.spritesPushInBdd.length;i++)
-//			{
-//				if(this.sprite.etape == this.spritesPushInBdd[i].etape)  this.spritesPushInBdd.splice(i,1);
-//			}
-			console.log(this.sprites);
+			//On raffraichit le tableau et on supprime la ligne concernée
+			let tableEtapeToDelete = document.getElementById("table").rows;
+			for(let j=0;j<tableEtapeToDelete.length;j++)
+			{
+				if(parseInt(tableEtapeToDelete[j].cells[4].innerHTML) === this.sprite.id)
+				{
+					document.getElementById("table").rows[index].classList.toggle("selected");
+					index = undefined;
+					document.getElementById("table").deleteRow(j);
+				}
+			}
 			this.scene.remove(this.sprite);
 			this.sprite = null;
 			document.getElementById("SpriteNb").innerHTML = cube.sprites.length;
@@ -236,7 +241,7 @@ class Machines{
 			this.edition = 1;
 			spriteCreate.classList.add('on');
 			this.createSprite = 'ready';
-			console.log(this.edition)
+//			console.log(this.edition)
 		}
 		document.getElementById('btnSauvegarder').hidden = cube.sprites.length? false : true;
 	}
@@ -367,7 +372,7 @@ var windowHeight = ((window.innerHeight)-ecartHeightMenuCanvas)*ratioHeight;
 const renderer = new THREE.WebGLRenderer({canvas: myCanvasElement});// Rendu
 renderer.setSize( windowWidth, windowHeight);
 container.appendChild(renderer.domElement);
-
+var tableSprite = document.getElementById("table");
 
 ///////////////////////////////////////////////////////////////////////////////
 // Création Environnement/scene et controle ///////////////////////////////////////////////////////////////
@@ -465,7 +470,7 @@ function onClick(e)
 //		{
 //			document.getElementById('btnSauvegarder').hidden = false;
 //		}
-		
+		createLigne();
 		cube.ToggleSprite();
 	}
 	else //sinon c'est qu'on est en ready et on passe en start
@@ -625,18 +630,15 @@ function Keyboard(event)
 	}
 	if(event.keyCode == 77) //m
 	{
-		console.log(cube.sprites);
+		console.log(index);
 	}
 }
-function onScreenChange()
+function onScreenChange(){}
+function fn() // Lorsque la page est chargée la fonction se déclenche
 {
-//	console.log("Changement de fenetre");
-}
-function fn()
-{
-//	console.log('fn test');
 	onResize();
 	triTableau();
+	tableInitID();
 }
 function validationChangementEtape()
 {
@@ -673,7 +675,7 @@ function triTableau()
 var index;  // variable to set the selected row index
 function getSelectedRow()
 {
-    var table = document.getElementById("table");
+	var table = document.getElementById("table");
     for(var i = 1; i < table.rows.length; i++)
     {
         table.rows[i].onclick = function()
@@ -681,13 +683,21 @@ function getSelectedRow()
             // clear the selected from the previous selected row
             // the first time index is undefined
             if(typeof index !== "undefined"){
-                table.rows[index].classList.toggle("selected");
+                table.rows[index].classList.toggle("selected"); 
             }
             index = this.rowIndex;
+            for(let j=0; j<cube.sprites.length;j++)
+        	{
+            	if(cube.sprites[j].id === parseInt(table.rows[index].cells[4].innerHTML))
+            	{
+            		cube.sprite = cube.sprites[j]; 
+            		cube.sprite.onClick();
+            	}
+        	}   
             this.classList.toggle("selected");
         };
     }
-        
+    
 }
 getSelectedRow();
 function upNdown(direction)
@@ -719,6 +729,48 @@ function upNdown(direction)
      {
     	 rows[index+1].cells[2].innerHTML  = index +1;
      }
+}
+function createLigne() //La bulle info créée s'ajoute dans le tableau
+{
+	let ligne1 =tableSprite.insertRow(-1);
+	ligne1.onclick = function()
+    {
+		let tableNewLine = document.getElementById("table"); 
+        // clear the selected from the previous selected row
+        // the first time index is undefined
+        if(typeof index !== "undefined"){
+        	tableNewLine.rows[index].classList.toggle("selected"); 
+        }
+        index = this.rowIndex;
+        for(let j=0; j<cube.sprites.length;j++)
+    	{
+        	if(cube.sprites[j].id === tableNewLine.rows[index].cells[4].innerHTML)
+        	{
+        		cube.sprite = cube.sprites[j]; 
+        		cube.sprite.onClick();
+        	}
+    	}   
+        this.classList.toggle("selected");
+    };
+	ligne1.insertCell(0).innerHTML = cube.sprite.name;
+	ligne1.insertCell(1).innerHTML = cube.sprite.information;
+	ligne1.insertCell(2).innerHTML = cube.sprite.etape;
+	ligne1.insertCell(3).innerHTML = '9999';
+	ligne1.insertCell(4).innerHTML = cube.sprite.id;
+}
+function tableInitID()
+{
+	let tableEtapes = document.getElementById("table"); 
+	for(var i=1; i < tableEtapes.rows.length; i++)
+	{
+		for(var j=0;j<cube.sprites.length;j++)
+		{
+			if(tableEtapes.rows[i].cells[3].innerHTML === cube.sprites[j].idBDD)
+			{
+				tableEtapes.rows[i].cells[4].innerHTML = cube.sprites[j].id;
+			}
+		}
+	}
 }
 window.addEventListener('resize', onResize);
 window.addEventListener('load', fn, false );

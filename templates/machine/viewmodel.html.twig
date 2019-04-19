@@ -46,7 +46,7 @@
                 
                 <button onclick="cube.ToggleSprite(); cube.testSaveTable();// IsHiddenFormEtape();" class="SpriteNbr spriteCreate btn btn-info">
                 	<img id="btnSprite" class="buttonSprite SpriteNbr" src="../../image/machine/ampoule.png" width="50" height="30">
-                	Ajouter une étape
+{#                 	Ajouter une étape#}
                 </button>
                 <div class="SpriteNbr" id="SpriteNb">0</div>
                 
@@ -94,18 +94,19 @@
                 	    <h2>Sauvegarde de toutes les etapes</h2>
                 	     {{ form_start(saveAllSprites) }}
                     	     
-                	     {{ form_widget(saveAllSprites.name, {'attr':{'hidden':false}}) }}
-                    	     {{ form_widget(saveAllSprites.description, {'attr':{'hidden':false}}) }}
-                    	     {{ form_widget(saveAllSprites.position, {'attr':{'hidden':false}}) }}         	     
-                    	     {{ form_widget(saveAllSprites.camera, {'attr':{'hidden':false}}) }}       	     
-                    	     {{ form_widget(saveAllSprites.etape, {'attr':{'hidden':false}}) }}
+                	     {{ form_widget(saveAllSprites.name, {'attr':{'hidden':true}}) }}
+                    	     {{ form_widget(saveAllSprites.description, {'attr':{'hidden':true}}) }}
+                    	     {{ form_widget(saveAllSprites.position, {'attr':{'hidden':true}}) }}         	     
+                    	     {{ form_widget(saveAllSprites.camera, {'attr':{'hidden':true}}) }}       	     
+                    	     {{ form_widget(saveAllSprites.etape, {'attr':{'hidden':true}}) }}
                     	     <button type="submit" id="btnSauvegarder" onclick="cube.testSaveTable();validationChangementEtape();" >Sauvegarder</button>
                          {{ form_end(saveAllSprites) }} 
-                           <table id="table" class="avectri" border="1">
+                           <table id="table" class="avectri table table-striped" border="1">
                             <tr>
                                 <th>Nom de l'etape</th>
                                 <th>Description</th>
                                 <th  data-type="num" data-tri="1">Ordre</th>
+                                <th>idBDD</th>
                                 <th>id</th>
                             </tr>
                             {% for etape in etapes %}
@@ -114,12 +115,16 @@
                         			<td>{{ etape.description }}</td>
                             		<td>{{ etape.etape }}</td>
                             		<td>{{ etape.id }}</td>
+                            		<td></td>              
                         	     </tr>
                         	{% endfor %}	
                         </table>
                          <button onclick="upNdown('up');">&ShortUpArrow;</button>
                          <button onclick="upNdown('down');">&ShortDownArrow;</button>
-                          <button onclick="triTableau();//cube.testSaveTable();validationChangementEtape();">Valider !</button>
+                          <button onclick="triTableau();//cube.testSaveTable();validationChangementEtape();">Trier le tableau !</button>
+                          <button onclick="validationChangementEtape();")>Enregistrer changement</button>
+                          <button onclick="cube.deleteSprite();">Supprime un sprite</button>
+                         
                          {{ form_start(toutsupprimer) }}
 	 				 	 {{ form_end(toutsupprimer) }}
  				 {% endif %}
