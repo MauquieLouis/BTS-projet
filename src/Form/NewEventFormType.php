@@ -9,7 +9,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class NewEventFormType extends AbstractType
 {
@@ -18,10 +20,14 @@ class NewEventFormType extends AbstractType
         $builder
             ->add('title')
             ->add('description')
-            ->add('usersid', EntityType::class, ['class'=>User::class, 'choice_label'=>function(User $user){return $user->getNom();}])
-            ->add('machinesid', EntityType::class, ['class'=>Machine::class, 'choice_label'=>function(Machine $machine){return $machine->getId();}])
-            ->add('dateStart')
-            ->add('frequence')
+            ->add('usersid', CollectionType::class,[
+                  'entry_type' => UserType::class,
+                  'entry_options' => ['label' => false],
+                  'allow_add' => true
+            ])
+//             ->add('machinesid', EntityType::class, ['class'=>Machine::class, 'choice_label'=>function(Machine $machine){return $machine->getId();}])
+            ->add('dateStart', DateType::class,['data' => new \DateTime()])
+            ->add('frequence',IntegerType::class,['required' => false])
         ;
     }
     
