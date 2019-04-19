@@ -16,6 +16,26 @@ use App\Repository\MaintenanceRepository;
 class AjaxReceiveController extends AbstractController
 {
     /**
+     * @Route("accesbdd/writeevent/{id}/{message}", name="writeevent") 
+     */
+    public function WriteEvent(EventRepository $repo,$id,$message){
+        if($id === "undefined"){
+            $message = json_decode($message);
+            dd($message[0],$message[1][0],$message[1][1]);
+
+        }
+        else{
+            $message = json_decode($message);
+            echo $message[0];
+            echo " ";
+            echo $message[1][0];
+            echo $message[1][1];
+
+        }
+        return $this->render('ajax_receive/index.html.twig'); 
+    }
+
+    /**
      * @Route("accesbdd/sendevent/{parse}", name="sendevent") 
      */
     public function SendEvent(EventRepository $repo,$parse){

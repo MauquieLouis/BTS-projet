@@ -99,13 +99,13 @@
                     	     {{ form_widget(saveAllSprites.position, {'attr':{'hidden':false}}) }}         	     
                     	     {{ form_widget(saveAllSprites.camera, {'attr':{'hidden':false}}) }}       	     
                     	     {{ form_widget(saveAllSprites.etape, {'attr':{'hidden':false}}) }}
-                    	     <button type="submit" id="btnSauvegarder" onclick="validationChangementEtape();cube.testSaveTable();" >Sauvegarder</button>
+                    	     <button type="submit" id="btnSauvegarder" onclick="cube.testSaveTable();validationChangementEtape();" >Sauvegarder</button>
                          {{ form_end(saveAllSprites) }} 
-                           <table id="table" border="1">
+                           <table id="table" class="avectri" border="1">
                             <tr>
                                 <th>Nom de l'etape</th>
                                 <th>Description</th>
-                                <th>Ordre</th>
+                                <th  data-type="num" data-tri="1">Ordre</th>
                                 <th>id</th>
                             </tr>
                             {% for etape in etapes %}
@@ -119,7 +119,7 @@
                         </table>
                          <button onclick="upNdown('up');">&ShortUpArrow;</button>
                          <button onclick="upNdown('down');">&ShortDownArrow;</button>
-                          <button onclick="cube.testSaveTable();validationChangementEtape();">Valider !</button>
+                          <button onclick="triTableau();//cube.testSaveTable();validationChangementEtape();">Valider !</button>
                          {{ form_start(toutsupprimer) }}
 	 				 	 {{ form_end(toutsupprimer) }}
  				 {% endif %}
@@ -127,80 +127,80 @@
             </div>
         </div>
 			<script>
-			function validationChangementEtape()
-			{
-				var table = document.getElementById("table");
-				for(var i = 1; i < table.rows.length; i++)
-                {
-	                for(var j=0; j< cube.sprites.length; j++)
-		            {
-			            if(table.rows[i].cells[3].innerHTML.replace(/\s/g,"") === cube.sprites[j].idBDD.replace(/\s/g,""))
-				        {
-			            	cube.sprites[j].etape = table.rows[i].cells[2].innerHTML;			            		
-					    }
-			        }
-                }
-			}
+// 			function validationChangementEtape()
+// 			{
+// 				var table = document.getElementById("table");
+// 				for(var i = 1; i < table.rows.length; i++)
+//                 {
+// 	                for(var j=0; j< cube.sprites.length; j++)
+// 		            {
+// 			            if(table.rows[i].cells[3].innerHTML.replace(/\s/g,"") === cube.sprites[j].idBDD.replace(/\s/g,""))
+// 				        {
+// 			            	cube.sprites[j].etape = table.rows[i].cells[2].innerHTML;			            		
+// 					    }
+// 			        }
+//                 }
+// 			}
 			
-		    var index;  // variable to set the selected row index
-            function getSelectedRow()
-            {
-                var table = document.getElementById("table");
-                for(var i = 1; i < table.rows.length; i++)
-                {
-                    table.rows[i].onclick = function()
-                    {
-                        // clear the selected from the previous selected row
-                        // the first time index is undefined
-                        if(typeof index !== "undefined"){
-                            table.rows[index].classList.toggle("selected");
-                        }
+// 		    var index;  // variable to set the selected row index
+//             function getSelectedRow()
+//             {
+//                 var table = document.getElementById("table");
+//                 for(var i = 1; i < table.rows.length; i++)
+//                 {
+//                     table.rows[i].onclick = function()
+//                     {
+//                         // clear the selected from the previous selected row
+//                         // the first time index is undefined
+//                         if(typeof index !== "undefined"){
+//                             table.rows[index].classList.toggle("selected");
+//                         }
                        
-                        index = this.rowIndex;
-                        this.classList.toggle("selected");
+//                         index = this.rowIndex;
+//                         this.classList.toggle("selected");
 
-                    };
-                }
+//                     };
+//                 }
                     
-            }
+//             }
   
 
-            getSelectedRow();
+//             getSelectedRow();
             
             
-            function upNdown(direction)
-            {
-                var rows = document.getElementById("table").rows,
-                    parent = rows[index].parentNode;
+//             function upNdown(direction)
+//             {
+//                 var rows = document.getElementById("table").rows,
+//                     parent = rows[index].parentNode;
                
-                 if(direction === "up")
-                 {
-                     if(index > 1){
-                        parent.insertBefore(rows[index],rows[index - 1]);
-                        // when the row go up the index will be equal to index - 1
-                        index--;
-                    }
-                 }
+//                  if(direction === "up")
+//                  {
+//                      if(index > 1){
+//                         parent.insertBefore(rows[index],rows[index - 1]);
+//                         // when the row go up the index will be equal to index - 1
+//                         index--;
+//                     }
+//                  }
                  
-                 if(direction === "down")
-                 {
-                     if(index < rows.length -1){
-                        parent.insertBefore(rows[index + 1],rows[index]);
-                        // when the row go down the index will be equal to index + 1
-                        index++;
-                    }
-                 }
-                 rows[index].cells[2].innerHTML  = index;
-                 if(rows[index-1] && index>1)
-                 {
-                 	rows[index-1].cells[2].innerHTML  = index -1;
-                 }                     
-                 if(rows[index+1])
-                 {
-                	 rows[index+1].cells[2].innerHTML  = index +1;
-                 }
+//                  if(direction === "down")
+//                  {
+//                      if(index < rows.length -1){
+//                         parent.insertBefore(rows[index + 1],rows[index]);
+//                         // when the row go down the index will be equal to index + 1
+//                         index++;
+//                     }
+//                  }
+//                  rows[index].cells[2].innerHTML  = index;
+//                  if(rows[index-1] && index>1)
+//                  {
+//                  	rows[index-1].cells[2].innerHTML  = index -1;
+//                  }                     
+//                  if(rows[index+1])
+//                  {
+//                 	 rows[index+1].cells[2].innerHTML  = index +1;
+//                  }
                  
-            }
+//             }
 
 			</script>
        

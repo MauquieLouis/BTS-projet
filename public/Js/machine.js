@@ -10,6 +10,7 @@ class Machines{
 		this.scene = null;			// contient la scene de la page web
 		this.cube = null;			// pointeur sur un cube du containeur cubes
 		this.sprite = null;			// pointeur sur un sprite
+		this.spriteScan =null;		// pointeur sur un sprite pour scanner
 		this.positionsCamera= [];	// Conteneur qui enregistre les positions de la camera pour voir les differentes face du cube
 		this.positionCamera =0;		// Pointeur sur positionsCamera[] qui est de type .x .y .z 	
 		this.position=0;			// Position du cube .x .y .z 
@@ -169,7 +170,9 @@ class Machines{
 			{
 				for(var i= this.sprite.etape; i<this.sprites.length;i++)
 				{
-					if(this.sprites[i].etape>1) {this.sprites[i].etape -= 1; }
+					console.log(this.sprites[1]);
+					if(this.sprites[parseInt(i)].etape>1)
+					{this.sprites[parseInt(i)].etape -= 1; }
 				}
 			}
 			for(let i=0;i<this.sprites.length;i++)
@@ -633,6 +636,89 @@ function fn()
 {
 //	console.log('fn test');
 	onResize();
+	triTableau();
+}
+function validationChangementEtape()
+{
+	let table = document.getElementById("table");
+	for(var i = 1; i < table.rows.length; i++)
+    {
+        for(var j=0; j< cube.sprites.length; j++)
+        {
+            if(table.rows[i].cells[3].innerHTML.replace(/\s/g,"") === cube.sprites[j].idBDD.replace(/\s/g,""))
+	        {
+            	cube.sprites[j].etape = table.rows[i].cells[2].innerHTML; // L'ordre de la bulle info devient celle choisie dans le tableau.			            		
+		    }
+        }
+    }
+}
+function triTableau()
+{
+	let table = document.getElementById("table");
+	for(var i = 1; i < table.rows.length; i++)
+    {
+        for(var j=0; j< cube.sprites.length; j++)
+        {
+        	cube.spriteScan = cube.sprites[j];
+        	if(parseInt(cube.spriteScan.etape) === i)
+    		{
+        		table.rows[i].cells[0].innerHTML = cube.sprites[j].name;
+        		table.rows[i].cells[1].innerHTML = cube.sprites[j].information;
+        		table.rows[i].cells[2].innerHTML = cube.sprites[j].etape;
+        		table.rows[i].cells[3].innerHTML = cube.sprites[j].idBDD;
+        	}
+        }
+    }
+}
+var index;  // variable to set the selected row index
+function getSelectedRow()
+{
+    var table = document.getElementById("table");
+    for(var i = 1; i < table.rows.length; i++)
+    {
+        table.rows[i].onclick = function()
+        {
+            // clear the selected from the previous selected row
+            // the first time index is undefined
+            if(typeof index !== "undefined"){
+                table.rows[index].classList.toggle("selected");
+            }
+            index = this.rowIndex;
+            this.classList.toggle("selected");
+        };
+    }
+        
+}
+getSelectedRow();
+function upNdown(direction)
+{
+    var rows = document.getElementById("table").rows,
+        parent = rows[index].parentNode;
+     if(direction === "up")
+     {
+         if(index > 1){
+            parent.insertBefore(rows[index],rows[index - 1]);
+            // when the row go up the index will be equal to index - 1
+            index--;
+        }
+     }
+     if(direction === "down")
+     {
+         if(index < rows.length -1){
+            parent.insertBefore(rows[index + 1],rows[index]);
+            // when the row go down the index will be equal to index + 1
+            index++;
+        }
+     }
+     rows[index].cells[2].innerHTML  = index;
+     if(rows[index-1] && index>1)
+     {
+     	rows[index-1].cells[2].innerHTML  = index -1;
+     }                     
+     if(rows[index+1])
+     {
+    	 rows[index+1].cells[2].innerHTML  = index +1;
+     }
 }
 window.addEventListener('resize', onResize);
 window.addEventListener('load', fn, false );

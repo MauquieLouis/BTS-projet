@@ -52,7 +52,7 @@ var table = {
 			break;
 			
 			default:
-				console.log("table::initTable::switch(tableSelected) => DROP TO DEFAULT at AjaxReceive.js ln33");
+				console.log("table::initTable::switch(tableSelected) => DROP TO DEFAULT at AjaxReceive.js ln55");
 				return -1;			//ERROR : arg tablesSelected inconnu
 			break;
 		}
@@ -85,10 +85,42 @@ var table = {
 		xhReq.send();
 
 		return events;
+	},
+	SetTable: function(tableSelected,id,fields,values){
+		var xhReq = new XMLHttpRequest();
+		switch(tableSelected){
+			case "event":
+				if (id === null) {
+					var tabl = [];
+					tabl.push(fields);
+					tabl.push(values);
+					var message = JSON.stringify(tabl);
+					console.log(message);
+
+					xhReq.open("post","accesbdd/writeevent/undefined/"+String(message),false);	// ajouter nouvelle ligne à la table
+				}
+				else{
+					var tabl = [];
+					tabl.push(fields);
+					tabl.push(values);
+					var message = JSON.stringify(tabl);
+					console.log(message);
+
+					xhReq.open("post","accesbdd/writeevent/"+String(id)+"/"+String(message),false);	// ajouter nouvelle ligne à la table
+				}
+			break;
+
+			default:
+				console.log("table::SetTable::switch(tableSelected) => DROP TO DEFAULT at AjaxReceive.js ln97");
+				return -1;			//ERROR : arg tablesSelected inconnu
+			break;
+		}
+
 	}
 };
-
-///PROCEDURE D'UTLISATION-------------------------------------------------//
-//table.init("selected",id)	// selected === nom de la table selectionée id==idselected ex: table.init("event",22); selected : event idselected : 22
+var values = ["2019-05-15","2019-05-15"];
+table.SetTable("event",null,"dateStart,dateEnd",values);
+///PROCEDURE D'UTLISATION---------------------------------------------------------------------------------------------------------------------------//
+//table.init("selected",id)	// selected : nom de la table selectionée id : idselected | ex : table.init("event",22); selected : event idselected : 22
 //table.retour[i][n]		// i : ligne	n : colonne
-//-----------------------------------------------------------------------//
+//--------------------------------------------------------------------------------------------------------------------------------------------------//
