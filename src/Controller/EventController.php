@@ -35,9 +35,11 @@ class EventController extends AbstractController
                 {
                     $userIdTable[]=$userIn->getId();                //Création d'un tableau avec les id des utilisateurs retournés.
                 }
+                
             }
             $event->setUsersid($userIdTable);
             dd('Form', $event);
+            return $this->redirectToRoute('event');
         }
         return $this->render('event/newEvent.html.twig', [
             'formEvent' => $formEvent->createView(),

@@ -25,7 +25,11 @@ class NewEventFormType extends AbstractType
                   'entry_options' => ['label' => false],
                   'allow_add' => true
             ])
-//             ->add('machinesid', EntityType::class, ['class'=>Machine::class, 'choice_label'=>function(Machine $machine){return $machine->getId();}])
+            ->add('machinesid', CollectionType::class, [
+                'entry_type' => AddMachineEventType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true
+            ])
             ->add('dateStart', DateType::class,['data' => new \DateTime()])
             ->add('frequence',IntegerType::class,['required' => false])
         ;
