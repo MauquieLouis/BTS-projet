@@ -91,7 +91,7 @@
                     
           			<div id="TableauBullesInfos" >
 						<div style="margin-top: 20px; width:90%; margin-left: 5%;">
-                         <table id="table" class="avectri table table-striped" border="1">
+                         <table id="table" style="" class="avectri table table-striped" border="1">
                             <tr>
                                 <th>Nom de l'etape</th>
                                 <th width="70%">Description</th>
@@ -100,16 +100,18 @@
                                 <th>id</th>
                                
                             </tr>
-                            {% for etape in etapes %}
-                                <tr style="height:50px;border:2px solid green;">
-                                   <td> {{ etape.name  }}</td>
-                        			<td>{{ etape.description }}</td>
-                            		<td>{{ etape.etape }}</td>
-                            		<td><div>{{ etape.id }}</div></td>
-                            		<td></td>  
+{#                             {% for etape in etapes %}#}
+                            
+{#                                 <tr>#}
+{#                                    <td> {{ etape.name  }}</td>#}
+{#                         			<td>{{ etape.description }}</td>#}
+{#                             		<td>{{ etape.etape }}</td>#}
+{#                             		<td><div>{{ etape.id }}</div></td>#}
+{#                             		<td></td>  #}
                             		
-                        	     </tr>
-                        	{% endfor %}	
+{#                         	     </tr>#}
+                        	 
+{#                         	{% endfor %}	#}
                         </table>
                         
                          <button class="btn btn-outline-info" onclick="upNdown('up');">&ShortUpArrow;</button>

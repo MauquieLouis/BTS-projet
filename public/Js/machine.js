@@ -375,7 +375,6 @@ const renderer = new THREE.WebGLRenderer({canvas: myCanvasElement});// Rendu
 renderer.setSize( windowWidth, windowHeight);
 container.appendChild(renderer.domElement);
 var tableSprite = document.getElementById("table");
-
 ///////////////////////////////////////////////////////////////////////////////
 // Création Environnement/scene et controle ///////////////////////////////////////////////////////////////
 const scene = new THREE.Scene();
@@ -587,6 +586,75 @@ function onMouseMove(e)
 		spriteActive = false;
 	}
 }
+
+function AjoutEtapeTableau(name,info,ordre,idBDD,id)
+{
+	let table = document.getElementById("table");
+	var tbody = table.tBodies[0];
+	 
+	var tr = document.createElement("tr");
+	var newPara = document.createElement('div');
+	newPara.className = 'madiv';
+	var text = document.createTextNode(name);
+	newPara.appendChild(text);
+	var td = document.createElement("td");
+	td.appendChild(newPara );
+	tr.appendChild( td );
+
+	var newPara = document.createElement('div');
+	newPara.className = 'madiv';
+	var text = document.createTextNode(info);
+	newPara.appendChild(text);
+	var td = document.createElement("td");
+	td.appendChild(newPara);
+	tr.appendChild( td );
+
+	var newPara = document.createElement('div');
+	newPara.className = 'madiv';
+	var text = document.createTextNode(ordre);
+	newPara.appendChild(text);
+	var td = document.createElement("td");
+	td.appendChild(newPara);
+	tr.appendChild( td );
+	
+	var newPara = document.createElement('div');
+	newPara.className = 'madiv';
+	var text = document.createTextNode(idBDD);
+	newPara.appendChild(text);
+	var td = document.createElement("td");
+	td.appendChild( newPara);
+	tr.appendChild( td );
+	
+	var newPara = document.createElement('div');
+	newPara.className = 'madiv';
+	var text = document.createTextNode(id);
+	newPara.appendChild(text);
+	var td = document.createElement("td");
+	td.appendChild( newPara);
+	tr.appendChild( td );
+    table.tBodies[0].appendChild(tr);
+    table.rows[table.rows.length-1].onclick = function()
+    {
+    	// clear the selected from the previous selected row
+    	// the first time index is undefined
+    	if(typeof index !== "undefined"){
+    		table.rows[index].classList.toggle("selected"); 
+    	}
+    	index = this.rowIndex;
+    	for(let j=0; j<cube.sprites.length;j++)
+    	{
+    		var getIdEtape = (table.rows[index].cells[4].innerHTML.replace(/<\/div>/g, ''));
+			var getIdEtape2 = getIdEtape.replace(/<div class="madiv">/g, '');
+    		if(cube.sprites[j].id === parseInt(getIdEtape2))
+    		{
+    			cube.sprite = cube.sprites[j]; 
+    			cube.sprite.onClick();
+    		}
+    	}   
+    	this.classList.toggle("selected");
+    };
+}
+
 function Keyboard(event)
 {
 //	console.log(event);
@@ -605,6 +673,8 @@ function Keyboard(event)
 	if(event.keyCode == 83) //s
 	{
 
+		var tableSprite = document.getElementById("table");
+		console.log(tableSprite.rows.length);
 	}
 	if(event.keyCode == 68) //d
 	{			
@@ -615,6 +685,11 @@ function Keyboard(event)
 	}
 	if(event.keyCode == 85) //u
 	{
+		AjoutEtapeTableau(cube.sprites[2].name,
+				cube.sprites[2].information,
+				cube.sprites[2].etape,
+				cube.sprites[2].idBDD,
+				cube.sprites[2].id);
 	}
 	if(event.keyCode == 46) //Delete btn suppr.
 	{
@@ -625,6 +700,7 @@ function Keyboard(event)
 	}
 	if(event.keyCode == 39) //fleche de droite;
 	{
+		console.log(index);
 	}
 	if(event.keyCode == 80) //p
 	{
@@ -632,104 +708,6 @@ function Keyboard(event)
 	}
 	if(event.keyCode == 77) //m
 	{
-		let table = document.getElementById("table");
-		console.log(table.rows[2].cells[3]);
-//		var newPara = document.createElement('div');
-//		newPara.className = 'madiv';
-//		var text = document.createTextNode(cube.sprites[2].information);
-//		newPara.appendChild(text);
-//		
-		var tbody = table.tBodies[0];
-		 
-//		var tr = tbody.rows[1].cloneNode(true);
-//		console.log(tr.cells[5]);
-		var tr = document.createElement("tr");
-		var newPara = document.createElement('div');
-		newPara.className = 'madiv';
-		var text = document.createTextNode(cube.sprite.name);
-		newPara.appendChild(text);
-		var td = document.createElement("td");
-		td.appendChild(newPara );
-		tr.appendChild( td );
- 
-		var newPara = document.createElement('div');
-		newPara.className = 'madiv';
-		var text = document.createTextNode(cube.sprite.information);
-		newPara.appendChild(text);
-		var td = document.createElement("td");
-		td.appendChild(newPara);
-		tr.appendChild( td );
- 
-		var newPara = document.createElement('div');
-		newPara.className = 'madiv';
-		var text = document.createTextNode(cube.sprite.etape);
-		newPara.appendChild(text);
-		var td = document.createElement("td");
-		td.appendChild(newPara);
-		tr.appendChild( td );
-		
-		var newPara = document.createElement('div');
-		newPara.className = 'madiv';
-		var text = document.createTextNode(cube.sprite.idBDD);
-		newPara.appendChild(text);
-		var td = document.createElement("td");
-		td.appendChild( newPara);
-		tr.appendChild( td );
-		
-		var newPara = document.createElement('div');
-		newPara.className = 'madiv';
-		var text = document.createTextNode(cube.sprite.id);
-		newPara.appendChild(text);
-		var td = document.createElement("td");
-		td.appendChild( newPara);
-		tr.appendChild( td );
-		
-		table.tBodies[0].appendChild(tr);
-		
-		table.rows[table.rows.length-1].onclick = function()
-        {
-            // clear the selected from the previous selected row
-            // the first time index is undefined
-            if(typeof index !== "undefined"){
-                table.rows[index].classList.toggle("selected"); 
-            }
-            index = this.rowIndex;
-            for(let j=0; j<cube.sprites.length;j++)
-        	{
-            	if(cube.sprites[j].id === parseInt(table.rows[index].cells[4].innerHTML))
-            	{
-            		cube.sprite = cube.sprites[j]; 
-            		cube.sprite.onClick();
-            	}
-        	}   
-            this.classList.toggle("selected");
-        };
-		
-//		var newPara = document.createElement('div');
-//		newPara.className = 'madiv';
-//		var text = document.createTextNode(cube.sprites[2].name);
-//		newPara.appendChild(text);
-//		var td = document.createElement("td");
-//		td.appendChild( document.createTextNode('phase de test') );
-//		tr.appendChild( td );
- 
-//		var td = document.createElement("td");
-//		td.appendChild( document.createTextNode("Supprimer") );
-//		tr.appendChild( td ); //pour les actions
- 
-		
-//		var td = document.createElement("td");
-//		var td2 = document.createElement("td");
-//		td.appendChild( text );
-//		td2.appendChild( text );
-//		tr.appendChild( td );
-//		tr.appendChild( td2 );
-//		
-//		table.appendChild(tr);
-		
-		
-//		document.body.appendChild(table);
-		//.innerHTML  = document.getElementById("tooltipName") ;
 	}
 }
 function onScreenChange(){console.log('screenchange');}
@@ -738,6 +716,14 @@ function fn() // Lorsque la page est chargée la fonction se déclenche
 	onResize();
 	triTableau();
 	tableInitID();
+	for(var j=0;j<cube.sprites.length;j++)
+	{		
+		AjoutEtapeTableau(cube.sprites[j].name,
+				cube.sprites[j].information,
+				cube.sprites[j].etape,
+				cube.sprites[j].idBDD,
+				cube.sprites[j].id);
+	}
 }
 function validationChangementEtape()
 {
@@ -771,6 +757,7 @@ function triTableau()
         }
     }
 }
+
 var index;  // variable to set the selected row index
 function getSelectedRow()
 {
@@ -779,6 +766,7 @@ function getSelectedRow()
     {
         table.rows[i].onclick = function()
         {
+        	console.log(" table.rows[i].onclick = function()");
             // clear the selected from the previous selected row
             // the first time index is undefined
             if(typeof index !== "undefined"){
@@ -798,7 +786,7 @@ function getSelectedRow()
     }
     
 }
-getSelectedRow();
+//getSelectedRow();
 function upNdown(direction)
 {
     var rows = document.getElementById("table").rows,

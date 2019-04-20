@@ -47,13 +47,25 @@ body
 	position: absolute
 	
 }
-.madiv{height:40pt;overflow:auto;border:2px solid red; width:100%;}
+.madiv{height:40pt;overflow:auto; width:100%;}
+.avectri
+{
+/* 	height:400pt;overflow:auto;border:2px solid red; */
+}
+table#table {
+	height:50% !important;
+	overflow: scroll; /* si ça dépasse on affiche la scrollbar */ 
+	background-color:#ccc;
+	/* padding:2px; équivalent cellpadding */
+	width:100%;
+	border: 2px solid green;
+}
 .TableauCelluleDescription
 {
 /* 	height:50pt; */
 	width:50pt;
 	overflow:auto;
-	border:2px solid red;
+/* 	border:2px solid red; */
 } 
 .myCanvasElement
 {
