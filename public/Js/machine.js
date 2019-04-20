@@ -634,34 +634,89 @@ function Keyboard(event)
 	{
 		let table = document.getElementById("table");
 		console.log(table.rows[2].cells[3]);
-		var newPara = document.createElement('div');
-		newPara.className = 'madiv';
-		var text = document.createTextNode(cube.sprites[2].information);
-		newPara.appendChild(text);
-		
+//		var newPara = document.createElement('div');
+//		newPara.className = 'madiv';
+//		var text = document.createTextNode(cube.sprites[2].information);
+//		newPara.appendChild(text);
+//		
 		var tbody = table.tBodies[0];
 		 
 //		var tr = tbody.rows[1].cloneNode(true);
 //		console.log(tr.cells[5]);
-
 		var tr = document.createElement("tr");
+		var newPara = document.createElement('div');
+		newPara.className = 'madiv';
+		var text = document.createTextNode(cube.sprite.name);
+		newPara.appendChild(text);
 		var td = document.createElement("td");
 		td.appendChild(newPara );
 		tr.appendChild( td );
  
+		var newPara = document.createElement('div');
+		newPara.className = 'madiv';
+		var text = document.createTextNode(cube.sprite.information);
+		newPara.appendChild(text);
 		var td = document.createElement("td");
-		td.appendChild( document.createTextNode('comment') );
+		td.appendChild(newPara);
 		tr.appendChild( td );
  
+		var newPara = document.createElement('div');
+		newPara.className = 'madiv';
+		var text = document.createTextNode(cube.sprite.etape);
+		newPara.appendChild(text);
 		var td = document.createElement("td");
-		td.appendChild( document.createTextNode('ça va') );
+		td.appendChild(newPara);
 		tr.appendChild( td );
+		
+		var newPara = document.createElement('div');
+		newPara.className = 'madiv';
+		var text = document.createTextNode(cube.sprite.idBDD);
+		newPara.appendChild(text);
+		var td = document.createElement("td");
+		td.appendChild( newPara);
+		tr.appendChild( td );
+		
+		var newPara = document.createElement('div');
+		newPara.className = 'madiv';
+		var text = document.createTextNode(cube.sprite.id);
+		newPara.appendChild(text);
+		var td = document.createElement("td");
+		td.appendChild( newPara);
+		tr.appendChild( td );
+		
+		table.tBodies[0].appendChild(tr);
+		
+		table.rows[table.rows.length-1].onclick = function()
+        {
+            // clear the selected from the previous selected row
+            // the first time index is undefined
+            if(typeof index !== "undefined"){
+                table.rows[index].classList.toggle("selected"); 
+            }
+            index = this.rowIndex;
+            for(let j=0; j<cube.sprites.length;j++)
+        	{
+            	if(cube.sprites[j].id === parseInt(table.rows[index].cells[4].innerHTML))
+            	{
+            		cube.sprite = cube.sprites[j]; 
+            		cube.sprite.onClick();
+            	}
+        	}   
+            this.classList.toggle("selected");
+        };
+		
+//		var newPara = document.createElement('div');
+//		newPara.className = 'madiv';
+//		var text = document.createTextNode(cube.sprites[2].name);
+//		newPara.appendChild(text);
+//		var td = document.createElement("td");
+//		td.appendChild( document.createTextNode('phase de test') );
+//		tr.appendChild( td );
  
 //		var td = document.createElement("td");
 //		td.appendChild( document.createTextNode("Supprimer") );
 //		tr.appendChild( td ); //pour les actions
  
-		table.tBodies[0].appendChild(tr);
 		
 //		var td = document.createElement("td");
 //		var td2 = document.createElement("td");

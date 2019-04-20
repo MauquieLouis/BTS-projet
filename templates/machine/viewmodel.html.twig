@@ -94,24 +94,20 @@
                          <table id="table" class="avectri table table-striped" border="1">
                             <tr>
                                 <th>Nom de l'etape</th>
-                                <th>Description</th>
+                                <th width="70%">Description</th>
                                 <th  data-type="num" data-tri="1">Ordre</th>
                                 <th>idBDD</th>
                                 <th>id</th>
-                                <th>test</th>
+                               
                             </tr>
                             {% for etape in etapes %}
                                 <tr style="height:50px;border:2px solid green;">
                                    <td> {{ etape.name  }}</td>
-                        			<td ><div class="madiv">{{ etape.description }}</div></td>
+                        			<td>{{ etape.description }}</td>
                             		<td>{{ etape.etape }}</td>
                             		<td><div>{{ etape.id }}</div></td>
                             		<td></td>  
-                            		<td>   
-                            			<div class="madiv"> 
-											Contenu de ta div Contenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta div
-										</div>
-									</td>
+                            		
                         	     </tr>
                         	{% endfor %}	
                         </table>
