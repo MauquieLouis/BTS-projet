@@ -18,11 +18,11 @@
 /* 	right:0px; */
 /* 	float:left; */
 	margin-left: 20px;
-/* 	border: 2px solid  #007BA4;  */
+	border: 2px solid  #007BA4; 
 /* 	top:0;  */
 /*	padding: 100px;  */
 /* 	width: 200px; */
-	height:auto; 
+/* 	height:auto;  */
 }
 body
 {
@@ -33,7 +33,7 @@ body
 
 }
 ::-webkit-scrollbar {
-	width : 0px;
+/* 	width : 0px; */
 }
 .selected
 {
@@ -47,6 +47,14 @@ body
 	position: absolute
 	
 }
+.madiv{height:40pt;overflow:auto;border:2px solid red; width:100%;}
+.TableauCelluleDescription
+{
+/* 	height:50pt; */
+	width:50pt;
+	overflow:auto;
+	border:2px solid red;
+} 
 .myCanvasElement
 {
 	position: fixed !important;

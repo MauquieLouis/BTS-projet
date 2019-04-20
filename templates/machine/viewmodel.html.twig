@@ -16,7 +16,10 @@
     	<div class="col-12 offset-md-3 col-md-6 AdminRow1 TitlePage">
         	
     	
-    	
+{#     	    <div class="madiv">#}
+{#                         treiodhgfhjgdifjgiodfgiodfg idfhgiodfhuighguidfhguirhui gdhuihcfuibfhuifgoidfjgoifdjlk gdjiojdiojoihboifjhoigfjhoigfjhoigjhoirtjiohgjfiojbcvoijbogifcjbiodfioghhirftghifdhguicvg#}
+{#             </div>#}
+       
 {#     		<h1>Aperçu Machine {{ machine.id }}</h1>#}
     		<h1>Aperçu {{ machine.name}}</h1>
 {#     		<div id="filename" hidden>{{ machine.imagefilename }}</div>#}
@@ -62,20 +65,9 @@
 
             	</br>	
             	<button onClick="cube.EtapeChangement(-1)" class="btn btn-sm btn-secondary" title="Etape precedente"> < </button>
-            	Etape <h3 style="display: inline;">0/<div class="SpriteNbr" id="SpriteNb">0</div></h3>
+            	<h3 style="display: inline;">Etape <div style="display: inline;" id="OrdreEtape">0</div>/<div class="SpriteNbr" id="SpriteNb">0</div></h3>
             	<button class="btn btn-sm btn-secondary" onClick="cube.EtapeChangement(1)" title="Etape suivante"> > </button>
-        	{% if is_granted('ROLE_ADMIN') %}
-                <button onclick="cube.ToggleSprite(); cube.testSaveTable();// IsHiddenFormEtape();" class="SpriteNbr spriteCreate btn btn-sm btn-outline-info">
-                	<img id="btnSprite" class="buttonSprite SpriteNbr" src="../../image/machine/ampoule.png" width="50" height="30">
-{#                 	Ajouter une étape#}
-                </button>
-                
-                
-{#                 {{ form_start(formDelete) }}           		#}
-{#                 	<div id="DeleteToSprite">{{ form_row(formDelete.idSprite)}}</div>#}
-{#                 	<button type="submit" class="btn btn-danger">Supprimer une �tape</button>#}
-{#                 {{ form_end(formDelete) }}            	 #}
-            {% endif %}  
+        	
 			</div>
 
 {#             	{{ form_start(formEtape) }}#}
@@ -91,21 +83,12 @@
 {#                 {% if is_granted('ROLE_ADMIN') %}#}
                 	
 {#                 	    <h2>Sauvegarde de toutes les etapes</h2>#}
-                {% if is_granted('ROLE_ADMIN') %}
-                	     {{ form_start(saveAllSprites) }}
-                    	     
-                	     {{ form_widget(saveAllSprites.name, {'attr':{'hidden':true}}) }}
-                    	     {{ form_widget(saveAllSprites.description, {'attr':{'hidden':true}}) }}
-                    	     {{ form_widget(saveAllSprites.position, {'attr':{'hidden':true}}) }}         	     
-                    	     {{ form_widget(saveAllSprites.camera, {'attr':{'hidden':true}}) }}       	     
-                    	     {{ form_widget(saveAllSprites.etape, {'attr':{'hidden':true}}) }}
-                    	     <button type="submit" class="btn btn-primary" id="btnSauvegarder" onclick="cube.testSaveTable();validationChangementEtape();" >Sauvegarder</button>
-                         {{ form_end(saveAllSprites) }} 
-                {% endif %}
+
         </div>                 
                         <div style="margin-top: 30px; border-bottom : 1px solid #aaaaaa;">
                        
                         </div> 
+                    
           			<div id="TableauBullesInfos" >
 						<div style="margin-top: 20px; width:90%; margin-left: 5%;">
                          <table id="table" class="avectri table table-striped" border="1">
@@ -115,110 +98,48 @@
                                 <th  data-type="num" data-tri="1">Ordre</th>
                                 <th>idBDD</th>
                                 <th>id</th>
+                                <th>test</th>
                             </tr>
                             {% for etape in etapes %}
-                                <tr>
+                                <tr style="height:50px;border:2px solid green;">
                                    <td> {{ etape.name  }}</td>
-                        			<td>{{ etape.description }}</td>
+                        			<td ><div class="madiv">{{ etape.description }}</div></td>
                             		<td>{{ etape.etape }}</td>
-                            		<td>{{ etape.id }}</td>
-                            		<td></td>              
+                            		<td><div>{{ etape.id }}</div></td>
+                            		<td></td>  
+                            		<td>   
+                            			<div class="madiv"> 
+											Contenu de ta div Contenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta divContenu de ta div
+										</div>
+									</td>
                         	     </tr>
                         	{% endfor %}	
                         </table>
                         
                          <button class="btn btn-outline-info" onclick="upNdown('up');">&ShortUpArrow;</button>
                          <button class="btn btn-outline-info" onclick="upNdown('down');">&ShortDownArrow;</button>
-                          <button class="btn btn-outline-info" onclick="triTableau();//cube.testSaveTable();validationChangementEtape();">Trier le tableau !</button>
+                          <button class="btn btn-outline-info" onclick="triTableau();//cube.testSaveTable();validationChangementEtape();">Trier</button>
                           <button class="btn btn-outline-info" onclick="validationChangementEtape();")>Enregistrer changement</button>
                           <button class="btn btn-outline-info" onclick="cube.deleteSprite();">Supprimer</button>
+                           	{% if is_granted('ROLE_ADMIN') %}
+                                <button onclick="cube.ToggleSprite(); cube.testSaveTable();// IsHiddenFormEtape();" class="SpriteNbr spriteCreate btn btn-sm btn-outline-info">
+                        	    	<img id="btnSprite" class="buttonSprite SpriteNbr" src="../../image/machine/ampoule.png" width="50" height="30">
+                                </button>            
+                	     {{ form_start(saveAllSprites) }}  
+                	    	 {{ form_widget(saveAllSprites.name, {'attr':{'hidden':true}}) }}
+                    	     {{ form_widget(saveAllSprites.description, {'attr':{'hidden':true}}) }}
+                    	     {{ form_widget(saveAllSprites.position, {'attr':{'hidden':true}}) }}         	     
+                    	     {{ form_widget(saveAllSprites.camera, {'attr':{'hidden':true}}) }}       	     
+                    	     {{ form_widget(saveAllSprites.etape, {'attr':{'hidden':true}}) }}
+                    	     <button type="submit" class="btn btn-primary" id="btnSauvegarder" onclick="cube.testSaveTable();validationChangementEtape();" >Sauvegarder</button>
+                         {{ form_end(saveAllSprites) }} 
+               
+               			    {% endif %}  
                        </div>  
-{#                          {{ form_start(toutsupprimer) }}#}
-{# 	 				 	 {{ form_end(toutsupprimer) }}#}
-{# 		     {% endif %}#}
 				</div>
 				
             </div>
         </div>
-			<script>
-// 			function validationChangementEtape()
-// 			{
-// 				var table = document.getElementById("table");
-// 				for(var i = 1; i < table.rows.length; i++)
-//                 {
-// 	                for(var j=0; j< cube.sprites.length; j++)
-// 		            {
-// 			            if(table.rows[i].cells[3].innerHTML.replace(/\s/g,"") === cube.sprites[j].idBDD.replace(/\s/g,""))
-// 				        {
-// 			            	cube.sprites[j].etape = table.rows[i].cells[2].innerHTML;			            		
-// 					    }
-// 			        }
-//                 }
-// 			}
-			
-// 		    var index;  // variable to set the selected row index
-//             function getSelectedRow()
-//             {
-//                 var table = document.getElementById("table");
-//                 for(var i = 1; i < table.rows.length; i++)
-//                 {
-//                     table.rows[i].onclick = function()
-//                     {
-//                         // clear the selected from the previous selected row
-//                         // the first time index is undefined
-//                         if(typeof index !== "undefined"){
-//                             table.rows[index].classList.toggle("selected");
-//                         }
-                       
-//                         index = this.rowIndex;
-//                         this.classList.toggle("selected");
-
-//                     };
-//                 }
-                    
-//             }
-  
-
-//             getSelectedRow();
-            
-            
-//             function upNdown(direction)
-//             {
-//                 var rows = document.getElementById("table").rows,
-//                     parent = rows[index].parentNode;
-               
-//                  if(direction === "up")
-//                  {
-//                      if(index > 1){
-//                         parent.insertBefore(rows[index],rows[index - 1]);
-//                         // when the row go up the index will be equal to index - 1
-//                         index--;
-//                     }
-//                  }
-                 
-//                  if(direction === "down")
-//                  {
-//                      if(index < rows.length -1){
-//                         parent.insertBefore(rows[index + 1],rows[index]);
-//                         // when the row go down the index will be equal to index + 1
-//                         index++;
-//                     }
-//                  }
-//                  rows[index].cells[2].innerHTML  = index;
-//                  if(rows[index-1] && index>1)
-//                  {
-//                  	rows[index-1].cells[2].innerHTML  = index -1;
-//                  }                     
-//                  if(rows[index+1])
-//                  {
-//                 	 rows[index+1].cells[2].innerHTML  = index +1;
-//                  }
-                 
-//             }
-
-			</script>
-       
-        
         <div class="tooltip"></div>
         
         <script src="{{ asset('Js/Threejs/three.js') }}"></script>
@@ -232,24 +153,12 @@
 		<!-- CACHER OU AFFICHER LE FORMULAIRE -->
 		<script src="{{ asset('bootstrap/Js/jquery.js') }}"></script>
 {# 		<script>#}
-{# 		$('#selectEtape').change(function()#}
-{# 		{#}
-{# 			console.log('REMY');#}
-{# 			var optionSelect = ($( "#selectEtape option:selected" ).val());#}
-{# // 			console.log(optionSelect);#}
-{# // 			console.log(cube.etapeEnCours);#}
-{#  			cube.etapeEnCours = parseInt(optionSelect);#}
-{# //  			console.log(cube.etapeEnCours);#}
-{#  			cube.EtapeChangement(0);#}
-{# 		});#}
+{# 			formEtape = document.getElementById('formEtape');#}
+{# 			function IsHiddenFormEtape()#}
+{# 			{#}
+{# 				formEtape.hidden = formEtape.hidden ? false : true;#}
+{# 			}#}
 {# 		</script>#}
-		<script>
-			formEtape = document.getElementById('formEtape');
-			function IsHiddenFormEtape()
-			{
-				formEtape.hidden = formEtape.hidden ? false : true;
-			}
-		</script>
 		<script>
 			modele = document.getElementById('myCanvasElement');
 			menuModele = document.getElementById('menuModele');

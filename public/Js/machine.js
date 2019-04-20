@@ -104,6 +104,8 @@ class Machines{
 			document.getElementById("tooltipName").innerHTML = cube.sprite.name; //affiche sur le web le nom
 			document.getElementById("tooltipInfo").innerHTML = cube.sprite.information;
 			document.getElementById("tooltipEtape").innerHTML = cube.sprite.etape;
+			document.getElementById("OrdreEtape").innerHTML = cube.sprite.etape;
+			
 //			document.getElementById("form_idSprite").value = cube.sprite.idBDD;
 		}
 	}
@@ -505,7 +507,7 @@ function onResize()
 		ecartWidthMenuCanvas = window.innerWidth - renderer.context.drawingBufferWidth; //Récupère la position en X où commence le modele 3D
 		ecartHeightMenuCanvas = menuHautSizeHeight.offsetHeight; // Récupère la hauteur du menu d'en haut. Le modele 3D est juste en dessous
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		//menuSmall.style.height = (window.innerHeight - menuHautSizeHeight.offsetHeight) +'px';		
+		menuSmall.style.height = (window.innerHeight - menuHautSizeHeight.offsetHeight)*0.7 +'px';		
 	}
 	else	// Mode telephone
 	{
@@ -630,7 +632,49 @@ function Keyboard(event)
 	}
 	if(event.keyCode == 77) //m
 	{
-		console.log(index);
+		let table = document.getElementById("table");
+		console.log(table.rows[2].cells[3]);
+		var newPara = document.createElement('div');
+		newPara.className = 'madiv';
+		var text = document.createTextNode(cube.sprites[2].information);
+		newPara.appendChild(text);
+		
+		var tbody = table.tBodies[0];
+		 
+//		var tr = tbody.rows[1].cloneNode(true);
+//		console.log(tr.cells[5]);
+
+		var tr = document.createElement("tr");
+		var td = document.createElement("td");
+		td.appendChild(newPara );
+		tr.appendChild( td );
+ 
+		var td = document.createElement("td");
+		td.appendChild( document.createTextNode('comment') );
+		tr.appendChild( td );
+ 
+		var td = document.createElement("td");
+		td.appendChild( document.createTextNode('ça va') );
+		tr.appendChild( td );
+ 
+//		var td = document.createElement("td");
+//		td.appendChild( document.createTextNode("Supprimer") );
+//		tr.appendChild( td ); //pour les actions
+ 
+		table.tBodies[0].appendChild(tr);
+		
+//		var td = document.createElement("td");
+//		var td2 = document.createElement("td");
+//		td.appendChild( text );
+//		td2.appendChild( text );
+//		tr.appendChild( td );
+//		tr.appendChild( td2 );
+//		
+//		table.appendChild(tr);
+		
+		
+//		document.body.appendChild(table);
+		//.innerHTML  = document.getElementById("tooltipName") ;
 	}
 }
 function onScreenChange(){console.log('screenchange');}
@@ -756,6 +800,7 @@ function createLigne() //La bulle info créée s'ajoute dans le tableau
 	ligne1.insertCell(1).innerHTML = cube.sprite.information;
 	ligne1.insertCell(2).innerHTML = cube.sprite.etape;
 	ligne1.insertCell(3).innerHTML = '9999';
+	ligne1.cells[1].classList.add('madiv');
 	ligne1.insertCell(4).innerHTML = cube.sprite.id;
 }
 function tableInitID()
