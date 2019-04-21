@@ -172,28 +172,38 @@ class Machines{
 			{
 				for(var i= this.sprite.etape; i<this.sprites.length;i++)
 				{
+					console.log(this.sprites[i]);
 					if(this.sprites[parseInt(i)].etape>1)
 					{this.sprites[parseInt(i)].etape -= 1; }
 				}
 			}
 			for(let i=0;i<this.sprites.length;i++)
 			{
-				if(this.sprite.etape == this.sprites[i].etape)  this.sprites.splice(i,1);				
+				if(this.sprite.etape == this.sprites[i].etape)  this.sprites.splice(i,1); // Supprime l'étape du tableau Sprites[]				
 			}
-			//On raffraichit le tableau et on supprime la ligne concernée
+			//on supprime la ligne concernée et on raffraichit le tableau.
 			let tableEtapeToDelete = document.getElementById("table").rows;
-			for(let j=0;j<tableEtapeToDelete.length;j++)
+			for(var j=0;j<tableEtapeToDelete.length;j++)
 			{
-				if(parseInt(tableEtapeToDelete[j].cells[4].innerHTML) === this.sprite.id)
+				var getIdEtape = (tableEtapeToDelete[j].cells[4].innerHTML.replace(/<\/div>/g, ''));
+				var getIdEtape2 = getIdEtape.replace(/<div class="madiv">/g, '');
+				if(parseInt(getIdEtape2) === this.sprite.id) // Correspondance entre l'étape qui est affiché sur le tableau et celle qui va être supprimée
 				{
-					document.getElementById("table").rows[index].classList.toggle("selected");
+					document.getElementById("table").rows[index].classList.toggle("selected"); 
 					index = undefined;
-					document.getElementById("table").deleteRow(j);
+					document.getElementById("table").deleteRow(j); // suppression de l'étape dans le tableau
 				}
 			}
 			this.scene.remove(this.sprite);
 			this.sprite = null;
 			document.getElementById("SpriteNb").innerHTML = cube.sprites.length;
+			console.log(this.sprites);
+			this.sprites.sort(function(a,b){return a.etape - b.etape;});
+			console.log(this.sprites);
+			console.log(tableEtapeToDelete[1].cells[4].innerHTML);
+			 tableEtapeToDelete[1].cells[4] = tableEtapeToDelete[1].cells[4].innerHTML.replace(/10/g, '45');
+			console.log(test);
+//			triTableau();
 		}
 		document.getElementById('btnSauvegarder').hidden = cube.sprites.length? false : true;
 	}
@@ -442,6 +452,19 @@ function onClick(e)
 				document.getElementById('etapes_name').value = cube.sprite.name;
 				document.getElementById('etapes_description').value = cube.sprite.information;
 				document.getElementById('etapes_etape').value = cube.sprite.etape;
+				
+				//Selectionne la ligne du tableau en fonction de l'étape sélectionnée.
+				var tableSprite = document.getElementById("table");
+				for(var i=0; i<tableSprite.rows.length; i++)
+				{
+					var getIdEtape = (tableSprite.rows[i].cells[4].innerHTML.replace(/<\/div>/g, ''));
+					var getIdEtape2 = getIdEtape.replace(/<div class="madiv">/g, '');
+					if(parseInt(getIdEtape2) === cube.sprite.id) // Correspondance entre l'étape qui est affiché sur le tableau et celle qui est sélectionnée
+					{
+						tableSprite.rows[i].onclick();									
+					}
+				}
+				///
 			}
 		})
 	}
@@ -471,7 +494,12 @@ function onClick(e)
 //		{
 //			document.getElementById('btnSauvegarder').hidden = false;
 //		}
-		createLigne();
+		AjoutEtapeTableau(cube.sprite.name,
+				cube.sprite.information,
+				cube.sprite.etape,
+				cube.sprite.idBDD,
+				cube.sprite.id);
+		//createLigne();
 		cube.ToggleSprite();
 	}
 	else //sinon c'est qu'on est en ready et on passe en start
@@ -700,7 +728,8 @@ function Keyboard(event)
 	}
 	if(event.keyCode == 39) //fleche de droite;
 	{
-		console.log(index);
+		var tableSprite = document.getElementById("table");
+//		table.rows[1].sort();
 	}
 	if(event.keyCode == 80) //p
 	{
@@ -708,6 +737,7 @@ function Keyboard(event)
 	}
 	if(event.keyCode == 77) //m
 	{
+		
 	}
 }
 function onScreenChange(){console.log('screenchange');}
@@ -732,7 +762,13 @@ function validationChangementEtape()
     {
         for(var j=0; j< cube.sprites.length; j++)
         {
-            if(table.rows[i].cells[3].innerHTML.replace(/\s/g,"") === cube.sprites[j].idBDD.replace(/\s/g,""))
+        	var getIdEtape = (table.rows[i].cells[4].innerHTML.replace(/<\/div>/g, ''));
+			var getIdEtape2 = getIdEtape.replace(/<div class="madiv">/g, '');
+//			if(parseInt(getIdEtape2) === this.sprite.id) /
+//			console.log(cube.sprites[j].id);
+//			console.log(parseInt(getIdEtape2));
+//			C.replace(/\s/g,"");
+            if(parseInt(getIdEtape2) == cube.sprites[j].id)//.replace(/\s/g,""))
 	        {
             	cube.sprites[j].etape = table.rows[i].cells[2].innerHTML; // L'ordre de la bulle info devient celle choisie dans le tableau.			            		
 		    }
