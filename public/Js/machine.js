@@ -548,7 +548,36 @@ class TableauEtapeHTML{
 					cube.sprites[i].id);
 		}
 	}
-
+	upNdown(direction)
+	{
+	    var rows = document.getElementById("table").rows,
+	        parent = rows[this.index].parentNode;
+	     if(direction === "up")
+	     {
+	         if(index > 1){
+	            parent.insertBefore(rows[index],rows[index - 1]);
+	            // when the row go up the index will be equal to index - 1
+	            index--;
+	        }
+	     }
+	     if(direction === "down")
+	     {
+	         if(index < rows.length -1){
+	            parent.insertBefore(rows[index + 1],rows[index]);
+	            // when the row go down the index will be equal to index + 1
+	            index++;
+	        }
+	     }
+	     rows[index].cells[2].innerHTML  = index;
+	     if(rows[index-1] && index>1)
+	     {
+	     	rows[index-1].cells[2].innerHTML  = index -1;
+	     }                     
+	     if(rows[index+1])
+	     {
+	    	 rows[index+1].cells[2].innerHTML  = index +1;
+	     }
+	}
 	
 }
 
@@ -1046,33 +1075,33 @@ function triTableau()
 //getSelectedRow();
 function upNdown(direction)
 {
-    var rows = document.getElementById("table").rows,
-        parent = rows[index].parentNode;
-     if(direction === "up")
-     {
-         if(index > 1){
-            parent.insertBefore(rows[index],rows[index - 1]);
-            // when the row go up the index will be equal to index - 1
-            index--;
-        }
-     }
-     if(direction === "down")
-     {
-         if(index < rows.length -1){
-            parent.insertBefore(rows[index + 1],rows[index]);
-            // when the row go down the index will be equal to index + 1
-            index++;
-        }
-     }
-     rows[index].cells[2].innerHTML  = index;
-     if(rows[index-1] && index>1)
-     {
-     	rows[index-1].cells[2].innerHTML  = index -1;
-     }                     
-     if(rows[index+1])
-     {
-    	 rows[index+1].cells[2].innerHTML  = index +1;
-     }
+//    var rows = document.getElementById("table").rows,
+//        parent = rows[index].parentNode;
+//     if(direction === "up")
+//     {
+//         if(index > 1){
+//            parent.insertBefore(rows[index],rows[index - 1]);
+//            // when the row go up the index will be equal to index - 1
+//            index--;
+//        }
+//     }
+//     if(direction === "down")
+//     {
+//         if(index < rows.length -1){
+//            parent.insertBefore(rows[index + 1],rows[index]);
+//            // when the row go down the index will be equal to index + 1
+//            index++;
+//        }
+//     }
+//     rows[index].cells[2].innerHTML  = index;
+//     if(rows[index-1] && index>1)
+//     {
+//     	rows[index-1].cells[2].innerHTML  = index -1;
+//     }                     
+//     if(rows[index+1])
+//     {
+//    	 rows[index+1].cells[2].innerHTML  = index +1;
+//     }
 }
 function createLigne() //La bulle info créée s'ajoute dans le tableau
 {
