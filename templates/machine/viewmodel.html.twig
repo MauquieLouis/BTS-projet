@@ -96,8 +96,8 @@
                                 <th>Nom de l'etape</th>
                                 <th width="70%">Description</th>
                                 <th  data-type="num" data-tri="1">Ordre</th>
-                                <th>idBDD</th>
-                                <th>id</th>
+                                <th hidden>idBDD</th>
+                                <th hidden>id</th>
                                
                             </tr>
 {#                             {% for etape in etapes %}#}
@@ -179,7 +179,7 @@
 			<div id="getEachSpriteCamera" hidden>{{ etape.camera}}  </div>
 			<div id="getEachSpriteDescription" hidden>{{ etape.description}}  </div>
 			<div id="getEachSpriteEtape" hidden>{{ etape.etape}}  </div>
-			<div id="getEachSpriteId" >{{ etape.id}}  </div>
+			<div id="getEachSpriteId" hidden>{{ etape.id}}  </div>
 			
 			<script>cube.spriteHtmlForJs();//console.log(document.getElementById("getEachSpriteName").innerHTML);</script>
 

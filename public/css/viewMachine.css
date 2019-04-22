@@ -7,7 +7,7 @@
 }
 .enveloppe
 {
-	border: 5px solid green;
+/* 	border: 5px solid green; */
 	height: auto;
 }
 .menu2
@@ -18,7 +18,7 @@
 /* 	right:0px; */
 /* 	float:left; */
 	margin-left: 20px;
-	border: 2px solid  #007BA4; 
+/* 	border: 2px solid  #007BA4;  */
 /* 	top:0;  */
 /*	padding: 100px;  */
 /* 	width: 200px; */
@@ -44,7 +44,7 @@ body
 .menu2.is-active
 {
 /* 	border: 3px solid purple; */
-	position: absolute
+	position: absolute;
 	
 }
 .madiv{height:40pt;overflow:auto; width:100%;}
@@ -55,10 +55,15 @@ body
 table#table {
 	height:50% !important;
 	overflow: scroll; /* si ça dépasse on affiche la scrollbar */ 
-	background-color:#ccc;
+/* 	background-color:#ccc; */
 	/* padding:2px; équivalent cellpadding */
 	width:100%;
-	border: 2px solid green;
+/* 	border: 2px solid green; */
+}
+.celltoHidden
+{
+	visibility : hidden;
+	color:red;
 }
 .TableauCelluleDescription
 {
