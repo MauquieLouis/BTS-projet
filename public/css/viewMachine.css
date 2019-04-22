@@ -37,7 +37,7 @@ body
 }
 .selected
 {
-/* 	color : blue; */
+/* 	color : blue;*/
 	background-color : rgba(0,123,164,0.5) !important;
 /* 	background-opacity : 0.2; */
 }
@@ -57,7 +57,7 @@ table#table {
 	overflow: scroll; /* si ça dépasse on affiche la scrollbar */ 
 /* 	background-color:#ccc; */
 	/* padding:2px; équivalent cellpadding */
-	width:100%;
+/* 	width:100%; */
 /* 	border: 2px solid green; */
 }
 .celltoHidden

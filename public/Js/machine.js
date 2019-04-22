@@ -47,7 +47,6 @@ class Machines{
 		this.cube.name="machine";
 		this.scene.add(this.cube);
 		this.points.forEach(this.addTooltip.bind(this));
-//////////////////////////////////////////////////////////
 ///////////////////////AJOUT DIFFERENTES POSITIONS DE CAMERA////////////////////////////////
 		this.positionsCamera.push(new THREE.Vector3(0, 0, 140));//devant
 		this.positionsCamera.push(new THREE.Vector3(140, 0, 0));//droite
@@ -95,7 +94,6 @@ class Machines{
 		this.sprite = sprite;
 		this.scene.add(sprite);
 		this.sprites.push(sprite);
-		//sprite.etape = this.sprites.length;
 		document.getElementById("SpriteNb").innerHTML = cube.sprites.length;
 		sprite.onClick = () =>{
 			camera.position.x = sprite.cameraPosX;//sprite.cameraPosX 
@@ -105,7 +103,6 @@ class Machines{
 			document.getElementById("tooltipInfo").innerHTML = cube.sprite.information;
 			document.getElementById("tooltipEtape").innerHTML = cube.sprite.etape;
 			document.getElementById("OrdreEtape").innerHTML = cube.sprite.etape;
-//			document.getElementById("form_idSprite").value = cube.sprite.idBDD;
 		}
 	}
 	destroy(){ // detruit le cube en détruisant les sprites avant
@@ -164,7 +161,6 @@ class Machines{
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	deleteSprite() // supprime une sprite.
 	{
-//		console.log(this.sprites.length);
 		if (this.sprite)
 		{
 			TableauHTMLTEST.tableau.Actualisation;
@@ -172,8 +168,6 @@ class Machines{
 			{
 				if(parseInt(TableauHTMLTEST.GetCellValue(TableauHTMLTEST.index,'4')) === this.sprite.id)
 				{
-					alert('Reussite');
-				
 					if(this.sprite.etape >= 1)
 					{
 						for(var i= this.sprite.etape; i<this.sprites.length;i++)
@@ -188,16 +182,7 @@ class Machines{
 						if(this.sprite.etape == this.sprites[i].etape)  this.sprites.splice(i,1); // Supprime l'étape du tableau Sprites[]				
 					}
 					//on supprime la ligne concernée et on raffraichit le tableau.
-					
-//					for(var j=0;j<TableauHTMLTEST.tableau.rows.length;j++)
-//					{
-//						console.log(TableauHTMLTEST.index);
-//						if(parseInt(TableauHTMLTEST.GetCellValue(j,'4')) === this.sprite.id) // Correspondance entre l'étape qui est affiché sur le tableau et celle qui va être supprimée
-//						{
-//							console.log(j);
-							TableauHTMLTEST.SuppressionLigne(TableauHTMLTEST.index);
-//						}
-//					}
+					TableauHTMLTEST.SuppressionLigne(TableauHTMLTEST.index);
 					this.scene.remove(this.sprite);
 					this.sprite = null;
 					document.getElementById("SpriteNb").innerHTML = cube.sprites.length;
@@ -205,10 +190,6 @@ class Machines{
 					this.sprites.sort(function(a,b){return a.etape - b.etape;}); //Tri le tableau dans l'ordre des étapes
 					console.log(this.sprites);
 					TableauHTMLTEST.ReinitialisationAffichage();
-		//			console.log(tableEtapeToDelete[1].cells[4].innerHTML);
-		//			 tableEtapeToDelete[1].cells[4] = tableEtapeToDelete[1].cells[4].innerHTML.replace(/10/g, '45');
-		//			console.log(test);
-		//			triTableau();
 				}
 				else
 				{
@@ -239,7 +220,6 @@ class Machines{
 		{
 			this.positionCamera = 3;
 		}
-//		console.log(this.positionCamera);
 		camera.position.set(cube.positionsCamera[this.positionCamera].x,cube.positionsCamera[this.positionCamera].y,cube.positionsCamera[this.positionCamera].z);
 	}
 	EtapeChangement(valeur) //Passe d'une etape a l'autre. Appel dans index.html
@@ -268,7 +248,6 @@ class Machines{
 			this.edition = 1;
 			spriteCreate.classList.add('on');
 			this.createSprite = 'ready';
-//			console.log(this.edition)
 		}
 		document.getElementById('btnSauvegarder').hidden = cube.sprites.length? false : true;
 	}
@@ -279,7 +258,6 @@ class Machines{
 		//création modèle de cube
 		var geometry2 = new THREE.BoxGeometry( 100, 100, 100 ); // Creation d'une boite de 100 de côtés
 //////////////////CHARGEMENT DES IMAGES/////////////////////////////////////////////////////
-		
 		if(imageSurface[0]){var image1 = new THREE.TextureLoader().load('../../image/modele/'+modeleID+'/'+imageSurface[0]);}
 		if(imageSurface[1])var image2 = new THREE.TextureLoader().load('../../image/modele/'+modeleID+'/'+imageSurface[1]);
 		if(imageSurface[2])var image3 = new THREE.TextureLoader().load('../../image/modele/'+modeleID+'/'+imageSurface[2]);
@@ -302,7 +280,6 @@ class Machines{
 		this.cube.name="machine";
 		this.scene.add(this.cube);
 		this.points.forEach(this.addTooltip.bind(this));
-//////////////////////////////////////////////////////////
 ///////////////////////AJOUT DIFFERENTES POSITIONS DE CAMERA////////////////////////////////
 		this.positionsCamera.push(new THREE.Vector3(0, 0, 130));//devant
 		this.positionsCamera.push(new THREE.Vector3(130, 0, 0));//droite
@@ -316,10 +293,8 @@ class Machines{
 		let posSpriteSplite = positionSprite.split(';');
 		let cameraPositionSprite = (document.getElementById('getEachSpriteCamera').innerHTML);
 		let camPosSpriteSplite = cameraPositionSprite.split(';');
-		//console.log(posSpriteSplite[0]);	console.log(posSpriteSplite[1]);	console.log(posSpriteSplite[2]);
 		cube.addPoints({
 			position: new THREE.Vector3(posSpriteSplite[0],posSpriteSplite[1],posSpriteSplite[2]),
-//			position: new THREE.Vector3(-30,1,-30),
 			camera: new THREE.Vector3(camPosSpriteSplite[0],camPosSpriteSplite[1],camPosSpriteSplite[2]),
 			name: document.getElementById('getEachSpriteName').innerHTML,
 			info : document.getElementById('getEachSpriteDescription').innerHTML,
@@ -388,17 +363,29 @@ class TableauEtapeHTML{
 		this.index = undefined;
 		this.tableau = document.getElementById("table");;
 	}
-	TriEtape()
+	ModifOrdreEtape()
 	{
-		
+		this.tableau.Actualisation;
+		for(var i = 1; i < this.tableau.rows.length; i++)
+	    {
+	        for(var j=0; j< cube.sprites.length; j++)
+	        {
+				console.log(TableauHTMLTEST.GetCellValue(i,'2'));
+	            if(parseInt(TableauHTMLTEST.GetCellValue(i,'4')) === cube.sprites[j].id)
+		        {
+	            	cube.sprites[j].etape = TableauHTMLTEST.GetCellValue(i,'2'); // L'ordre de la bulle info devient celle choisie dans le tableau.			            		
+			    }
+	        }
+	    }
+		cube.sprites.sort(function(a,b){return a.etape - b.etape;});
 	}
 	AjoutLigne(name,info,ordre,idBDD,id)
 	{
-		this.tableau.Actualisation;//document.getElementById("table");
+		this.Actualisation;//document.getElementById("table");
 		var tbody = this.tableau.tBodies[0];
 		 
 		var tr = document.createElement("tr");
-		var newPara = document.createElement('div');
+		var newPara = document.createElement('div'); //Cellule du nom
 		newPara.className = 'madiv';
 		var text = document.createTextNode(name);
 		newPara.appendChild(text);
@@ -406,7 +393,7 @@ class TableauEtapeHTML{
 		td.appendChild(newPara );
 		tr.appendChild( td );
 
-		var newPara = document.createElement('div');
+		var newPara = document.createElement('div'); // Cellule de l'info
 		newPara.className = 'madiv';
 		var text = document.createTextNode(info);
 		newPara.appendChild(text);
@@ -414,7 +401,7 @@ class TableauEtapeHTML{
 		td.appendChild(newPara);
 		tr.appendChild( td );
 
-		var newPara = document.createElement('div');
+		var newPara = document.createElement('div'); //Cellule de l'ordre
 		newPara.className = 'madiv';
 		var text = document.createTextNode(ordre);
 		newPara.appendChild(text);
@@ -422,8 +409,7 @@ class TableauEtapeHTML{
 		td.appendChild(newPara);
 		tr.appendChild( td );
 		
-		var newPara = document.createElement('div');
-//		newPara.className = 'madiv celltoHidden';
+		var newPara = document.createElement('div'); //Cellule de l'id dans la BDD
 		var text = document.createTextNode(idBDD);
 		newPara.appendChild(text);
 		var td = document.createElement("td");
@@ -431,8 +417,7 @@ class TableauEtapeHTML{
 		td.appendChild( newPara);
 		tr.appendChild( td );
 		
-		var newPara = document.createElement('div');
-//		newPara.className = 'madiv celltoHidden';
+		var newPara = document.createElement('div'); //Cellule de l'id dans le JS
 		var text = document.createTextNode(id);
 		newPara.appendChild(text);
 		var td = document.createElement("td");
@@ -440,29 +425,8 @@ class TableauEtapeHTML{
 		td.appendChild( newPara);
 		tr.appendChild( td );
 	    this.tableau.tBodies[0].appendChild(tr);
-	    this.GetSelectedRow(this.tableau.rows.length-1);
-//	    this.tableau.rows[this.tableau.rows.length-1].onclick = function()
-//	    {
-//	    	TableauHTMLTEST.tableau.Actualisation;
-//	    	// clear the selected from the previous selected row
-//	    	// the first time this.index is undefined
-//	    	if(typeof TableauHTMLTEST.index !== "undefined"){
-//	    		TableauHTMLTEST.tableau.rows[TableauHTMLTEST.index].classList.toggle("selected"); 
-//	    	}
-//	    	TableauHTMLTEST.index = this.rowIndex;
-//	    	for(let j=0; j<cube.sprites.length;j++)
-//	    	{
-//	    		var getIdEtape = (TableauHTMLTEST.tableau.rows[TableauHTMLTEST.index].cells[4].innerHTML.replace(/<\/div>/g, ''));
-//				var getIdEtape2 = getIdEtape.replace(/<div class="madiv">/g, '');
-//	    		if(cube.sprites[j].id === parseInt(getIdEtape2))
-//	    		{
-//	    			cube.sprite = cube.sprites[j]; 
-//	    			cube.sprite.onClick();
-//	    		}
-//	    	}   
-//	    	this.classList.toggle("selected");
-//	    };
-		
+	    this.GetSelectedRow(this.tableau.rows.length-1);	
+	    this.Actualisation;
 	}
 	SuppressionLigne(ligne)
 	{
@@ -520,7 +484,8 @@ class TableauEtapeHTML{
 			{
 				var getIdEtape = (tableSprite.rows[ligne].cells[cellule].innerHTML.replace(/<\/div>/g, ''));
 				var getIdEtape2 = getIdEtape.replace(/<div>/g, '');
-				return(getIdEtape2);							
+				var getIdEtape3 = getIdEtape2.replace(/<div class="madiv">/g, '');
+				return(getIdEtape3);							
 			}
 			else
 			{
@@ -538,6 +503,7 @@ class TableauEtapeHTML{
 		{
 			TableauHTMLTEST.tableau.deleteRow(TableauHTMLTEST.tableau.rows.length-1);
 		}
+		this.index = undefined;
 		for(var i=0;i<cube.sprites.length;i++)
 		{
 			TableauHTMLTEST.AjoutLigne(
@@ -554,35 +520,32 @@ class TableauEtapeHTML{
 	        parent = rows[this.index].parentNode;
 	     if(direction === "up")
 	     {
-	         if(index > 1){
-	            parent.insertBefore(rows[index],rows[index - 1]);
+	         if(this.index > 1){
+	            parent.insertBefore(rows[this.index],rows[this.index - 1]);
 	            // when the row go up the index will be equal to index - 1
-	            index--;
+	            this.index--;
 	        }
 	     }
 	     if(direction === "down")
 	     {
-	         if(index < rows.length -1){
-	            parent.insertBefore(rows[index + 1],rows[index]);
+	         if(this.index < rows.length -1){
+	            parent.insertBefore(rows[this.index + 1],rows[this.index]);
 	            // when the row go down the index will be equal to index + 1
-	            index++;
+	            this.index++;
 	        }
 	     }
-	     rows[index].cells[2].innerHTML  = index;
-	     if(rows[index-1] && index>1)
+	     rows[this.index].cells[2].innerHTML  = this.index;
+	     if(rows[this.index-1] && this.index>1)
 	     {
-	     	rows[index-1].cells[2].innerHTML  = index -1;
+	     	rows[this.index-1].cells[2].innerHTML  = this.index -1;
 	     }                     
-	     if(rows[index+1])
+	     if(rows[this.index+1])
 	     {
-	    	 rows[index+1].cells[2].innerHTML  = index +1;
+	    	 rows[this.index+1].cells[2].innerHTML  = this.index +1;
 	     }
 	}
-	
 }
-
 /*	FIN CASSE TABLEAU HTML		*/
-
 const container = document.body; // variable qui enregesitre document.body pour faciliter l'appel
 const tooltip = document.querySelector('.tooltip'); // récupérer la classe de l'élément .tooltip (css) (ref aux sprites)
 const spriteCreate = document.querySelector('.spriteCreate'); // récupérer la classe de l'élément canvas (css) (ref au canvas)
@@ -626,17 +589,12 @@ controls.keys = {
 		RIGHT: 1, // right arrow
 		BOTTOM: 0 // down arrow
 	}
-
-//Classe Tableau :
 TableauHTMLTEST = new TableauEtapeHTML();
-
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////// Position des boutons de déplacement de la caméra //////////////////////
 const btnCameraFaceCube = document.querySelector('.btnPositionduCube'); 
 btnCameraFaceCube.style.top = ecartHeightMenuCanvas + windowHeight +'px';
 btnCameraFaceCube.style.right = windowWidth/2 - 30 + 'px';
-
 // Création sphère	////////////////////////////////////////////////////////////////////////////////////
 const geometrysphere = new THREE.SphereGeometry(400, 400, 400);
 const textureLoader = new THREE.TextureLoader();
@@ -661,8 +619,6 @@ function onClick(e)
 	);	
 	rayCaster.setFromCamera(mouse, camera);	
 	let intersects = rayCaster.intersectObjects(scene.children); // Regarde ce qui rencontre les "enfants" de la scène: tooltip, sphère...
-	
-
 	if (cube.edition == 0) // si edition=0 alors on affiche le sprite
 	{
 		cube.createSprite = 'stop'; 		
@@ -670,27 +626,21 @@ function onClick(e)
 			if(intersect.object.type === 'Sprite')
 			{
 				cube.sprite = intersect.object;
-//				console.log(cube.sprite.position.x);
 				document.getElementById("tooltipName").innerHTML = cube.sprite.name; //.innerHTML = <div>
 				document.getElementById("tooltipInfo").innerHTML = cube.sprite.information;
 				document.getElementById('etapes_position').value = cube.sprite.position.x +';'+cube.sprite.position.y +';'+ cube.sprite.position.z;
 				document.getElementById('etapes_name').value = cube.sprite.name;
 				document.getElementById('etapes_description').value = cube.sprite.information;
 				document.getElementById('etapes_etape').value = cube.sprite.etape;
-				
 				//Selectionne la ligne du tableau en fonction de l'étape sélectionnée.
 				TableauHTMLTEST.Actualisation;
-//				console.log(TableauHTMLTEST.rows);
 				for(var i=0; i< TableauHTMLTEST.tableau.rows.length; i++)
 				{				
-//					var getIdEtape = (tableSprite.rows[i].cells[4].innerHTML.replace(/<\/div>/g, ''));
-//					var getIdEtape2 = getIdEtape.replace(/<div class="madiv">/g, '');
 					if(parseInt(TableauHTMLTEST.GetCellValue(i,4)) === cube.sprite.id) // Correspondance entre l'étape qui est affiché sur le tableau et celle qui est sélectionnée
 					{
 						tableSprite.rows[i].onclick();									
 					}
 				}
-				///
 			}
 		})
 	}
@@ -699,7 +649,6 @@ function onClick(e)
 	{
 		nVarNom = prompt("Name :");
 		nVarInfo = prompt("Informations :");
-//		nVarEtape = prompt("Etape :");
 		cube.addPoints({
 			position: intersects[0].point,
 			camera: camera.position,
@@ -715,29 +664,20 @@ function onClick(e)
 		if(cube.sprites[cube.sprites.length-1].position.y >= -(intersects[0].object.geometry.parameters.height/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.y <= -(intersects[0].object.geometry.parameters.height/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.y -= cube.initEcartTooltip;}
 		if(cube.sprites[cube.sprites.length-1].position.z <= (intersects[0].object.geometry.parameters.depth/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.z >= (intersects[0].object.geometry.parameters.depth/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.z += cube.initEcartTooltip;}
 		if(cube.sprites[cube.sprites.length-1].position.z >= -(intersects[0].object.geometry.parameters.depth/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.z <= -(intersects[0].object.geometry.parameters.depth/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.z -= cube.initEcartTooltip;}
-//		cube.sprites.push(cube.sprites[cube.sprites.length-1]);
-//		if(cube.spritesPushInBdd.length>0)
-//		{
-//			document.getElementById('btnSauvegarder').hidden = false;
-//		}
 		TableauHTMLTEST.AjoutLigne(cube.sprite.name,
 				cube.sprite.information,
 				cube.sprite.etape,
 				cube.sprite.idBDD,
 				cube.sprite.id);
-		//createLigne();
 		cube.ToggleSprite();
 	}
 	else //sinon c'est qu'on est en ready et on passe en start
-	{
-		cube.createSprite = 'start'
-	}
+	{ cube.createSprite = 'start';}
 	intersects.forEach(function(intersect){
 		if(intersect.object.type === 'Sprite')	{intersect.object.onClick();}
 		if(intersect.object.name === 'machine'){}
 	})
 }		
-
 ////        ON RESIZE                     ///////////////////////////////////////////////////////////////////////
 function onResize()
 {
@@ -840,78 +780,8 @@ function onMouseMove(e)
 		spriteActive = false;
 	}
 }
-
-//function AjoutEtapeTableau(name,info,ordre,idBDD,id)
-//{
-//	let table = document.getElementById("table");
-//	var tbody = table.tBodies[0];
-//	 
-//	var tr = document.createElement("tr");
-//	var newPara = document.createElement('div');
-//	newPara.className = 'madiv';
-//	var text = document.createTextNode(name);
-//	newPara.appendChild(text);
-//	var td = document.createElement("td");
-//	td.appendChild(newPara );
-//	tr.appendChild( td );
-//
-//	var newPara = document.createElement('div');
-//	newPara.className = 'madiv';
-//	var text = document.createTextNode(info);
-//	newPara.appendChild(text);
-//	var td = document.createElement("td");
-//	td.appendChild(newPara);
-//	tr.appendChild( td );
-//
-//	var newPara = document.createElement('div');
-//	newPara.className = 'madiv';
-//	var text = document.createTextNode(ordre);
-//	newPara.appendChild(text);
-//	var td = document.createElement("td");
-//	td.appendChild(newPara);
-//	tr.appendChild( td );
-//	
-//	var newPara = document.createElement('div');
-//	newPara.className = 'madiv';
-//	var text = document.createTextNode(idBDD);
-//	newPara.appendChild(text);
-//	var td = document.createElement("td");
-//	td.appendChild( newPara);
-//	tr.appendChild( td );
-//	
-//	var newPara = document.createElement('div');
-//	newPara.className = 'madiv';
-//	var text = document.createTextNode(id);
-//	newPara.appendChild(text);
-//	var td = document.createElement("td");
-//	td.appendChild( newPara);
-//	tr.appendChild( td );
-//    table.tBodies[0].appendChild(tr);
-//    table.rows[table.rows.length-1].onclick = function()
-//    {
-//    	// clear the selected from the previous selected row
-//    	// the first time index is undefined
-//    	if(typeof index !== "undefined"){
-//    		table.rows[index].classList.toggle("selected"); 
-//    	}
-//    	index = this.rowIndex;
-//    	for(let j=0; j<cube.sprites.length;j++)
-//    	{
-//    		var getIdEtape = (table.rows[index].cells[4].innerHTML.replace(/<\/div>/g, ''));
-//			var getIdEtape2 = getIdEtape.replace(/<div class="madiv">/g, '');
-//    		if(cube.sprites[j].id === parseInt(getIdEtape2))
-//    		{
-//    			cube.sprite = cube.sprites[j]; 
-//    			cube.sprite.onClick();
-//    		}
-//    	}   
-//    	this.classList.toggle("selected");
-//    };
-//}
-
 function Keyboard(event)
 {
-//	console.log(event);
 	if(event.keyCode == 90) //z
 	{
 		console.log(document.getElementById('getEachSprite').innerHTML)
@@ -963,189 +833,14 @@ function Keyboard(event)
 	}
 	if(event.keyCode == 77) //m
 	{
-		while(TableauHTMLTEST.tableau.rows.length > 1)
-		{
-			TableauHTMLTEST.tableau.deleteRow(TableauHTMLTEST.tableau.rows.length-1);
-//			console.log(TableauHTMLTEST.tableau.rows.length);			
-		}
-		for(var i=0;i<cube.sprites.length;i++)
-		{
-			TableauHTMLTEST.AjoutLigne(
-					cube.sprites[i].name,
-					cube.sprites[i].information,
-					cube.sprites[i].etape,
-					cube.sprites[i].idBDD,
-					cube.sprites[i].id);
-		}
 	}
 }
 function onScreenChange(){console.log('screenchange');}
 function fn() // Lorsque la page est chargée la fonction se déclenche
 {
 	onResize();
-//	triTableau();
-//	tableInitID();
-//	TableauHTMLTEST = new TableauEtapeHTML();
-//	for(var j=0;j<cube.sprites.length;j++)
-//	{		
-////		AjoutEtapeTableau(cube.sprites[j].name,
-////				cube.sprites[j].information,
-////				cube.sprites[j].etape,
-////				cube.sprites[j].idBDD,
-////				cube.sprites[j].id);
-//		TableauHTMLTEST.AjoutLigne(
-//				cube.sprites[j].name,
-//				cube.sprites[j].information,
-//				cube.sprites[j].etape,
-//				cube.sprites[j].idBDD,
-//				cube.sprites[j].id);
-//	}
-//	for(var i=1; i< TableauHTMLTEST.tableau.rows.length ;i++)
-//	{
-//		TableauHTMLTEST.GetSelectedRow(i);
-//	}
-}
-function validationChangementEtape()
-{
-	let table = document.getElementById("table");
-	for(var i = 1; i < table.rows.length; i++)
-    {
-        for(var j=0; j< cube.sprites.length; j++)
-        {
-        	var getIdEtape = (table.rows[i].cells[4].innerHTML.replace(/<\/div>/g, ''));
-			var getIdEtape2 = getIdEtape.replace(/<div class="madiv">/g, '');
-//			if(parseInt(getIdEtape2) === this.sprite.id) /
-//			console.log(cube.sprites[j].id);
-//			console.log(parseInt(getIdEtape2));
-//			C.replace(/\s/g,"");
-            if(parseInt(getIdEtape2) == cube.sprites[j].id)//.replace(/\s/g,""))
-	        {
-            	cube.sprites[j].etape = table.rows[i].cells[2].innerHTML; // L'ordre de la bulle info devient celle choisie dans le tableau.			            		
-		    }
-        }
-    }
-}
-function triTableau()
-{
-//	let table = document.getElementById("table");
-//	for(var i = 1; i < table.rows.length; i++)
-//    {
-//        for(var j=0; j< cube.sprites.length; j++)
-//        {
-//        	cube.spriteScan = cube.sprites[j];
-//        	if(parseInt(cube.spriteScan.etape) === i)
-//    		{
-//        		table.rows[i].cells[0].innerHTML = cube.sprites[j].name;
-//        		table.rows[i].cells[1].innerHTML = cube.sprites[j].information;
-//        		table.rows[i].cells[2].innerHTML = cube.sprites[j].etape;
-//        		table.rows[i].cells[3].innerHTML = cube.sprites[j].idBDD;
-//        	}
-//        }
-//    }
 }
 
-//var index;  // variable to set the selected row index
-//function getSelectedRow()
-//{
-//	var table = document.getElementById("table");
-//    for(var i = 1; i < table.rows.length; i++)
-//    {
-//        table.rows[i].onclick = function()
-//        {
-//        	console.log(" table.rows[i].onclick = function()");
-//            // clear the selected from the previous selected row
-//            // the first time index is undefined
-//            if(typeof index !== "undefined"){
-//                table.rows[index].classList.toggle("selected"); 
-//            }
-//            index = this.rowIndex;
-//            for(let j=0; j<cube.sprites.length;j++)
-//        	{
-//            	if(cube.sprites[j].id === parseInt(table.rows[index].cells[4].innerHTML))
-//            	{
-//            		cube.sprite = cube.sprites[j]; 
-//            		cube.sprite.onClick();
-//            	}
-//        	}   
-//            this.classList.toggle("selected");
-//        };
-//    }
-//    
-//}
-//getSelectedRow();
-function upNdown(direction)
-{
-//    var rows = document.getElementById("table").rows,
-//        parent = rows[index].parentNode;
-//     if(direction === "up")
-//     {
-//         if(index > 1){
-//            parent.insertBefore(rows[index],rows[index - 1]);
-//            // when the row go up the index will be equal to index - 1
-//            index--;
-//        }
-//     }
-//     if(direction === "down")
-//     {
-//         if(index < rows.length -1){
-//            parent.insertBefore(rows[index + 1],rows[index]);
-//            // when the row go down the index will be equal to index + 1
-//            index++;
-//        }
-//     }
-//     rows[index].cells[2].innerHTML  = index;
-//     if(rows[index-1] && index>1)
-//     {
-//     	rows[index-1].cells[2].innerHTML  = index -1;
-//     }                     
-//     if(rows[index+1])
-//     {
-//    	 rows[index+1].cells[2].innerHTML  = index +1;
-//     }
-}
-function createLigne() //La bulle info créée s'ajoute dans le tableau
-{
-//	let ligne1 =tableSprite.insertRow(-1);
-//	ligne1.onclick = function()
-//    {
-//		let tableNewLine = document.getElementById("table"); 
-//        // clear the selected from the previous selected row
-//        // the first time index is undefined
-//        if(typeof index !== "undefined"){
-//        	tableNewLine.rows[index].classList.toggle("selected"); 
-//        }
-//        index = this.rowIndex;
-//        for(let j=0; j<cube.sprites.length;j++)
-//    	{
-//        	if(cube.sprites[j].id === tableNewLine.rows[index].cells[4].innerHTML)
-//        	{
-//        		cube.sprite = cube.sprites[j]; 
-//        		cube.sprite.onClick();
-//        	}
-//    	}   
-//        this.classList.toggle("selected");
-//    };
-//	ligne1.insertCell(0).innerHTML = cube.sprite.name;
-//	ligne1.insertCell(1).innerHTML = cube.sprite.information;
-//	ligne1.insertCell(2).innerHTML = cube.sprite.etape;
-//	ligne1.insertCell(3).innerHTML = '9999';
-//	ligne1.cells[1].classList.add('madiv');
-//	ligne1.insertCell(4).innerHTML = cube.sprite.id;
-}
-function tableInitID()
-{
-//	let tableEtapes = document.getElementById("table"); 
-//	for(var i=1; i < tableEtapes.rows.length; i++)
-//	{
-//		for(var j=0;j<cube.sprites.length;j++)
-//		{
-//			if(tableEtapes.rows[i].cells[3].innerHTML === cube.sprites[j].idBDD)
-//			{
-//				tableEtapes.rows[i].cells[4].innerHTML = cube.sprites[j].id;
-//			}
-//		}
-//	}
-}
 function TableauBullesInfos()
 {
 	document.getElementById('TableauBullesInfos').hidden = false;// = document.getElementById('TableauBullesInfos').hidden : false;
@@ -1165,7 +860,3 @@ container.addEventListener('mousemove', onMouseMove);
 container.addEventListener('keydown', Keyboard, false);
 animate();
 onResize();
-
-
-
-

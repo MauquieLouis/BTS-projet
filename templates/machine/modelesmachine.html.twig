@@ -11,56 +11,90 @@
 {% block body %}
 {# 	<button id="testchercker" onClick="cube.checkAllSprites();">Check All Sprites</button>#}
 {# 	<button onClick="cube.checkAllSprites();//document.getElementById('form_Sauvegarder').click();">testcchek</button>#}
-	<div class="row AdminRow2">
-    	<div class="col-12 offset-md-3 col-md-6 AdminRow1 TitlePage">
+<div class="row AdminRow2">
+    <div class="col-12 offset-md-3 col-md-6 AdminRow1 TitlePage">
         <h1>Visualisation des modèles </h1>
+        
+    </div>
+</div>
+<div class="offset-1 col-10 offset-md-1 col-md-10 offset-lg-1 col-lg-10 offset-xl-1 col-xl-10 BorderRouge">
+    <div class="row">
+    	<h2>
+    		<i class="fas fa-digital-tachograph"></i>
+    		Liste modèles : 
+    	</h2>
+    </div>
+    <div class="row ">
         {% for modele in modeles %}
-        		<div class="card card-listeMachine" style="width: 98%; height:20rem; display:inline-block; margin-top:5px;">
-                	<div class="card-img-listeMachine" style="height:80px;">
-                	 <img class="card-img-top" src="{{ asset('/image/modele/')~modele.id~('/')~modele.faceAvant }}" style="height:100px; width:auto;">
-                	</div>
-                	<div class="card-body card-body-listeMachine BorderViolet" style="width:100%">
-                	<a href = {{ path('machine', {'modele' : modele.id }) }} class="btn btn-primary">
-                        	   <div style="font-size:14px;">AccÃ¨s aux machines  &nbsp;<i class="fas fa-long-arrow-alt-right"></div></i>
-                	</a>
-{#                 		<div class="card-title-listeMachine BorderJaune"><h3>{{ modele.id }}</h3></div>#}
-                		<div class="card-text-listeMachine BorderViolet">
-            		 	</div>
-            		 	<div class="card-button-listeMachine">
-                        	
-                        	{% if is_granted('ROLE_ADMIN') %}
-                        	<a href="{{ path('modeleedition', {'id' : modele.id }) }}" class="btn btn-secondary">
-                            	<div style="font-size:14px;">
-                        			<div class="d-none d-xl-inline-block">Modifier</div> <i class="fas fa-edit"></i>
-                            	</div>
-                        	</a>
-                    	{% endif %}
-        				</div>
-                	</div>
+    		<div class="col-12 col-md-6 col-lg-4 col-xl-3 BorderVert">
+    			<div class="card card-listeMachine" style="height:20rem; display:inline-block; margin-top:5px;width: 98%; ">
+                    <div class="card-img-listeMachine" style="height:80px;">
+                    	<img class="card-img-top" src="{{ asset('/image/modele/')~modele.id~('/')~modele.faceAvant }}" style="height:100px; width:auto;">
+                    </div>
+                    <div class="card-body card-body-listeMachine BorderViolet" style="width:100%">
+                        <div class="card-text-listeMachine BorderViolet">
+                        </div>
+                        <div class="card-button-listeMachine">
+                            {% if is_granted('ROLE_ADMIN') %}
+                            <a href = {{ path('machine', {'modele' : modele.id }) }} class="btn btn-primary">
+                            	<div style="font-size:14px;">AccÃ¨s aux machines  &nbsp;<i class="fas fa-long-arrow-alt-right"></div></i>
+                            </a>
+                            <a href="{{ path('modeleedition', {'id' : modele.id }) }}" class="btn btn-secondary">
+                                <div style="font-size:14px;">
+                                	<div class="d-none d-xl-inline-block">Modifier</div> 
+                                	<i class="fas fa-edit"></i>
+                                </div>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
-       
-        	{{ modele.id }}
-        	
-                    	
+            </div>
         {% endfor %}
-        
-		{{ form_start(formModele) }}
-		    {{ form_row(formModele.nom) }}
-			{{ form_row(formModele.faceAvant) }}
-			{{ form_row(formModele.faceGauche) }}
-			{{ form_row(formModele.faceArriere) }}
-			{{ form_row(formModele.faceDroite) }}
-			{{ form_row(formModele.faceHaut) }}
-			{{ form_row(formModele.faceBas) }}
-			<button type="submit" class="btn btn-primary">Sauvegarder</button>
-		{{ form_end(formModele) }}
-
-    	</div>
-	</div>
-	<div class="row ">
-
- 	</div>
-        
+        {% if is_granted('ROLE_ADMIN') %}
+        <div class="col-12 col-md-6 col-lg-4 col-xl-3 BorderVert">
+            <a href="#formMachine" onclick="HideFormModele();">
+                <div class="card-ajout-listeMachine" style="width: 98%; height:20rem; display:inline-block; margin-right:5px; margin-top:5px;">
+                    <div class="row" style="height:50%">
+                        <div class="col-12 offset-md-4 col-md-4" style="text-align:center; margin-top:30%;">
+                            <h3>
+                            	<i class="fas fa-plus-circle" style="font-size:40px">
+                            	</i>
+                            </h3>
+                            </br><h3>Ajouter un modèle</h3>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endif %}
+<!-- ============================ FORMULAIRE CREATION MODELE ========================================= -->	
+        {% if is_granted('ROLE_ADMIN') %}
+            <div id="formModele" class="col-12 offset-md-2 col-md-8 offset-lg-3 col-lg-6" hidden>
+           	 	<h2>Creer un nouveau modele:</h2>
+       	 	
+                {{ form_start(formModele) }}
+                    {{ form_row(formModele.nom) }}
+                    {{ form_row(formModele.faceAvant) }}
+                    {{ form_row(formModele.faceGauche) }}
+                    {{ form_row(formModele.faceArriere) }}
+                    {{ form_row(formModele.faceDroite) }}
+                    {{ form_row(formModele.faceHaut) }}
+                    {{ form_row(formModele.faceBas) }}
+                    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                {{ form_end(formModele) }}
+            </div>
+        {% endif %}
+    	<script>
+        	form = document.getElementById('formModele');
+            function HideFormModele()
+            {
+        		form.hidden = form.hidden ? false : true;
+            }
+        </script>
+    </div>
+</div>
+    
        
 	 
 {% endblock %}

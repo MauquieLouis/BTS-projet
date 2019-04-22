@@ -47,8 +47,10 @@
 {#                     <button onClick="cube.moveSprite('z', 2)">+z</button><button onClick="cube.moveSprite('z', -2)">-z</button> #}
 {#                 </div>#}
 		   <div style="border-bottom : 1px solid #aaaaaa;)">
-		   	<h3 style="border:2px solid grey; display:inline;" onclick="InformationsShow();">Informations </h3>
-		   	{% if is_granted('ROLE_ADMIN') %}<h3 style="border:2px solid grey; display:inline;" onclick="TableauBullesInfos();">Tableau des bulles infos</h3>{% endif %}
+		   	<button class="btn  btn-info" style="border:2px solid grey; display:inline;" onclick="InformationsShow();">Informations </button>
+		   	{% if is_granted('ROLE_ADMIN') %}
+		   		<button class="btn  btn-info" style="border:2px solid grey; display:inline;" onclick="TableauBullesInfos();">Tableau des bulles infos</button>
+	   		{% endif %}
 		   </div>
 		<div id="information" hidden>
            <div style=" margin-top: 30px;">     
@@ -85,11 +87,11 @@
 {#                 	    <h2>Sauvegarde de toutes les etapes</h2>#}
 
         </div>                 
-                        <div style="margin-top: 30px; border-bottom : 1px solid #aaaaaa;">
+                        <div style="margin-top: 30px; border-bottom : 0px solid #aaaaaa;">
                        
                         </div> 
                     
-          			<div id="TableauBullesInfos" >
+          			<div id="TableauBullesInfos" hidden>
 						<div style="margin-top: 20px; width:90%; margin-left: 5%;">
                          <table id="table" style="" class="avectri table table-striped" border="1">
                             <tr>
@@ -114,10 +116,10 @@
 {#                         	{% endfor %}	#}
                         </table>
                         
-                         <button class="btn btn-outline-info" onclick="upNdown('up');">&ShortUpArrow;</button>
-                         <button class="btn btn-outline-info" onclick="upNdown('down');">&ShortDownArrow;</button>
-                          <button class="btn btn-outline-info" onclick="triTableau();//cube.testSaveTable();validationChangementEtape();">Trier</button>
-                          <button class="btn btn-outline-info" onclick="validationChangementEtape();">Enregistrer changement</button>
+                         <button class="btn btn-outline-info" onclick="TableauHTMLTEST.upNdown('up');">&ShortUpArrow;</button>
+                         <button class="btn btn-outline-info" onclick="TableauHTMLTEST.upNdown('down');">&ShortDownArrow;</button>
+                          <button class="btn btn-outline-info" onclick="TableauHTMLTEST.ReinitialisationAffichage();//triTableau();//cube.testSaveTable();//validationChangementEtape();console.log('problemeHTML');)">Trier</button>
+                          <button class="btn btn-outline-info" onclick="TableauHTMLTEST.ModifOrdreEtape();//validationChangementEtape();">Enregistrer changement</button>
                           <button class="btn btn-outline-info" onclick="cube.deleteSprite();">Supprimer</button>
                            	{% if is_granted('ROLE_ADMIN') %}
                                 <button onclick="cube.ToggleSprite(); cube.testSaveTable();// IsHiddenFormEtape();" class="SpriteNbr spriteCreate btn btn-sm btn-outline-info">
