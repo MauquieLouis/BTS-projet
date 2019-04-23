@@ -843,14 +843,22 @@ function fn() // Lorsque la page est chargée la fonction se déclenche
 
 function TableauBullesInfos()
 {
-	document.getElementById('TableauBullesInfos').hidden = false;// = document.getElementById('TableauBullesInfos').hidden : false;
 	document.getElementById('information').hidden = true;// = document.getElementById('information').hidden : true;
+	document.getElementById('ModifBulleInfo').hidden = false;
+	document.getElementById('TableauBullesInfos').hidden = false;// = document.getElementById('TableauBullesInfos').hidden : false;
 //	document.getElementById('information').hidden = document.getElementById('TableauBullesInfos').hidden? false : true;
 }
 function InformationsShow()
 {
-	document.getElementById('TableauBullesInfos').hidden = true;
 	document.getElementById('information').hidden = false;// = document.getElementById('information').hidden : false;
+	document.getElementById('TableauBullesInfos').hidden = true;
+	document.getElementById('ModifBulleInfo').hidden = true;
+}
+function ModifBulleInfoShow()
+{
+	document.getElementById('ModifBulleInfo').hidden = false;// = document.getElementById('information').hidden : true;
+	document.getElementById('TableauBullesInfos').hidden = true;// = document.getElementById('TableauBullesInfos').hidden : false;
+	document.getElementById('information').hidden = true;// = document.getElementById('information').hidden : true;
 }
 window.addEventListener('resize', onResize);
 window.addEventListener('load', fn, false );

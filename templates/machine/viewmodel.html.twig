@@ -50,6 +50,8 @@
 		   	<button class="btn  btn-info" style="border:2px solid grey; display:inline;" onclick="InformationsShow();">Informations </button>
 		   	{% if is_granted('ROLE_ADMIN') %}
 		   		<button class="btn  btn-info" style="border:2px solid grey; display:inline;" onclick="TableauBullesInfos();">Tableau des bulles infos</button>
+		   		<button class="btn  btn-info" style="border:2px solid grey; display:inline;" onclick="ModifBulleInfoShow();">Tableau des bulles infos</button>
+		   		
 	   		{% endif %}
 		   </div>
 		<div id="information" hidden>
@@ -69,7 +71,6 @@
             	<button onClick="cube.EtapeChangement(-1)" class="btn btn-sm btn-secondary" title="Etape precedente"> < </button>
             	<h3 style="display: inline;">Etape <div style="display: inline;" id="OrdreEtape">0</div>/<div class="SpriteNbr" id="SpriteNb">0</div></h3>
             	<button class="btn btn-sm btn-secondary" onClick="cube.EtapeChangement(1)" title="Etape suivante"> > </button>
-        	
 			</div>
 
 {#             	{{ form_start(formEtape) }}#}
@@ -87,10 +88,9 @@
 {#                 	    <h2>Sauvegarde de toutes les etapes</h2>#}
 
         </div>                 
-                        <div style="margin-top: 30px; border-bottom : 0px solid #aaaaaa;">
-                       
-                        </div> 
-                    
+                    <div style="margin-top: 30px; border-bottom : 0px solid #aaaaaa;">
+                   
+                    </div>                     
           			<div id="TableauBullesInfos" hidden>
 						<div style="margin-top: 20px; width:90%; margin-left: 5%;">
                          <table id="table" style="" class="avectri table table-striped" border="1">
@@ -137,6 +137,21 @@
                			    {% endif %}  
                        </div>  
 				</div>
+				
+				<div id="ModifBulleInfo" hidden>
+					<div style=" margin-top: 30px;">     
+            	
+                	<div style="margin-left : 5%">Nom :</div>
+                	<div class="" id="" ></div>
+                	
+                	<div style="margin-left : 5%">Description :</div>
+                	<div class="" id=""></div>
+                
+                	<div style="margin-left : 5%">Ordre :</div>
+                	<div class="" id=""></div>
+{#             		<!--<button onclick="modifValider()" id="btnValiderModif">OK !</button>-->#}
+            	</div>
+				
 				
             </div>
         </div>
