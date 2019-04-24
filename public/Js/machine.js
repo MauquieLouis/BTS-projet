@@ -99,10 +99,12 @@ class Machines{
 			camera.position.x = sprite.cameraPosX;//sprite.cameraPosX 
 			camera.position.y = sprite.cameraPosY;//sprite.cameraPosY 
 			camera.position.z = sprite.cameraPosZ;//sprite.cameraPosZ
-			document.getElementById("tooltipName").innerHTML = cube.sprite.name; //affiche sur le web le nom
-			document.getElementById("tooltipInfo").innerHTML = cube.sprite.information;
-			document.getElementById("tooltipEtape").innerHTML = cube.sprite.etape;
-			document.getElementById("OrdreEtape").innerHTML = cube.sprite.etape;
+			document.getElementById("tooltipName").value = sprite.name; //affiche sur le web le nom
+			document.getElementById("tooltipInfo").value = sprite.information;
+			document.getElementById("OrdreEtape2").value = sprite.etape;
+			document.getElementById("OrdreEtape").innerHTML = sprite.etape;
+			cube.etapeEnCours = parseInt(sprite.etape);
+			
 		}
 	}
 	destroy(){ // detruit le cube en détruisant les sprites avant
@@ -138,26 +140,26 @@ class Machines{
 		})
 	}
 ////////////A SUPPRIMER /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	saveSprites(sprite, info, etape, cam) // Enregistre une sprite dans Sprites
-	{
-		sprite.information	= info; 
-		sprite.cameraPosX	= cam.position.x;
-		sprite.cameraPosY	= cam.position.y;
-		sprite.cameraPosZ	= cam.position.z;
-		sprite.etape		= etape;				//définit l'étape du sprite
-		sprite.onClick = () =>{						//fonction quand on click que la sprite
-			camera.position.x = sprite.cameraPosX;
-			camera.position.y = sprite.cameraPosY;
-			camera.position.z = sprite.cameraPosZ;
-			document.getElementById("tooltipName").innerHTML = cube.sprite.name; //affiche sur le web le nom
-			document.getElementById("tooltipInfo").innerHTML = cube.sprite.information;
-			//console.log(sprite.etape)
-		}
-		this.scene.add(sprite);
-		this.sprites.push(sprite);
-		this.sprite = sprite;						// le pointeur this.sprite se fixe sur la sprite
-		document.getElementById("SpriteNb").innerHTML = cube.sprites.length;
-	}
+//	saveSprites(sprite, info, etape, cam) // Enregistre une sprite dans Sprites
+//	{
+//		sprite.information	= info; 
+//		sprite.cameraPosX	= cam.position.x;
+//		sprite.cameraPosY	= cam.position.y;
+//		sprite.cameraPosZ	= cam.position.z;
+//		sprite.etape		= etape;				//définit l'étape du sprite
+//		sprite.onClick = () =>{						//fonction quand on click que la sprite
+//			camera.position.x = sprite.cameraPosX;
+//			camera.position.y = sprite.cameraPosY;
+//			camera.position.z = sprite.cameraPosZ;
+//			document.getElementById("tooltipName").innerHTML = cube.sprite.name; //affiche sur le web le nom
+//			document.getElementById("tooltipInfo").innerHTML = cube.sprite.information;
+//			//console.log(sprite.etape)
+//		}
+//		this.scene.add(sprite);
+//		this.sprites.push(sprite);
+//		this.sprite = sprite;						// le pointeur this.sprite se fixe sur la sprite
+//		document.getElementById("SpriteNb").innerHTML = cube.sprites.length;
+//	}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	deleteSprite() // supprime une sprite.
 	{
@@ -320,18 +322,18 @@ class Machines{
 	{
 		console.log(pString);
 	}
-	checkAllSprites()
-	{
-		for(var p=0;p<this.points.length;p++)
-		{
-			document.getElementById("etapes_name").value=document.getElementById("etapes_name").value + this.points[p].name;
-			document.getElementById("etapes_description").value=this.points[p].info;
-			document.getElementById("etapes_position").value=this.points[p].position.x+';'+ this.points[p].position.y +';'+ this.points[p].position.z;
-			document.getElementById("etapes_camera").value=this.points[p].camera.x +';'+ this.points[p].camera.y +';'+ this.points[p].camera.z;
-			document.getElementById("etapes_etape").value=this.points[p].etape;
-		}
-	}
-	testSaveTable()
+//	checkAllSprites()
+//	{
+//		for(var p=0;p<this.points.length;p++)
+//		{
+//			document.getElementById("etapes_name").value=document.getElementById("etapes_name").value + this.points[p].name;
+//			document.getElementById("etapes_description").value=this.points[p].info;
+//			document.getElementById("etapes_position").value=this.points[p].position.x+';'+ this.points[p].position.y +';'+ this.points[p].position.z;
+//			document.getElementById("etapes_camera").value=this.points[p].camera.x +';'+ this.points[p].camera.y +';'+ this.points[p].camera.z;
+//			document.getElementById("etapes_etape").value=this.points[p].etape;
+//		}
+//	}
+	SaveTable()
 	{
 		let spriteDescription=[];
 		let spritePosCamera=[];
@@ -626,12 +628,12 @@ function onClick(e)
 			if(intersect.object.type === 'Sprite')
 			{
 				cube.sprite = intersect.object;
-				document.getElementById("tooltipName").innerHTML = cube.sprite.name; //.innerHTML = <div>
-				document.getElementById("tooltipInfo").innerHTML = cube.sprite.information;
-				document.getElementById('etapes_position').value = cube.sprite.position.x +';'+cube.sprite.position.y +';'+ cube.sprite.position.z;
-				document.getElementById('etapes_name').value = cube.sprite.name;
-				document.getElementById('etapes_description').value = cube.sprite.information;
-				document.getElementById('etapes_etape').value = cube.sprite.etape;
+//				document.getElementById("tooltipName").value = cube.sprite.name; //.innerHTML = <div> .value = <input>
+//				document.getElementById("tooltipInfo").value = cube.sprite.information;
+//				document.getElementById('etapes_position').value = cube.sprite.position.x +';'+cube.sprite.position.y +';'+ cube.sprite.position.z;
+//				document.getElementById('etapes_name').value = cube.sprite.name;
+//				document.getElementById('etapes_description').value = cube.sprite.information;
+//				document.getElementById('etapes_etape').value = cube.sprite.etape;
 				//Selectionne la ligne du tableau en fonction de l'étape sélectionnée.
 				TableauHTMLTEST.Actualisation;
 				for(var i=0; i< TableauHTMLTEST.tableau.rows.length; i++)
@@ -839,12 +841,13 @@ function onScreenChange(){console.log('screenchange');}
 function fn() // Lorsque la page est chargée la fonction se déclenche
 {
 	onResize();
+	cube.sprites[0].onClick();
 }
 
 function TableauBullesInfos()
 {
 	document.getElementById('information').hidden = true;// = document.getElementById('information').hidden : true;
-	document.getElementById('ModifBulleInfo').hidden = false;
+//	document.getElementById('ModifBulleInfo').hidden = false;
 	document.getElementById('TableauBullesInfos').hidden = false;// = document.getElementById('TableauBullesInfos').hidden : false;
 //	document.getElementById('information').hidden = document.getElementById('TableauBullesInfos').hidden? false : true;
 }
@@ -852,13 +855,17 @@ function InformationsShow()
 {
 	document.getElementById('information').hidden = false;// = document.getElementById('information').hidden : false;
 	document.getElementById('TableauBullesInfos').hidden = true;
-	document.getElementById('ModifBulleInfo').hidden = true;
+//	document.getElementById('ModifBulleInfo').hidden = true;
 }
 function ModifBulleInfoShow()
 {
-	document.getElementById('ModifBulleInfo').hidden = false;// = document.getElementById('information').hidden : true;
+//	document.getElementById('ModifBulleInfo').hidden = false;// = document.getElementById('information').hidden : true;
 	document.getElementById('TableauBullesInfos').hidden = true;// = document.getElementById('TableauBullesInfos').hidden : false;
 	document.getElementById('information').hidden = true;// = document.getElementById('information').hidden : true;
+}
+function EditButton(idButton)
+{
+	document.getElementById(idButton).disabled ? (document.getElementById(idButton).disabled = false) : (document.getElementById(idButton).disabled = true);
 }
 window.addEventListener('resize', onResize);
 window.addEventListener('load', fn, false );

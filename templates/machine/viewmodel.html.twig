@@ -50,27 +50,39 @@
 		   	<button class="btn  btn-info" style="border:2px solid grey; display:inline;" onclick="InformationsShow();">Informations </button>
 		   	{% if is_granted('ROLE_ADMIN') %}
 		   		<button class="btn  btn-info" style="border:2px solid grey; display:inline;" onclick="TableauBullesInfos();">Tableau des bulles infos</button>
-		   		<button class="btn  btn-info" style="border:2px solid grey; display:inline;" onclick="ModifBulleInfoShow();">Tableau des bulles infos</button>
+{# 		   		<button class="btn  btn-info" style="border:2px solid grey; display:inline;" onclick="ModifBulleInfoShow();">Tableau des bulles infos</button>#}
 		   		
 	   		{% endif %}
 		   </div>
-		<div id="information" hidden>
+		<div id="information" >
            <div style=" margin-top: 30px;">     
             	
             	<div style="margin-left : 5%">Name :</div>
-            	<div class="informationTooltip" id="tooltipName" ></div>
+{#             	<div class="informationTooltip" id="tooltipName" ></div>#}
+				<input id="tooltipName" style="display: inline-block; margin-left : 5%;width: 80%;"disabled></input>
+				{% if is_granted('ROLE_ADMIN') %}
+                	<div style="display: inline-block; margin-left : 2%" class="col-1">
+                		<button id="boutonNom" onclick="EditButton('tooltipName');" type="button" class="btn btn-sm btn-secondary"><i class="far fa-edit"></i></button>
+            		</div>
+        		{% endif %}
             	
             	<div style="margin-left : 5%">Description :</div>
-            	<div class="informationTooltip" id="tooltipInfo"></div>
-            
+{#             	<div class="informationTooltip" id="tooltipInfo"></div>#}
+				<textarea id="tooltipInfo" style="display: inline-block; width: 80%; margin-left : 5%; min-height: 100pt; height:150pt; max-height: 200pt; text-overflow: ellipsis;  overflow: hidden; overflow: scroll" disabled>
+				</textarea>
+				{% if is_granted('ROLE_ADMIN') %}
+            		<div class="col-1" style="display: inline-block; margin-left : 2%"><button id="boutonNom" onclick="EditButton('tooltipInfo');" type="button" class="btn btn-sm btn-secondary"><i class="far fa-edit"></i></button></div>
+            	{% endif %}
             	<div style="margin-left : 5%">Ordre :</div>
-            	<div class="informationTooltip" id="tooltipEtape"></div>
+            	<input id="OrdreEtape2" style="width: 80%; margin-left : 5%;" disabled></input>
             	<!--<button onclick="modifValider()" id="btnValiderModif">OK !</button>-->
 
             	</br>	
-            	<button onClick="cube.EtapeChangement(-1)" class="btn btn-sm btn-secondary" title="Etape precedente"> < </button>
-            	<h3 style="display: inline;">Etape <div style="display: inline;" id="OrdreEtape">0</div>/<div class="SpriteNbr" id="SpriteNb">0</div></h3>
-            	<button class="btn btn-sm btn-secondary" onClick="cube.EtapeChangement(1)" title="Etape suivante"> > </button>
+            	<div style="margin-left : 5%">
+                	<button onClick="cube.EtapeChangement(-1)" class="btn btn-sm btn-secondary" title="Etape precedente"> < </button>
+                	<h3 style="display: inline;">Etape <div style="display: inline;" id="OrdreEtape">0</div>/<div class="SpriteNbr" id="SpriteNb">0</div></h3>
+                	<button class="btn btn-sm btn-secondary" onClick="cube.EtapeChangement(1)" title="Etape suivante"> > </button>
+            	</div>
 			</div>
 
 {#             	{{ form_start(formEtape) }}#}
@@ -116,13 +128,13 @@
 {#                         	{% endfor %}	#}
                         </table>
                         
+                           	{% if is_granted('ROLE_ADMIN') %}
                          <button class="btn btn-outline-info" onclick="TableauHTMLTEST.upNdown('up');">&ShortUpArrow;</button>
                          <button class="btn btn-outline-info" onclick="TableauHTMLTEST.upNdown('down');">&ShortDownArrow;</button>
-                          <button class="btn btn-outline-info" onclick="TableauHTMLTEST.ReinitialisationAffichage();//triTableau();//cube.testSaveTable();//validationChangementEtape();console.log('problemeHTML');)">Trier</button>
+                          <button class="btn btn-outline-info" onclick="TableauHTMLTEST.ReinitialisationAffichage();//triTableau();//cube.SaveTable();//validationChangementEtape();console.log('problemeHTML');)">Trier</button>
                           <button class="btn btn-outline-info" onclick="TableauHTMLTEST.ModifOrdreEtape();//validationChangementEtape();">Enregistrer changement</button>
                           <button class="btn btn-outline-info" onclick="cube.deleteSprite();">Supprimer</button>
-                           	{% if is_granted('ROLE_ADMIN') %}
-                                <button onclick="cube.ToggleSprite(); cube.testSaveTable();// IsHiddenFormEtape();" class="SpriteNbr spriteCreate btn btn-sm btn-outline-info">
+                                <button onclick="cube.ToggleSprite(); cube.SaveTable();// IsHiddenFormEtape();" class="SpriteNbr spriteCreate btn btn-sm btn-outline-info">
                         	    	<img id="btnSprite" class="buttonSprite SpriteNbr" src="../../image/machine/ampoule.png" width="50" height="30">
                                 </button>            
                 	     {{ form_start(saveAllSprites) }}  
@@ -131,26 +143,26 @@
                     	     {{ form_widget(saveAllSprites.position, {'attr':{'hidden':true}}) }}         	     
                     	     {{ form_widget(saveAllSprites.camera, {'attr':{'hidden':true}}) }}       	     
                     	     {{ form_widget(saveAllSprites.etape, {'attr':{'hidden':true}}) }}
-                    	     <button type="submit" class="btn btn-primary" id="btnSauvegarder" onclick="cube.testSaveTable();validationChangementEtape();" >Sauvegarder</button>
+                    	     <button type="submit" class="btn btn-primary" id="btnSauvegarder" onclick="cube.SaveTable();validationChangementEtape();" >Sauvegarder</button>
                          {{ form_end(saveAllSprites) }} 
                
                			    {% endif %}  
                        </div>  
 				</div>
 				
-				<div id="ModifBulleInfo" hidden>
-					<div style=" margin-top: 30px;">     
+{# 				<div id="ModifBulleInfo" hidden>#}
+{# 					<div style=" margin-top: 30px;">  </div>   #}
             	
-                	<div style="margin-left : 5%">Nom :</div>
-                	<div class="" id="" ></div>
+{#                 	<div style="margin-left : 5%">Nom :</div>#}
+{#                 	<div class="" id="" ></div>#}
                 	
-                	<div style="margin-left : 5%">Description :</div>
-                	<div class="" id=""></div>
+{#                 	<div style="margin-left : 5%">Description :</div>#}
+{#                 	<div class="" id=""></div>#}
                 
-                	<div style="margin-left : 5%">Ordre :</div>
-                	<div class="" id=""></div>
+{#                 	<div style="margin-left : 5%">Ordre :</div>#}
+{#                 	<div class="" id=""></div>#}
 {#             		<!--<button onclick="modifValider()" id="btnValiderModif">OK !</button>-->#}
-            	</div>
+{#             	</div>#}
 				
 				
             </div>
