@@ -79,7 +79,10 @@
 
             	</br>	
             	<div style="margin-left : 5%">
-                	<button onClick="cube.EtapeChangement(-1)" class="btn btn-sm btn-secondary" title="Etape precedente"> < </button>
+            		<button class="btn btn-sm btn-secondary" onclick="cube.OneSpriteModif()">Enregistrer</button>
+            	</div>
+            	<div style="margin-left : 5%">
+                	<button onClick="cube.EtapeChangement(-1)" class="btn btn-secondary" title="Etape precedente"> < </button>
                 	<h3 style="display: inline;">Etape <div style="display: inline;" id="OrdreEtape">0</div>/<div class="SpriteNbr" id="SpriteNb">0</div></h3>
                 	<button class="btn btn-sm btn-secondary" onClick="cube.EtapeChangement(1)" title="Etape suivante"> > </button>
             	</div>
@@ -143,7 +146,7 @@
                     	     {{ form_widget(saveAllSprites.position, {'attr':{'hidden':true}}) }}         	     
                     	     {{ form_widget(saveAllSprites.camera, {'attr':{'hidden':true}}) }}       	     
                     	     {{ form_widget(saveAllSprites.etape, {'attr':{'hidden':true}}) }}
-                    	     <button type="submit" class="btn btn-primary" id="btnSauvegarder" onclick="cube.SaveTable();validationChangementEtape();" >Sauvegarder</button>
+                    	     <button type="submit" class="btn btn-primary" id="btnSauvegarder" onclick="TableauHTMLTEST.ModifOrdreEtape();cube.SaveTable();//cube.validationChangementEtape();" >Sauvegarder</button>
                          {{ form_end(saveAllSprites) }} 
                
                			    {% endif %}  

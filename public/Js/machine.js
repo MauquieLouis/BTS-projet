@@ -355,6 +355,13 @@ class Machines{
 		document.getElementById('etapes_etape').value = 888;
 		document.getElementById('etapes_position').value = jsonOdre;
 	}
+	OneSpriteModif()
+	{
+		cube.sprite.name = document.getElementById('tooltipName').value;
+		cube.sprite.information = document.getElementById('tooltipInfo').value;
+		TableauHTMLTEST.ReinitialisationAffichage();
+	}
+	
 }
 /* FIN CLASSE Machines*/
 
@@ -367,7 +374,7 @@ class TableauEtapeHTML{
 	}
 	ModifOrdreEtape()
 	{
-		this.tableau.Actualisation;
+		this.Actualisation;//this.tableau.Actualisation;
 		for(var i = 1; i < this.tableau.rows.length; i++)
 	    {
 	        for(var j=0; j< cube.sprites.length; j++)
@@ -811,11 +818,11 @@ function Keyboard(event)
 	}
 	if(event.keyCode == 85) //u
 	{
-		AjoutEtapeTableau(cube.sprites[2].name,
-				cube.sprites[2].information,
-				cube.sprites[2].etape,
-				cube.sprites[2].idBDD,
-				cube.sprites[2].id);
+//		AjoutEtapeTableau(cube.sprites[2].name,
+//				cube.sprites[2].information,
+//				cube.sprites[2].etape,
+//				cube.sprites[2].idBDD,
+//				cube.sprites[2].id);
 	}
 	if(event.keyCode == 46) //Delete btn suppr.
 	{
@@ -841,7 +848,8 @@ function onScreenChange(){console.log('screenchange');}
 function fn() // Lorsque la page est chargée la fonction se déclenche
 {
 	onResize();
-	cube.sprites[0].onClick();
+	cube.sprite = cube.sprites[0];
+	cube.sprite.onClick();
 }
 
 function TableauBullesInfos()
