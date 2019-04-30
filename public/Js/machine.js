@@ -1,3 +1,4 @@
+//Date : 30/04/2019
 /* Classe Machines*/
 class Machines{
 	constructor(image)
