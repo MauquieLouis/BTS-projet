@@ -16,7 +16,7 @@
         </ul>
         <button type="button" class="add_tag_link" id="buttonAddMachine">|+| Modèle</button>
     	
-        {{ form_row(formEvent.dateStart, {'attr':{'placeholder' : "Date de l'evenement"}}) }}
+{#         {{ form_row(formEvent.dateStart, {'attr':{'placeholder' : "Date de l'evenement"}}) }}#}
         {{ form_row(formEvent.frequence, {'attr':{'placeholder' : "Frequence de repetition (ne rien mettre si ponctuel)"}}) }}
     
        	<button type="submit">Enregistrer</button>
@@ -81,9 +81,9 @@
             }
         	function addMachineForm($collectionHolderMachine, $newLinkLi)
         	{
+            	console.log('ADD MACHINE');
         		var prototype = $collectionHolderMachine.data('prototype');
         	    var index = $collectionHolderMachine.data('index');
-
         	    var newForm = prototype;
         	    newForm = newForm.replace(/__name__/g, index);
 
@@ -93,6 +93,30 @@
         	    // Display the form in the page in an li, before the "Add a tag" link li
         	    var $newFormLi = $('<li></li>').append(newForm);
         	    $newLinkLi.before($newFormLi);
+        	    var idForm = '#new_event_form_machinesid_'+index+'_ModeleMachine';
+				var $formActual = $('#new_event_form_machinesid_'+index+'_ModeleMachine');
+        	    
+				console.log(idForm, $formActual);
+				$formActual.change(function(){
+					console.log('Change !');
+					var $form = $(this).closest('form');
+					var data = {};
+					data[$formActual.attr('name')] = $formActual.val();
+					console.log(data, $formActual.val());
+
+					$.ajax({
+						url  : $form.attr('action'),
+						type : $form.attr('method'),
+						data : data,
+						succes: function(html){
+							console.log('SUCCESS !!');
+							$('#new_event_form_machinesid_'+index+'_machinesDispo').replacewith(
+								$(html).find(('#new_event_form_machinesid_'+index+'_machinesDispo'))
+								);
+							}
+						});
+					});
+        	    
             }
             function DeleteLiUser(id)
             {
