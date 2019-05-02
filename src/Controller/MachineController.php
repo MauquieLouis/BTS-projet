@@ -1,4 +1,3 @@
-<!-- Date : 30/04/2019 -->
 <?php
 
 namespace App\Controller;
@@ -225,7 +224,7 @@ class MachineController extends AbstractController
             
                 return $this->redirectToRoute('modele3D',['slug'=> $slug]);
         }      
-        /// Maj Ordre des étapes
+        /// Maj Ordre des ï¿½tapes
         $formSaveOrdreEtapes = $this->createFormBuilder()
         ->getForm();
         $formSaveOrdreEtapes->handleRequest($request);
@@ -271,7 +270,7 @@ class MachineController extends AbstractController
             $newMachine = $formMachine->getData();
             $em->persist($newMachine);
             $em->flush();
-            $this->addFlash('info', 'Modifications enregistrées');
+            $this->addFlash('info', 'Modifications enregistrï¿½es');
             return $this->redirectToRoute('machine');
         }
         
@@ -287,7 +286,7 @@ class MachineController extends AbstractController
             }   
             $em->remove($machine);
             $em->flush();
-            $this->addFlash('danger', "Machine supprimée");
+            $this->addFlash('danger', "Machine supprimï¿½e");
             return $this->redirectToRoute('modelesmachines');            
         }     
         return $this->render('machine/editionmachine.html.twig', [
@@ -335,7 +334,7 @@ class MachineController extends AbstractController
         {            
             $em->remove($maintenances);
             $em->flush();
-            $this->addFlash('danger', "Maintenance supprimée");
+            $this->addFlash('danger', "Maintenance supprimï¿½e");
             return $this->redirectToRoute('maintenanceedition',['id'=> $id] );
         }
         return $this->render('machine/editionmaintenance.html.twig', [
@@ -506,7 +505,7 @@ class MachineController extends AbstractController
 //             dd('fin');
             $em->remove($modele);
             $em->flush();
-            $this->addFlash('danger', "Modèle supprimé");
+            $this->addFlash('danger', "Modï¿½le supprimï¿½");
             return $this->redirectToRoute('modelesmachines');
         }
         return $this->render('machine/editionmodele.html.twig', [

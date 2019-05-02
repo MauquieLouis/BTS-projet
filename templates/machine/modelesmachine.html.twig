@@ -14,7 +14,7 @@
 {# 	<button onClick="cube.checkAllSprites();//document.getElementById('form_Sauvegarder').click();">testcchek</button>#}
 <div class="row AdminRow2">
     <div class="col-12 offset-md-3 col-md-6 AdminRow1 TitlePage">
-        <h1>Visualisation des modèles </h1>
+        <h1>Visualisation des modï¿½les </h1>
         
     </div>
 </div>
@@ -22,7 +22,7 @@
     <div class="row">
     	<h2>
     		<i class="fas fa-digital-tachograph"></i>
-    		Liste modèles : 
+    		Liste modï¿½les : 
     	</h2>
     </div>
     <div class="row ">
@@ -34,6 +34,7 @@
                     </div>
                     <div class="card-body card-body-listeMachine BorderViolet" style="width:100%">
                         <div class="card-text-listeMachine BorderViolet">
+                        	<h2 class="center">{{ modele.nom }}</h2>
                         </div>
                         <div class="card-button-listeMachine">
                             {% if is_granted('ROLE_ADMIN') %}
@@ -62,7 +63,7 @@
                             	<i class="fas fa-plus-circle" style="font-size:40px">
                             	</i>
                             </h3>
-                            </br><h3>Ajouter un modèle</h3>
+                            </br><h3>Ajouter un modï¿½le</h3>
                         </div>
                     </div>
                 </div>
