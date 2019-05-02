@@ -14,7 +14,7 @@
 {#         {{ form_row(formEvent.machinesid, {'attr':{'placeholder' : "Inserer une machine"}}) }}#}
         <ul class="listeMachineId" data-prototype="{{ form_row(formEvent.machinesid.vars.prototype)|e }}">
         </ul>
-        <button type="button" class="add_tag_link" id="buttonAddMachine">|+| Machine</button>
+        <button type="button" class="add_tag_link" id="buttonAddMachine">|+| Modèle</button>
     	
         {{ form_row(formEvent.dateStart, {'attr':{'placeholder' : "Date de l'evenement"}}) }}
         {{ form_row(formEvent.frequence, {'attr':{'placeholder' : "Frequence de repetition (ne rien mettre si ponctuel)"}}) }}
@@ -53,6 +53,11 @@
 			//allUserInput.push(lastUserSelected);										//Tableau contenant tout les id des select
 			$(lastUserSelected2).off();													//On désactive les events sur le champ précédent
             var newForm = prototype;
+
+            //Ajout boutton delete sur l'ancien UserSelect;
+            var last = $(lastUserSelected2).parent().parent().parent().parent();
+            $(last).append('<span onclick="DeleteLiUser('+'\'#new_event_form_usersid_'+(index-1)+'_user'+'\');" style="cursor: pointer;"><i class="fas fa-times-circle" style="color:#EE8686"></i></span>');
+            
             // You need this only if you didn't set 'label' => false in your tags field in TaskType
             // Replace '__name__label__' in the prototype's HTML to
             // instead be a number based on how many items we have
@@ -67,7 +72,8 @@
 
             // Display the form in the page in an li, before the "Add a tag" link li
             var $newFormLi = $('<li></li>').append(newForm);
-            $newLinkLi.before($newFormLi);
+//             $newFormLi.append('<span onclick="console.log(\'click delete\');" style="cursor: pointer;"><i class="fas fa-times-circle" style="color:#EE8686"></i></span>');
+			$newLinkLi.before($newFormLi);
 			
 			$(lastUserSelected).change(function(){				//On créer un evenement sur le champs actuel
 				addTagForm($collectionHolder, $newLinkLi);
@@ -87,6 +93,11 @@
         	    // Display the form in the page in an li, before the "Add a tag" link li
         	    var $newFormLi = $('<li></li>').append(newForm);
         	    $newLinkLi.before($newFormLi);
+            }
+            function DeleteLiUser(id)
+            {
+                console.log('Remove ...');
+				$(id).parent().parent().parent().parent().remove();
             }
     </script>
 {% endblock %}
