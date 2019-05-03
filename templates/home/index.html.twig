@@ -14,17 +14,20 @@
 
     		<div class="col-12 offset-md-4 col-md-4 BorderRouge">
     			
-    			<button class=selCal id=btCalMonth>Mois</button></td>
-    			<button class=selCal id=btCalWeek>Semaines</button></td>
+    			<span class=selCal id=btCalMonth>Mois</span>
+    			<span class=selCal id=btCalWeek>Semaines</span>
     			<div id=calPlace></div> 	
     			<script src="{{ asset('../Js/calendarWeek.js') }}"></script>
 				<script src="{{ asset('../Js/calendar.js') }}"></script>
-    			<script>	
-    				document.getElementById("calPlace").innerHTML = calendarWeek.writeHTML(); 	//Ecriture d'une calendirer
-    				calendarWeek.chWeek();
-    			</script>
+				<div id=dateEventAff></div>
     		</div>
-			<div class="offset-10 col-2" id=EventPlace></div> 		
+    		
+			<div class="eventStyle offset-10 col-2" id=EventPlace></div> 
+   			<script>	
+    			document.getElementById("calPlace").innerHTML = calendarWeek.writeHTML(); 	//Ecriture d'une calendirer
+    			calendarWeek.chWeek();
+    			affichageEvent(calendarWeek.eventAffiche);
+    		</script>		
 		</div>
 
 	</div>

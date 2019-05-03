@@ -4,6 +4,7 @@ class calMonth{
 	currWeek;
 	currMonth;
 	nbCases = 42;
+	eventAffiche;
 	
 	set currMonth(month){
 		this.currMonth = parseInt(month);
@@ -13,6 +14,9 @@ class calMonth{
 	}
 	set currWeek(currWeek){
 		this.currWeek = currWeek;
+	}
+	set eventAffiche(date){
+		this.eventAffiche = date;
 	}
 
 
@@ -58,6 +62,7 @@ class calMonth{
 		var day1 = mmyyyy.getDay();
 		if (day1 == 0)
 			day1 = 7;
+		
 		var arrN = new Array(this.nbCases-1);
 		var aa;		
 		var caseDay;
@@ -69,10 +74,10 @@ class calMonth{
 		//----Mois précèdent----//
 		for (i=0;i<day1-1;i++){
 			caseMonth = (this.currMonth==0)?12:this.currMonth;
-			caseMonth = (caseMonth <10)?"0"+caseMonth:caseMonth;
+			caseMonth = syntaxe(caseMonth,0);
 			caseYear = (this.currMonth==0)?this.currYear-1:this.currYear;
-			caseDay =((arrN[i]<10)?"0"+arrN[i]:arrN[i]);
 			arrN[i] = maxDays(prevM,this.currYear) - day1 + i+2;
+			caseDay = syntaxe(arrN[i],0);
 			eval("sp"+i).style.backgroundColor = colorOtherMonth;
 			eval("sp"+i).name = caseDay + "/" +caseMonth + "/" + caseYear;
 		}
@@ -81,16 +86,10 @@ class calMonth{
 		aa = 1;
 		for (i=day1-1;i<=day1+maxDays(this.currMonth,this.currYear)-2;i++,aa++){
 			arrN[i] = aa ;
-			if ((arrN[i]==dd)&&(mm==this.currMonth)&&(yyyy==this.currYear)){ //Aujourd'hui
-				eval("sp"+i).style.backgroundColor=colorToday;
-				//clickOnCase("none");
-			}
-			else
-				eval("sp"+i).style.backgroundColor=colorMonth;
-			caseDay =((arrN[i]<10)?"0"+arrN[i]:arrN[i]);
-			caseMonth = ((parseInt(this.currMonth + 1)<10)?"0"+parseInt(this.currMonth + 1):parseInt(this.currMonth + 1));
+			caseDay = syntaxe(arrN[i],0);
+			caseMonth = syntaxe(this.currMonth, 1);
 			eval("sp"+i).name = caseDay + "/" + caseMonth + "/" + this.currYear;
-			
+			eval("sp"+i).style.backgroundColor=colorMonth;
 		}
 		
 		//----Mois suivant----//
@@ -98,26 +97,31 @@ class calMonth{
 		for (i=day1+maxDays(this.currMonth,this.currYear)-1;i<this.nbCases;i++,aa++){
 		
 			caseMonth = (this.currMonth==11)?1:this.currMonth+2;
-			caseMonth = (caseMonth <10)?"0"+caseMonth:caseMonth;
+			caseMonth = syntaxe(caseMonth,0);
 			caseYear = (this.currMonth==11)?this.currYear+1:this.currYear;
-		
 			arrN[i] = aa;
-			
-			caseDay =((arrN[i]<10)?"0"+arrN[i]:arrN[i]);
+			caseDay =  syntaxe(arrN[i],0);
 			eval("sp"+i).style.backgroundColor = colorOtherMonth;
 			eval("sp"+i).name = caseDay + "/" + caseMonth + "/" + caseYear;
-			
 		}
 		//-------------------------------------------------------------------------------------------------//
 		//------------------------Définition de la taille et remplissage des cases-------------------------//
 		//----Parcour de toutes les cases----//
 		for (i=0;i< this.nbCases;i++){
 			eval("sp"+i).style.height = caseHeight;	//Définition de la hauteur des cases
-			eval("sp"+i).style.width = (windowWidth < 738)?windowWidth/7+"px":windowWidth/21+"px"; //Définition de la largeur des cases en fontion de la taille de la fenêtre
+			eval("sp"+i).style.width = (windowWidth < 738)?windowWidth/7-30+"px":windowWidth/21+"px"; //Définition de la largeur des cases en fontion de la taille de la fenêtre
 			eval("sp"+i).innerHTML = arrN[i]; //Remplissage des cases
+			
+			if (eval("sp"+i).name == syntaxe(dd,0)+"/"+ syntaxe(mm,1) +"/"+yyyy){ //Aujourd'hui
+				eval("sp"+i).style.backgroundColor=colorToday;
+				isItToday = true;
+			}
+			else isItToday = false;
+			if(eval("sp"+i).name == this.eventAffiche && isItToday == false)eval("sp"+i).style.background = colorSelectDay;
+			//else eval("sp"+i).style.background = colorMonth;
 		}	
 		//-------------------------------------------------------------------------------------------------//
-		affichageNotifEvent(this, "sp");
+		getEvents(this.nbCases, eval(sp0).name, eval(sp41).name);
 	}
 
 	writeHTML(){
@@ -129,8 +133,8 @@ class calMonth{
 		text += "<td class=\"row\">";
 		text += "<span class=\"col-2\" onClick='calendarMonth.chMonth(\"-\")'><i style=\"font-size:30px\" class=\"fas fa-chevron-left\"></i></span>";
 		text += "<select class=\"col-6 form-control form-control-sm\" name=selMonth onChange='calendarMonth.chMonth()'>"; //Quand on selectionne un mois, la fonction changeCal() est appelé
-		for (i=0;i<=11;i++)		//Remplissage de la balise de selection du mois
-			(i==mm)?text += "<option value= " + i + " Selected>" + arrM[i] + "</option>": text += "<option value= " + i + ">" + arrM[i] + "</option>";//Le mois courant est séléctionné au lancement
+		for (var i=0;i<=11;i++)		//Remplissage de la balise de selection du mois
+			(i==parseInt(this.eventAffiche.substr(3,2)-1))?text += "<option value= " + i + " Selected>" + arrM[i] + "</option>": text += "<option value= " + i + ">" + arrM[i] + "</option>";//Le mois courant est séléctionné au lancement
 		
 		text += "</select>";	
 		text += "<span class=\"col-2\" onClick='calendarMonth.chMonth(\"+\")'><i style=\"font-size:30px\" class=\"fas fa-chevron-right\"></i></span>";
@@ -138,7 +142,7 @@ class calMonth{
 		text += "</td>";
 		text += "<td align=right>";
 		text += "<select name=selYear class=\"col-7 form-control form-control-sm\" onChange='calendarMonth.chMonth()'>";	//Quand on selectionne une année, la fonction changeCal() est appelé
-		for (i=0;i<=nbYear;i++)		//Remplissage de la balise de selection de l'année
+		for (var i=0;i<=nbYear;i++)		//Remplissage de la balise de selection de l'année
 			(i==nbYear/2)?text += "<option value= " + arrY[i] + " Selected>" + arrY[i] + "</option>": text += "<option value= " + arrY[i] + ">" + arrY[i] + "</option>";//L'année courante est séléctionnée au lancement
 		
 		text += "</select>";
@@ -148,32 +152,39 @@ class calMonth{
 		text += "<tr><td>";
 		text += "<table class=\"tabStyle\">";
 		text += "<tr>";
-		for (i=0;i<=6;i++)
+		for (var i=0;i<=6;i++)
 			text += "<td class=\"dayStyle\"><span>" + arrD[i] + "</span></td>"; //Affiche des jours de la semaine
 		text += "</tr>";
 		var aa = 0;
-		for (k=0;k<=5;k++){
+		for (var k=0;k<=5;k++){
 			text += "<tr>";
-			for (i=0;i<=6;i++, aa++)
+			for (var i=0;i<=6;i++, aa++)
 				text += "<td class=\"caseStyle\" align=center><div name=1 id=sp" + aa + " onClick='clickOnCase(this.id, calendarMonth)'></div></td>"; //Affiche des 42 case des jours, quand on séléctionne une case, la fonction affichage event est appelé
 			text += "</tr>";
 		}
 		text += "</table>";
 		text += "</td></tr>";
 		text += "</table>";
-		text += "<span id = eve><span>"; //Création de la balise, avec l'id 'eve'
 		text += "</form>";
 		return text; 	//Ecriture d'une calendirer
 	}
+	/*window.onresize = function resize(){
+		alert("<768");
+		windowWidth = parseInt(document.body.clientWidth);
+		if(windowWidth < 768)
+			alert("<768");
+			for (i=0;i<14;i++)eval("sp"+i).style.width = windowWidth/2-27+"px";
+		else
+			for (i=0;i<14;i++)eval("sp"+i).style.width = windowWidth/6+"px";
+	};*/
 }
 
 var calendarMonth = new calMonth();
+calendarMonth.eventAffiche = syntaxe(dd,0)+"/"+syntaxe(mm,1)+"/"+yyyy;
+
 document.getElementById("btCalMonth").addEventListener("click", function(){
 	document.getElementById("calPlace").innerHTML = calendarMonth.writeHTML(); 	//Ecriture d'une calendirer
 	calendarMonth.chMonth();
+	affichageEvent(calendarMonth.eventAffiche);
 });
-
-
-//-------Redimenssion du calendrier en fonction de la taille de la fenêtre-------//
-
 

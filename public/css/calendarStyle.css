@@ -6,15 +6,17 @@ text-align:center;
 }
 
 .selCal:hover {
-	background-color: #e7e7e7; color: black;
+	background-color: #e7e7e7; 
+	color: deepskyblue;
 }
 
 .selCal{
 	background:deepskyblue;
+	color: white;
 }
 
 th, td {
-padding:4px;
+	padding:4px;
 }
 
 .caseStyle{
@@ -31,6 +33,17 @@ padding:4px;
 	 border-width : 2px 0px 0px 0px; 
 }
 
+.eventStyle{
+	border: medium solid deepskyblue;
+	color: deepskyblue;
+
+}
+.tabEventStyle{
+	border: medium solid deepskyblue;
+	border-collapse:collapse;
+	color: deepskyblue;
+}
+
 .caseStyle:hover{
 background:deepskyblue;
 }
@@ -44,4 +57,9 @@ font-weight:bold;
 	position: absolute;
 	top: 0;
 	right:0;
+}
+
+.acces3D:hover{
+	background:deepskyblue;
+	color: white;
 }
