@@ -184,32 +184,18 @@ function affichageEvent(date){
 
 ///////////////////////////////////////////////Au click sur une case/////////////////////////////////////////////////
 function clickOnCase(id, cal){
-	//alert(calendarWeek.currWeek);
-	//----Si aucun id n'est passé, on prend celui d'aujourd'hui----//
-	//=======>Calendrier mois
-	//if(id.substr(0, 2) != "sp"){
-	//	for (var i=0;i<=41;i++){
-	//		if(eval("sp"+i).style.backgroundColor == colorToday)id = "sp"+i;
-	//	}
-	//}
-	
 	//----Définition du jour clicker----//
-	var dw = parseInt(eval(id).innerHTML);
-	wDate.setDate(dw);
 	var dateClick = eval(id).name;
 	
-	if(dw == "")dw = now.getDate();
-	var monthWasChange1 = cal.currMonth;
 	//----------Si la case clicker fait partis d'un autre mois, alors on change de mois----------//
 	if(cal == calendarMonth){
 		if(parseInt(eval(id).name.substr(3,2)) > parseInt(cal.currMonth+1))cal.chMonth("+");
 		else if(parseInt(eval(id).name.substr(3,2)) < parseInt(cal.currMonth+1))cal.chMonth("-");
 
 	}	
-	//---------------------------Coloriage------------------------------//
-	var monthWasChange2 = cal.currMonth;
-	//----Recoloriage de la case clicker précèdament----//
 	
+	//---------------------------Coloriage------------------------------//
+	//----Recoloriage de la case clicker précèdament----//
 	if(idPrec != ""){
 		for (var i=0;i<cal.nbCases;i++){
 			var balise = eval("sp"+i);
@@ -220,7 +206,7 @@ function clickOnCase(id, cal){
 			}
 		}
 	}
-
+	//----Coloriage de la case clicker----//
 	for (var i=0;i<cal.nbCases;i++){
 		var balise = eval("sp"+i);
 		if(balise.name == dateClick){
@@ -230,25 +216,6 @@ function clickOnCase(id, cal){
 		}
 	}
 	
-	/*if (idPrec != ""
-		&& eval(idPrec).style.backgroundColor != colorToday
-		&& eval(idPrec).style.backgroundColor != colorOtherMonth){
-		for(var i=0; i < cal.nbCases; i++){
-			if (eval("sp"+i).name == cal.eventAffiche){
-				eval("sp"+i).style.background = (cal.eventAffiche.substr(3,7) == syntaxe(cal.currMonth,1)+"/"+cal.currYear)?colorMonth:colorOtherMonth;
-			}
-		}
-	}
-	//----Coloriage de la case clicker et appel de la fonction affichageEvent----//
-	/*for (var i=0;i<cal.nbCases;i++){
-		var balise = eval("sp"+i);
-		if(balise.innerHTML)==dw ){
-			if (balise.style.backgroundColor != colorToday)
-				if(cal != calendarMonth || balise.style.backgroundColor != colorOtherMonth)balise.style.backgroundColor = colorSelectDay;
-			affichageEvent(eval(balise).name);
-			idPrec = balise;
-		}
-	}*/
 }
 
 window.onresize = function resize(){
