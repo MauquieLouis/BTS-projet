@@ -30,12 +30,11 @@ class EventController extends AbstractController
         {
             foreach($event->getUsersid() as $user)                  //parcour du tableau des utilisateurs
             {
-                $userIn = $user['user'];
-                if($userIn) 
+                $userIn = $user['user'];                            //Recupere l'user
+                if($userIn)                                         //Si il existe
                 {
                     $userIdTable[]=$userIn->getId();                //Création d'un tableau avec les id des utilisateurs retournés.
                 }
-                
             }
             $event->setUsersid($userIdTable);
             dd('Form', $event);

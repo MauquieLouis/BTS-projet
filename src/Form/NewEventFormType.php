@@ -30,7 +30,7 @@ class NewEventFormType extends AbstractType
                 'entry_options' => ['label' => false],
                 'allow_add' => true
             ])
-            ->add('dateStart', DateType::class,['data' => new \DateTime()])
+//             ->add('dateStart', DateType::class,['data' => new \DateTime(), 'required' => false])
             ->add('frequence',IntegerType::class,['required' => false])
         ;
     }
