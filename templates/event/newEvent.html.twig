@@ -92,7 +92,7 @@
 			console.log(lastUserSelected.split('#')[1]);
 			
 			var label = $('label[for='+lastUserSelected.split('#')[1] +']')
-			label.hide();
+			label.remove();
 			$(lastUserSelected).change(function(){				//On créer un evenement sur le champs actuel
 				addTagForm($collectionHolder, $newLinkLiUser);
 				})
@@ -113,7 +113,7 @@
         	    $newLinkLiMachine.before($newFormLi);
         	    var idForm = '#new_event_form_machinesid_'+index+'_ModeleMachine';
 				var $formActual = $('#new_event_form_machinesid_'+index+'_ModeleMachine');
-        	    
+        	    $(idForm).addClass("form-control form-control-sm");
 				console.log(idForm, $formActual);
 				$formActual.change(function(){
 					console.log('Change !');
