@@ -78,14 +78,12 @@ var ye = new Array();
 
 function getEvents(arg, dateStart, dateEnd){
 	tabEvent = "";
-	
-	dateStart = dateStart.substr(6,4) + "-" + dateStart.substr(3,2) + "-" + dateStart.substr(0,2);
-	dateEnd = dateEnd.substr(6,4) + "-" + dateEnd.substr(3,2) + "-" + dateEnd.substr(0,2);
-	//tabEvent = table.ByDate(dateStart, dateEnd);
-	//alert(cal + dateStart + dateEnd);
-	//tabEvent = 
+
+	dateStart = dateStart.substr(6,4) + "-" + syntaxe(dateStart.substr(3,2),-1) + "-" + dateStart.substr(0,2);
+	dateEnd = dateEnd.substr(6,4) + "-" + syntaxe(dateEnd.substr(3,2),1) + "-" + dateEnd.substr(0,2);
+
 	tabEvent = table.ByDate(dateStart, dateEnd);
-	//console.log(tabEvent);
+
 	var frequenceDay = 7;
 	var frequenceMonth;
 	var frequenceYear;
@@ -107,7 +105,7 @@ function getEvents(arg, dateStart, dateEnd){
 			//itteration = (nbYear/2*365)/frequenceE*7
 			//Math.trunc((arg-parseInt(de[j][0]))/frequenceDay)
 			var l = 0;
-			for(var k=1; k <= 6; k++, l++){
+			for(var k=1; k <= 7; k++, l++){
 				var nbDays = maxDays(parseInt(me[j][l]-1+frequenceMonth), parseInt(ye[j][l]+frequenceYear));
 				if(parseInt(de[j][l])+frequenceDay > parseInt(nbDays)){
 					frequenceMonth = Math.trunc((parseInt(de[j][l])+frequenceDay)/nbDays);
@@ -141,14 +139,14 @@ function getEvents(arg, dateStart, dateEnd){
 			for (var k = 0; k <= parseInt(de[0].length); k++){
 				var dateEvent = de[j][k] + "/" + me[j][k] +"/"+ ye[j][k];
 				if(dateEvent == eval("sp"+i).name){
-					eval("sp"+i).innerHTML += "<a><br><i style=\"font-size:10px\" class=\"far fa-dot-circle\"></i></br></a>"; //Alort affiché un cercle
+					(eval("sp"+i).innerHTML.indexOf("fa-dot-circle") == -1)?eval("sp"+i).innerHTML += "<a><br><i style=\"font-size:10px\" class=\"far fa-dot-circle\"></i></a>"
+					:eval("sp"+i).innerHTML += "<i style=\"font-size:10px\" class=\"far fa-dot-circle\"></i>"; 
 				}	 
 			//--------------------------------------//
 			}
 		}
 
 	}
-	
 	
 }
 
@@ -171,12 +169,15 @@ function affichageEvent(date){
 		for(var k=0; k <= parseInt(de[0].length); k++)
 		{
 			dateEvent = de[j][k] + "/" + me[j][k] +"/"+ ye[j][k];
-			if(dateEvent == date)
-				textEvent += "<table border=1px class=\"tabEventStyle\"><tr><td>Titre</td><td>Descrption</td><td>3D</td></tr><tr><td align=left><span id=title>" + tabEvent[j][1] + "</span></td><td><span id=content>" + tabEvent[j][2]+ "</span></td>" +
-						"<td><div class=\"acces3D\" onClick=\"document.location.href='/modele/1'\">Accés Modèle 3D</div></td</tr></table>";
+			if(dateEvent == date){
+				(textEvent.indexOf("Titre") == -1)?textEvent += "<table border=1px class=\"tabEventStyle\"><tr><td>Titre</td><td>Descrption</td><td>3D</td></tr><tr><td align=left><span id=title>" + tabEvent[j][1] + "</span></td><td><span id=content>" + tabEvent[j][2]+ "</span></td>" +
+						"<td><div class=\"acces3D\" onClick=\"document.location.href='/modele/1'\">Accés Modèle 3D</div></td</tr>"
+						:textEvent += "<tr><td align=left><span id=title>" + tabEvent[j][1] + "</span></td><td><span id=content>" + tabEvent[j][2]+ "</span></td>" +"<td><div class=\"acces3D\" onClick=\"document.location.href='/modele/1'\">Accés Modèle 3D</div></td</tr>";
+				
+			}
 		}//																			"+	tabEvent[j][3] + "
 	}
-	text += (textEvent=="")?"Aucun évènement prévu pour le moment..."+"</br>":textEvent;
+	text += (textEvent=="")?"Aucun évènement prévu pour le moment..."+"</br>":textEvent + "</table>";
 	document.getElementById("EventPlace").innerHTML = text;
 }
 

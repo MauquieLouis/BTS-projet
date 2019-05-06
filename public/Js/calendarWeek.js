@@ -1,11 +1,13 @@
 class calWeek{
-	currYear;
-	currWeek;
-	currMonth;
-	nbCases = 14;
-	eventAffiche = dd+"/"+mm+"/"+yyyy;
-	
-	set currMonth(month){
+	constructor (){
+		this.currYear = 0;
+		this.currWeek = 0;
+		this.currMonth = 0;
+		this.nbCases = 14;
+		this.eventAffiche = dd+"/"+mm+"/"+yyyy;
+		
+	}
+	/*set currMonth(month){
 		this.currMonth = parseInt(month);
 	}
 	set currYear(currYear){
@@ -16,7 +18,7 @@ class calWeek{
 	}
 	set eventAffiche(date){
 		this.eventAffiche = date;
-	}
+	}*/
 	
 	chWeek(plusOuMoins){
 		this.currWeek = parseInt(document.calWeekForm.selWeek.value);
@@ -51,9 +53,11 @@ class calWeek{
 	}
 	
 	changeCal(){
-		//---Définition de l'année et de la semaine courante---//
-
-		//--Définition des variables servant au calcul des jours--//
+		eval("btCalMonth").style.background = "deepskyblue";
+		eval("btCalMonth").style.color = "#e7e7e7";
+		eval("btCalWeek").style.background = "#e7e7e7";
+		eval("btCalWeek").style.color = "deepskyblue";
+		
 		var nbMonth = 0; //Futur numéro mois courrant
 		//Calcul du premier jour à afficher//
 		var firstDayYearDate = new Date();
@@ -128,51 +132,54 @@ class calWeek{
 	}
 	
 	writeHTML(){
-	var text = "";
-	text = "<form name=calWeekForm>";
-	text += "<table id=\"greatTab\" class=\"tabStyle\">";
-	text += "<tr><td class=\"row\">";
-	//
-	text += "<span class=\"col-2\" onClick='calendarWeek.chWeek(\"+-\")'><i style=\"font-size:30px\" class=\"fas fa-calendar-day\"></i></span>";
-	text += "<span class=\"col-2\" onClick='calendarWeek.chWeek(\"-\")'><i style=\"font-size:30px\" class=\"fas fa-chevron-left\"></i></span>";
-	text += "<select class=\"col-6 form-control form-control-sm\" name=selWeek onChange='calendarWeek.chWeek()'>"; //Quand on selectionne un mois, la fonction changeCal() est appelé
-
-	for (var i=1;i<=52	;i++)		//Remplissage de la balise de selection du mois
-		(i==nbWeek(parseInt(this.eventAffiche.substr(0,2)), parseInt(this.eventAffiche.substr(3,2)-1), this.eventAffiche.substr(6,4)))?text += "<option value= " + i + " Selected>" + "Sem" + i + "</option>": text += "<option value= " + i + ">" + "Sem" + i + "</option>";//Le mois courant est séléctionné au lancement
-	text += "</select>";
-	text += "<span class=\"col-2\" onClick='calendarWeek.chWeek(\"+\")'><i style=\"font-size:30px\" class=\"fas fa-chevron-right\"></i></span>";				
-	text += "</td></tr>";
-	text += "<tr class=\"dayStyle\"><td width=\"100%\">";		
-	text += "<span id=month>"+arrM[mm]+"</span>";
-	text += "<span id=year>   "+yyyy+"</span>";
-	text += "</td></tr>";
-	text += "<tr><td>";
-	text += "<table>"
-	text += "<tr>";
-	var aa = 0;
-	for (var j=0; j<=1; j++)
-	{
-		text += "<td>"
-		text += "<table>";
-		for (i=0;i<=6;i++)
-			text += "<tr class=\"dayStyle2\"><td ><div style=\"height:50px\">" + arrD[i] + "</div></td></tr>"; //Affiche des jours de la semaine
-		text += "</table>";
-		text += "</td>";	
-		text += "<td>";
-		text += "<table>";
-		for (var i=0;i<=6;i++, aa++){
-			text += "<tr><td class=\"caseStyle\"  onClick='clickOnCase(sp"+aa+", calendarWeek)'>";
-			text += "<div name=1 id=sp"+ aa +">1</div>"
-			//text += "<div name=1 id=ev"+ aa +"></div>"
-			text +="</td></tr>";
+		var text = "";
+		text = "<form name=calWeekForm>";
+		text += "<table id=\"greatTab\" class=\"tabStyle\">";
+		text += "<tr><td class=\"row\">";
+		text += "<span class=\"col-2\" onClick='calendarWeek.chWeek(\"+-\")'><i style=\"font-size:30px\" class=\"fas fa-calendar-day\"></i></span>";
+		text += "<span class=\"col-2\" onClick='calendarWeek.chWeek(\"-\")'><i style=\"font-size:30px\" class=\"fas fa-chevron-left\"></i></span>";
+		text += "<select class=\"col-6 form-control form-control-sm\" name=selWeek onChange='calendarWeek.chWeek()'>"; //Quand on selectionne un mois, la fonction changeCal() est appelé
+	
+		for (var i=1;i<=52;i++)		//Remplissage de la balise de selection du mois
+			(i==nbWeek(parseInt(this.eventAffiche.substr(0,2)), parseInt(this.eventAffiche.substr(3,2)-1), this.eventAffiche.substr(6,4)))?text += "<option value= " + i + " Selected>" + "Sem" + i + "</option>": text += "<option value= " + i + ">" + "Sem" + i + "</option>";//Le mois courant est séléctionné au lancement
+		text += "</select>";
+		text += "<span class=\"col-2\" onClick='calendarWeek.chWeek(\"+\")'><i style=\"font-size:30px\" class=\"fas fa-chevron-right\"></i></span>";				
+		text += "</td></tr>";
+		text += "<tr class=\"dayStyle\"><td>";		
+		text += "<span id=month>"+arrM[mm]+"</span>";
+		text += "<span id=year>   "+yyyy+"</span>";
+		text += "</td></tr>"
+		text += "<tr><td>";
+		text += "<table>"
+		text += "<tr>";
+		var aa = 0;
+		for (var j=0; j<=1; j++)
+		{
+			text += "<td>"
+			text += "<table>";
+			for (i=0;i<=6;i++)
+				text += "<tr class=\"dayStyle2\"><td ><div style=\"height:50px\">" + arrD[i] + "</div></td></tr>"; //Affiche des jours de la semaine
+			text += "</table>";
+			text += "</td>";	
+			text += "<td>";
+			text += "<table>";
+			for (var i=0;i<=6;i++, aa++){
+				text += "<tr><td class=\"caseStyle\"  onClick='clickOnCase(sp"+aa+", calendarWeek)'>";
+				text += "<div name=1 id=sp"+ aa +">1</div>"
+				//text += "<div name=1 id=ev"+ aa +"></div>"
+				text +="</td></tr>";
+			}
+			text += "</table>";
+			text += "</td>";
 		}
-		text += "</table>";
+		text += "</td></table><td>";
+		text +=  "<span class=\"eventStyle\" id=EventPlace></span>";
 		text += "</td>";
-	}
-	//text+= "</tr>";
-	//text += "</table>";
-	//text = "</form>";
-	return text;
+		//text+= "</tr>";
+		//text += "</table>";
+		//text = "</form>";
+		
+		return text;
 	}
 }
 

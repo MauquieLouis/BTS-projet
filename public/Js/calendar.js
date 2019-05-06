@@ -1,12 +1,15 @@
 
 class calMonth{
-	currYear;
-	currWeek;
-	currMonth;
-	nbCases = 42;
-	eventAffiche;
+	constructor(){
+		this.currYear = 0;
+		this.currWeek = 0;
+		this.currMonth = 0;
+		this.nbCases = 42;
+		this.eventAffiche = 0;
+	}
+
 	
-	set currMonth(month){
+	/*set currMonth(month){
 		this.currMonth = parseInt(month);
 	}
 	set currYear(currYear){
@@ -17,7 +20,7 @@ class calMonth{
 	}
 	set eventAffiche(date){
 		this.eventAffiche = date;
-	}
+	}*/
 
 
 	chMonth(plusOuMoins){
@@ -54,6 +57,10 @@ class calMonth{
 	}
 	
 	changeCal(){
+		eval("btCalMonth").style.background = "#e7e7e7";
+		eval("btCalMonth").style.color = "deepskyblue";
+		eval("btCalWeek").style.background = "deepskyblue";
+		eval("btCalWeek").style.color = "#e7e7e7";
 		var prevM = (this.currMonth==0)?11:this.currMonth-1; //Mois précédent au mois affiché
 		var mmyyyy = new Date();
 		mmyyyy.setFullYear(this.currYear);
@@ -163,20 +170,15 @@ class calMonth{
 			text += "</tr>";
 		}
 		text += "</table>";
+		text += "</td>";
+		text += "<td>";
+		text +=  "<span class=\"eventStyle\" id=EventPlace></span>";
 		text += "</td></tr>";
-		text += "</table>";
+		text += "</table>";		
 		text += "</form>";
+
 		return text; 	//Ecriture d'une calendirer
 	}
-	/*window.onresize = function resize(){
-		alert("<768");
-		windowWidth = parseInt(document.body.clientWidth);
-		if(windowWidth < 768)
-			alert("<768");
-			for (i=0;i<14;i++)eval("sp"+i).style.width = windowWidth/2-27+"px";
-		else
-			for (i=0;i<14;i++)eval("sp"+i).style.width = windowWidth/6+"px";
-	};*/
 }
 
 var calendarMonth = new calMonth();

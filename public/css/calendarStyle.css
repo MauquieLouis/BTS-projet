@@ -1,18 +1,11 @@
 .tabStyle {
 border:medium solid deepskyblue;
-border-collapse:collapse;
-width:100%;
+
 text-align:center;
 }
 
 .selCal:hover {
-	background-color: #e7e7e7; 
-	color: deepskyblue;
-}
-
-.selCal{
-	background:deepskyblue;
-	color: white;
+	color: black;
 }
 
 th, td {
