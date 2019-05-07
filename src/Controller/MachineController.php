@@ -60,19 +60,26 @@ class MachineController extends AbstractController
     public function rmAllDir($strDirectory)
     {
 //         dd('function rmAllDir');
-        $handle = opendir($strDirectory);
-        while(false !== ($entry = readdir($handle))){
-            if($entry != '.' && $entry != '..'){
-                if(is_dir($strDirectory.'/'.$entry)){
-                    $this->rmAllDir($strDirectory.'/'.$entry);
-                }
-                elseif(is_file($strDirectory.'/'.$entry)){
-                    unlink($strDirectory.'/'.$entry);
+        if(is_dir($strDirectory))
+        {
+            $handle = opendir($strDirectory);
+            while(false !== ($entry = readdir($handle))){
+                if($entry != '.' && $entry != '..'){
+                    if(is_dir($strDirectory.'/'.$entry)){
+                        $this->rmAllDir($strDirectory.'/'.$entry);
+                    }
+                    elseif(is_file($strDirectory.'/'.$entry)){
+                        unlink($strDirectory.'/'.$entry);
+                    }
                 }
             }
+            rmdir($strDirectory.'/'.$entry);
+            closedir($handle);
         }
-        rmdir($strDirectory.'/'.$entry);
-        closedir($handle);
+        else
+        {
+           
+        }
     }
     /**
      * @Route("/machine/{modele}", name="machine")
@@ -283,8 +290,9 @@ class MachineController extends AbstractController
             for($i=0;$i< count($maintenances);$i++)
             {
                 $em->remove($maintenances[$i]);   
-            }   
-            $em->remove($machine);
+            }
+            $this->rmAllDir('image/machine/'.$machine->getId());
+            $em->remove($machine); 
             $em->flush();
             $this->addFlash('danger', "Machine supprim�e");
             return $this->redirectToRoute('modelesmachines');            
@@ -331,11 +339,12 @@ class MachineController extends AbstractController
         ->getForm();
         $formDeleteMaintenance->handleRequest($request);
         if($formDeleteMaintenance->isSubmitted() &&$formDeleteMaintenance->isValid() )
-        {            
+        {           
+            $this->rmAllDir('image/machine/'.$maintenances->getIdMachine()->getId().'/'.$maintenances->getId());
             $em->remove($maintenances);
             $em->flush();
             $this->addFlash('danger', "Maintenance supprim�e");
-            return $this->redirectToRoute('maintenanceedition',['id'=> $id] );
+            return $this->redirectToRoute('maintenanceModele3D',['machine'=> $maintenances->getIdMachine()->getId()] );
         }
         return $this->render('machine/editionmaintenance.html.twig', [
             'formMaintenance' => $formMaintenances->createView(),
