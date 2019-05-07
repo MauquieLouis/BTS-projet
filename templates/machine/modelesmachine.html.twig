@@ -38,10 +38,11 @@
                         	<h2 class="center">{{ modele.nom }}</h2>
                         </div>
                         <div class="card-button-listeMachine">
-                            {% if is_granted('ROLE_ADMIN') %}
+                            
                             <a href = {{ path('machine', {'modele' : modele.id }) }} class="btn btn-primary">
                             	<div style="font-size:14px;">Accès aux machines  &nbsp;<i class="fas fa-long-arrow-alt-right"></div></i>
                             </a>
+                            {% if is_granted('ROLE_ADMIN') %}
                             <a href="{{ path('modeleedition', {'id' : modele.id }) }}" class="btn btn-secondary">
                                 <div style="font-size:14px;">
                                 	<div class="d-none d-xl-inline-block">Modifier</div> 

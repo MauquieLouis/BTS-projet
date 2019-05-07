@@ -565,6 +565,9 @@ menuSmall.classList.add('is-active'); // mise en position absolu du menu.
 //// Récupération de la hauteur du menu ///////////////////////////////////
 const AdminRow2 = document.querySelector('.AdminRow2');
 const pageHeader = document.getElementById('page-header');
+
+const menuModele = document.getElementById('menuModele');
+
 var modeleID = document.getElementById('modeleID').innerHTML;
 const imageFileNameMachine = document.getElementById('filename');
 var cutFileName = imageFileNameMachine.innerHTML;
@@ -710,7 +713,8 @@ function onResize()
 		ecartWidthMenuCanvas = window.innerWidth - renderer.context.drawingBufferWidth; //Récupère la position en X où commence le modele 3D
 		ecartHeightMenuCanvas = menuHautSizeHeight.offsetHeight; // Récupère la hauteur du menu d'en haut. Le modele 3D est juste en dessous
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		menuSmall.style.height = (window.innerHeight - menuHautSizeHeight.offsetHeight)*0.7 +'px';		
+		menuSmall.style.height = (window.innerHeight - menuHautSizeHeight.offsetHeight)*0.9 +'px';
+//		menuModele.style.height = 700 + 'px';
 	}
 	else	// Mode telephone
 	{
@@ -725,8 +729,14 @@ function onResize()
 		windowHeight = window.innerHeight - ecartHeightMenuCanvas;
 		renderer.setSize(window.innerWidth, windowHeight);
 		camera.aspect = window.innerWidth / (windowHeight);	
+		menuSmall.style.height = (window.innerHeight - ecartHeightMenuCanvas)*0.9 +'px';
+//		menuSmall.style.width = window.innerWidth*0.5 + 'px';
+//		document.getElementById('menuModele').style.width = 50 + 'px';
 	}
 	camera.updateProjectionMatrix();
+	setTimeout(function(){onResize();},10);
+//	menuModele = ;
+
 }
 var animate = function () {
 	requestAnimationFrame( animate );
@@ -794,11 +804,11 @@ function Keyboard(event)
 {
 	if(event.keyCode == 90) //z
 	{
-		console.log(document.getElementById('getEachSprite').innerHTML)
+//		console.log(document.getElementById('getEachSprite').innerHTML)
 	}
 	if(event.keyCode == 81) //q
 	{
-		console.log(document.getElementById(etapes_tableausprites));
+//		console.log(document.getElementById(etapes_tableausprites));
 	}
 	if(event.keyCode == 82) //r
 	{
@@ -807,8 +817,8 @@ function Keyboard(event)
 	if(event.keyCode == 83) //s
 	{
 
-		var tableSprite = document.getElementById("table");
-		console.log(tableSprite.rows.length);
+//		var tableSprite = document.getElementById("table");
+//		console.log(tableSprite.rows.length);
 	}
 	if(event.keyCode == 68) //d
 	{			
@@ -834,15 +844,16 @@ function Keyboard(event)
 	}
 	if(event.keyCode == 39) //fleche de droite;
 	{
-		var tableSprite = document.getElementById("table");
+//		var tableSprite = document.getElementById("table");
 //		table.rows[1].sort();
 	}
 	if(event.keyCode == 80) //p
 	{
-		cube.EtapeChangement(-1);
+//		cube.EtapeChangement(-1);
 	}
 	if(event.keyCode == 77) //m
 	{
+		  
 	}
 }
 function onScreenChange(){console.log('screenchange');}
@@ -851,36 +862,44 @@ function fn() // Lorsque la page est chargée la fonction se déclenche
 	onResize();
 	cube.sprite = cube.sprites[0];
 	cube.sprite.onClick();
+	
+}
+function ready()
+{
+	
+	setTimeout(function(){onResize();},10);
 }
 
 function TableauBullesInfos()
 {
-	document.getElementById('information').hidden = true;// = document.getElementById('information').hidden : true;
+	document.getElementById('MenuInformation').hidden = true;// = document.getElementById('information').hidden : true;
 //	document.getElementById('ModifBulleInfo').hidden = false;
-	document.getElementById('TableauBullesInfos').hidden = false;// = document.getElementById('TableauBullesInfos').hidden : false;
+	document.getElementById('MenuTableau').hidden = false;// = document.getElementById('TableauBullesInfos').hidden : false;
 //	document.getElementById('information').hidden = document.getElementById('TableauBullesInfos').hidden? false : true;
 }
 function InformationsShow()
 {
-	document.getElementById('information').hidden = false;// = document.getElementById('information').hidden : false;
-	document.getElementById('TableauBullesInfos').hidden = true;
+	document.getElementById('MenuInformation').hidden = false;// = document.getElementById('information').hidden : false;
+	document.getElementById('MenuTableau').hidden = true;
 //	document.getElementById('ModifBulleInfo').hidden = true;
 }
 function ModifBulleInfoShow()
 {
 //	document.getElementById('ModifBulleInfo').hidden = false;// = document.getElementById('information').hidden : true;
-	document.getElementById('TableauBullesInfos').hidden = true;// = document.getElementById('TableauBullesInfos').hidden : false;
-	document.getElementById('information').hidden = true;// = document.getElementById('information').hidden : true;
+	document.getElementById('MenuTableau').hidden = true;// = document.getElementById('TableauBullesInfos').hidden : false;
+	document.getElementById('Menuinformation').hidden = true;// = document.getElementById('information').hidden : true;
 }
 function EditButton(idButton)
 {
 	document.getElementById(idButton).disabled ? (document.getElementById(idButton).disabled = false) : (document.getElementById(idButton).disabled = true);
 }
+
 window.addEventListener('resize', onResize);
 window.addEventListener('load', fn, false );
 container.addEventListener('webkitfullscreenchange', onScreenChange);
 container.addEventListener('click', onClick);
 container.addEventListener('mousemove', onMouseMove);
 container.addEventListener('keydown', Keyboard, false);
+document.addEventListener("DOMContentLoaded", ready);
 animate();
 onResize();

@@ -30,7 +30,7 @@
     		<button class ="btn btn-secondary d-md-none" onclick="showModele();" type="button">Affichage Modèle 3D</button>
     	</div>
 	</div>
-	<div class="row ">
+	<div class="row">
 
 			<canvas id="myCanvasElement" class="col-12 offset-md-3 col-md-9 d-none d-md-block" width="500" height="300"></canvas>
 			<div class="btnPositionduCube">
@@ -40,14 +40,14 @@
 	       
 	       
 	      
-            <div class="menu2 col-12 col-md-6 d-md-block" id="menuModele">	
+            <div class="menu2 col-11 col-md-6 d-md-block" id="menuModele">	
            
 {#                 <div id="bt2">Machine#}
 {#                     <button onClick="cube.moveSprite('x', 2)">+x</button><button onClick="cube.moveSprite('x', -2)">-x</button>#}
 {#                     <button onClick="cube.moveSprite('y', 2)">+y</button><button onClick="cube.moveSprite('y', -2)">-y</button>#}
 {#                     <button onClick="cube.moveSprite('z', 2)">+z</button><button onClick="cube.moveSprite('z', -2)">-z</button> #}
 {#                 </div>#}
-		   <div style="border-bottom : 1px solid #aaaaaa;)">
+		   <div style="border-bottom : 1px solid #aaaaaa;" id="MenuOnglet">
 		   	<button class="btn  btn-info" style="border:2px solid grey; display:inline;" onclick="InformationsShow();">Informations </button>
 		   	{% if is_granted('ROLE_ADMIN') %}
 		   		<button class="btn  btn-info" style="border:2px solid grey; display:inline;" onclick="TableauBullesInfos();">Tableau des bulles infos</button>
@@ -55,120 +55,134 @@
 		   		
 	   		{% endif %}
 		   </div>
-		<div id="information" >
-           <div style=" margin-top: 30px;">     
-            	
-            	<div style="margin-left : 5%">Name :</div>
-{#             	<div class="informationTooltip" id="tooltipName" ></div>#}
-				<input id="tooltipName" style="display: inline-block; margin-left : 5%;width: 80%;"disabled></input>
-				{% if is_granted('ROLE_ADMIN') %}
-                	<div style="display: inline-block; margin-left : 2%" class="col-1">
-                		<button id="boutonNom" onclick="EditButton('tooltipName');" type="button" class="btn btn-sm btn-secondary"><i class="far fa-edit"></i></button>
-            		</div>
-        		{% endif %}
-            	
-            	<div style="margin-left : 5%">Description :</div>
-{#             	<div class="informationTooltip" id="tooltipInfo"></div>#}
-				<textarea id="tooltipInfo" style="display: inline-block; width: 80%; margin-left : 5%; min-height: 100pt; height:150pt; max-height: 200pt; text-overflow: ellipsis;  overflow: hidden; overflow: scroll" disabled>
-				</textarea>
-				{% if is_granted('ROLE_ADMIN') %}
-            		<div class="col-1" style="display: inline-block; margin-left : 2%"><button id="boutonNom" onclick="EditButton('tooltipInfo');" type="button" class="btn btn-sm btn-secondary"><i class="far fa-edit"></i></button></div>
-            	{% endif %}
-            	<div style="margin-left : 5%">Ordre :</div>
-            	<input id="OrdreEtape2" style="width: 80%; margin-left : 5%;" disabled></input>
-            	<!--<button onclick="modifValider()" id="btnValiderModif">OK !</button>-->
-
-            	</br>	
-            	<div style="margin-left : 5%">
-            		<button class="btn btn-sm btn-secondary" onclick="cube.OneSpriteModif()">Enregistrer</button>
-            	</div>
-            	<div style="margin-left : 5%">
-                	<button onClick="cube.EtapeChangement(-1)" class="btn btn-secondary" title="Etape precedente"> < </button>
-                	<h3 style="display: inline;">Etape <div style="display: inline;" id="OrdreEtape">0</div>/<div class="SpriteNbr" id="SpriteNb">0</div></h3>
-                	<button class="btn btn-sm btn-secondary" onClick="cube.EtapeChangement(1)" title="Etape suivante"> > </button>
-            	</div>
-			</div>
-
-{#             	{{ form_start(formEtape) }}#}
-{#             		<div class="addNomSprite"> {{ form_row(formEtape.name) }}</div>#}
-{#                      {{ form_row(formEtape.description, {'attr':{'placeholder' : "Description de l etape"}}) }}#}
-{#                      {{ form_row(formEtape.position, {'attr':{'placeholder' : "position de l etape"}}) }}#}
-{#                      {{ form_row(formEtape.camera, {'attr':{'placeholder' : "Camera de l etape"}}) }}#}
-{#                      {{ form_row(formEtape.etape, {'attr':{'placeholder' : "Etape de l etape", 'readonly':'readonly'}}) }}#}
-                     
-
-{# 				{{ form_end(formEtape) }}#}
-
-{#                 {% if is_granted('ROLE_ADMIN') %}#}
+		<div id="MenuAffichage">
+    		<div id="MenuInformation" >
+               <div style=" margin-top: 30px;">     
                 	
-{#                 	    <h2>Sauvegarde de toutes les etapes</h2>#}
-
-        </div>                 
-                    <div style="margin-top: 30px; border-bottom : 0px solid #aaaaaa;">
-                   
-                    </div>                     
-          			<div id="TableauBullesInfos" hidden>
-						<div style="margin-top: 20px; width:90%; margin-left: 5%;">
-                         <table id="table" style="" class="avectri table table-striped" border="1">
-                            <tr>
-                                <th>Nom de l'etape</th>
-                                <th width="70%">Description</th>
-                                <th  data-type="num" data-tri="1">Ordre</th>
-                                <th hidden class="col">idBDD</th>
-                                <th hidden>id</th>
-                               
-                            </tr>
-{#                             {% for etape in etapes %}#}
+                	<div style="margin-left : 5%"><h3>Nom</h3></div>
+    {#             	<div class="informationTooltip" id="tooltipName" ></div>#}
+    				<input id="tooltipName" style="display: inline-block; margin-left : 5%;width: 80%;"disabled></input>
+    				{% if is_granted('ROLE_ADMIN') %}
+                    	<div style="display: inline-block; margin-left : 2%" class="col-1">
+                    		<button id="boutonNom" onclick="EditButton('tooltipName');" type="button" class="btn btn-sm btn-secondary"><i class="far fa-edit"></i></button>
+                		</div>
+            		{% endif %}
+                	
+                	<div style="margin-left : 5%"><h3>Description</h3></div>
+    {#             	<div class="informationTooltip" id="tooltipInfo"></div>#}
+    				<textarea id="tooltipInfo" style="display: inline-block; width: 80%; margin-left : 5%; min-height: 149pt; height:150pt; max-height: 151pt; text-overflow: ellipsis;  overflow: hidden; overflow: scroll" disabled>
+    				</textarea>
+    				{% if is_granted('ROLE_ADMIN') %}
+                		<div class="col-1" style="display: inline-block; margin-left : 2%"><button id="boutonNom" onclick="EditButton('tooltipInfo');" type="button" class="btn btn-sm btn-secondary"><i class="far fa-edit"></i></button></div>
+                	{% endif %}
+                	<div style="margin-left : 5%"><h3>Ordre</h3></div>
+                	<input id="OrdreEtape2" style="width: 80%; margin-left : 5%;" disabled></input>
+                	<!--<button onclick="modifValider()" id="btnValiderModif">OK !</button>-->
+    
+                	</br>
+                	{% if is_granted('ROLE_ADMIN') %}	
+                	<div style="margin-left : 5%">
+                		<button class="btn btn-secondary" onclick="cube.OneSpriteModif()">Enregistrer</button>
+                	</div>
+                	{% endif %}
+                	
+    			</div>
+    
+    {#             	{{ form_start(formEtape) }}#}
+    {#             		<div class="addNomSprite"> {{ form_row(formEtape.name) }}</div>#}
+    {#                      {{ form_row(formEtape.description, {'attr':{'placeholder' : "Description de l etape"}}) }}#}
+    {#                      {{ form_row(formEtape.position, {'attr':{'placeholder' : "position de l etape"}}) }}#}
+    {#                      {{ form_row(formEtape.camera, {'attr':{'placeholder' : "Camera de l etape"}}) }}#}
+    {#                      {{ form_row(formEtape.etape, {'attr':{'placeholder' : "Etape de l etape", 'readonly':'readonly'}}) }}#}
+                         
+    
+    {# 				{{ form_end(formEtape) }}#}
+    
+    {#                 {% if is_granted('ROLE_ADMIN') %}#}
+                    	
+    {#                 	    <h2>Sauvegarde de toutes les etapes</h2>#}
+    
+            </div>                 
+    {#                     <div style="margin-top: 30px; border-bottom : 0px solid #aaaaaa;">#}
+                       
+    {#                     </div>                     #}
+    				<div id="MenuTableau" hidden>
+              			<div id="TableauBullesInfos">
+    						<div style="margin-top: 20px; width:90%; margin-left: 5%;">
+                             <table id="table" style="" class="avectri table table-striped" border="1">
+                                <tr>
+                                    <th>Nom de l'etape</th>
+                                    <th width="70%">Description</th>
+                                    <th  data-type="num" data-tri="1">Ordre</th>
+                                    <th hidden class="col">idBDD</th>
+                                    <th hidden>id</th>
+                                   
+                                </tr>
+    {#                             {% for etape in etapes %}#}
+                                
+    {#                                 <tr>#}
+    {#                                    <td> {{ etape.name  }}</td>#}
+    {#                         			<td>{{ etape.description }}</td>#}
+    {#                             		<td>{{ etape.etape }}</td>#}
+    {#                             		<td><div>{{ etape.id }}</div></td>#}
+    {#                             		<td></td>  #}
+                                		
+    {#                         	     </tr>#}
+                            	 
+    {#                         	{% endfor %}	#}
+                            </table>
                             
-{#                                 <tr>#}
-{#                                    <td> {{ etape.name  }}</td>#}
-{#                         			<td>{{ etape.description }}</td>#}
-{#                             		<td>{{ etape.etape }}</td>#}
-{#                             		<td><div>{{ etape.id }}</div></td>#}
-{#                             		<td></td>  #}
-                            		
-{#                         	     </tr>#}
-                        	 
-{#                         	{% endfor %}	#}
-                        </table>
-                        
-                           	{% if is_granted('ROLE_ADMIN') %}
-                         <button class="btn btn-outline-info" onclick="TableauHTMLTEST.upNdown('up');">&ShortUpArrow;</button>
-                         <button class="btn btn-outline-info" onclick="TableauHTMLTEST.upNdown('down');">&ShortDownArrow;</button>
-                          <button class="btn btn-outline-info" onclick="TableauHTMLTEST.ReinitialisationAffichage();//triTableau();//cube.SaveTable();//validationChangementEtape();console.log('problemeHTML');)">Trier</button>
-                          <button class="btn btn-outline-info" onclick="TableauHTMLTEST.ModifOrdreEtape();//validationChangementEtape();">Enregistrer changement</button>
-                          <button class="btn btn-outline-info" onclick="cube.deleteSprite();">Supprimer</button>
-                                <button onclick="cube.ToggleSprite(); cube.SaveTable();// IsHiddenFormEtape();" class="SpriteNbr spriteCreate btn btn-sm btn-outline-info">
-                        	    	<img id="btnSprite" class="buttonSprite SpriteNbr" src="../../image/machine/ampoule.png" width="50" height="30">
-                                </button>            
-                	     {{ form_start(saveAllSprites) }}  
-                	    	 {{ form_widget(saveAllSprites.name, {'attr':{'hidden':true}}) }}
-                    	     {{ form_widget(saveAllSprites.description, {'attr':{'hidden':true}}) }}
-                    	     {{ form_widget(saveAllSprites.position, {'attr':{'hidden':true}}) }}         	     
-                    	     {{ form_widget(saveAllSprites.camera, {'attr':{'hidden':true}}) }}       	     
-                    	     {{ form_widget(saveAllSprites.etape, {'attr':{'hidden':true}}) }}
-                    	     <button type="submit" class="btn btn-primary" id="btnSauvegarder" onclick="TableauHTMLTEST.ModifOrdreEtape();cube.SaveTable();//cube.validationChangementEtape();" >Sauvegarder</button>
-                         {{ form_end(saveAllSprites) }} 
-               
-               			    {% endif %}  
-                       </div>  
-				</div>
-				
-{# 				<div id="ModifBulleInfo" hidden>#}
-{# 					<div style=" margin-top: 30px;">  </div>   #}
-            	
-{#                 	<div style="margin-left : 5%">Nom :</div>#}
-{#                 	<div class="" id="" ></div>#}
+                                
+                           </div>  
+    				</div>
+    				 	{% if is_granted('ROLE_ADMIN') %}
+                               		<div id="MenuNavTableau">
+                                         <button class="btn btn-outline-info" onclick="TableauHTMLTEST.upNdown('up');">&ShortUpArrow;</button>
+                                         <button class="btn btn-outline-info" onclick="TableauHTMLTEST.upNdown('down');">&ShortDownArrow;</button>
+                                          <button class="btn btn-outline-info" onclick="TableauHTMLTEST.ReinitialisationAffichage();//triTableau();//cube.SaveTable();//validationChangementEtape();console.log('problemeHTML');)">Trier</button>
+                                          <button class="btn btn-outline-info" onclick="TableauHTMLTEST.ModifOrdreEtape();//validationChangementEtape();">Enregistrer changement</button>
+                                          <button class="btn btn-outline-info" onclick="cube.deleteSprite();">Supprimer</button>
+                                                <button onclick="cube.ToggleSprite(); cube.SaveTable();// IsHiddenFormEtape();" class="SpriteNbr spriteCreate btn btn-sm btn-outline-info">
+                                        	    	<img id="btnSprite" class="buttonSprite SpriteNbr" src="../../image/machine/ampoule.png" width="50" height="30">
+                                                </button>            
+                                	
+                  				 	</div>
+                   			    {% endif %}
+    			</div>
+    				
+    {# 				<div id="ModifBulleInfo" hidden>#}
+    {# 					<div style=" margin-top: 30px;">  </div>   #}
                 	
-{#                 	<div style="margin-left : 5%">Description :</div>#}
-{#                 	<div class="" id=""></div>#}
-                
-{#                 	<div style="margin-left : 5%">Ordre :</div>#}
-{#                 	<div class="" id=""></div>#}
-{#             		<!--<button onclick="modifValider()" id="btnValiderModif">OK !</button>-->#}
-{#             	</div>#}
-				
-				
+    {#                 	<div style="margin-left : 5%">Nom :</div>#}
+    {#                 	<div class="" id="" ></div>#}
+                    	
+    {#                 	<div style="margin-left : 5%">Description :</div>#}
+    {#                 	<div class="" id=""></div>#}
+                    
+    {#                 	<div style="margin-left : 5%">Ordre :</div>#}
+    {#                 	<div class="" id=""></div>#}
+    {#             		<!--<button onclick="modifValider()" id="btnValiderModif">OK !</button>-->#}
+    {#             	</div>#}
+				</div>
+				<div id="MenuNavFixe" class="row">
+                	<div style="margin-left : 5%;">
+                    	<button onClick="cube.EtapeChangement(-1)" class="btn btn-sm btn-secondary" title="Etape precedente"> < </button>
+                    	<h3 style="display: inline;">Etape <div style="display: inline;" id="OrdreEtape">0</div>/<div class="SpriteNbr" id="SpriteNb">0</div></h3>
+                    	<button class="btn btn-sm btn-secondary" onClick="cube.EtapeChangement(1)" title="Etape suivante"> > </button>
+                	</div>
+                	{% if is_granted('ROLE_ADMIN') %}
+                    	<div >
+                    	     {{ form_start(saveAllSprites) }}  
+                    	    	 {{ form_widget(saveAllSprites.name, {'attr':{'hidden':true}}) }}
+                        	     {{ form_widget(saveAllSprites.description, {'attr':{'hidden':true}}) }}
+                        	     {{ form_widget(saveAllSprites.position, {'attr':{'hidden':true}}) }}         	     
+                        	     {{ form_widget(saveAllSprites.camera, {'attr':{'hidden':true}}) }}       	     
+                        	     {{ form_widget(saveAllSprites.etape, {'attr':{'hidden':true}}) }}
+                        	     <button type="submit" style="display:inline;" class="btn btn-primary" id="btnSauvegarder" onclick="TableauHTMLTEST.ModifOrdreEtape();cube.SaveTable();//cube.validationChangementEtape();" >Sauvegarder</button>
+                             {{ form_end(saveAllSprites) }}
+                    	</div> 
+                	{% endif %}
+            	</div>
             </div>
         </div>
         <div class="tooltip"></div>
@@ -192,7 +206,7 @@
 {# 		</script>#}
 		<script>
 			modele = document.getElementById('myCanvasElement');
-			menuModele = document.getElementById('menuModele');
+// 			menuModele = document.getElementById('menuModele');
 			fleche = document.getElementById('btnFleche');
 			fleche2 = document.getElementById('btnFleche2');
 			function showModele()
