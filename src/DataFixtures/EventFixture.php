@@ -28,7 +28,7 @@ class EventFixture extends BaseFixture
             $jour = $this->faker->numberBetween(1,100);
             $date->modify('+'.$jour.' day'); 
             $event->setDateStart($date);
-            $event->setFrequence(7);
+            $event->setFrequence("7d");
             return $event;
         });
        

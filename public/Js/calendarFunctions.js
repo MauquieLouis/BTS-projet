@@ -84,7 +84,7 @@ function getEvents(arg, dateStart, dateEnd){
 
 	tabEvent = table.ByDate(dateStart, dateEnd);
 
-	var frequenceDay = 7;
+	var frequenceDay = 8;
 	var frequenceMonth;
 	var frequenceYear;
 	if(tabEvent != ""){
@@ -190,9 +190,8 @@ function clickOnCase(id, cal){
 	
 	//----------Si la case clicker fait partis d'un autre mois, alors on change de mois----------//
 	if(cal == calendarMonth){
-		if(parseInt(eval(id).name.substr(3,2)) > parseInt(cal.currMonth+1))cal.chMonth("+");
-		else if(parseInt(eval(id).name.substr(3,2)) < parseInt(cal.currMonth+1))cal.chMonth("-");
-
+		if(parseInt(eval(id).name.substr(6,4)) > parseInt(cal.currYear) || (parseInt(eval(id).name.substr(3,2)) > parseInt(cal.currMonth+1) && eval(id).name.substr(3,2) != "12"))cal.chMonth("+");
+		else if(parseInt(eval(id).name.substr(6,4)) < parseInt(cal.currYear) || (parseInt(eval(id).name.substr(3,2)) < parseInt(cal.currMonth+1) && eval(id).name.substr(3,2) != "01"))cal.chMonth("-");
 	}	
 	
 	//---------------------------Coloriage------------------------------//

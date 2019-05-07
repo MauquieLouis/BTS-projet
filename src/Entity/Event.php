@@ -47,7 +47,7 @@ class Event
     private $dateEnd;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $frequence;
 
@@ -128,12 +128,12 @@ class Event
         return $this;
     }
 
-    public function getFrequence(): ?int
+    public function getFrequence(): ?string
     {
         return $this->frequence;
     }
 
-    public function setFrequence(int $frequence): self
+    public function setFrequence(?string $frequence): self
     {
         $this->frequence = $frequence;
 
