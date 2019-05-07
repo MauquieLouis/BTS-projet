@@ -172,7 +172,7 @@ class calWeek{
 			text += "</table>";
 			text += "</td>";
 		}
-		text += "</td></table><td>";
+		text += "</td></table><td border=0px>";
 		text +=  "<span class=\"eventStyle\" id=EventPlace></span>";
 		text += "</td>";
 		//text+= "</tr>";

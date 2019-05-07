@@ -46,10 +46,8 @@ background: #9CF;
 font-weight:bold;
 }
 
-.eventSyle{
-	position: absolute;
-	top: 0;
-	right:0;
+.eventStyle{
+ border : 0px;
 }
 
 .acces3D:hover{
