@@ -4,6 +4,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Event;
 use App\Repository\EventRepository;
 use App\Entity\Machine;
@@ -18,18 +19,30 @@ class AjaxReceiveController extends AbstractController
     /**
      * @Route("accesbdd/writeevent/{id}/{message}", name="writeevent") 
      */
-    public function WriteEvent(EventRepository $repo,$id,$message){
-        if($id === "undefined"){
+    public function WriteEvent(EventRepository $repo,EntityManagerInterface $em,$id,$message){
+        if($id === "undefined"){        //Create new row
             $message = json_decode($message);
             dd($message[0],$message[1][0],$message[1][1]);
-
         }
-        else{
+        else{                           //Edit existing row
             $message = json_decode($message);
             echo $message[0];
             echo " ";
             echo $message[1][0];
             echo $message[1][1];
+
+            $eventToModify = $repo->findOneBy(['id'=>$id]);
+            switch ($message[0]) {
+                case 'value':
+                    # code...
+                    break;
+                
+                default:
+                    # code...
+                    break;
+            }
+           // $eventToModify->set
+
 
         }
         return $this->render('ajax_receive/index.html.twig'); 

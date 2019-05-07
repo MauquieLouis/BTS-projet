@@ -90,22 +90,20 @@ var table = {
 		var xhReq = new XMLHttpRequest();
 		switch(tableSelected){
 			case "event":
+				var tabl = [];
+				tabl.push(fields);
+				tabl.push(values);
+				var message = JSON.stringify(tabl);
+
 				if (id === null) {
-					var tabl = [];
-					tabl.push(fields);
-					tabl.push(values);
-					var message = JSON.stringify(tabl);
+					console.log(id);
 					console.log(message);
 
 					xhReq.open("post","accesbdd/writeevent/undefined/"+String(message),false);	// ajouter nouvelle ligne à la table
 				}
 				else{
-					var tabl = [];
-					tabl.push(fields);
-					tabl.push(values);
-					var message = JSON.stringify(tabl);
+					console.log(id);
 					console.log(message);
-
 					xhReq.open("post","accesbdd/writeevent/"+String(id)+"/"+String(message),false);	// ajouter nouvelle ligne à la table
 				}
 			break;
@@ -115,12 +113,14 @@ var table = {
 				return -1;			//ERROR : arg tablesSelected inconnu
 			break;
 		}
-
 	}
 };
+/*
 var values = ["2019-05-15","2019-05-15"];
-table.SetTable("event",null,"dateStart,dateEnd",values);
-///PROCEDURE D'UTLISATION---------------------------------------------------------------------------------------------------------------------------//
+table.SetTable("event",31,"dateStart,dateEnd",values);*/
+//console.log("SETTABLE:",table.SetTable("event",null,"dateStart,dateEnd",values));
+
+///PROCEDURE D'UTLISATION-----------------------------------------------------------------------------------------------------------------------------//
 //table.init("selected",id)	// selected : nom de la table selectionée id : idselected | ex : table.init("event",22); selected : event idselected : 22
 //table.retour[i][n]		// i : ligne	n : colonne
-//--------------------------------------------------------------------------------------------------------------------------------------------------//
+//----------------------------------------------------------------------------------------------------------------------------------------------------//
