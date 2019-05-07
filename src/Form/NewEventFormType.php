@@ -12,6 +12,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class NewEventFormType extends AbstractType
 {
@@ -30,8 +31,18 @@ class NewEventFormType extends AbstractType
                 'entry_options' => ['label' => false],
                 'allow_add' => true
             ])
-//             ->add('dateStart', DateType::class,['data' => new \DateTime(), 'required' => false])
+            ->add('dateStart', DateType::class,['data' => new \DateTime(), 'required' => false, 'mapped' => false])
             ->add('frequence',IntegerType::class,['required' => false])
+            ->add('MesureTemps', ChoiceType::class,[
+                'choices' => [
+                    'Jours' => 'J',
+                    'Semaines' => 'S',
+                    'Mois' => 'M',
+                    'Années' => 'A' 
+                ],
+                'placeholder' => 'Mesure du temps',
+                'mapped' => false
+            ]);
         ;
     }
     

@@ -52,8 +52,8 @@ class AddMachineEventType extends AbstractType
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
             function(FormEvent $event) use ($formModifier){
+                dump('EventListener PRE_SET_DATA');
                 $data = $event->getData();
-                dump($data);
                 $formModifier($event->getForm(),$data);
                 
             }
@@ -62,8 +62,8 @@ class AddMachineEventType extends AbstractType
             FormEvents::POST_SUBMIT,
             function(FormEvent $event) use ($formModifier)
             {
+                dump('EventListener POST_SUBMIT');
                 $modele = $event->getForm()->getData();
-                dump($modele);
                 $formModifier($event->getForm()->getParent(), $modele);
             }   
             );

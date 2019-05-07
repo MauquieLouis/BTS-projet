@@ -5,30 +5,92 @@
 {% block body %}
 {# 	<meta http-equiv="refresh" content="600">#}
 	<div class="col-12 offset-md-3 col-md-6 BorderRouge TitlePage">
-		<h1>Entrer un nouvel evenement :</h1>
+		<h1>Ajouter un Évenement</h1>
 	</div>
-	<div class="col-12 offset-md-2 col-md-8">
+	<div class="col-12 offset-md-2 col-md-8" style="margin-top:20px">
         {{ form_start(formEvent) }}
-            {{ form_label(formEvent.title,'Entrez un titre pour l\'évenement') }}
-            {{ form_widget(formEvent.title, {'attr':{'placeholder' : "Titre de l'evenement", "class" : "form-control form-control-sm"}}) }}
-            
-            {{ form_label(formEvent.description,'Entrez une description pour l\'évenement (optionnel)') }}
-            {{ form_widget(formEvent.description, {'attr':{'placeholder' : "Description de l'evenement", "class" : "form-control form-control-sm"}}) }}
-           
-           	<div class="row" style="margin-top:20px;border-top:1px solid #AAAAAA;">
+        	<!-- =========================== I N F O R M A T I O N S ===================================== -->
+        	<div style="border-bottom:1px solid #AAAAAA;">
+        		<h3>Informations</h3>
+        	</div>
+        	<div style="margin-top:10px;" class="row">
+        		<div class="offset-1 col-10">
+        			<div class="row">
+                        <div class="col-4">
+                            {{ form_label(formEvent.title,'Nom de l\'évenement') }}
+                        </div>
+                        <div class="col-8">
+                            {{ form_widget(formEvent.title, {'attr':{'placeholder' : "Titre de l'evenement", "class" : "form-control form-control-sm"}}) }}
+                    	</div>
+                        <div class="col-4">
+                            {{ form_label(formEvent.description,'Description de l\'évenement') }}
+                    	</div>
+                        <div class="col-8">
+                            {{ form_widget(formEvent.description, {'attr':{'placeholder' : "Description de l'evenement", "class" : "form-control form-control-sm"}}) }}
+                   		</div>
+               		</div>
+           		</div>
+           </div>
+           <!-- ========================================================================================= -->
+           <!-- =========================== U T I L I S A T E U R S ===================================== -->
+           <div style="border-bottom:1px solid #AAAAAA; margin-top:20px;" class="row">
+        		<h3 class="col-6">Utilisateurs</h3>
+        		<h3 class="col-6">Machines</h3>
+        	</div>
+           	<div class="row" style="margin-top:20px;">
            		<div class="col-12 col-md-6 BorderBleu" style="margin-top:20px">
                 	<ul class="listeUserId" id="listeUserId" data-prototype="{{ form_row(formEvent.usersid.vars.prototype)|e }}">
                 	</ul>
                 </div>
-                <div class="col-12 col-md-6 BorderVert" style="border-left:1px solid #AAAAAA;margin-top:20px">
+                <div class="col-12 col-md-6 BorderVert" style="border-left:1px solid #AAAAAA;">
                 	<ul class="listeMachineId" data-prototype="{{ form_row(formEvent.machinesid.vars.prototype)|e }}">
                 	</ul>  
-                	<button type="button" class="add_tag_link btn btn-outline-primary" id="buttonAddMachine"><i class="fas fa-plus-circle"></i> Modèle</button>
+                	<div class="offset-1">
+                		<button type="button" class="add_tag_link btn btn-outline-primary" id="buttonAddMachine"><i class="fas fa-plus-circle"></i> Modèle</button>
+                	</div>
                 </div>
             </div>
-            {{ form_row(formEvent.frequence, {'attr':{'placeholder' : "Frequence de repetition (ne rien mettre si ponctuel)"}}) }}
-        
-           	<button type="submit">Enregistrer</button>
+            <!-- ========================================================================================= -->
+           	<!-- =========================== U T I L I S A T E U R S ===================================== -->
+           	<div style="border-bottom:1px solid #AAAAAA; margin-top:20px;" class="row">
+        		<h3 class="col-6">Fréquence Répétition</h3>
+        	</div>
+        	<div id="Frequence" class="row" style="margin-top:10px;">
+        		<div class="offset-1 col-10">
+        			<div class="row">
+{#         				<div class="col-4">#}
+{#         		            {{ form_label(formEvent.frequence,'Fréquence de répétion') }}#}
+{#         		        </div>#}
+        		        <div class="col-12">
+        		        	{{ form_widget(formEvent.frequence,{'attr' : {'class':'form-control form-control-sm','placeholder' : "Fréquence de répétition (0 si ponctuel)"}})}}
+        		        </div>
+{#         		        <div class="col-4">#}
+{#         		            {{ form_label(formEvent.MesureTemps,'Mesure du temps') }}#}
+{#         				</div>#}
+        				<div class="col-12" style="margin-top:5px;">
+        				    {{ form_widget(formEvent.MesureTemps,{'attr' : {'class':'form-control form-control-sm'}}) }}
+        				</div>
+        			</div>
+        		</div>
+        	</div>
+        	<!-- ========================================================================================= -->
+           	<!-- =========================== D A T E   D E P A R T   ===================================== -->
+        	<div style="border-bottom:1px solid #AAAAAA; margin-top:20px;" class="row">
+        		<h3 class="col-6">Date de départ</h3>
+        	</div>
+        	<div style="margin-top:10px;" class="row">
+        		<div class="offset-1 col-10">
+{#         			<div class="row">#}
+        		        {{ form_widget(formEvent.dateStart, {'attr' : {'class':'row'}}) }}
+{#         		    </div>#}
+        		</div>
+        	</div>
+        	<div style="border-bottom:1px solid #AAAAAA; margin-top:20px;" class="row">
+        		<h3 class="col-6">Fin</h3>
+        	</div>
+        	<div style="margin-top:10px;" class="row">
+           		<button type="submit" class="btn btn-secondary btn-sm">Enregistrer l'évenement</button>
+           	</div>
         {{ form_end(formEvent) }}
     </div>
    
@@ -55,6 +117,11 @@
 			$addMachineButton.on('click', function(){
 				addMachineForm($collectionHolderMachine, $newLinkLiMachine);
 			});
+			$('#new_event_form_machinesid').parent().remove();
+			$('#new_event_form_usersid').parent().remove();
+			$('#new_event_form_dateStart select').each(function(){
+					$(this).addClass('form-control form-control-sm col-4');
+				});
         });
         function addTagForm($collectionHolder, $newLinkLiUser)
         {
@@ -70,7 +137,7 @@
             var last = $(lastUserSelected2).parent();//.parent().parent().parent();
             $(last).addClass( "row" );
 //             $(last).parent().parent().parent().parent().css("margin-top","20px");
-            $(last).append('<span class="col-1" onclick="DeleteLiUser('+'\'#new_event_form_usersid_'+(index-1)+'_user'+'\');" style="cursor: pointer;"><i class="fas fa-times-circle" style="color:#EE8686"></i></span>');
+            $(last).append('<span class="col-1" onclick="DeleteLi('+'\'#new_event_form_usersid_'+(index-1)+'_user'+'\');" style="cursor: pointer;"><i class="fas fa-times-circle" style="color:#EE8686"></i></span>');
             
             // You need this only if you didn't set 'label' => false in your tags field in TaskType
             // Replace '__name__label__' in the prototype's HTML to
@@ -89,7 +156,6 @@
 //             $newFormLi.append('<span onclick="console.log(\'click delete\');" style="cursor: pointer;"><i class="fas fa-times-circle" style="color:#EE8686"></i></span>');
 			$newLinkLiUser.before($newFormLi);
 			$(lastUserSelected).addClass( "form-control form-control-sm col-11" );	
-			console.log(lastUserSelected.split('#')[1]);
 			
 			var label = $('label[for='+lastUserSelected.split('#')[1] +']')
 			label.remove();
@@ -99,7 +165,6 @@
             }
         	function addMachineForm($collectionHolderMachine, $newLinkLiMachine)
         	{
-            	console.log('ADD MACHINE');
         		var prototype = $collectionHolderMachine.data('prototype');
         	    var index = $collectionHolderMachine.data('index');
         	    var newForm = prototype;
@@ -112,11 +177,14 @@
         	    var $newFormLi = $('<li></li>').append(newForm);
         	    $newLinkLiMachine.before($newFormLi);
         	    var idForm = '#new_event_form_machinesid_'+index+'_ModeleMachine';
+        	    var idFormMach = '#new_event_form_machinesid_'+index+'_machinesDispo';
 				var $formActual = $('#new_event_form_machinesid_'+index+'_ModeleMachine');
         	    $(idForm).addClass("form-control form-control-sm");
+        	    $(idFormMach).addClass("form-control form-control-sm");
+        	    $(idForm).parent().parent().parent().parent().css('border','1px solid #AAAAAA');
+        	    $(idForm).parent().parent().parent().parent().append('<span class="col-1" onclick="DeleteLi('+'\'#new_event_form_machinesid_'+index+'_ModeleMachine'+'\');" style="cursor: pointer;"><i class="fas fa-times-circle" style="color:#EE8686"></i></span>');
 				console.log(idForm, $formActual);
 				$formActual.change(function(){
-					console.log('Change !');
 					var $form = $(this).closest('form');
 					var data = {};
 					data[$formActual.attr('name')] = $formActual.val();
@@ -130,14 +198,14 @@
 							$('#new_event_form_machinesid_'+index+'_machinesDispo').replaceWith(
 								$(html).find(('#new_event_form_machinesid_'+index+'_machinesDispo'))
 								);
+							$('#new_event_form_machinesid_'+index+'_machinesDispo').addClass("form-control form-control-sm");
 							}
 						});
 					});
         	    
             }
-            function DeleteLiUser(id)
+            function DeleteLi(id)
             {
-                console.log('Remove ...');
 				$(id).parent().parent().parent().parent().remove();
             }
     </script>
