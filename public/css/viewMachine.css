@@ -55,16 +55,26 @@ body
 }
 table#table {
 	height:50% !important;
+	
 	overflow: scroll; /* si ça dépasse on affiche la scrollbar */ 
 /* 	background-color:#ccc; */
 	/* padding:2px; équivalent cellpadding */
 /* 	width:100%; */
-/* 	border: 2px solid green; */
+	border: 2px solid green;
+	border-spacing: 0;        
 }
 .celltoHidden
 {
 	visibility : hidden;
-	color:red;
+	display: none;
+/* 	color:red; */
+}
+th.col { 
+  /* les lignes de tableau avec la classe */
+  /* col seront repliées */
+  visibility: collapse;
+  	border: 2px solid blue;
+  
 }
 .TableauCelluleDescription
 {
