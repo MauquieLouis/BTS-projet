@@ -25,41 +25,71 @@
     	<div class="offset-1 col-10 offset-md-1 col-md-10">
     		<div class="row">
                 {% for maintenance in maintenances %}	
-                	<div class="col-12 col-md-6 col-lg-4 col-xl-3 BorderVert">
-                    	<a href = {{ path('modele3D', {'slug' : maintenance.id }) }} style="width:100%; height:100%;">
-                    		<div class="card-listMaintenance" style="width:99%; margin-top:5px;">
-                            	<div class="card-img-listMaintenance BorderBleu">      
-                            		<img src="..\..\image\machine\{{ machineID }}\{{ maintenance.id }}\{{ maintenance.picturefilename }}" alt="{{ maintenance.nom }}" height="48" width="50">
-                         		</div>
-                                <div class="card-text-listMaintenance BorderViolet">     
-                       			    {{ maintenance.nom }}
-                           		</div>
-                       		</div>
-                        </a>
-                        {% if is_granted('ROLE_ADMIN') %}<a href="{{ path('maintenanceedition', {'id' : maintenance.id }) }}" class="btn btn-secondary"><div style="font-size:14px;"><div class="d-none d-xl-inline-block">Modifier</div> <i class="fas fa-edit"></i></div></a>{% endif %}
-                    
-                    </div>
-                {% endfor %}
-                {% if is_granted('ROLE_ADMIN') %}
-                <div class="col-12 col-md-6 col-lg-4 col-xl-3 BorderVert">
-                	<div class="card-listMaintenance" style="width:99%;margin-top:5px;" href="#formMachine" onclick="HideFormMachine();">
-                    	<div style="width:100%; height:100%;" class="card-listMaintenance">  
-                    	 	<div class="card-textAdd-listMaintenance BorderViolet">   
-                    			<h3><i class="far fa-plus-square"></i> Ajouter une Maintenance   </h3>
-                    		</div>
+    				<div class="col-12 col-md-6 col-lg-4 col-xl-3 BorderVert">
+        			<div class="card card-listeMachine" style="height:20rem; display:inline-block; margin-top:5px;width: 98%; ">
+                        <div class="card-img-listeMachine" style="height:80px;">
+                        	<img src="..\..\image\machine\{{ machineID }}\{{ maintenance.id }}\{{ maintenance.picturefilename }}" alt="{{ maintenance.nom }}" style="height:120px; width:auto;">
+                        </div>
+                        <div class="card-body card-body-listeMachine BorderViolet" style="width:100%">
+                            <div class="card-text-listeMachine BorderViolet">
+                            	<h2 class="center">{{ maintenance.nom }}</h2>
+                            </div>
+                            <div class="card-button-listeMachine">
+                               
+                                <a href =  {{ path('modele3D', {'slug' : maintenance.id }) }} class="btn btn-primary">
+                                	<div style="font-size:14px;">Accès à la maintenance  &nbsp;<i class="fas fa-long-arrow-alt-right"></div></i>
+                                </a>
+                                 {% if is_granted('ROLE_ADMIN') %}
+                                    <a href="{{ path('maintenanceedition', {'id' : maintenance.id }) }}" class="btn btn-secondary">
+                                        <div style="font-size:14px;">
+                                        	<div class="d-none d-xl-inline-block">Modifier</div> 
+                                        	<i class="fas fa-edit"></i>
+                                        </div>
+                                    </a>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>
-               {% endif %}
+            {% endfor %}
+            <div class="col-12 col-md-6 col-lg-4 col-xl-3 BorderVert">
+            <a href="#formMachine" onclick="HideFormMachine();">
+                <div class="card-ajout-listeMachine" style="width: 98%; height:20rem; display:inline-block; margin-right:5px; margin-top:5px;">
+                    <div class="row" style="height:50%">
+                        <div class="col-12 offset-md-4 col-md-4" style="text-align:center; margin-top:30%;">
+                            <h3>
+                            	<i class="fas fa-plus-circle" style="font-size:40px">
+                            	</i>
+                            </h3>
+                            </br><h3>Ajouter une maintenance</h3>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+{#                 {% if is_granted('ROLE_ADMIN') %}#}
+
+{#                {% endif %}#}
             </div>
         </div>
     </div>
+    <style>
+        .floatRight
+        {
+			float:right; 
+        }
+        </style>
     <!-- ============================ FORMULAIRE CREATION MAINTENANCE ========================================= -->
   	    {% if is_granted('ROLE_ADMIN') %}
-		<div id="formMachine" class="col-12 offset-md-2 col-md-8 offset-lg-3 col-lg-6" hidden>
+		<div id="formMachine" class="col-12 offset-md-2 col-md-8 offset-lg-4 col-lg-4" hidden>
         	<h2>Creer une nouvelle maintenance :</h2>
             {{ form_start(formMaintenance) }}
-           	    {{ form_row(formMaintenance.nom, {'attr':{'placeholder' : "Nom de la maintenance"}}) }}
+{#            	    {{ form_row(formMaintenance.nom, {'attr':{'placeholder' : "Nom de la maintenance"}}) }}#}
+       	   	 {{ form_widget(formMaintenance.nom,{'attr' : {'class': 'form-control form-control-sm', 'placeholder' : 'Nom du Modèle'}}) }}
+                        <div style="margin-top:5px">
+                        	<h3 style="display:inline;">{{ form_label(formMaintenance.picturefile) }}</h3>
+                            {{ form_widget(formMaintenance.picturefile,{'attr' : {'class': 'btn btn-info btn-sm floatRight'}}) }}
+                        </div>
            	    <button type="submit" class="btn btn-primary">Enregistrer</button>
        		{{ form_end(formMaintenance) }}
     	</div>

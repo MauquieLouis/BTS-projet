@@ -1,6 +1,6 @@
 {# Date : 30/04/2019#}
 {% extends 'base.html.twig' %}
-      
+
 {% block stylesheets %}
     	<link href="{{ asset('css/base.css') }}" rel="stylesheet" />
     	<link href="{{ asset('bootstrap/css/bootstrap.css') }}" rel="stylesheet" />
@@ -10,11 +10,12 @@
 {% block title %}Admin{% endblock %}
 
 {% block body %}
+      <meta charset="UTF-8">
 {# 	<button id="testchercker" onClick="cube.checkAllSprites();">Check All Sprites</button>#}
 {# 	<button onClick="cube.checkAllSprites();//document.getElementById('form_Sauvegarder').click();">testcchek</button>#}
 <div class="row AdminRow2">
     <div class="col-12 offset-md-3 col-md-6 AdminRow1 TitlePage">
-        <h1>Visualisation des mod�les </h1>
+        <h1>Visualisation des modèles </h1>
         
     </div>
 </div>
@@ -22,7 +23,7 @@
     <div class="row">
     	<h2>
     		<i class="fas fa-digital-tachograph"></i>
-    		Liste mod�les : 
+    		Liste modèles : 
     	</h2>
     </div>
     <div class="row ">
@@ -30,7 +31,7 @@
     		<div class="col-12 col-md-6 col-lg-4 col-xl-3 BorderVert">
     			<div class="card card-listeMachine" style="height:20rem; display:inline-block; margin-top:5px;width: 98%; ">
                     <div class="card-img-listeMachine" style="height:80px;">
-                    	<img class="card-img-top" src="{{ asset('/image/modele/')~modele.id~('/')~modele.faceAvant }}" style="height:100px; width:auto;">
+                    	<img class="card-img-top" src="{{ asset('/image/modele/')~modele.id~('/')~modele.faceAvant }}" style="height:120px; width:auto;">
                     </div>
                     <div class="card-body card-body-listeMachine BorderViolet" style="width:100%">
                         <div class="card-text-listeMachine BorderViolet">
@@ -63,28 +64,55 @@
                             	<i class="fas fa-plus-circle" style="font-size:40px">
                             	</i>
                             </h3>
-                            </br><h3>Ajouter un mod�le</h3>
+                            </br><h3>Ajouter un modèle</h3>
                         </div>
                     </div>
                 </div>
             </a>
         </div>
+        <style>
+        .floatRight
+        {
+			float:right; 
+        }
+        </style>
         {% endif %}
 <!-- ============================ FORMULAIRE CREATION MODELE ========================================= -->	
         {% if is_granted('ROLE_ADMIN') %}
             <div id="formModele" class="col-12 offset-md-2 col-md-8 offset-lg-3 col-lg-6" hidden>
-           	 	<h2>Creer un nouveau modele:</h2>
-       	 	
-                {{ form_start(formModele) }}
-                    {{ form_row(formModele.nom) }}
-                    {{ form_row(formModele.faceAvant) }}
-                    {{ form_row(formModele.faceGauche) }}
-                    {{ form_row(formModele.faceArriere) }}
-                    {{ form_row(formModele.faceDroite) }}
-                    {{ form_row(formModele.faceHaut) }}
-                    {{ form_row(formModele.faceBas) }}
-                    <button type="submit" class="btn btn-primary">Sauvegarder</button>
-                {{ form_end(formModele) }}
+            	<div>
+           	 		<h2>Créer un nouveau modèle:</h2>
+                    {{ form_start(formModele) }}
+                    
+                        {{ form_widget(formModele.nom,{'attr' : {'class': 'form-control form-control-sm', 'placeholder' : 'Nom du Modèle'}}) }}
+                        <div style="margin-top:5px">
+                        	<h3 style="display:inline;">{{ form_label(formModele.faceAvant) }}</h3>
+                            {{ form_widget(formModele.faceAvant,{'attr' : {'class': 'btn btn-info btn-sm floatRight'}}) }}
+                        </div>
+                        <div style="margin-top:5px">
+                        	<h3 style="display:inline;">{{ form_label(formModele.faceGauche) }}</h3>
+                            {{ form_widget(formModele.faceGauche,{'attr' : {'class': 'btn btn-info btn-sm floatRight'}}) }}
+                        </div>
+                        <div style="margin-top:5px">
+                        	<h3 style="display:inline;">{{ form_label(formModele.faceArriere) }}</h3>
+                            {{ form_widget(formModele.faceArriere,{'attr' : {'class': 'btn btn-info btn-sm floatRight'}}) }}
+                        </div>
+                        <div style="margin-top:5px">
+                        	<h3 style="display:inline;">{{ form_label(formModele.faceDroite) }}</h3>
+                            {{ form_widget(formModele.faceDroite,{'attr' : {'class': 'btn btn-info btn-sm floatRight'}}) }}
+                        </div>
+                        <div style="margin-top:5px">
+                        	<h3 style="display:inline;">{{ form_label(formModele.faceHaut) }}</h3>
+                            {{ form_widget(formModele.faceHaut,{'attr' : {'class': 'btn btn-info btn-sm floatRight'}}) }}
+                        </div>
+                        <div style="margin-top:5px">
+                        	<h3 style="display:inline;">{{ form_label(formModele.faceBas) }}</h3>
+                            {{ form_widget(formModele.faceBas,{'attr' : {'class': 'btn btn-info btn-sm floatRight'}}) }}
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                    {{ form_end(formModele) }}
+           		</div>
             </div>
         {% endif %}
     	<script>

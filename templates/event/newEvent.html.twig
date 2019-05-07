@@ -3,48 +3,60 @@
 {% block title %}Hello EventController!{% endblock %}
 	
 {% block body %}
-	<meta http-equiv="refresh" content="600">
-	<h1>Entrer un nouvel evenement :</h1>
-    {{ form_start(formEvent) }}
-        {{ form_row(formEvent.title, {'attr':{'placeholder' : "Titre de l'evenement"}}) }}
-        {{ form_row(formEvent.description, {'attr':{'placeholder' : "Description de l'evenement"}}) }}
-        <ul class="listeUserId" data-prototype="{{ form_row(formEvent.usersid.vars.prototype)|e }}">
-        </ul>
-        <button type="button" class="add_tag_link" id="buttonAdd" hidden>+ UsersId</button>
-{#         {{ form_row(formEvent.machinesid, {'attr':{'placeholder' : "Inserer une machine"}}) }}#}
-        <ul class="listeMachineId" data-prototype="{{ form_row(formEvent.machinesid.vars.prototype)|e }}">
-        </ul>
-        <button type="button" class="add_tag_link" id="buttonAddMachine">|+| Modèle</button>
-    	
-{#         {{ form_row(formEvent.dateStart, {'attr':{'placeholder' : "Date de l'evenement"}}) }}#}
-        {{ form_row(formEvent.frequence, {'attr':{'placeholder' : "Frequence de repetition (ne rien mettre si ponctuel)"}}) }}
-    
-       	<button type="submit">Enregistrer</button>
-    {{ form_end(formEvent) }}
+{# 	<meta http-equiv="refresh" content="600">#}
+	<div class="col-12 offset-md-3 col-md-6 BorderRouge TitlePage">
+		<h1>Entrer un nouvel evenement :</h1>
+	</div>
+	<div class="col-12 offset-md-2 col-md-8">
+        {{ form_start(formEvent) }}
+            {{ form_label(formEvent.title,'Entrez un titre pour l\'évenement') }}
+            {{ form_widget(formEvent.title, {'attr':{'placeholder' : "Titre de l'evenement", "class" : "form-control form-control-sm"}}) }}
+            
+            {{ form_label(formEvent.description,'Entrez une description pour l\'évenement (optionnel)') }}
+            {{ form_widget(formEvent.description, {'attr':{'placeholder' : "Description de l'evenement", "class" : "form-control form-control-sm"}}) }}
+           
+           	<div class="row" style="margin-top:20px;border-top:1px solid #AAAAAA;">
+           		<div class="col-12 col-md-6 BorderBleu" style="margin-top:20px">
+                	<ul class="listeUserId" id="listeUserId" data-prototype="{{ form_row(formEvent.usersid.vars.prototype)|e }}">
+                	</ul>
+                </div>
+                <div class="col-12 col-md-6 BorderVert" style="border-left:1px solid #AAAAAA;margin-top:20px">
+                	<ul class="listeMachineId" data-prototype="{{ form_row(formEvent.machinesid.vars.prototype)|e }}">
+                	</ul>  
+                	<button type="button" class="add_tag_link btn btn-outline-primary" id="buttonAddMachine"><i class="fas fa-plus-circle"></i> Modèle</button>
+                </div>
+            </div>
+            {{ form_row(formEvent.frequence, {'attr':{'placeholder' : "Frequence de repetition (ne rien mettre si ponctuel)"}}) }}
+        
+           	<button type="submit">Enregistrer</button>
+        {{ form_end(formEvent) }}
+    </div>
    
     <script src="{{ asset('bootstrap/Js/jquery.js') }}"></script>
+    <script src="{{ asset('Js/Ajaxreceive.js') }}"></script>
     <script>
         var $addTagButton = $('#buttonAdd');					//Bouton +UsersId
         var $addMachineButton = $('#buttonAddMachine');
-        var $newLinkLi = $('<li></li>');//.append($addTagButton);
+        var $newLinkLiUser = $('<li name="user"></li>');//.append($addTagButton);
+        var $newLinkLiMachine = $('<li name="mach"></li>');
         var lastUserId;
         var $collectionHolder;
         var lastUserSelect, lastUserSelected;
         var allUserInput = [];
 
         jQuery(document).ready(function() {
-            $collectionHolder = $('ul.listeUserId');									//On récupère dans la page la balise <ul> avec la class : listeUserId
+            $collectionHolder = $('ul#listeUserId');									//On récupère dans la page la balise <ul> avec la class : listeUserId
             $collectionHolderMachine = $('ul.listeMachineId');	
-            $collectionHolder.append($newLinkLi);										//On ajoute un nouveau <li></li>
-            $collectionHolderMachine.append($newLinkLi);								//On ajoute un nouveau <li></li>
+            $collectionHolder.append($newLinkLiUser);										//On ajoute un nouveau <li></li>
+            $collectionHolderMachine.append($newLinkLiMachine);								//On ajoute un nouveau <li></li>
             $collectionHolder.data('index', $collectionHolder.find(':input').length);	//La donnée 'index' = nombre de select 
             $collectionHolderMachine.data('index', $collectionHolder.find(':input').length);	//La donnée 'index' = nombre de select
-            addTagForm($collectionHolder, $newLinkLi);									//Au chargement de la page on ajoute un champ select user
+            addTagForm($collectionHolder, $newLinkLiUser);									//Au chargement de la page on ajoute un champ select user
 			$addMachineButton.on('click', function(){
-				addMachineForm($collectionHolderMachine, $newLinkLi);
-				})
+				addMachineForm($collectionHolderMachine, $newLinkLiMachine);
+			});
         });
-        function addTagForm($collectionHolder, $newLinkLi)
+        function addTagForm($collectionHolder, $newLinkLiUser)
         {
             var prototype = $collectionHolder.data('prototype');						//On recuprere le data-prototype.
             var index = $collectionHolder.data('index');								//On recupere l'index (nombre de select)
@@ -55,8 +67,10 @@
             var newForm = prototype;
 
             //Ajout boutton delete sur l'ancien UserSelect;
-            var last = $(lastUserSelected2).parent().parent().parent().parent();
-            $(last).append('<span onclick="DeleteLiUser('+'\'#new_event_form_usersid_'+(index-1)+'_user'+'\');" style="cursor: pointer;"><i class="fas fa-times-circle" style="color:#EE8686"></i></span>');
+            var last = $(lastUserSelected2).parent();//.parent().parent().parent();
+            $(last).addClass( "row" );
+//             $(last).parent().parent().parent().parent().css("margin-top","20px");
+            $(last).append('<span class="col-1" onclick="DeleteLiUser('+'\'#new_event_form_usersid_'+(index-1)+'_user'+'\');" style="cursor: pointer;"><i class="fas fa-times-circle" style="color:#EE8686"></i></span>');
             
             // You need this only if you didn't set 'label' => false in your tags field in TaskType
             // Replace '__name__label__' in the prototype's HTML to
@@ -73,13 +87,17 @@
             // Display the form in the page in an li, before the "Add a tag" link li
             var $newFormLi = $('<li></li>').append(newForm);
 //             $newFormLi.append('<span onclick="console.log(\'click delete\');" style="cursor: pointer;"><i class="fas fa-times-circle" style="color:#EE8686"></i></span>');
-			$newLinkLi.before($newFormLi);
+			$newLinkLiUser.before($newFormLi);
+			$(lastUserSelected).addClass( "form-control form-control-sm col-11" );	
+			console.log(lastUserSelected.split('#')[1]);
 			
+			var label = $('label[for='+lastUserSelected.split('#')[1] +']')
+			label.remove();
 			$(lastUserSelected).change(function(){				//On créer un evenement sur le champs actuel
-				addTagForm($collectionHolder, $newLinkLi);
+				addTagForm($collectionHolder, $newLinkLiUser);
 				})
             }
-        	function addMachineForm($collectionHolderMachine, $newLinkLi)
+        	function addMachineForm($collectionHolderMachine, $newLinkLiMachine)
         	{
             	console.log('ADD MACHINE');
         		var prototype = $collectionHolderMachine.data('prototype');
@@ -92,10 +110,10 @@
 
         	    // Display the form in the page in an li, before the "Add a tag" link li
         	    var $newFormLi = $('<li></li>').append(newForm);
-        	    $newLinkLi.before($newFormLi);
+        	    $newLinkLiMachine.before($newFormLi);
         	    var idForm = '#new_event_form_machinesid_'+index+'_ModeleMachine';
 				var $formActual = $('#new_event_form_machinesid_'+index+'_ModeleMachine');
-        	    
+        	    $(idForm).addClass("form-control form-control-sm");
 				console.log(idForm, $formActual);
 				$formActual.change(function(){
 					console.log('Change !');
@@ -103,14 +121,13 @@
 					var data = {};
 					data[$formActual.attr('name')] = $formActual.val();
 					console.log(data, $formActual.val());
-
-					$.ajax({
+						$.ajax({
 						url  : $form.attr('action'),
 						type : $form.attr('method'),
 						data : data,
-						succes: function(html){
+						success: function(html){
 							console.log('SUCCESS !!');
-							$('#new_event_form_machinesid_'+index+'_machinesDispo').replacewith(
+							$('#new_event_form_machinesid_'+index+'_machinesDispo').replaceWith(
 								$(html).find(('#new_event_form_machinesid_'+index+'_machinesDispo'))
 								);
 							}
