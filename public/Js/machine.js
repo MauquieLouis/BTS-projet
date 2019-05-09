@@ -49,10 +49,10 @@ class Machines{
 		this.scene.add(this.cube);
 		this.points.forEach(this.addTooltip.bind(this));
 ///////////////////////AJOUT DIFFERENTES POSITIONS DE CAMERA////////////////////////////////
-		this.positionsCamera.push(new THREE.Vector3(0, 0, 140));//devant
-		this.positionsCamera.push(new THREE.Vector3(140, 0, 0));//droite
-		this.positionsCamera.push(new THREE.Vector3(0, 0, -140));//derriere
-		this.positionsCamera.push(new THREE.Vector3(-140, 0, 0));//gauche
+		this.positionsCamera.push(new THREE.Vector3(0, 0, 140));//devant	0
+		this.positionsCamera.push(new THREE.Vector3(140, 0, 0));//droite	1 
+		this.positionsCamera.push(new THREE.Vector3(0, 0, -140));//derriere 2
+		this.positionsCamera.push(new THREE.Vector3(-140, 0, 0));//gauche	3
 ////////////////////////////////////////////////////////////////////////////////////////////	
 	}
 	positionReset() // Cube se remet droit
@@ -245,14 +245,18 @@ class Machines{
 			this.edition = 0;
 			spriteCreate.classList.remove('on');
 			this.createSprite = 'stop';
+//			document.getElementById("menuModele").classList.remove('AjoutEtape');
 		}
 		else
 		{
 			this.edition = 1;
 			spriteCreate.classList.add('on');
 			this.createSprite = 'ready';
+//			document.getElementById("menuModele").classList.add('AjoutEtape');
+			
 		}
 		document.getElementById('btnSauvegarder').hidden = cube.sprites.length? false : true;
+		document.getElementById("container-fluid").classList.toggle("AjoutEtape"); 
 	}
 	RestoreMachine(scene,image,machine,modeleID)
 	{
@@ -362,7 +366,12 @@ class Machines{
 		cube.sprite.information = document.getElementById('tooltipInfo').value;
 		TableauHTMLTEST.ReinitialisationAffichage();
 	}
-	
+	SetFaceCamera(face)
+	{
+		console.log(face);
+		this.positionCamera = parseInt(face);
+		this.cubeMove(0);
+	}
 }
 /* FIN CLASSE Machines*/
 
@@ -580,6 +589,7 @@ var ratio = 1/2;
 var ratioHeight = 1/2;
 var windowWidth = (window.innerWidth * ratio);
 var windowHeight = ((window.innerHeight)-ecartHeightMenuCanvas)*ratioHeight;
+var IToResize = 0; // variable pour définir quand rentrer dans la fonction OnResize();
 ////////////////RENDU//////////////////////////////////////////////////////////
 const renderer = new THREE.WebGLRenderer({canvas: myCanvasElement});// Rendu
 renderer.setSize( windowWidth, windowHeight);
@@ -592,7 +602,10 @@ const camera = new THREE.PerspectiveCamera(75, (windowWidth / windowHeight), 0.1
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.rotateSpeed = 0.5;
 controls.autoRotate = false;
-controls.enableZoom = false;
+controls.enableZoom = true;
+controls.enablePan = false;
+controls.minDistance = 140;
+controls.maxDistance = 210;
 //controls.autoRotate = true;
 camera.position.set(0, 0, 140);
 controls.update();
@@ -660,8 +673,9 @@ function onClick(e)
 	//si edition = 1 et image = verte, on pose un sprite
 	else if (cube.createSprite == 'start')
 	{
-		nVarNom = prompt("Name :");
-		nVarInfo = prompt("Informations :");
+		console.log(document.getElementById('CreationEtapeNom').value);
+		nVarNom = document.getElementById('CreationEtapeNom').value;
+		nVarInfo = document.getElementById('CreationEtapeDescription').value;
 		cube.addPoints({
 			position: intersects[0].point,
 			camera: camera.position,
@@ -692,8 +706,18 @@ function onClick(e)
 	})
 }		
 ////        ON RESIZE                     ///////////////////////////////////////////////////////////////////////
+
 function onResize()
 {
+//	console.log("OnResize()");
+	if(IToResize == 2)
+	{
+		IToResize = 0;
+	}
+	else
+	{
+		IToResize++;		
+	}
 	if(window.innerWidth > 768) // mode ordi
 	{
 		ecartWidthMenuCanvas = window.innerWidth - renderer.context.drawingBufferWidth; //Récupère la position en X où commence le modele 3D
@@ -704,7 +728,10 @@ function onResize()
 		windowHeight = (window.innerHeight  - ecartHeightMenuCanvas) * ratioHeight; 
 		///////PLACEMENT DES BOUTONS DE NAVIGATIONS ////////////////////////////////////
 		btnCameraFaceCube.style.top = ecartHeightMenuCanvas + windowHeight +'px';
-		btnCameraFaceCube.style.right = windowWidth/2 - 30 + 'px';
+		console.log(document.getElementById('myCanvasElement').width/2);
+		console.log(document.getElementById('boutonFacesCube').offsetWidth);
+		let positionright = document.getElementById('myCanvasElement').width/2 - document.getElementById('boutonFacesCube').offsetWidth/2;
+		btnCameraFaceCube.style.right = positionright +'px';//windowWidth/2 - 30 + 'px';
 		////////////////////////////////////////////////////////////////////////////////
 		menuSmall.classList.add('is-active'); // Place le menu a gauche
 		renderer.setSize(windowWidth, windowHeight);//Redimensionne le modele 3D en prenant la page - la barre du haut * le ratio de 1/3
@@ -734,7 +761,11 @@ function onResize()
 //		document.getElementById('menuModele').style.width = 50 + 'px';
 	}
 	camera.updateProjectionMatrix();
-	setTimeout(function(){onResize();},10);
+	if(IToResize == 1)
+	{
+		setTimeout(function(){onResize();},10);
+		IToResize = 2;
+	}
 //	menuModele = ;
 
 }
@@ -825,7 +856,7 @@ function Keyboard(event)
 	}
 	if(event.keyCode == 69) //e
 	{
-		cube.ToggleSprite();
+//		cube.ToggleSprite();
 	}
 	if(event.keyCode == 85) //u
 	{
@@ -841,6 +872,7 @@ function Keyboard(event)
 	}
 	if(event.keyCode == 37) //console.log("fleche de gauche");
 	{
+
 	}
 	if(event.keyCode == 39) //fleche de droite;
 	{
@@ -859,15 +891,23 @@ function Keyboard(event)
 function onScreenChange(){console.log('screenchange');}
 function fn() // Lorsque la page est chargée la fonction se déclenche
 {
-	onResize();
+//	onResize();
 	cube.sprite = cube.sprites[0];
-	cube.sprite.onClick();
+	if(cube.sprite)
+	{
+		cube.sprite.onClick();
+	}
 	
 }
 function ready()
 {
-	
 	setTimeout(function(){onResize();},10);
+}
+function moveNavBar(visible,cache1,cache2)
+{
+	document.getElementById(visible).hidden = false;
+	document.getElementById(cache1).hidden = true;
+	document.getElementById(cache2).hidden = true;
 }
 
 function TableauBullesInfos()
@@ -902,4 +942,3 @@ container.addEventListener('mousemove', onMouseMove);
 container.addEventListener('keydown', Keyboard, false);
 document.addEventListener("DOMContentLoaded", ready);
 animate();
-onResize();
