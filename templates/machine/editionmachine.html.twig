@@ -18,15 +18,19 @@
 
 {#     		<h1>Edition {{ machine.name}}</h1>#}
 {#     		<div id="machineNamed" hidden>{{ machine.id }}</div>#}
-    		
+    		<h3>Gestion machine</h3>
     		{{ form_start(formMachine) }}
-
-    			<button type="submit" class="btn btn-primary">Sauvegarder</button>
+				<div id="formMachine" class="col-12 offset-md-2 col-md-8 offset-lg-3 col-lg-6"> 
+                    {{ form_widget(formMachine.name,{'attr' : {'class': 'form-control form-control-sm', 'placeholder' : 'Nom de la machine (ou N°de Série)'}}) }}
+                    <div style="margin-top:5px"></div>
+                    {{ form_widget(formMachine.description, {'attr':{'placeholder' : "Information sur la machine", 'class' : 'form-control form-control-sm'}}) }}
+                 </div>
+    			<button type="submit" style="margin-top: 2%;" class="btn btn-primary">Sauvegarder</button>
     		{{ form_end(formMachine) }}    		
     		
     		{{ form_start(formDeleteMachine) }}
     			
-    			<button type="submit" class="btn btn-danger">Supprimer la machine</button>
+    			<button type="submit" style="margin-top: 3%;" class="btn btn-danger">Supprimer la machine</button>
     	    {{ form_end(formDeleteMachine) }}
     	
     	</div>
