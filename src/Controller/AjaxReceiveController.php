@@ -20,31 +20,86 @@ class AjaxReceiveController extends AbstractController
      * @Route("accesbdd/writeevent/{id}/{message}", name="writeevent") 
      */
     public function WriteEvent(EventRepository $repo,EntityManagerInterface $em,$id,$message){
+        $message = json_decode($message);
+        $fields = $message[0];
+        $values = $message[1];
+        $retourCode = null;
         if($id === "undefined"){        //Create new row
-            $message = json_decode($message);
-            dd($message[0],$message[1][0],$message[1][1]);
+            //code
         }
-        else{                           //Edit existing row
-            $message = json_decode($message);
-            echo $message[0];
-            echo " ";
-            echo $message[1][0];
-            echo $message[1][1];
-
+        else{                          //Edit existing row
             $eventToModify = $repo->findOneBy(['id'=>$id]);
-            switch ($message[0]) {
-                case 'value':
-                    # code...
-                    break;
-                
-                default:
-                    # code...
-                    break;
+            foreach ($fields as $i => $it) {
+                switch ($it) {
+                    case 'Title':
+                    case 'title':
+                    case 'Titre':
+                    case 'titre':
+                        $eventToModify->setTitle($values[$i]);
+                        $retourCode .= "titleSetted;";
+                        break;
+                    case 'description':
+                    case 'Description':
+                        $eventToModify->setDescription($values[$i]);
+                        $retourCode .= "descriptionSetted;";
+
+                        break;
+                    case 'usersid':
+                    case 'Usersid':
+                    case 'userid':
+                    case 'Userid':
+                    case 'User_id':
+                    case 'user_id':
+                    case 'users_id':
+                    case 'Users_id':
+                        $eventToModify->setUsersid($values[$i]);
+                        $retourCode .= "usersidSetted;";
+
+                        break;
+                    case 'machineid':
+                    case 'Machineid':
+                    case 'machineId':
+                    case 'MachineId':
+                    case 'machine_id':
+                    case 'Machine_id':
+                        $eventToModify->setMachinesid($values[$i]);
+                        $retourCode .= "machineidSetted;";
+
+                        break;
+                    case 'date_start':
+                    case 'Date_start':
+                    case 'dateStart':
+                        $eventToModify->setDateStart(\DateTime::createFromFormat('Y-m-d', $values[$i]));
+                        $retourCode .= "date_startSetted;";
+
+                        break;
+                    case 'date_end':
+                    case 'Date_end':
+                    case 'dateEnd':
+                        $eventToModify->setDateEnd(\DateTime::createFromFormat('Y-m-d', $values[$i]));
+                        $retourCode .= "date_endSetted;";
+
+                        break;
+                    case 'frequence':
+                    case 'Frequence':
+                    case 'fréquence':
+                    case 'Fréquence':
+                        $eventToModify->setFrequence($values[$i]);
+                        $retourCode .= "frequenceSetted;";
+                        break;
+
+                    default:
+                        //DROP TO DEFAULT ERR: WriteEvent::foreach(fields)::switch(it)
+                        $retourCode .= "fields[".$i."] unknowed;";
+                        break;
+                }
             }
-           // $eventToModify->set
-
-
+            $em->persist($eventToModify);
+            $em->flush();
+            echo json_encode($retourCode);
         }
+        //dd($retourCode);
+        //echo $retourCode;
         return $this->render('ajax_receive/index.html.twig'); 
     }
 

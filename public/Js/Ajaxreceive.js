@@ -88,6 +88,11 @@ var table = {
 	},
 	SetTable: function(tableSelected,id,fields,values){
 		var xhReq = new XMLHttpRequest();
+		xhReq.onreadystatechange = function() {
+			if (this.readyState == 4 && (this.status == 200 || this.status == 0)) {
+				retourCode = JSON.parse(this.responseText);
+			}
+		};
 		switch(tableSelected){
 			case "event":
 				var tabl = [];
@@ -96,14 +101,16 @@ var table = {
 				var message = JSON.stringify(tabl);
 
 				if (id === null) {
-					console.log(id);
+/*					console.log(id);
 					console.log(message);
-
+					console.log("NULLABLE");*/
 					xhReq.open("post","accesbdd/writeevent/undefined/"+String(message),false);	// ajouter nouvelle ligne à la table
 				}
 				else{
-					console.log(id);
+/*					console.log(id);
 					console.log(message);
+					console.log("TRUE");
+					console.log("accesbdd/writeevent/"+String(id)+"/"+String(message));*/
 					xhReq.open("post","accesbdd/writeevent/"+String(id)+"/"+String(message),false);	// ajouter nouvelle ligne à la table
 				}
 			break;
@@ -113,11 +120,15 @@ var table = {
 				return -1;			//ERROR : arg tablesSelected inconnu
 			break;
 		}
+		xhReq.send();
+		return retourCode;
 	}
+
 };
-/*
-var values = ["2019-05-15","2019-05-15"];
-table.SetTable("event",31,"dateStart,dateEnd",values);*/
+
+/*var fields = ["dateStart","Titre"];
+var values = ["2019-02-01","Titre incoutournable"];
+table.SetTable("event",31,fields,values);*/
 //console.log("SETTABLE:",table.SetTable("event",null,"dateStart,dateEnd",values));
 
 ///PROCEDURE D'UTLISATION-----------------------------------------------------------------------------------------------------------------------------//
