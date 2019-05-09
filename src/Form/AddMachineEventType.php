@@ -39,10 +39,9 @@ class AddMachineEventType extends AbstractType
             $listeMachine = [];
             foreach ($machines as $machine)
             {
-                $listeMachine[] = $machine->getName();
+                $listeMachine[$machine->getId()] = $machine->getName();
             }
-            dump($machines);
-            dump($listeMachine);
+//             dump($listeMachine);s
             $form->add('machinesDispo', ChoiceType::class,[
 //                 'class' => Machine::class,
                 'placeholder'=>'Choisir une machine',
@@ -52,7 +51,7 @@ class AddMachineEventType extends AbstractType
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
             function(FormEvent $event) use ($formModifier){
-                dump('EventListener PRE_SET_DATA');
+//                 dump('EventListener PRE_SET_DATA');
                 $data = $event->getData();
                 $formModifier($event->getForm(),$data);
                 
@@ -62,7 +61,7 @@ class AddMachineEventType extends AbstractType
             FormEvents::POST_SUBMIT,
             function(FormEvent $event) use ($formModifier)
             {
-                dump('EventListener POST_SUBMIT');
+//                 dump('EventListener POST_SUBMIT');
                 $modele = $event->getForm()->getData();
                 $formModifier($event->getForm()->getParent(), $modele);
             }   

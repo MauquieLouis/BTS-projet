@@ -31,7 +31,7 @@ class NewEventFormType extends AbstractType
                 'entry_options' => ['label' => false],
                 'allow_add' => true
             ])
-            ->add('dateStart', DateType::class,['data' => new \DateTime(), 'required' => false, 'mapped' => false])
+            ->add('dateStart', DateType::class,['data' => new \DateTime(), 'required' => false])
             ->add('frequence',IntegerType::class,['required' => false])
             ->add('MesureTemps', ChoiceType::class,[
                 'choices' => [
@@ -41,7 +41,7 @@ class NewEventFormType extends AbstractType
                     'Années' => 'A' 
                 ],
                 'placeholder' => 'Mesure du temps',
-                'mapped' => false
+//                 'mapped' => false
             ]);
         ;
     }
@@ -49,7 +49,7 @@ class NewEventFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Event::class,
+//             'data_class' => Event::class,
         ]);
     }
 }
