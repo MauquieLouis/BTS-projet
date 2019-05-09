@@ -193,6 +193,7 @@ class Machines{
 					this.sprites.sort(function(a,b){return a.etape - b.etape;}); //Tri le tableau dans l'ordre des étapes
 					console.log(this.sprites);
 					TableauHTMLTEST.ReinitialisationAffichage();
+					document.getElementById("OrdreEtape").innerHTML = 0; // affiche 0/nombre d'étape existante
 				}
 				else
 				{

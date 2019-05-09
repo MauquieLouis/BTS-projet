@@ -40,6 +40,18 @@
         				<button class="btn btn-outline-info" onclick="cube.SetFaceCamera('2');">derriere</button>                      
         				<button class="btn btn-outline-info" onclick="cube.SetFaceCamera('1');">droite</button>  
     				</div>
+    				{% if is_granted('ROLE_ADMIN') %}
+                    	<div  id="formbtnSauvegarder" class="float:right;">
+                    	     {{ form_start(saveAllSprites) }}  
+                    	    	 {{ form_widget(saveAllSprites.name, {'attr':{'hidden':true}}) }}
+                        	     {{ form_widget(saveAllSprites.description, {'attr':{'hidden':true}}) }}
+                        	     {{ form_widget(saveAllSprites.position, {'attr':{'hidden':true}}) }}         	     
+                        	     {{ form_widget(saveAllSprites.camera, {'attr':{'hidden':true}}) }}       	     
+                        	     {{ form_widget(saveAllSprites.etape, {'attr':{'hidden':true}}) }}
+                        	     <button type="submit" class="btn btn-primary" id="btnSauvegarder" onclick="TableauHTMLTEST.ModifOrdreEtape();cube.SaveTable();//cube.validationChangementEtape();" >Sauvegarder</button>
+                             {{ form_end(saveAllSprites) }}
+                    	</div> 
+                	{% endif %}
     {# 				<div id="">                    #}
     {#     				<button onClick="cube.cubeMove(-1)" class="posCube d-none d-md-inline-block" id="btnFleche" style="display:inline-block;"> < </button>#}
     {#     				<button class="posCube d-none d-md-inline-block" onClick="cube.cubeMove(1)" id="btnFleche2" style="display:inline-block;"> > </button></br>#}
@@ -191,18 +203,7 @@
                     	<h3 style="display: inline;">Etape <div style="display: inline;" id="OrdreEtape">0</div>/<div class="SpriteNbr" id="SpriteNb">0</div></h3>
                     	<button class="btn btn-sm btn-secondary" onClick="cube.EtapeChangement(1)" title="Etape suivante"> > </button>
                 	</div>
-                	{% if is_granted('ROLE_ADMIN') %}
-                    	<div  id="formbtnSauvegarder" class="float:right;">
-                    	     {{ form_start(saveAllSprites) }}  
-                    	    	 {{ form_widget(saveAllSprites.name, {'attr':{'hidden':true}}) }}
-                        	     {{ form_widget(saveAllSprites.description, {'attr':{'hidden':true}}) }}
-                        	     {{ form_widget(saveAllSprites.position, {'attr':{'hidden':true}}) }}         	     
-                        	     {{ form_widget(saveAllSprites.camera, {'attr':{'hidden':true}}) }}       	     
-                        	     {{ form_widget(saveAllSprites.etape, {'attr':{'hidden':true}}) }}
-                        	     <button type="submit" class="btn btn-primary" id="btnSauvegarder" onclick="TableauHTMLTEST.ModifOrdreEtape();cube.SaveTable();//cube.validationChangementEtape();" >Sauvegarder</button>
-                             {{ form_end(saveAllSprites) }}
-                    	</div> 
-                	{% endif %}
+                	
             	</div>
             </div>
         </div>
