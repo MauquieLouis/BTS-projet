@@ -729,8 +729,6 @@ function onResize()
 		windowHeight = (window.innerHeight  - ecartHeightMenuCanvas) * ratioHeight; 
 		///////PLACEMENT DES BOUTONS DE NAVIGATIONS ////////////////////////////////////
 		btnCameraFaceCube.style.top = ecartHeightMenuCanvas + windowHeight +'px';
-		console.log(document.getElementById('myCanvasElement').width/2);
-		console.log(document.getElementById('boutonFacesCube').offsetWidth);
 		let positionright = document.getElementById('myCanvasElement').width/2 - document.getElementById('boutonFacesCube').offsetWidth/2;
 		btnCameraFaceCube.style.right = positionright +'px';//windowWidth/2 - 30 + 'px';
 		////////////////////////////////////////////////////////////////////////////////
