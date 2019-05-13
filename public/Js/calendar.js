@@ -5,23 +5,8 @@ class calMonth{
 		this.currWeek = 0;
 		this.currMonth = 0;
 		this.nbCases = 42;
-		this.eventAffiche = 0;
+		this.eventAffiche =  dd+"/"+mm+"/"+yyyy;
 	}
-
-	
-	/*set currMonth(month){
-		this.currMonth = parseInt(month);
-	}
-	set currYear(currYear){
-		this.currYear = currYear;
-	}
-	set currWeek(currWeek){
-		this.currWeek = currWeek;
-	}
-	set eventAffiche(date){
-		this.eventAffiche = date;
-	}*/
-
 
 	chMonth(plusOuMoins){
 		this.currMonth = parseInt(document.calForm.selMonth.value);
@@ -57,10 +42,20 @@ class calMonth{
 	}
 	
 	changeCal(){
-		eval("btCalMonth").style.background = "#e7e7e7";
-		eval("btCalMonth").style.color = "deepskyblue";
-		eval("btCalWeek").style.background = "deepskyblue";
-		eval("btCalWeek").style.color = "#e7e7e7";
+		eval("btCalMonth").style.background = "deepskyblue";
+		eval("btCalMonth").style.color = "#e7e7e7";
+		eval("btCalWeek").style.background = "#e7e7e7";
+		eval("btCalWeek").style.color = "deepskyblue";
+		//$('#btCalWeek').mouseover(function() {eval("btCalWeek").style.color = "black";});
+		//$('#btCalWeek').mouseout(function() {eval("btCalWeek").style.color = "deepskyblue";});
+		//$('#btCalMonth').off("mouseover");
+		//$('#btCalMonth').off("mouseout");
+		//eval("btCalWeek").addEventListener("mouseout", function() { eval("btCalWeek").style.color = "deepskyblue";},false);
+
+		for (var i=0;i<=nbYear;i++){				//5 années serront sélèctionnable
+			arrY[i] = this.currYear - nbYear/2 + i;
+			console.log(arrY[i]);
+		}
 		var prevM = (this.currMonth==0)?11:this.currMonth-1; //Mois précédent au mois affiché
 		var mmyyyy = new Date();
 		mmyyyy.setFullYear(this.currYear);
@@ -138,20 +133,19 @@ class calMonth{
 		text += "<tr><td>";
 		text += "<table width=100%><tr>";
 		text += "<td class=\"row\">";
-		text += "<span class=\"col-2\" onClick='calendarMonth.chMonth(\"-\")'><i style=\"font-size:30px\" class=\"fas fa-chevron-left\"></i></span>";
-		text += "<select class=\"col-6 form-control form-control-sm\" name=selMonth onChange='calendarMonth.chMonth()'>"; //Quand on selectionne un mois, la fonction changeCal() est appelé
+		text += "<span class=\"col-2 button\" onClick='calendarMonth.chMonth(\"-\")'><i style=\"font-size:30px\" class=\"fas fa-chevron-left\"></i></span>";
+		text += "<select class=\"col-6 button form-control form-control-sm\" name=selMonth onChange='calendarMonth.chMonth()'>"; //Quand on selectionne un mois, la fonction changeCal() est appelé
 		for (var i=0;i<=11;i++)		//Remplissage de la balise de selection du mois
 			(i==parseInt(this.eventAffiche.substr(3,2)-1))?text += "<option value= " + i + " Selected>" + arrM[i] + "</option>": text += "<option value= " + i + ">" + arrM[i] + "</option>";//Le mois courant est séléctionné au lancement
 		
 		text += "</select>";	
-		text += "<span class=\"col-2\" onClick='calendarMonth.chMonth(\"+\")'><i style=\"font-size:30px\" class=\"fas fa-chevron-right\"></i></span>";
-		text += "<span class=\"col-2\" onClick='calendarMonth.chMonth(\"+-\")'><i style=\"font-size:30px\" class=\"fas fa-calendar-day\"></i></span>";
+		text += "<span class=\"col-2 button\" onClick='calendarMonth.chMonth(\"+\")'><i style=\"font-size:30px\" class=\"fas fa-chevron-right\"></i></span>";
+		text += "<span class=\"col-2 button\" onClick='calendarMonth.chMonth(\"+-\")'><i style=\"font-size:30px\" class=\"fas fa-calendar-day\"></i></span>";
 		text += "</td>";
 		text += "<td align=right>";
-		text += "<select name=selYear class=\"col-7 form-control form-control-sm\" onChange='calendarMonth.chMonth()'>";	//Quand on selectionne une année, la fonction changeCal() est appelé
+		text += "<select name=selYear class=\"col-7 button form-control form-control-sm\" onChange='calendarMonth.chMonth()'>";	//Quand on selectionne une année, la fonction changeCal() est appelé
 		for (var i=0;i<=nbYear;i++)		//Remplissage de la balise de selection de l'année
-			(i==nbYear/2)?text += "<option value= " + arrY[i] + " Selected>" + arrY[i] + "</option>": text += "<option value= " + arrY[i] + ">" + arrY[i] + "</option>";//L'année courante est séléctionnée au lancement
-		
+			(i==this.eventAffiche.substr(6,4)-arrY[0])?text += "<option value= " + arrY[i] + " Selected>" + arrY[i] + "</option>": text += "<option value= " + arrY[i] + ">" + arrY[i] + "</option>";//L'année courante est séléctionnée au lancement
 		text += "</select>";
 		text += "</td>";
 		text += "</tr></table>";
@@ -170,9 +164,6 @@ class calMonth{
 			text += "</tr>";
 		}
 		text += "</table>";
-		text += "</td>";
-		text += "<td>";
-		text +=  "<span class=\"eventStyle\" id=EventPlace></span>";
 		text += "</td></tr>";
 		text += "</table>";		
 		text += "</form>";

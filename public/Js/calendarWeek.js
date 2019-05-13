@@ -53,10 +53,14 @@ class calWeek{
 	}
 	
 	changeCal(){
-		eval("btCalMonth").style.background = "deepskyblue";
-		eval("btCalMonth").style.color = "#e7e7e7";
-		eval("btCalWeek").style.background = "#e7e7e7";
-		eval("btCalWeek").style.color = "deepskyblue";
+		eval("btCalMonth").style.background = "#e7e7e7";
+		eval("btCalMonth").style.color = "deepskyblue";
+		eval("btCalWeek").style.background = "deepskyblue";
+		eval("btCalWeek").style.color = "#e7e7e7";
+		
+		//$('#btCalMonth').mouseover(function() {eval("btCalMonth").style.color = "black";});
+		//$('#btCalMonth').mouseout(function() {eval("btCalMonth").style.color = "deepskyblue";});
+		//$('#btCalWeek').off();
 		
 		var nbMonth = 0; //Futur numéro mois courrant
 		//Calcul du premier jour à afficher//
@@ -136,18 +140,18 @@ class calWeek{
 		text = "<form name=calWeekForm>";
 		text += "<table id=\"greatTab\" class=\"tabStyle\">";
 		text += "<tr><td class=\"row\">";
-		text += "<span class=\"col-2\" onClick='calendarWeek.chWeek(\"+-\")'><i style=\"font-size:30px\" class=\"fas fa-calendar-day\"></i></span>";
-		text += "<span class=\"col-2\" onClick='calendarWeek.chWeek(\"-\")'><i style=\"font-size:30px\" class=\"fas fa-chevron-left\"></i></span>";
-		text += "<select class=\"col-6 form-control form-control-sm\" name=selWeek onChange='calendarWeek.chWeek()'>"; //Quand on selectionne un mois, la fonction changeCal() est appelé
+		text += "<span class=\"col-2 button\" onClick='calendarWeek.chWeek(\"+-\")'><i style=\"font-size:30px\" class=\"fas fa-calendar-day\"></i></span>";
+		text += "<span class=\"col-2 button\" onClick='calendarWeek.chWeek(\"-\")'><i style=\"font-size:30px\" class=\"fas fa-chevron-left\"></i></span>";
+		text += "<select class=\"col-6 button form-control form-control-sm\" name=selWeek onChange='calendarWeek.chWeek()'>"; //Quand on selectionne un mois, la fonction changeCal() est appelé
 	
 		for (var i=1;i<=52;i++)		//Remplissage de la balise de selection du mois
 			(i==nbWeek(parseInt(this.eventAffiche.substr(0,2)), parseInt(this.eventAffiche.substr(3,2)-1), this.eventAffiche.substr(6,4)))?text += "<option value= " + i + " Selected>" + "Sem" + i + "</option>": text += "<option value= " + i + ">" + "Sem" + i + "</option>";//Le mois courant est séléctionné au lancement
 		text += "</select>";
-		text += "<span class=\"col-2\" onClick='calendarWeek.chWeek(\"+\")'><i style=\"font-size:30px\" class=\"fas fa-chevron-right\"></i></span>";				
+		text += "<span class=\"col-2 button\" onClick='calendarWeek.chWeek(\"+\")'><i style=\"font-size:30px\" class=\"fas fa-chevron-right\"></i></span>";				
 		text += "</td></tr>";
 		text += "<tr class=\"dayStyle\"><td>";		
-		text += "<span id=month>"+arrM[mm]+"</span>";
-		text += "<span id=year>   "+yyyy+"</span>";
+		text += "<span id=month>"+arrM[parseInt(this.eventAffiche.substr(3,2)-1)]+"</span>";
+		text += "<span id=year>   "+this.eventAffiche.substr(6,4)+"</span>";
 		text += "</td></tr>"
 		text += "<tr><td>";
 		text += "<table>"
@@ -172,9 +176,7 @@ class calWeek{
 			text += "</table>";
 			text += "</td>";
 		}
-		text += "</td></table><td border=0px>";
-		text +=  "<span class=\"eventStyle\" id=EventPlace></span>";
-		text += "</td>";
+		text += "</td></table>";		
 		//text+= "</tr>";
 		//text += "</table>";
 		//text = "</form>";
