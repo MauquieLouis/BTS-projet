@@ -27,6 +27,8 @@ class EventController extends AbstractController
         $event = new Event();
         $formEvent = $this->createForm(NewEventFormType::class);   //Création d'un nouvel objet formulaire agissant sur le nouvel utilisateur créé auparavant
         $formEvent->handleRequest($request);
+        $userIdTable = null;
+        $machineIdTable = null;
         if($formEvent->isSubmitted() && $formEvent->isValid())
         {
             //------------------------T A B L E A U   I D   U S E R S -------------------------//
@@ -51,8 +53,15 @@ class EventController extends AbstractController
             $event->setDateEnd($dateFin);
             $event->setTitle($formEvent->getData()['title']);
             $event->setDescription($formEvent->getData()['description']);
-            $event->setUsersid($userIdTable);
-            $event->setMachinesid($machineIdTable);
+            if($userIdTable)
+            {
+                $event->setUsersid($userIdTable);
+            }
+            if($machineIdTable)
+            {
+                $event->setMachinesid($machineIdTable);
+            }
+            
             $event->setFrequence($formEvent->getData()['frequence'].$formEvent->getData()['MesureTemps']);
             dump('Form',$formEvent->getData(), $event);
 //             dd('FIN');
@@ -65,7 +74,16 @@ class EventController extends AbstractController
             'controller_name' => 'EventController',
         ]);
     }
-    private function ModifyDate($date, $frequence, $mesure)
+    /**
+     * @Route("/event/searchListe", name="event_searchListe")
+     */
+    public function SearchListe()
+    {
+        return $this->render('event/index.html.twig', [
+        ]);
+    }
+   
+   private function ModifyDate($date, $frequence, $mesure)
     {
         
         $date = $date->format('Y-m-d');
