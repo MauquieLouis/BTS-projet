@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Form\NewEventFormType;
 use App\Entity\Event;
 
@@ -21,7 +22,7 @@ class EventController extends AbstractController
     /**
      * @Route("/event/nouveau", name="event_noveau")
      */
-    public function NewEvent(Request $request)
+    public function NewEvent(Request $request, EntityManagerInterface $em)
     {
         $event = new Event();
         $formEvent = $this->createForm(NewEventFormType::class);   //Création d'un nouvel objet formulaire agissant sur le nouvel utilisateur créé auparavant
@@ -43,28 +44,20 @@ class EventController extends AbstractController
                 $machineIdTable[] = $machine["machinesDispo"];
             }
             //------------------------ D A T E   E N D   E T   F R E Q U E N C E ---------------------//
-            switch($formEvent->getData()['MesureTemps'])
-            {
-            case "J":
-                $event->setFrequence($formEvent->getData()['frequence'].$formEvent->getData()['MesureTemps']);
-                break;
-            case "S":
-                break;
-            case "M":
-                break;
-            case "A":
-                break;
-            default:
-                dd("Error Switch :  '$'"."formEvent['MesureTemps'] in EventController.php -> public function NewEvent");
-                break;
-            }
+            $dateDebut = $formEvent->getData()['dateStart'];
+            
+            $event->setDateStart($formEvent->getData()['dateStart']);
+            $dateFin = $this->ModifyDate($formEvent->getData()['dateStart'], $formEvent->getData()['frequence'], $formEvent->getData()['MesureTemps']);
+            $event->setDateEnd($dateFin);
             $event->setTitle($formEvent->getData()['title']);
             $event->setDescription($formEvent->getData()['description']);
-            $event->setDateStart($formEvent->getData()['dateStart']);
             $event->setUsersid($userIdTable);
             $event->setMachinesid($machineIdTable);
+            $event->setFrequence($formEvent->getData()['frequence'].$formEvent->getData()['MesureTemps']);
             dump('Form',$formEvent->getData(), $event);
-            dd('FIN');
+//             dd('FIN');
+            $em->persist($event);
+            $em->flush();
             return $this->redirectToRoute('event');
         }
         return $this->render('event/newEvent.html.twig', [
@@ -72,4 +65,32 @@ class EventController extends AbstractController
             'controller_name' => 'EventController',
         ]);
     }
+    private function ModifyDate($date, $frequence, $mesure)
+    {
+        
+        $date = $date->format('Y-m-d');
+//         dump($date);
+        $datemodifie = new \DateTime($date);
+        switch ($mesure)
+        {
+            case "d":
+                $datemodifie = $datemodifie->modify('+'.$frequence.' day');
+                break;
+            case "w":
+                $datemodifie = $datemodifie->modify('+'.$frequence.' week');
+                break;
+            case "m":
+                $datemodifie = $datemodifie->modify('+'.$frequence.' month');
+                break;
+            case "y":
+                $datemodifie = $datemodifie->modify('+'.$frequence.' year');
+                break;
+            default:
+                dd("Error Switch :  private function ModifyDate($"."date, $"."frequence, $"."mesure)");
+                break;
+        }
+//         $datemodifie = $datemodifie->modify('+'.$frequence.'days');
+        return $datemodifie;
+    }
 }
+    

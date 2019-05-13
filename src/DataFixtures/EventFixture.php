@@ -17,7 +17,7 @@ class EventFixture extends BaseFixture
         {
             $event = new Event();
             $event->setTitle($this->faker->title);
-            $event->setDescription($this->faker->text);
+            $event->setDescription('Ceci est la description');
             $values = array();
             $values[] = $this->faker->numberBetween(1,5);
             $event->setUsersid($values);
