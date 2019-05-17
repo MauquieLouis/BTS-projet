@@ -20,71 +20,95 @@
 	float:right;
 }
 </style>
-	<div class="row AdminRow2">
-    	<div class="col-12 offset-md-3 col-md-6 AdminRow1 TitlePage">
-			<h1>Gestion du modèle !</h1>
-			<div class="row" >
-			<div class="col-12">
-{# 			<div id="formModele" class="col-12" style="border: 2px solid green;" >#}
-        		{{ form_start(formModele) }}
-{#         		<div class="row" style="border: 2px solid purple;" >#}
-			
-    
-                        
-                        {{ form_widget(formModele.nom,{'attr' : {'class': 'form-control form-control-sm', 'placeholder' : 'Nom du Modèle'}}) }}
-{#                         <div class="row">#}
-                        <div style="margin-top:5px">
-{#                         	<div class="col-6" style="border: 2px solid blue;">#}
-                        	<h3 style="display:inline;">{{ form_label(formModele.faceAvant) }}</h3>
-{#                         	</div>#}
-{#                         	<div class="col-6"  style="border: 2px solid grey">#}
-                            {{ form_widget(formModele.faceAvant,{'attr' : {'class': 'btn btn-info btn-sm floatRight'}}) }}
-{#                             </div>#}
-{#                         </div>#}
+<div class="row AdminRow2">
+	<div class="col-12 offset-md-3 col-md-6 AdminRow1 TitlePage">
+		<h1>Gestion du modèle !</h1>
+		<div class="row" >
+			<div class="col-12" style="border: 0px solid grey;">
+                {{ form_start(formModele) }}
+                    <div style="margin-top:5px">
+                        <div class="col-12" style="border: 0px solid green;">                        	
+                            {{ form_widget(formModele.nom,{'attr' : {'class': 'form-control form-control-sm', 'placeholder' : 'Nom du Modèle'}}) }}                       			
                         </div>
-                        <div style="margin-top:5px">
-                        	<h3 style="display:inline;">{{ form_label(formModele.faceGauche) }}</h3>
-                            {{ form_widget(formModele.faceGauche,{'attr' : {'class': 'btn btn-info btn-sm floatRight'}}) }}
+                    </div>
+                    <div style="margin-top:5px">
+                        <div class="col-12" style="border: 0px solid green;">  
+                            <div class="col-3 offset-1" style="border: 0px solid red; display: inline; float:left; text-align: left;"> 
+                            	<h3 style="display:inline;">{{ form_label(formModele.faceAvant) }}</h3>
+                            </div>
+                            <div class="col-4 offset-4" style="border: px solid blue;">
+                                {{ form_widget(formModele.faceAvant,{'attr' : {'class': 'btn btn-info btn-sm floatRight'}}) }}
+                            </div>
                         </div>
-                        <div style="margin-top:5px">
-                        	<h3 style="display:inline;">{{ form_label(formModele.faceArriere) }}</h3>
-                            {{ form_widget(formModele.faceArriere,{'attr' : {'class': 'btn btn-info btn-sm floatRight'}}) }}
+                    </div>
+                    <div style="margin-top:5px">
+                        <div class="col-12" style="border: 0px solid green;">
+                            <div class="col-3 offset-1" style="border: 0px solid red; display: inline; float:left; text-align: left;">
+                            	<h3 style="display:inline;">{{ form_label(formModele.faceGauche) }}</h3>
+                            </div>
+                            <div class="col-4 offset-4" style="border: 0px solid blue;">
+                                {{ form_widget(formModele.faceGauche,{'attr' : {'class': 'btn btn-info btn-sm '}}) }}
+                            </div>
                         </div>
-                        <div style="margin-top:5px">
-                        	<h3 style="display:inline;">{{ form_label(formModele.faceDroite) }}</h3>
-                            {{ form_widget(formModele.faceDroite,{'attr' : {'class': 'btn btn-info btn-sm floatRight'}}) }}
+                    </div>
+                    <div style="margin-top:5px">
+                        <div class="col-12" style="border: 0px solid green;">
+                            <div class="col-3 offset-1" style="border: 0px solid red; display: inline; float:left; text-align: left;">
+                            	<h3 style="display:inline;">{{ form_label(formModele.faceArriere) }}</h3>
+                            </div>
+                            <div class="col-4 offset-4" style="border: 0px solid blue;">
+                                {{ form_widget(formModele.faceArriere,{'attr' : {'class': 'btn btn-info btn-sm floatRight'}}) }}
+                            </div>    
                         </div>
-                        <div style="margin-top:5px">
-                        	<h3 style="display:inline;">{{ form_label(formModele.faceHaut) }}</h3>
-                            {{ form_widget(formModele.faceHaut,{'attr' : {'class': 'btn btn-info btn-sm floatRight'}}) }}
+                    </div>
+                    <div style="margin-top:5px">
+                        <div class="col-12" style="border: 0px solid green;">
+                            <div class="col-3 offset-1" style="border: 0px solid red; display: inline; float:left; text-align: left;">
+                            	<h3 style="display:inline;">{{ form_label(formModele.faceDroite) }}</h3>
+                            </div>
+                            <div class="col-4 offset-4" style="border: 0px solid blue;">
+                                {{ form_widget(formModele.faceDroite,{'attr' : {'class': 'btn btn-info btn-sm floatRight'}}) }}
+                            </div>
                         </div>
-                        <div style="margin-top:5px">
-                        	<h3 style="display:inline;">{{ form_label(formModele.faceBas) }}</h3>
-                            {{ form_widget(formModele.faceBas,{'attr' : {'class': 'btn btn-info btn-sm floatRight'}}) }}
+                    </div>
+                    <div style="margin-top:5px">
+                        <div class="col-12" style="border: 0px solid green;">
+                            <div class="col-3 offset-1" style="border: 0px solid red; display: inline; float:left; text-align: left;">
+                            	<h3 style="display:inline;">{{ form_label(formModele.faceHaut) }}</h3>
+                            </div>
+                            <div class="col-4 offset-4" style="border: 0px solid blue;">
+                                {{ form_widget(formModele.faceHaut,{'attr' : {'class': 'btn btn-info btn-sm floatRight'}}) }}
+                            </div>
                         </div>
-    
-                           
-                       
-        			<button type="submit" class="btn btn-primary">Sauvegarder</button>
-{#         			</div>#}
-{#         			</div>#}
-        		{{ form_end(formModele) }}
-        		
-        		            {{ form_start(formDeleteModele) }}
-    			<button type="submit" class="btn btn-danger">Supprimer</button>
-	        {{ form_end(formDeleteModele) }}
-        		</div>
-        		
-    			
-    		
-    
-{#     	</div>#}
-    	
-    	</div>
+                    </div>
+                    <div style="margin-top:5px">
+                        <div class="col-12" style="border: 0px solid green;">
+                            <div class="col-3 offset-1" style="border: 0px solid red; display: inline; float:left; text-align: left;">
+                            	<h3 style="display:inline;">{{ form_label(formModele.faceBas) }}</h3>
+                            </div>
+                            <div class="col-4 offset-4" style="border: 0px solid blue;">
+                                {{ form_widget(formModele.faceBas,{'attr' : {'class': 'btn btn-info btn-sm floatRight'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12" style="border: 0px solid green;">
+                        <div class="col-2 offset-1" style="border:0px solid red; display: inline; float:left; text-align: left;">
+                        	<button type="submit" class="btn btn-primary">Sauvegarder</button>
+                        </div>
+                {{ form_end(formModele) }}
+                {{ form_start(formDeleteModele) }}
+                    <div class="col-2 offset-3" style="border: 0px solid blue; margin-top:5px;">
+                   		<button type="submit" class="btn btn-danger">Supprimer</button>
+                    </div>
+                {{ form_end(formDeleteModele) }}
+    				</div>
+			</div>
+		</div>
 	</div>
-	<div class="row ">
+</div>
+<div class="row ">
 
- 	</div>
+</div>
         
        
 	 
