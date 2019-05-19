@@ -73,6 +73,10 @@ body
 	height: 500px;
 	margin-top: 30px;
 }
+#MenuHistorique
+{
+	margin-top : 30px;
+}
 #MenuInformation
 {
 /* 	border: 2px solid blue; */
