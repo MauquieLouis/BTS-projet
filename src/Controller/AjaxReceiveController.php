@@ -338,16 +338,20 @@ class AjaxReceiveController extends AbstractController
     }
 
      /**
-     * @Route("variables/sendEventsDates/{dateStart}/{dateEnd}", name="sendeventsdates") 
+     * @Route("variables/sendEventsDates/{dateStart}/{dateEnd}/{id}", name="sendeventsdates") 
      */
-    public function SendEventsDates(EventRepository $repo,$dateStart,$dateEnd){
+    public function SendEventsDates(EventRepository $repo,$dateStart,$dateEnd,$id){
         /*if(($dateStart && $dateEnd) === undefined){
                     
         }*/
         $dateStart = substr($dateStart,0,10);
         $dateEnd = substr($dateEnd,0,10);
-        $events = $repo->findAllBetweenDates($dateStart,$dateEnd);
-
+        if ($id === "undefined") {
+            $events = $repo->findAllBetweenDates($dateStart,$dateEnd,null);
+        }
+        else{
+            $events = $repo->findAllBetweenDates($dateStart,$dateEnd,$id);
+        }
         $tabl = array();
         
         for ($i=0; $i < sizeof($events); $i++){

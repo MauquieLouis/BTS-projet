@@ -72,7 +72,7 @@ var table = {
 		xhReq.send();
 		return currentUser;
 	},
-	ByDate: function(dateStart,dateEnd){		//table::ByDate("aaaa-mm-jj","aaaa-mm-jj")
+	ByDate: function(dateStart,dateEnd,idUser){		//table::ByDate("aaaa-mm-jj","aaaa-mm-jj",idUser)
 		var xhReq = new XMLHttpRequest();
 		var events;
 		xhReq.onreadystatechange = function() {
@@ -80,7 +80,14 @@ var table = {
 				events = JSON.parse(this.responseText);
 			}
 		};
-		xhReq.open("post","variables/sendEventsDates/"+String(dateStart)+"/"+String(dateEnd),false);
+
+		if(idUser === null){
+			xhReq.open("post","variables/sendEventsDates/"+String(dateStart)+"/"+String(dateEnd)+"/undefined",false);
+		}
+		else{
+			xhReq.open("post","variables/sendEventsDates/"+String(dateStart)+"/"+String(dateEnd)+"/"+String(idUser),false);
+		}
+
 
 		xhReq.send();
 
@@ -129,7 +136,6 @@ var table = {
 /*var fields = ["dateStart","Titre"];
 var values = ["2019-02-01","Titre incoutournable"];
 table.SetTable("event",31,fields,values);*/
-//console.log("SETTABLE:",table.SetTable("event",null,"dateStart,dateEnd",values));
 
 ///PROCEDURE D'UTLISATION-----------------------------------------------------------------------------------------------------------------------------//
 //table.init("selected",id)	// selected : nom de la table selectionée id : idselected | ex : table.init("event",22); selected : event idselected : 22
