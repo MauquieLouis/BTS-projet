@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\NewEventFormType;
 use App\Entity\Event;
@@ -77,9 +78,21 @@ class EventController extends AbstractController
     /**
      * @Route("/event/searchListe", name="event_searchListe")
      */
-    public function SearchListe()
+    public function SearchListe(Request $request)
     {
-        return $this->render('event/index.html.twig', [
+        $form = $this->createFormBuilder()
+        ->add('Recherche', SearchType::class, ['required' =>false])
+        ->getForm();
+        
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            
+        }
+        
+        return $this->render('event/listeEvent.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
    

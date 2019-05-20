@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello EventController!{% endblock %}
+	
+{% block body %}
+{# 	<meta http-equiv="refresh" content="600">#}
+	<div class="col-12 offset-md-3 col-md-6 BorderRouge TitlePage">
+		<h1>Rechercher un évenement</h1>
+	</div>
+	<div class="row">
+		<div class="col-12 offset-md-4 col-md-4 BorderBleu">
+			<div class="row displayRow BorderJaune">
+			<div class="col-12">
+			{{ form_start(form) }}
+				<div class="offset-1 col-10 BorderVert">
+	                {{ form_widget(form.Recherche,{'attr' : {'class' : 'form-control', 'placeholder' : 'Recherche'}}) }}
+	            </div>
+	        {{ form_end(form) }}
+	        </div>
+	        </div>
+        </div>
+    </div>
+{% endblock %}
