@@ -902,32 +902,33 @@ function ready()
 {
 	setTimeout(function(){onResize();},10);
 }
-function moveNavBar(visible,cache1,cache2)
+function moveNavBar(visible,cache1,cache2,cache3)
 {
 	document.getElementById(visible).hidden = false;
 	document.getElementById(cache1).hidden = true;
 	document.getElementById(cache2).hidden = true;
+	document.getElementById(cache3).hidden = true;
 }
 
-function TableauBullesInfos()
-{
-	document.getElementById('MenuInformation').hidden = true;// = document.getElementById('information').hidden : true;
-//	document.getElementById('ModifBulleInfo').hidden = false;
-	document.getElementById('MenuTableau').hidden = false;// = document.getElementById('TableauBullesInfos').hidden : false;
-//	document.getElementById('information').hidden = document.getElementById('TableauBullesInfos').hidden? false : true;
-}
-function InformationsShow()
-{
-	document.getElementById('MenuInformation').hidden = false;// = document.getElementById('information').hidden : false;
-	document.getElementById('MenuTableau').hidden = true;
-//	document.getElementById('ModifBulleInfo').hidden = true;
-}
-function ModifBulleInfoShow()
-{
-//	document.getElementById('ModifBulleInfo').hidden = false;// = document.getElementById('information').hidden : true;
-	document.getElementById('MenuTableau').hidden = true;// = document.getElementById('TableauBullesInfos').hidden : false;
-	document.getElementById('Menuinformation').hidden = true;// = document.getElementById('information').hidden : true;
-}
+//function TableauBullesInfos()
+//{
+//	document.getElementById('MenuInformation').hidden = true;// = document.getElementById('information').hidden : true;
+////	document.getElementById('ModifBulleInfo').hidden = false;
+//	document.getElementById('MenuTableau').hidden = false;// = document.getElementById('TableauBullesInfos').hidden : false;
+////	document.getElementById('information').hidden = document.getElementById('TableauBullesInfos').hidden? false : true;
+//}
+//function InformationsShow()
+//{
+//	document.getElementById('MenuInformation').hidden = false;// = document.getElementById('information').hidden : false;
+//	document.getElementById('MenuTableau').hidden = true;
+////	document.getElementById('ModifBulleInfo').hidden = true;
+//}
+//function ModifBulleInfoShow()
+//{
+////	document.getElementById('ModifBulleInfo').hidden = false;// = document.getElementById('information').hidden : true;
+//	document.getElementById('MenuTableau').hidden = true;// = document.getElementById('TableauBullesInfos').hidden : false;
+//	document.getElementById('Menuinformation').hidden = true;// = document.getElementById('information').hidden : true;
+//}
 function EditButton(idButton)
 {
 	document.getElementById(idButton).disabled ? (document.getElementById(idButton).disabled = false) : (document.getElementById(idButton).disabled = true);

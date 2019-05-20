@@ -35,10 +35,10 @@ class NewEventFormType extends AbstractType
             ->add('frequence',IntegerType::class,['required' => false])
             ->add('MesureTemps', ChoiceType::class,[
                 'choices' => [
-                    'Jours' => 'J',
-                    'Semaines' => 'S',
-                    'Mois' => 'M',
-                    'Années' => 'A' 
+                    'Jours' => 'd',
+                    'Semaines' => 'w',
+                    'Mois' => 'm',
+                    'Années' => 'y' 
                 ],
                 'placeholder' => 'Mesure du temps',
 //                 'mapped' => false

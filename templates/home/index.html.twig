@@ -13,10 +13,17 @@
      		     		
 
     		<div class="col-12 offset-md-4 col-md-8 BorderRouge">
-    			
-    			<span class=selCal id=btCalMonth> Mois </span>
-    			<span class=selCal id=btCalWeek>  Semaines </span>
-    			<div id=calPlace></div> 	
+    			<table>
+    			<tr><td>
+    			  	<span class=selCal id=btCalMonth> Mois </span>
+    				<span class=selCal id=btCalWeek>  Semaines </span>
+    				<span id=calPlace></span> 
+    				</td>
+    				<td>
+    				<span class=\"eventStyle\" id=EventPlace></span>
+    				</td>
+    			</tr>	
+    			</table>	
     			<script src="{{ asset('../Js/calendarWeek.js') }}"></script>
 				<script src="{{ asset('../Js/calendar.js') }}"></script>
     		</div>
