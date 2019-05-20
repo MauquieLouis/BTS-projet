@@ -65,10 +65,10 @@ class EventRepository extends ServiceEntityRepository
             $qb = $this->createQueryBuilder('p')
             ->andWhere('p.dateStart >= :dateMin')
             ->andWhere('p.dateStart <= :dateMax')
-            ->andWhere('p.usersid <= :userid')
+            ->andWhere('p.usersid = :userid')
             ->setParameter('dateMin', $dateMin)
             ->setParameter('dateMax', $dateMax)
-            ->setParameter('usersid', $userid)
+            ->setParameter('userid', $userid)
             ->orderBy('p.dateStart', 'ASC')
             ->getQuery();
         }
