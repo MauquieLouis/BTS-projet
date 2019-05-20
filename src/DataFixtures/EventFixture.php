@@ -13,10 +13,10 @@ class EventFixture extends BaseFixture
     {
         // $product = new Product();
         // $manager->persist($product);
-        $this->createMany(5,'event', function()
+        $this->createMany(34,'event', function()
         {
             $event = new Event();
-            $event->setTitle($this->faker->title);
+            $event->setTitle($this->faker->word);
             $event->setDescription('Ceci est la description');
             $values = array();
             $values[] = $this->faker->numberBetween(1,5);

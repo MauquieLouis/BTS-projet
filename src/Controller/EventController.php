@@ -9,6 +9,8 @@ use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\NewEventFormType;
 use App\Entity\Event;
+use App\Repository\EventRepository;
+use Knp\Component\Pager\PaginatorInterface;
 
 class EventController extends AbstractController
 {
@@ -78,14 +80,23 @@ class EventController extends AbstractController
     /**
      * @Route("/event/searchListe", name="event_searchListe")
      */
-    public function SearchListe(Request $request)
+    public function SearchListe(Request $request, PaginatorInterface $paginator, EventRepository $eR)
     {
         $form = $this->createFormBuilder()
         ->add('Recherche', SearchType::class, ['required' =>false])
         ->getForm();
         
-        $form->handleRequest($request);
+        $q = $request->query->get('q');
         
+        $queryBuilder = $eR->getAllByDate($q);
+        
+        $pagination = $paginator->paginate(
+            $queryBuilder,
+            $request->query->getInt('page',1),
+            10
+            );
+        
+        $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid())
         {
             
@@ -93,6 +104,7 @@ class EventController extends AbstractController
         
         return $this->render('event/listeEvent.html.twig', [
             'form' => $form->createView(),
+            'pagination' => $pagination,
         ]);
     }
    

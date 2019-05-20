@@ -157,6 +157,7 @@ li
 	cursor: pointer;
 	border: 2px solid #AAAAAA;
 }
+
 .card-listeMachine
 {
 	height:auto;
@@ -251,6 +252,15 @@ li
 {
 	color:#00A1D7;
 	display: inline-block;
+}
+.EventListe
+{
+	transition:background 0.5s;
+}
+.EventListe:hover
+{
+	background:#CECECE;
+	transition:background 0.5s;
 }
 .flashmessage
 {

@@ -79,6 +79,19 @@ class EventRepository extends ServiceEntityRepository
         // to get just one result:
         // $product = $qb->setMaxResults(1)->getOneOrNullResult();
     }
+    
+    /**
+     * @param string|null $term
+     */
+    public function getAllByDate(?string $term)
+    {
+        return $this->createQueryBuilder('e')
 
+        ->orderBy('e.dateStart', 'DESC');
+//         ->setMaxResults(10)
+//         ->getQuery()
+//         ->getResult()
+//         ;
+    }
 
 }

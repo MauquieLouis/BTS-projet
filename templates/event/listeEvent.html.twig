@@ -20,4 +20,33 @@
 	        </div>
         </div>
     </div>
+    <div class="row">
+    	<div class="col-12">
+        <div class="row">
+        	<div class="col-12 offset-md-2 col-md-8">
+        		<ul>
+                	{% for event in pagination %}
+                		<a href="#" class="btn-list-event">
+                		<li class="EventListe" style="border: 1px solid #00A1D7; margin-top:5px;">
+                    		<div>
+                    		    <h2 style="display:inline; margin-left:15px;">{{ event.title }}</h2>&nbsp &nbsp &nbsp
+                    		    <h4 style="display:inline; float:right; margin-right:15px;">{{ event.dateStart|date("d/m/Y") }}</h4>
+                    		</div>
+                		</li>
+                		</a>
+                	{% endfor %}
+            	</ul>
+            	</div>
+        	</div>
+        </div>
+        <div class="col-12">
+            <div class="row">
+            	<div class="col-12 offset-md-2 col-md-8">
+                	<nav aria-label="Page navigation example">
+                        {{ knp_pagination_render(pagination) }}
+                	</nav>
+            	</div>
+        	</div>
+    	</div>
+	</div>
 {% endblock %}
