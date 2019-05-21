@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Info Event{% endblock %}
+	
+{% block body %}
+	<div class="col-12 offset-md-3 col-md-6 BorderRouge TitlePage">
+		<h1>Informations évenement</h1>
+	</div>
+	<div class="row BorderVert">
+		<div class="col-12">
+    		<div class="row BorderJaune">
+{#     			<div class="col-12">#}
+        			<div class="offset-md-3 col-md-6">
+                        <h3>Nom de l'évenement :</h3>
+                        <div style="border-bottom:1px solid #AAAAAA;margin-bottom:8px"></div>
+                        <div class="offset-1 col-10">
+                            {{ event.title }}
+            			</div>
+    				<div style="margin-top:40px"></div>
+{#     			</div>#}
+    		</div>
+    		</div>
+    		<div class="row BorderJaune">
+{#     			<div class="col-12">#}
+    				<div class="offset-md-3 col-md-6">
+            			<h3>Description de l'évenement :</h3>
+                        <div style="border-bottom:1px solid #AAAAAA;margin-bottom:8px"></div>
+            			<div class="offset-1 col-10">
+            				{{ event.description }}
+            			</div>
+            			<div style="margin-top:40px"></div>	
+{#         			</div>#}
+    			</div>
+    		</div>
+    		<div class="row BorderJaune">
+{#     			<div class="col-12">#}
+    				<div class="offset-md-3 col-md-6">
+        				<h3>Date de l'évenement (départ)</h3>
+                    	<div style="border-bottom:1px solid #AAAAAA;margin-bottom:8px"></div>
+        				<div class="offset-1 col-10">
+        				    {{ event.dateStart|date("d/m/Y") }}
+        				</div>
+    					<div style="margin-top:40px"></div>
+{#     				</div>#}
+    			</div>
+    	    </div>
+    	    <div class="row BorderJaune">
+    	    	<div class="col-12 offset-md-3 col-md-3 BorderBleu">
+    				<h3>Liste des utilisateurs conviés</h3>
+                	<div style="border-bottom:1px solid #AAAAAA;margin-bottom:8px"></div>
+    				<div class="offset-1 col-10">
+        				{% for user in tableUser %}
+                            {% if user %}
+            		    		<li class="listeUser">
+            		    		<a href="{{ path('admin_UserControl_searchUser_id', {id: user.id}) }}" class="click" style="width:100%; height:100%;">
+                		    		<div class="" name="listeUser" style="height:100%;">
+                		    			<div class="elemListeUser userLogo" id="userLogo">
+                		    			{% if "ROLE_ADMIN" in user.roles %}
+            		    					<i class="fas fa-user-graduate" name="admin"></i>
+            		    				 {% elseif "ROLE_USER" in user.roles%}
+            		    				 	<i class="fas fa-user" name="user"></i>
+            		    				 {% else %}
+            		    				 	<i class="fas fa-user-lock" name="nouveau"></i>
+            		    				 {% endif %} 		    				 
+            		    				 </div>
+            		               		<span><div class="elemListeUser userName" name="userName">{{ user.Nom }}</div>
+            		               		<div class="elemListeUser userSurname">{{ user.prenom }}</div></span>
+{#             		               		<div class="elemListeUser userEmail d-none d-md-inline-block">{{ user.email }} </div>#}
+                		            	</br>
+                		            </div>
+            		            </a>
+            		            </li>
+            		        {% endif %}
+        				{% endfor %}
+        			</div>
+    			</div>
+    			<div class="col-12 col-md-3 BorderBleu">
+    			<h3>Liste des machiness</h3>
+                	<div style="border-bottom:1px solid #AAAAAA;margin-bottom:8px"></div>
+    				<div class="offset-1 col-10">
+    					{% for machine in tableMachine%}
+    						<a href="#">
+    						<div style="border:2px solid #00A1D7">
+    							<h3 style="display:inline">{{ machine[1].nom }}</h3>	
+    							<h3 style="display:inline">{{ machine[0].name }}</h3>
+    							<img style="display:inline;height:60px; width:auto;" src="{{ asset('/image/modele/')~machine[1].id~('/')~machine[1].faceAvant }}">
+    						</div>
+    						</a>
+    						</br>
+    					{% endfor %}
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+	</div>
+	
+	
+{% endblock %}

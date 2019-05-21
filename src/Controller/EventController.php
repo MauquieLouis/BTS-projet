@@ -10,6 +10,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Form\NewEventFormType;
 use App\Entity\Event;
 use App\Repository\EventRepository;
+use App\Repository\UserRepository;
+use App\Repository\MachineRepository;
+use App\Repository\ModeleMachineRepository;
 use Knp\Component\Pager\PaginatorInterface;
 
 class EventController extends AbstractController
@@ -35,7 +38,7 @@ class EventController extends AbstractController
         if($formEvent->isSubmitted() && $formEvent->isValid())
         {
             //------------------------T A B L E A U   I D   U S E R S -------------------------//
-            foreach($formEvent->getData()['usersid'] as $user)                  //parcour du tableau des utilisateurs
+            foreach($formEvent->getData()['usersid'] as $user)      //parcour du tableau des utilisateurs
             {
                 $userIn = $user['user'];                            //Recupere l'user
                 if($userIn)                                         //Si il existe
@@ -78,6 +81,29 @@ class EventController extends AbstractController
         ]);
     }
     /**
+     * @Route("/event/displayEvent/{id}", name="event_Display")
+     */
+    public function DisplayEvent($id, EventRepository $eR, UserRepository $uR, MachineRepository $mR, ModeleMachineRepository $mMR)
+    {
+        $event = $eR->findOneBy(['id' => $id]);
+        foreach($event->getUsersid() as $userId)
+        {
+            $tableUser[] = $uR->findOneBy(['id' => $userId]); 
+            
+        }
+        foreach($event->getMachinesid() as $key=>$machinesId)
+        {
+            $tableMachine[$key][0] = $mR->findOneBy(['id' => $machinesId]);
+            $tableMachine[$key][1] = $mMR->findOneBy(['id' => $tableMachine[$key][0]->getModele()->getId()]);
+        }
+//         dd($tableMachine);
+        return $this->render('event/infoEvent.html.twig', [
+            'event' => $event,
+            'tableUser' => $tableUser,
+            'tableMachine' => $tableMachine
+        ]);
+    }
+    /**
      * @Route("/event/searchListe", name="event_searchListe")
      */
     public function SearchListe(Request $request, PaginatorInterface $paginator, EventRepository $eR)
@@ -107,6 +133,7 @@ class EventController extends AbstractController
             'pagination' => $pagination,
         ]);
     }
+    
    
    private function ModifyDate($date, $frequence, $mesure)
     {

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello EventController!{% endblock %}
+{% block title %}Liste Evenement{% endblock %}
 	
 {% block body %}
 {# 	<meta http-equiv="refresh" content="600">#}
@@ -26,7 +26,7 @@
         	<div class="col-12 offset-md-2 col-md-8">
         		<ul>
                 	{% for event in pagination %}
-                		<a href="#" class="btn-list-event">
+                		<a href="{{ path('event_Display', {id : event.id}) }}" class="btn-list-event">
                 		<li class="EventListe" style="border: 1px solid #00A1D7; margin-top:5px;">
                     		<div>
                     		    <h2 style="display:inline; margin-left:15px;">{{ event.title }}</h2>&nbsp &nbsp &nbsp
