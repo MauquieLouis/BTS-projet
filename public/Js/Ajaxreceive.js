@@ -130,7 +130,6 @@ var table = {
 		xhReq.send();
 		return retourCode;
 	}
-
 };
 
 /*var fields = ["dateStart","Titre"];

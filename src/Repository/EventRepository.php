@@ -62,6 +62,8 @@ class EventRepository extends ServiceEntityRepository
             ->getQuery();
         }
         else{
+            $userid = array(intVal($userid));
+           // dd($userid);
             $qb = $this->createQueryBuilder('p')
             ->andWhere('p.dateStart >= :dateMin')
             ->andWhere('p.dateStart <= :dateMax')
@@ -73,7 +75,7 @@ class EventRepository extends ServiceEntityRepository
             ->getQuery();
         }
 
-
+        dd($qb->execute());
         return $qb->execute();
 
         // to get just one result:
