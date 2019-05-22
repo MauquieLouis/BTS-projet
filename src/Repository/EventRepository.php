@@ -47,7 +47,7 @@ class EventRepository extends ServiceEntityRepository
         ;
     }
     */
-
+//      
     public function findAllBetweenDates($dateMin,$dateMax,$userid): array
     {
         // automatically knows to select Products

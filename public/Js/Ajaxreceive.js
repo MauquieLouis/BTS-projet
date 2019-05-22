@@ -100,6 +100,7 @@ var table = {
 				retourCode = JSON.parse(this.responseText);
 			}
 		};
+		//comentairde
 		switch(tableSelected){
 			case "event":
 				var tabl = [];
