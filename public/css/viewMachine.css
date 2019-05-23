@@ -53,12 +53,37 @@ body
 	height: 200px;
 	overflow:auto;
 }
-#container-fluid.AjoutEtape
+/* #container-fluid.AjoutEtape */
+/* { */
+/* 	opacity: 0.5; */
+/* 	filter: blur(2px); */
+/* } */
+#MenuOnglet.AjoutEtape
 {
 	opacity: 0.5;
 	filter: blur(2px);
 }
-#menuModele.AjoutEtape
+#CreationEtapeNomDescription.AjoutEtape
+{
+	opacity: 0.5;
+	filter: blur(2px);
+}
+#page-header.AjoutEtape
+{
+	opacity: 0.5;
+	filter: blur(2px);
+}
+#TitrePage.AjoutEtape
+{
+	opacity: 0.5;
+	filter: blur(2px);
+}
+#MenuNavFixe.AjoutEtape
+{
+	opacity: 0.5;
+	filter: blur(2px);
+}
+#btnPositionduCube.AjoutEtape
 {
 	opacity: 0.5;
 	filter: blur(2px);

@@ -11,7 +11,7 @@
 {% block title %}Liste modèles{% endblock %}
 
 {% block body %}
-	<div class="row AdminRow2">
+	<div class="row AdminRow2" id="TitrePage">
     	<div class="col-12 offset-md-3 col-md-6 AdminRow1 TitlePage">
     		<h1>Aperçu {{ machine.name}}</h1>
 			<div id="filename" hidden>{{ modeleMachine.faceDroite }};{{ modeleMachine.faceGauche }};{{ modeleMachine.faceHaut }};{{ modeleMachine.faceBas }};{{ modeleMachine.faceAvant }};{{ modeleMachine.faceArriere }}</div>
@@ -23,7 +23,7 @@
 	<div class="row" >
 		<div id="CanvasEtBouton" style="">
 			<canvas style="" id="myCanvasElement" class="col-12 offset-md-3 col-md-9 d-none d-md-block" width="500" height="300"></canvas>
-			<div class="btnPositionduCube offset-col-4">
+			<div class="btnPositionduCube offset-col-4" id="btnPositionduCube">
 				<div id="boutonFacesCube">
     				<button class="btn btn-outline-info" onclick="cube.SetFaceCamera('0');">devant</button>
     				<button class="btn btn-outline-info" onclick="cube.SetFaceCamera('3');">gauche</button>                      
@@ -45,7 +45,7 @@
 			</div>
 		</div>
         <div class="menu2 col-11 col-md-6 d-md-block" id="menuModele">	
-            <div style="border-bottom : 1px solid #aaaaaa;" id="MenuOnglet">
+            <div style="border-bottom : 1px solid #aaaaaa;" id="MenuOnglet" class="MenuOnglet">
                 <button class="btn  btn-info" style="border:2px solid grey; display:inline;" onclick="moveNavBar('MenuInformation','MenuTableau','MenuCreationUneEtape','MenuHistorique');">Informations </button>
                 {% if is_granted('ROLE_ADMIN') %}
                 	<button class="btn  btn-info" style="border:2px solid grey; display:inline;" onclick="moveNavBar('MenuTableau','MenuInformation','MenuCreationUneEtape','MenuHistorique');">Tableau d'information</button>
@@ -55,13 +55,16 @@
             </div>
     		<div id="MenuAffichage">
         		<div id="MenuCreationUneEtape" hidden>
-        			<div style="margin-left : 5%"><h3>Nom</h3></div>
+        			<div id="CreationEtapeNomDescription">
+        				<div style="margin-left : 5%"><h3>Nom</h3></div>
     					<input id="CreationEtapeNom" style="display: inline-block; margin-left : 5%;width: 80%;"></input>
                     	<div style="margin-left : 5%"><h3>Description</h3></div>
         				<textarea id="CreationEtapeDescription" style="display: inline-block; width: 80%; margin-left : 5%; min-height: 149pt; height:150pt; max-height: 151pt; text-overflow: ellipsis;  overflow: hidden; overflow: scroll" >
         				</textarea>
+        			</div>	
         				<div>
-        					<button class="btn btn-primary offset-4" style="position:center;" onclick="cube.ToggleSprite(); cube.SaveTable();" >Créer</button>
+        					<button id="BtnCreerEtape" class="btn btn-primary offset-4" style="position:center;" onclick="cube.ToggleSprite(); cube.SaveTable();" >Créer</button>
+        					
                         </div>     
         		</div>
     			<div id="MenuInformation" >	
