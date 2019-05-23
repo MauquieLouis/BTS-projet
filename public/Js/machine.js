@@ -594,8 +594,9 @@ const menuModele = document.getElementById('menuModele');
 var modeleID = document.getElementById('modeleID').innerHTML;
 const imageFileNameMachine = document.getElementById('filename');
 var cutFileName = imageFileNameMachine.innerHTML;
-const getMachineName = document.getElementById('machineNamed');
-var machineNamed = getMachineName.innerHTML;
+//const getMachineName = document.getElementById('machineNamed');
+//var machineNamed = getMachineName.innerHTML;
+var machineNamed = 'PasDeMachineEnReference';
 var getNameEachSprite = document.getElementById('getEachSprite');
 var spriteActive = false;
 var ecartHeightMenuCanvas = menuHautSizeHeight.offsetHeight;
@@ -654,7 +655,7 @@ const rayCaster = new THREE.Raycaster();
 
 function onClick(e)
 {
-	console.log(e);
+//	console.log(e);
 	let mouse = new THREE.Vector2(
 		( (e.clientX-ecartWidthMenuCanvas) / windowWidth ) * 2 - 1,
 		- ( (e.clientY-ecartHeightMenuCanvas) / windowHeight ) * 2 + 1
@@ -966,30 +967,36 @@ window.oncontextmenu= function OnContextMenu(e){ // clic droit
 	let intersects = rayCaster.intersectObjects(scene.children); // Regarde ce qui rencontre les "enfants" de la scène: tooltip, sphère...
 	if(cube.createSprite == 'start')
 	{
-		console.log(document.getElementById('CreationEtapeNom').value);
-		nVarNom = document.getElementById('CreationEtapeNom').value;
-		nVarInfo = document.getElementById('CreationEtapeDescription').value;
-		cube.addPoints({
-			position: intersects[0].point,
-			camera: camera.position,
-			name: nVarNom,
-			info : nVarInfo,
-			etape: cube.sprites.length+1,
-			scene : cube
-		});
-		cube.addTooltip(cube.points[cube.points.length-1]);
-		if(cube.sprites[cube.sprites.length-1].position.x <= (intersects[0].object.geometry.parameters.width/2 +0.09) && cube.sprites[cube.sprites.length-1].position.x >= (intersects[0].object.geometry.parameters.width/2 - 0.101)) { cube.sprites[cube.sprites.length-1].position.x += cube.initEcartTooltip;}
-		if(cube.sprites[cube.sprites.length-1].position.x >= -(intersects[0].object.geometry.parameters.width/2 +0.09) && cube.sprites[cube.sprites.length-1].position.x <= -(intersects[0].object.geometry.parameters.width/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.x -= cube.initEcartTooltip;}
-		if(cube.sprites[cube.sprites.length-1].position.y <= (intersects[0].object.geometry.parameters.height/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.y >= (intersects[0].object.geometry.parameters.height/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.y += cube.initEcartTooltip;}
-		if(cube.sprites[cube.sprites.length-1].position.y >= -(intersects[0].object.geometry.parameters.height/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.y <= -(intersects[0].object.geometry.parameters.height/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.y -= cube.initEcartTooltip;}
-		if(cube.sprites[cube.sprites.length-1].position.z <= (intersects[0].object.geometry.parameters.depth/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.z >= (intersects[0].object.geometry.parameters.depth/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.z += cube.initEcartTooltip;}
-		if(cube.sprites[cube.sprites.length-1].position.z >= -(intersects[0].object.geometry.parameters.depth/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.z <= -(intersects[0].object.geometry.parameters.depth/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.z -= cube.initEcartTooltip;}
-		TableauHTMLTEST.AjoutLigne(cube.sprite.name,
-				cube.sprite.information,
-				cube.sprite.etape,
-				cube.sprite.idBDD,
-				cube.sprite.id);
-		cube.ToggleSprite();
+//		console.log(document.getElementById('CreationEtapeNom').value);
+		if(intersects[0].object.name);
+		{
+			if(intersects[0].object.name == 'machine')
+			{
+				nVarNom = document.getElementById('CreationEtapeNom').value;
+				nVarInfo = document.getElementById('CreationEtapeDescription').value;
+				cube.addPoints({
+					position: intersects[0].point,
+					camera: camera.position,
+					name: nVarNom,
+					info : nVarInfo,
+					etape: cube.sprites.length+1,
+					scene : cube
+				});
+				cube.addTooltip(cube.points[cube.points.length-1]);
+				if(cube.sprites[cube.sprites.length-1].position.x <= (intersects[0].object.geometry.parameters.width/2 +0.09) && cube.sprites[cube.sprites.length-1].position.x >= (intersects[0].object.geometry.parameters.width/2 - 0.101)) { cube.sprites[cube.sprites.length-1].position.x += cube.initEcartTooltip;}
+				if(cube.sprites[cube.sprites.length-1].position.x >= -(intersects[0].object.geometry.parameters.width/2 +0.09) && cube.sprites[cube.sprites.length-1].position.x <= -(intersects[0].object.geometry.parameters.width/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.x -= cube.initEcartTooltip;}
+				if(cube.sprites[cube.sprites.length-1].position.y <= (intersects[0].object.geometry.parameters.height/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.y >= (intersects[0].object.geometry.parameters.height/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.y += cube.initEcartTooltip;}
+				if(cube.sprites[cube.sprites.length-1].position.y >= -(intersects[0].object.geometry.parameters.height/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.y <= -(intersects[0].object.geometry.parameters.height/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.y -= cube.initEcartTooltip;}
+				if(cube.sprites[cube.sprites.length-1].position.z <= (intersects[0].object.geometry.parameters.depth/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.z >= (intersects[0].object.geometry.parameters.depth/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.z += cube.initEcartTooltip;}
+				if(cube.sprites[cube.sprites.length-1].position.z >= -(intersects[0].object.geometry.parameters.depth/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.z <= -(intersects[0].object.geometry.parameters.depth/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.z -= cube.initEcartTooltip;}
+				TableauHTMLTEST.AjoutLigne(cube.sprite.name,
+						cube.sprite.information,
+						cube.sprite.etape,
+						cube.sprite.idBDD,
+						cube.sprite.id);
+				cube.ToggleSprite();
+			}
+		}
 	}
 //	else //sinon c'est qu'on est en ready et on passe en start
 //	{ cube.createSprite = 'start';}

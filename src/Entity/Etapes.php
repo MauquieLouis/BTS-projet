@@ -41,11 +41,11 @@ class Etapes
      */
     private $etape;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Machine")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $machine;
+//     /**
+//      * @ORM\ManyToOne(targetEntity="App\Entity\Machine")
+//      * @ORM\JoinColumn(nullable=false)
+//      */
+//     private $machine;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Maintenance", inversedBy="etapes", cascade={"persist"})
@@ -118,17 +118,17 @@ class Etapes
         return $this;
     }
 
-    public function getMachine(): ?machine
-    {
-        return $this->machine;
-    }
+//     public function getMachine(): ?machine
+//     {
+//         return $this->machine;
+//     }
 
-    public function setMachine(?machine $machine): self
-    {
-        $this->machine = $machine;
+//     public function setMachine(?machine $machine): self
+//     {
+//         $this->machine = $machine;
 
-        return $this;
-    }
+//         return $this;
+//     }
 
     public function getMaintenance(): ?maintenance
     {

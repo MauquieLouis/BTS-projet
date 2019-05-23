@@ -36,7 +36,7 @@
                             </div>
                             <div class="card-button-listeMachine">
                                
-                                <a href =  {{ path('modele3D', {'slug' : maintenance.id }) }} class="btn btn-primary">
+                                <a href =  {{ path('modele3D', {'slug' : maintenance.id}) }} class="btn btn-primary">
                                 	<div style="font-size:14px;">Accès à la maintenance  &nbsp;<i class="fas fa-long-arrow-alt-right"></div></i>
                                 </a>
                                  {% if is_granted('ROLE_ADMIN') %}

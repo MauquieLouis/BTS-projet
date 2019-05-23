@@ -35,10 +35,10 @@ class Machine
      */
     private $imagefilename;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Maintenance", mappedBy="idMachine", orphanRemoval=true, cascade={"persist"})
-     */
-    private $maintenances;
+//     /**
+//      * @ORM\OneToMany(targetEntity="App\Entity\Maintenance", mappedBy="idMachine", orphanRemoval=true, cascade={"persist"})
+//      */
+//     private $maintenances;
 
    
 
@@ -95,36 +95,36 @@ class Machine
         return $this;
     }
 
-    /**
-     * @return Collection|Maintenance[]
-     */
-    public function getMaintenances(): Collection
-    {
-        return $this->maintenances;
-    }
+//     /**
+//      * @return Collection|Maintenance[]
+//      */
+//     public function getMaintenances(): Collection
+//     {
+//         return $this->maintenances;
+//     }
 
-    public function addMaintenance(Maintenance $maintenance): self
-    {
-        if (!$this->maintenances->contains($maintenance)) {
-            $this->maintenances[] = $maintenance;
-            $maintenance->setIdMachine($this);
-        }
+//     public function addMaintenance(Maintenance $maintenance): self
+//     {
+//         if (!$this->maintenances->contains($maintenance)) {
+//             $this->maintenances[] = $maintenance;
+//             $maintenance->setIdMachine($this);
+//         }
 
-        return $this;
-    }
+//         return $this;
+//     }
 
-    public function removeMaintenance(Maintenance $maintenance): self
-    {
-        if ($this->maintenances->contains($maintenance)) {
-            $this->maintenances->removeElement($maintenance);
-            // set the owning side to null (unless already changed)
-            if ($maintenance->getIdMachine() === $this) {
-                $maintenance->setIdMachine(null);
-            }
-        }
+//     public function removeMaintenance(Maintenance $maintenance): self
+//     {
+//         if ($this->maintenances->contains($maintenance)) {
+//             $this->maintenances->removeElement($maintenance);
+//             // set the owning side to null (unless already changed)
+//             if ($maintenance->getIdMachine() === $this) {
+//                 $maintenance->setIdMachine(null);
+//             }
+//         }
 
-        return $this;
-    }
+//         return $this;
+//     }
 
     
 

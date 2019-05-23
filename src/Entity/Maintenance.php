@@ -23,11 +23,11 @@ class Maintenance
      */
     private $nom;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Machine", inversedBy="maintenances", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $idMachine;
+//     /**
+//      * @ORM\ManyToOne(targetEntity="App\Entity\Machine", inversedBy="maintenances", cascade={"persist"})
+//      * @ORM\JoinColumn(nullable=false)
+//      */
+//     private $idMachine;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Etapes", mappedBy="maintenance", orphanRemoval=true, cascade={"persist"})
@@ -43,6 +43,12 @@ class Maintenance
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $picturefilename;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\ModeleMachine", inversedBy="maintenances")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $modele;
 
     public function __construct()
     {
@@ -66,17 +72,17 @@ class Maintenance
         return $this;
     }
 
-    public function getIdMachine(): ?machine
-    {
-        return $this->idMachine;
-    }
+//     public function getIdMachine(): ?machine
+//     {
+//         return $this->idMachine;
+//     }
 
-    public function setIdMachine(?machine $idMachine): self
-    {
-        $this->idMachine = $idMachine;
+//     public function setIdMachine(?machine $idMachine): self
+//     {
+//         $this->idMachine = $idMachine;
 
-        return $this;
-    }
+//         return $this;
+//     }
 
     /**
      * @return Collection|Etapes[]
@@ -129,6 +135,18 @@ class Maintenance
     public function setPicturefilename(?string $picturefilename): self
     {
         $this->picturefilename = $picturefilename;
+
+        return $this;
+    }
+
+    public function getModele(): ?ModeleMachine
+    {
+        return $this->modele;
+    }
+
+    public function setModele(?ModeleMachine $modele): self
+    {
+        $this->modele = $modele;
 
         return $this;
     }

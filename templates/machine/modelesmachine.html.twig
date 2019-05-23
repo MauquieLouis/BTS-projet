@@ -42,6 +42,9 @@
                             <a href = {{ path('machine', {'modele' : modele.id }) }} class="btn btn-primary">
                             	<div style="font-size:14px;">Accès aux machines  &nbsp;<i class="fas fa-long-arrow-alt-right"></div></i>
                             </a>
+                            <a href = {{ path('maintenanceModele3D', {'modele' : modele.id }) }} class="btn btn-primary">
+                        	   <div style="font-size:14px;">Accès aux maintenances &nbsp;<i class="fas fa-long-arrow-alt-right"></div></i>
+                        	</a>
                             {% if is_granted('ROLE_ADMIN') %}
                             <a href="{{ path('modeleedition', {'id' : modele.id }) }}" class="btn btn-secondary">
                                 <div style="font-size:14px;">

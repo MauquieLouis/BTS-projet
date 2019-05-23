@@ -13,9 +13,9 @@
 {% block body %}
 	<div class="row AdminRow2" id="TitrePage">
     	<div class="col-12 offset-md-3 col-md-6 AdminRow1 TitlePage">
-    		<h1>Aperçu {{ machine.name}}</h1>
+{#     		<h1>Aperçu {{ machine.name}}</h1>#}
 			<div id="filename" hidden>{{ modeleMachine.faceDroite }};{{ modeleMachine.faceGauche }};{{ modeleMachine.faceHaut }};{{ modeleMachine.faceBas }};{{ modeleMachine.faceAvant }};{{ modeleMachine.faceArriere }}</div>
-    		<div id="machineNamed" hidden>{{ machine.id }}</div>
+{#     		<div id="machineNamed" hidden>{{ machine.id }}</div>#}
     		<div id="modeleID" hidden>{{ modeleMachine.id }}</div>
     		<button class ="btn btn-secondary d-md-none" onclick="showModele();" type="button">Affichage Modèle 3D</button>
     	</div>

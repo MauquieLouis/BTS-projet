@@ -117,18 +117,20 @@ class MachineController extends AbstractController
     }
     
     /**
-     * @Route("/maintenance/{machine}", name="maintenanceModele3D")
+     * @Route("/maintenance/{modele}", name="maintenanceModele3D")
      */
-    public function viewMaintenances($machine, EntityManagerInterface $em, Request $request)
+    public function viewMaintenances($modele, EntityManagerInterface $em, Request $request)
     {
        $repositoryMaintenance = $em->getRepository(Maintenance::class);
        $repositoryMachine = $em->getRepository(Machine::class);
-       $maintenances = $repositoryMaintenance->findBy(['idMachine'=> $repositoryMachine->findOneById(['id'=>$machine])
+       $repositoryModele  = $em->getRepository(ModeleMachine::class);
+//        $maintenances = $repositoryMaintenance->findBy(['idMachine'=> $repositoryMachine->findOneById(['id'=>$modele])
+//        ]);
+       $maintenances = $repositoryMaintenance->findBy(['modele'=> $repositoryModele->findOneById(['id'=>$modele])
        ]);
        
        
-       
-       $machinegetID = $em->getRepository(Machine::class)->findOneBy(['id'=> $machine]);
+       $modelegetID = $repositoryModele->findOneBy(['id'=> $modele]);
 //////// CREATION FORMULAIRE D UNE MAINTENANCE      
         $maintenance = new Maintenance();
         $FormMaintenance = $this->createForm(NewMaintenanceType::class,$maintenance);     //creation du formulaire
@@ -137,31 +139,30 @@ class MachineController extends AbstractController
         {
             $createMaintenance = $FormMaintenance->getData();
             $this->setData($createMaintenance);
-            $createMaintenance->setIdMachine($machinegetID);
+//             $createMaintenance->setIdMachine($modelegetID);
+            $createMaintenance->setModele($modelegetID);
             if ($createMaintenance->getPicturefile()) 
             {
-                $nom = $machinegetID->getId().'.jpg';
+                $nom = $modelegetID->getId().'.jpg';
                 $createMaintenance->setPicturefile($nom);
                 $createMaintenance->setPicturefilename($nom);
-            
-           
-            $em->persist($createMaintenance);        //Pour ajouter � la base de donn�e
-            $em->flush();
-            $FormMaintenance['picturefile']->getData()->move(
-                ('image/machine/'.$machinegetID->getId().'/'.$createMaintenance->getId()),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
-                $nom
-                );
+                $em->persist($createMaintenance);        //Pour ajouter � la base de donn�e
+                $em->flush();
+                $FormMaintenance['picturefile']->getData()->move(
+                    ('image/machine/'.$modelegetID->getId().'/'.$createMaintenance->getId()),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                    $nom
+                    );
             }
             $em->persist($createMaintenance);        //Pour ajouter � la base de donn�e
             $em->flush();
             $request = 0;
-            return $this->redirectToRoute('maintenanceModele3D',['machine' => $machine]);
+            return $this->redirectToRoute('maintenanceModele3D',['modele' => $modele]);
         }
         return $this->render('machine/maintenance.html.twig', [
             'controller_name' => 'MachineController',
             'formMaintenance' => $FormMaintenance->createView(),
             'maintenances' => $maintenances,
-            'machineID' => $machinegetID->getId(),
+            'machineID' => $modelegetID->getId(),
         ]);
     }    
     /**
@@ -170,20 +171,22 @@ class MachineController extends AbstractController
     public function viewModele($slug, EntityManagerInterface $em, Request $request, ObjectManager $manager)
     {
         $session = new Session();
+        $slugMaintenance = $slug;
         $repositoryMachine = $em->getRepository(Machine::class);
         $repositoryMaintenance = $em->getRepository(Maintenance::class);
         $repositoryEtapes = $em->getRepository(Etapes::class);       
         $repositoryModele = $em->getRepository(ModeleMachine::class);
-        $etapes = $repositoryEtapes->findBy(['maintenance' =>  $repositoryMaintenance->findOneBy(['id' =>$slug])->getId()]);
-        //$machine = $repositoryMachine->findOneBy(['id'=> $slug]);
-        $machine = $repositoryMachine->findOneBy(['id'=>  $repositoryMaintenance->findOneBy(['id' =>$slug])->getIdMachine()
-        ]);
-       
-        $modeleMachine = $repositoryModele->findOneBy(['id'=> $machine->getModele()->getId()]);
-        if(!$machine)
-        {
-            throw $this->createNotFoundException(sprintf('No machine for slug "%s"', $slug));
-        }        
+        $etapes = $repositoryEtapes->findBy(['maintenance' =>  $repositoryMaintenance->findOneBy(['id' =>$slugMaintenance])->getId()]);
+        //$machine = $repositoryMachine->findOneBy(['id'=> $slugMaintenance]);
+//         $machine = $repositoryMachine->findOneBy(['id'=>  $repositoryMaintenance->findOneBy(['id' =>$slugMaintenance])->getModele()
+//         ]);
+        
+//         $modeleMachine = $repositoryModele->findOneBy(['id'=> $machine->getModele()->getId()]);
+        $modeleMachine = $repositoryModele->findOneBy(['id'=> $repositoryMaintenance->findOneBy(['id' =>$slugMaintenance])->getModele()->getId()]);
+//         if(!$machine)
+//         {
+//             throw $this->createNotFoundException(sprintf('No machine for slugMaintenance "%s"', $slugMaintenance));
+//         }        
        
         //////// CREATION DE SPRITE ou ETAPE ///////////////////////////////////
         $sprite = new Etapes();
@@ -192,13 +195,13 @@ class MachineController extends AbstractController
         $saveRequest = $request;      
         if($formSaveAllSprite->isSubmitted() && $formSaveAllSprite->isValid() )
         {  
-            $spriteGoDelete = $repositoryEtapes->findBy(['maintenance'=> $repositoryMaintenance->findOneBy(['id' =>$slug])]);
+            $spriteGoDelete = $repositoryEtapes->findBy(['maintenance'=> $repositoryMaintenance->findOneBy(['id' =>$slugMaintenance])]);
             foreach($spriteGoDelete as $spritedelete)
             {
                 $em->remove($spritedelete);
                 $em->flush();
             }
-//             return $this->redirectToRoute('modele3D',['slug'=> $slug]);
+//             return $this->redirectToRoute('modele3D',['slugMaintenance'=> $slugMaintenance]);
             $sprite = $formSaveAllSprite->getData();
             $this->setData($sprite);
             $nameFromSprites = json_decode($sprite->getName());
@@ -213,8 +216,8 @@ class MachineController extends AbstractController
                 if($nameFromSprites[0]->object->matrix[12])$sprite->setPosition($nameFromSprites[0]->object->matrix[12].';'.$nameFromSprites[0]->object->matrix[13].';'.$nameFromSprites[0]->object->matrix[14]);
                 if($posCameraFromSprites[0])$sprite->setCamera($posCameraFromSprites[0]);
                 if($getOdreEtapeAndLengthTableau[0])$sprite->setEtape($getOdreEtapeAndLengthTableau[0]);
-                $sprite->setMachine($machine);
-                $sprite->setMaintenance($repositoryMaintenance->findOneBy(['id' => $slug]));
+//                 $sprite->setMachine($machine);
+                $sprite->setMaintenance($repositoryMaintenance->findOneBy(['id' => $slugMaintenance]));
                 $em->persist($sprite);
                 for($k=1; $k<= (count($getOdreEtapeAndLengthTableau)-1); $k++)
                 {
@@ -229,7 +232,7 @@ class MachineController extends AbstractController
                 $em->flush();
             }
             
-                return $this->redirectToRoute('modele3D',['slug'=> $slug]);
+                return $this->redirectToRoute('modele3D',['slug'=> $slugMaintenance]);
         }      
         /// Maj Ordre des �tapes
         $formSaveOrdreEtapes = $this->createFormBuilder()
@@ -237,20 +240,20 @@ class MachineController extends AbstractController
         $formSaveOrdreEtapes->handleRequest($request);
         if($formSaveOrdreEtapes->isSubmitted() && $formSaveOrdreEtapes->isValid())
         {
-            $spriteGoDelete = $repositoryEtapes->findBy(['maintenance'=> $repositoryMaintenance->findOneBy(['id' =>$slug])]);
+            $spriteGoDelete = $repositoryEtapes->findBy(['maintenance'=> $repositoryMaintenance->findOneBy(['id' =>$slugMaintenance])]);
             foreach($spriteGoDelete as $spritedelete)
             {
                 $em->remove($spritedelete);
                 $em->flush();
             }
-                return $this->redirectToRoute('modele3D',['slug'=> $slug]);
+            return $this->redirectToRoute('modele3D',['slugMaintenance'=> $slugMaintenance]);
         }
         ////////////DELETE SPRITE ////////////////////////////////////////////        
 
         return $this->render('machine/viewmodel.html.twig', [
             'controller_name' => 'MachineController',
          //   'formEtape' => $formSprite->createView(),
-            'machine' => $machine,
+//             'machine' => $machine,
             'etapes' => $etapes,
             'saveAllSprites' =>$formSaveAllSprite->createView(),  
             'modeleMachine' =>$modeleMachine,

@@ -58,9 +58,15 @@ class ModeleMachine
      */
     private $nom;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Maintenance", mappedBy="modele", orphanRemoval=true)
+     */
+    private $maintenances;
+
     public function __construct()
     {
         $this->machines = new ArrayCollection();
+        $this->maintenances = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -179,6 +185,37 @@ class ModeleMachine
     public function setNom(string $nom): self
     {
         $this->nom = $nom;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Maintenance[]
+     */
+    public function getMaintenances(): Collection
+    {
+        return $this->maintenances;
+    }
+
+    public function addMaintenance(Maintenance $maintenance): self
+    {
+        if (!$this->maintenances->contains($maintenance)) {
+            $this->maintenances[] = $maintenance;
+            $maintenance->setModele($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMaintenance(Maintenance $maintenance): self
+    {
+        if ($this->maintenances->contains($maintenance)) {
+            $this->maintenances->removeElement($maintenance);
+            // set the owning side to null (unless already changed)
+            if ($maintenance->getModele() === $this) {
+                $maintenance->setModele(null);
+            }
+        }
 
         return $this;
     }

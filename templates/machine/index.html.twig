@@ -26,7 +26,7 @@
 {#                 		 	</div>#}
             		 	</div>
             		 	<div class="card-button-listeMachine">
-                        	<a href = {{ path('maintenanceModele3D', {'machine' : machine.id }) }} class="btn btn-primary">
+                        	<a href = {{ path('maintenanceModele3D', {'modele' : machine.modele.id }) }} class="btn btn-primary">
                         	   <div style="font-size:14px;">Accès aux maintenances &nbsp;<i class="fas fa-long-arrow-alt-right"></div></i>
                         	</a>
                         	{% if is_granted('ROLE_ADMIN') %}<a href="{{ path('machineedition', {'id' : machine.id }) }}" class="btn btn-secondary"><div style="font-size:14px;"><div class="d-none d-xl-inline-block">Modifier</div> <i class="fas fa-edit"></i></div></a>{% endif %}
