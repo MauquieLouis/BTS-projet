@@ -149,7 +149,7 @@ class MachineController extends AbstractController
                 $em->persist($createMaintenance);        //Pour ajouter � la base de donn�e
                 $em->flush();
                 $FormMaintenance['picturefile']->getData()->move(
-                    ('image/machine/'.$modelegetID->getId().'/'.$createMaintenance->getId()),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                    ('image/modele/'.$modelegetID->getId().'/'.$createMaintenance->getId()),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
                     $nom
                     );
             }
@@ -321,28 +321,29 @@ class MachineController extends AbstractController
         $formMaintenances->handleRequest($request);
 //         dd($formMaintenances);
         if($formMaintenances->isSubmitted() && $formMaintenances->isValid())
-        {            
+        { 
             $newMaintenance = new Maintenance();
             $newMaintenance = $formMaintenances->getData();
             if ($newMaintenance->getPicturefile()) {
-                $newMaintenance->setPicturefile($maintenances->getId());
-                $nom = $maintenances->getId().$maintenances->getIdMachine()->getId().'.jpg';
+                $newMaintenance->setPicturefile($maintenances->getModele()->getId().'.jpg');
+                $nom = $maintenances->getModele()->getId().'.jpg';
                 $newMaintenance->setPicturefilename($nom);
                 $formMaintenances['picturefile']->getData()->move(
-                    ('image/machine/'.$maintenances->getIdMachine()->getId().'/'.$maintenances->getId()),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                    ('image/modele/'.$maintenances->getModele()->getId().'/'.$maintenances->getId()),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
                     $nom
                     );
             }
             
             $em->persist($newMaintenance);
             $em->flush();
-            return $this->redirectToRoute('maintenanceModele3D',['machine'=> $maintenances->getIdMachine()->getId()] );
+            return $this->redirectToRoute('maintenanceModele3D',['modele'=> $maintenances->getModele()->getId()] );
         }
         $formDeleteMaintenance = $this->createFormBuilder()
         ->getForm();
         $formDeleteMaintenance->handleRequest($request);
         if($formDeleteMaintenance->isSubmitted() &&$formDeleteMaintenance->isValid() )
-        {           
+        {      
+            dd($maintenances->getModele());
             $this->rmAllDir('image/machine/'.$maintenances->getIdMachine()->getId().'/'.$maintenances->getId());
             $em->remove($maintenances);
             $em->flush();
@@ -378,6 +379,11 @@ class MachineController extends AbstractController
                     $nom
                     );
             }
+            else
+            {
+                copy('image/machineDefault.jpg','image/modele/'.$newModele->getId().'/1.jpg');
+                $newModele->setFaceBas('1.jpg');
+            }
             if ($newModele->getFaceGauche()) {
                 $nom = '2.jpg';
                 $newModele->setFaceGauche($nom);
@@ -385,6 +391,11 @@ class MachineController extends AbstractController
                     ('image/modele/'.$newModele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
                     $nom
                     );
+            }
+            else
+            {
+                copy('image/machineDefault.jpg','image/modele/'.$newModele->getId().'/2.jpg');
+                $newModele->setFaceGauche('2.jpg');
             }
             if ($newModele->getFaceArriere()) {
                 $nom = '3.jpg';
@@ -394,6 +405,11 @@ class MachineController extends AbstractController
                     $nom
                     );
             }
+            else
+            {
+                copy('image/machineDefault.jpg','image/modele/'.$newModele->getId().'/3.jpg');
+                $newModele->setFaceArriere('3.jpg');
+            }
             if ($newModele->getFaceDroite()) {
                 $nom = '4.jpg';
                 $newModele->setFaceDroite($nom);
@@ -401,6 +417,11 @@ class MachineController extends AbstractController
                     ('image/modele/'.$newModele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
                     $nom
                     );
+            }
+            else
+            {
+                copy('image/machineDefault.jpg','image/modele/'.$newModele->getId().'/4.jpg');
+                $newModele->setFaceDroite('4.jpg');
             }
             if ($newModele->getFaceHaut()) {
                 $nom = '5.jpg';
@@ -410,6 +431,11 @@ class MachineController extends AbstractController
                     $nom
                     );
             }
+            else
+            {
+                copy('image/machineDefault.jpg','image/modele/'.$newModele->getId().'/5.jpg');
+                $newModele->setFaceHaut('5.jpg');
+            }
             if ($newModele->getFaceBas()) {
                 $nom = '6.jpg';
                 $newModele->setFaceBas($nom);
@@ -417,6 +443,11 @@ class MachineController extends AbstractController
                     ('image/modele/'.$newModele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
                     $nom
                     );
+            }
+            else
+            {
+                copy('image/machineDefault.jpg','image/modele/'.$newModele->getId().'/6.jpg');
+                $newModele->setFaceBas('6.jpg');
             }
             
             
