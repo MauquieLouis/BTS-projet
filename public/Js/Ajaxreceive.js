@@ -87,8 +87,6 @@ var table = {
 		else{
 			xhReq.open("post","variables/sendEventsDates/"+String(dateStart)+"/"+String(dateEnd)+"/"+String(idUser),false);
 		}
-
-
 		xhReq.send();
 
 		return events;
@@ -100,7 +98,7 @@ var table = {
 				retourCode = JSON.parse(this.responseText);
 			}
 		};
-		//comentairde
+
 		switch(tableSelected){
 			case "event":
 				var tabl = [];
@@ -109,17 +107,10 @@ var table = {
 				var message = JSON.stringify(tabl);
 
 				if (id === null) {
-/*					console.log(id);
-					console.log(message);
-					console.log("NULLABLE");*/
 					xhReq.open("post","accesbdd/writeevent/undefined/"+String(message),false);	// ajouter nouvelle ligne à la table
 				}
 				else{
-/*					console.log(id);
-					console.log(message);
-					console.log("TRUE");
-					console.log("accesbdd/writeevent/"+String(id)+"/"+String(message));*/
-					xhReq.open("post","accesbdd/writeevent/"+String(id)+"/"+String(message),false);	// ajouter nouvelle ligne à la table
+					xhReq.open("post","accesbdd/writeevent/"+String(id)+"/"+String(message),false);	// mettre a jour la table
 				}
 			break;
 

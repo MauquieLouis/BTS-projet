@@ -25,84 +25,221 @@ class AjaxReceiveController extends AbstractController
         $values = $message[1];
         $retourCode = null;
         if($id === "undefined"){        //Create new row
-            //code
+             $eventToModify = new Event();
         }
         else{                          //Edit existing row
             $eventToModify = $repo->findOneBy(['id'=>$id]);
-            foreach ($fields as $i => $it) {
-                switch ($it) {
-                    case 'Title':
-                    case 'title':
-                    case 'Titre':
-                    case 'titre':
-                        $eventToModify->setTitle($values[$i]);
-                        $retourCode .= "titleSetted;";
-                        break;
-                    case 'description':
-                    case 'Description':
-                        $eventToModify->setDescription($values[$i]);
-                        $retourCode .= "descriptionSetted;";
+        }
+        foreach ($fields as $i => $it) {
+            switch ($it) {
+                case 'Title':
+                case 'title':
+                case 'Titre':
+                case 'titre':
+                    $eventToModify->setTitle($values[$i]);
+                    $retourCode .= "titleSetted;";
+                    break;
+                case 'description':
+                case 'Description':
+                    $eventToModify->setDescription($values[$i]);
+                    $retourCode .= "descriptionSetted;";
 
-                        break;
-                    case 'usersid':
-                    case 'Usersid':
-                    case 'userid':
-                    case 'Userid':
-                    case 'User_id':
-                    case 'user_id':
-                    case 'users_id':
-                    case 'Users_id':
-                        $eventToModify->setUsersid($values[$i]);
-                        $retourCode .= "usersidSetted;";
+                    break;
+                case 'usersid':
+                case 'Usersid':
+                case 'userid':
+                case 'Userid':
+                case 'User_id':
+                case 'user_id':
+                case 'users_id':
+                case 'Users_id':
+                    $eventToModify->setUsersid($values[$i]);
+                    $retourCode .= "usersidSetted;";
 
-                        break;
-                    case 'machineid':
-                    case 'Machineid':
-                    case 'machineId':
-                    case 'MachineId':
-                    case 'machine_id':
-                    case 'Machine_id':
-                        $eventToModify->setMachinesid($values[$i]);
-                        $retourCode .= "machineidSetted;";
+                    break;
+                case 'machineid':
+                case 'Machineid':
+                case 'machineId':
+                case 'MachineId':
+                case 'machine_id':
+                case 'Machine_id':
+                    $eventToModify->setMachinesid($values[$i]);
+                    $retourCode .= "machineidSetted;";
 
-                        break;
-                    case 'date_start':
-                    case 'Date_start':
-                    case 'dateStart':
-                        $eventToModify->setDateStart(\DateTime::createFromFormat('Y-m-d', $values[$i]));
-                        $retourCode .= "date_startSetted;";
+                    break;
+                case 'date_start':
+                case 'Date_start':
+                case 'dateStart':
+                    $eventToModify->setDateStart(\DateTime::createFromFormat('Y-m-d', $values[$i]));
+                    $retourCode .= "date_startSetted;";
 
-                        break;
-                    case 'date_end':
-                    case 'Date_end':
-                    case 'dateEnd':
-                        $eventToModify->setDateEnd(\DateTime::createFromFormat('Y-m-d', $values[$i]));
-                        $retourCode .= "date_endSetted;";
+                    break;
+                case 'date_end':
+                case 'Date_end':
+                case 'dateEnd':
+                    $eventToModify->setDateEnd(\DateTime::createFromFormat('Y-m-d', $values[$i]));
+                    $retourCode .= "date_endSetted;";
 
-                        break;
-                    case 'frequence':
-                    case 'Frequence':
-                    case 'fréquence':
-                    case 'Fréquence':
-                        $eventToModify->setFrequence($values[$i]);
-                        $retourCode .= "frequenceSetted;";
-                        break;
+                    break;
+                case 'frequence':
+                case 'Frequence':
+                case 'fréquence':
+                case 'Fréquence':
+                    $eventToModify->setFrequence($values[$i]);
+                    $retourCode .= "frequenceSetted;";
+                    break;
 
-                    default:
-                        //DROP TO DEFAULT ERR: WriteEvent::foreach(fields)::switch(it)
-                        $retourCode .= "fields[".$i."] unknowed;";
-                        break;
-                }
+                default:
+                    //DROP TO DEFAULT ERR: WriteEvent::foreach(fields)::switch(it)
+                    $retourCode .= "fields[".$i."] unknowed;";
+                    break;
             }
+        }
+        try{
             $em->persist($eventToModify);
             $em->flush();
-            echo json_encode($retourCode);
         }
+        catch(Execption $e){
+            dd($e->getMessage());
+        }
+
+        echo json_encode($retourCode);
         //dd($retourCode);
         //echo $retourCode;
         return $this->render('ajax_receive/index.html.twig'); 
     }
 
+
+
+    /**
+    * @Route("accesbdd/write/{table}/{id}/{message}", name="writetable")
+    */
+    public function WriteTable(EntityManagerInterface $em,$table,$id,$message)
+    {
+        $message = json_decode($message);
+        $fields = $message[0];
+        $values = $message[1];
+        $retourCode = null;
+
+        switch ($table) {
+            case 'event':
+                $repo = new EventRepository();
+                if($id === "undefined"){        //Create new row
+                     $eventToModify = new Event();
+                }
+                else{                          //Edit existing row
+                    $eventToModify = $repo->findOneBy(['id'=>$id]);
+                }
+                foreach ($fields as $i => $it) {
+                    switch ($it) {
+                        case 'Title':
+                        case 'title':
+                        case 'Titre':
+                        case 'titre':
+                            $eventToModify->setTitle($values[$i]);
+                            $retourCode .= "titleSetted;";
+                            break;
+
+                        case 'description':
+                        case 'Description':
+                            $eventToModify->setDescription($values[$i]);
+                            $retourCode .= "descriptionSetted;";
+                            break;
+
+                        case 'usersid':
+                        case 'Usersid':
+                        case 'userid':
+                        case 'Userid':
+                        case 'User_id':
+                        case 'user_id':
+                        case 'users_id':
+                        case 'Users_id':
+                            $eventToModify->setUsersid($values[$i]);
+                            $retourCode .= "usersidSetted;";
+                            break;
+
+                        case 'machineid':
+                        case 'Machineid':
+                        case 'machineId':
+                        case 'MachineId':
+                        case 'machine_id':
+                        case 'Machine_id':
+                            $eventToModify->setMachinesid($values[$i]);
+                            $retourCode .= "machineidSetted;";
+                            break;
+
+                        case 'date_start':
+                        case 'Date_start':
+                        case 'dateStart':
+                            $eventToModify->setDateStart(\DateTime::createFromFormat('Y-m-d', $values[$i]));
+                            $retourCode .= "date_startSetted;";
+                            break;
+
+                        case 'date_end':
+                        case 'Date_end':
+                        case 'dateEnd':
+                            $eventToModify->setDateEnd(\DateTime::createFromFormat('Y-m-d', $values[$i]));
+                            $retourCode .= "date_endSetted;";
+                            break;
+
+                        case 'frequence':
+                        case 'Frequence':
+                        case 'fréquence':
+                        case 'Fréquence':
+                            $eventToModify->setFrequence($values[$i]);
+                            $retourCode .= "frequenceSetted;";
+                            break;
+
+                        default:
+                            //DROP TO DEFAULT ERR: WriteEvent::foreach(fields)::switch(it)
+                            $retourCode .= "fields[".$i."] unknowed;";
+                            break;
+                    }
+                }
+                break;
+
+            case 'machine':
+                $repo = new MachineRepository();
+                if($id === "undefined"){        //Create new row
+                    $machineToModify = new Machine();
+                }
+                else{                          //Edit existing row
+                    $machineToModify = $repo->findOneBy(['id'=>$id]);
+                }
+                foreach ($fields as $i => $it){
+                    switch ($it) {
+                        case 'name':
+                            $machineToModify->setName($values[$i]);
+                            $retourCode .= "nameSetted;";
+                            break;
+                        case 'description':
+                            $machineToModify->setDescription($values[$i]);
+                            $retourCode .= "nameSetted;";
+                            break;
+                        case 'imagefilename':
+                            $machineToModify->setImageFileName($values[$i]);
+                            $retourCode .= "nameSetted;";
+                            break;
+                        case 'modele_id':
+                            $machineToModify->setName($values[$i]);
+                            $retourCode .= "nameSetted;";
+                            break;
+                        default:
+                            //DROP TO DEFAULT ERR: WriteEvent::foreach(fields)::switch(it)
+                            $retourCode .= "fields[".$i."] unknowed;";
+                            break;
+                    }
+                }
+                break;
+            default:
+                $retourCode = "unknowed table";
+                echo json_encode($retourCode);
+                break;
+        }
+        return $this->render('ajax_receive/index.html.twig'); 
+    }
+
+    
     /**
      * @Route("accesbdd/sendevent/{parse}", name="sendevent") 
      */
@@ -341,9 +478,7 @@ class AjaxReceiveController extends AbstractController
      * @Route("variables/sendEventsDates/{dateStart}/{dateEnd}/{id}", name="sendeventsdates") 
      */
     public function SendEventsDates(EventRepository $repo,$dateStart,$dateEnd,$id){
-        /*if(($dateStart && $dateEnd) === undefined){
-                    
-        }*/
+
         $dateStart = substr($dateStart,0,10);
         $dateEnd = substr($dateEnd,0,10);
         if ($id === "undefined") {
@@ -365,7 +500,7 @@ class AjaxReceiveController extends AbstractController
             $tabl[$i][++$j] = $events[$i]->getDateEnd();
             $tabl[$i][++$j] = $events[$i]->getFrequence();
         }
-
+        //dd($tabl);
         $message = json_encode($tabl);
         echo ($message);
         return $this->render('ajax_receive/index.html.twig');

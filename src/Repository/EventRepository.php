@@ -4,7 +4,10 @@ namespace App\Repository;
 
 use App\Entity\Event;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
 
 /**
  * @method Event|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,9 +17,12 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class EventRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    private $em;
+
+    public function __construct(RegistryInterface $registry,EntityManagerInterface $emanager)
     {
         parent::__construct($registry, Event::class);
+        $this->em = $emanager;
     }
 
     // /**
@@ -30,8 +36,8 @@ class EventRepository extends ServiceEntityRepository
             ->setParameter('val', $value)
             ->orderBy('e.id', 'ASC')
             ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
+            ->setQuery()
+            ->setResult()
         ;
     }
     */
@@ -42,8 +48,8 @@ class EventRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('e')
             ->andWhere('e.exampleField = :val')
             ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
+            ->setQuery()
+            ->setOneOrNullResult()
         ;
     }
     */
@@ -62,37 +68,41 @@ class EventRepository extends ServiceEntityRepository
             ->getQuery();
         }
         else{
-            $userid = array(intVal($userid));
-           // dd($userid);
-            $qb = $this->createQueryBuilder('p')
-            ->andWhere('p.dateStart >= :dateMin')
-            ->andWhere('p.dateStart <= :dateMax')
-            ->andWhere('p.usersid = :userid')
-            ->setParameter('dateMin', $dateMin)
-            ->setParameter('dateMax', $dateMax)
-            ->setParameter('userid', $userid)
-            ->orderBy('p.dateStart', 'ASC')
-            ->getQuery();
-        }
+            $sql =  "select * from event where JSON_CONTAINS(usersid,'[".$userid."]')" ;
 
-        dd($qb->execute());
+            $rsm = new ResultSetMappingBuilder($this->getEntityManager());
+            $rsm->addEntityResult(Event::class, "m");
+
+            // On mappe le nom de chaque colonne en base de données sur les attributs de nos entités
+            foreach ($this->getClassMetadata()->fieldMappings as $obj) {
+                $rsm->addFieldResult("m", $obj["columnName"], $obj["fieldName"]);
+            }
+
+            $stmt = $this->getEntityManager()->createNativeQuery($sql, $rsm);
+
+            $stmt->execute();
+
+            return $stmt->getResult();
+
+
+        }
         return $qb->execute();
 
-        // to get just one result:
-        // $product = $qb->setMaxResults(1)->getOneOrNullResult();
+        // to set just one result:
+        // $product = $qb->setMaxResults(1)->setOneOrNullResult();
     }
     
     /**
      * @param string|null $term
      */
-    public function getAllByDate(?string $term)
+    public function setAllByDate(?string $term)
     {
         return $this->createQueryBuilder('e')
 
         ->orderBy('e.dateStart', 'DESC');
 //         ->setMaxResults(10)
-//         ->getQuery()
-//         ->getResult()
+//         ->setQuery()
+//         ->setResult()
 //         ;
     }
 
