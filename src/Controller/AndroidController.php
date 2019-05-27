@@ -51,21 +51,25 @@ class AndroidController extends AbstractController
            $kid = $this->login($data->username, $data->password);
            if($kid)
            {
+               $table["valid"] = true;
                $table["nom"] = $kid->getNom();
                $table["prenom"] = $kid->getPrenom();
                $table["email"] = $kid->getEmail();
                $table["dateCrea"] = $kid->getDatecreation();
+               $table["password"] = $kid->getPassword();
                $table["roles"]= $kid->getRoles();
                
                echo json_encode($table);
            }else
            {
-               echo "Error 1/Wrong Password/or/Wrong Email";
+               $table["valid"] = false;
+               $table["info"] = "NO USER FOUND";
+               echo json_encode($table);
            }
        }
        else
        {
-           echo "NOT GREAT";
+           echo "REQUEST ERROR FAILED [PARAM USERNAME AND PASSWORD]";
        }
 
         
@@ -112,6 +116,7 @@ class AndroidController extends AbstractController
     private function LogIn($login, $password)
     {
         $user = $this->userRep->findOneBy(['email' => $login]);
+        if($user == null) return 0;
         $ispasswordValid = $this->passwordEncoder->isPasswordValid($user, $password);
         if($ispasswordValid)
         {
