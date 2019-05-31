@@ -14,7 +14,12 @@ use App\Repository\UserRepository;
 use App\Repository\MachineRepository;
 use App\Repository\ModeleMachineRepository;
 use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
+
+/**
+ *  @IsGranted("ROLE_ADMIN")
+ */
 class EventController extends AbstractController
 {
     /**

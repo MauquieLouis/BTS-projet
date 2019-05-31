@@ -21,10 +21,10 @@ class ChangePasswordFormType extends AbstractType
             ->add('password', RepeatedType::class,[
                 'type' => PasswordType::class,
                 'invalid_message' => 'The password fields must match.',
-                'options' => ['attr' => ['class' => 'password-field']],
+                'options' => ['attr' => ['class' => 'password-field form-control form-control-sm']],
                 'required' => true,
-                'first_options'  => ['label' => 'Nouveau Mot de passe'],
-                'second_options' => ['label' => 'Confirmer le nouveau Mot de passe'],
+                'first_options'  => ['attr' => ['placeholder' => 'Nouveau Mot de passe','class' => 'password-field form-control form-control-sm']],
+                'second_options' => ['attr' => ['placeholder' => 'Confirmer le nouveau Mot de passe','class' => 'password-field form-control form-control-sm']],
                 'constraints' => [
                         new NotBlank([
                                 'message' => 'Merci de rentrer un Mot de passe',

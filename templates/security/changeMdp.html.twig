@@ -11,7 +11,8 @@
 	<div class="row">
 		<div class="col-12 offset-md-2 col-md-8">
 			{{ form_start(form) }}
-				{{ form_widget(form) }}
+				{{ form_widget(form.oldPassword,{'attr':{'class':'form-control form-control-sm','autofocus':true}}) }}
+				{{ form_widget(form.password) }}
 				<button type="Submit" class ="">Valider le changement</button>
 			{{ form_end(form) }}
 		</div>
