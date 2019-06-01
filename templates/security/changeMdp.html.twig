@@ -4,16 +4,24 @@
 
 {% block body %}	
 	<div class="row">
-		<div class="col-12 offset-md-3 col-md-6">
+		<div class="col-12 offset-md-3 col-md-6 TitlePage">
 			<h1>{{ controller_name }}</h1>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-12 offset-md-2 col-md-8">
+		<div style="margin-top:40px"></div>
 			{{ form_start(form) }}
+			{% if form_errors(form.password.first) %}
+			 	<div class = "alert alert-danger flashmessage">{{ form_errors(form.password.first) }}</div>
+			 {% endif %}
 				{{ form_widget(form.oldPassword,{'attr':{'class':'form-control form-control-sm','autofocus':true}}) }}
-				{{ form_widget(form.password) }}
-				<button type="Submit" class ="">Valider le changement</button>
+				<div style="margin-top:10px"></div>
+				{{ form_widget(form.password.first) }}
+				<div style="margin-top:10px"></div>
+				{{ form_widget(form.password.second) }}
+				<div style="margin-top:10px"></div>
+				<button type="Submit" class ="btn-info btn">Valider le changement</button>
 			{{ form_end(form) }}
 		</div>
 	</div>
