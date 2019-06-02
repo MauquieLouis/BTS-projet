@@ -13,7 +13,7 @@ class EventFixture extends BaseFixture
     {
         // $product = new Product();
         // $manager->persist($product);
-        $this->createMany(34,'event', function()
+        $this->createMany(105,'event', function()
         {
             $event = new Event();
             $event->setTitle($this->faker->word);

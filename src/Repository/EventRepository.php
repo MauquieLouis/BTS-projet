@@ -53,6 +53,18 @@ class EventRepository extends ServiceEntityRepository
         ;
     }
     */
+    /**
+     * @param string|null $term
+     */
+    public function getAllByDate(?string $term)
+    {
+        return $this->createQueryBuilder('e')
+        ->orderBy('e.dateStart', 'DESC');
+        //         ->setMaxResults(10)
+        //         ->getQuery()
+        //         ->getResult()
+        //         ;
+    }
 //      
     public function findAllBetweenDates($dateMin,$dateMax,$userid): array
     {

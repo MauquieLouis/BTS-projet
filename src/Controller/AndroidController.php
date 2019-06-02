@@ -109,7 +109,7 @@ class AndroidController extends AbstractController
      */
     public function TestConnection(){
         
-        echo"THIS IS A FUCKING TEST";
+        echo"THIS IS AN AMAZING TEST";
         return $this->render('android/index.html.twig');
     }
     

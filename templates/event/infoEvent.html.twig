@@ -49,6 +49,10 @@
     				<h3>Liste des utilisateurs conviés</h3>
                 	<div style="border-bottom:1px solid #AAAAAA;margin-bottom:8px"></div>
     				<div class="offset-1 col-10">
+    				    {% if tableUser == null %}
+    						Aucun Utilisateur</br>
+    						<i class="far fa-folder-open" style="color:#EE8686; font-size:50px"></i>
+    					{% endif %}
         				{% for user in tableUser %}
                             {% if user %}
             		    		<li class="listeUser">
@@ -78,6 +82,10 @@
     			<h3>Liste des machiness</h3>
                 	<div style="border-bottom:1px solid #AAAAAA;margin-bottom:8px"></div>
     				<div class="offset-1 col-10">
+    					{% if tableMachine == null %}
+    						Aucune Machine</br>
+    						<i class="far fa-folder-open" style="color:#EE8686; font-size:50px"></i>
+    					{% endif %}
     					{% for machine in tableMachine%}
     						<a href="#">
     						<div style="border:2px solid #00A1D7;border-radius:6px">

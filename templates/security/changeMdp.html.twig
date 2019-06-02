@@ -12,9 +12,9 @@
 		<div class="col-12 offset-md-2 col-md-8">
 		<div style="margin-top:40px"></div>
 			{{ form_start(form) }}
-			{% if form_errors(form.password.first) %}
-			 	<div class = "alert alert-danger flashmessage">{{ form_errors(form.password.first) }}</div>
-			 {% endif %}
+			    {% if form_errors(form.password.first) %}
+			 		<div class = "alert alert-danger flashmessage">{{ form_errors(form.password.first) }}</div>
+			    {% endif %}
 				{{ form_widget(form.oldPassword,{'attr':{'class':'form-control form-control-sm','autofocus':true}}) }}
 				<div style="margin-top:10px"></div>
 				{{ form_widget(form.password.first) }}
