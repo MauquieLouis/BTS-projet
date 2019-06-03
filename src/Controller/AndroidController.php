@@ -7,47 +7,29 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\UserRepository;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
 class AndroidController extends AbstractController
 {
     private $passwordEncoder;
     private $userRep;
+    private $em;
    
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserRepository $userR)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserRepository $userR,EntityManagerInterface $em)
     {
         $this->passwordEncoder = $passwordEncoder;
         $this->userRep = $userR;
+        $this->em = $em;
     }
     /**
      * @Route("/android/connexion", name="android")
      */
     public function index(UserRepository $userR)
     {
-//         $user = $userR->findOneBy(['id' => 20]);
-       
-// //         $user2 = new User();
-        
-//         $tableUser['id'] = $user->getId();
-//         $tableUser['email'] = $user->getEmail();
-//         $tableUser['roles'] = $user->getRoles();
-//         $tableUser['password'] = $user->getPassword();
-//         $tableUser['Nom'] = $user->getNom();
-//         $tableUser['prenom'] = $user->getPrenom();
-//         $tableUser['datecreation'] = $user->getDateCreation(); 
-//         $tableUser['resetPassword'] = $user->getResetPassword();
-        
-//         $myJSON = json_encode($tableUser);
-// //         $decode = (json_decode($myJSON));
-// //         dd($user, $myJSON, $decode->{'id'} );
-//         echo ;
-
-        //unset($_GET);
        $data = file_get_contents('php://input');
        $data = json_decode($data);
-       //echo $data->username;      //Solution fonctionelle
        if(isset($data->username) && isset($data->password))
-       {
-           
+       {     
            $kid = $this->login($data->username, $data->password);
            if($kid)
            {
@@ -70,38 +52,8 @@ class AndroidController extends AbstractController
        else
        {
            echo "REQUEST ERROR FAILED [PARAM USERNAME AND PASSWORD]";
-       }
-
-        
-        /*if(isset($_GET['username']) && isset($_GET['password'])){
-            
-            $login = $_GET['username'];
-            $password = $_GET['password'];
-            
-            //unset($_POST);
-            $kid = $this->login($login, $password);
-            if($kid)
-            {
-                //dd('Erreur KID = 0');
-                $table["nom"] = $kid->getNom();
-                $table["prenom"] = $kid->getPrenom();
-                $table["email"] = $kid->getEmail();
-                $table["dateCrea"] = $kid->getDatecreation();
-                $table["roles"]= $kid->getRoles();
-                
-                echo json_encode($table);
-            }else
-            {
-                echo "Error 1/Wrong Password/or/Wrong Email";
-                //printf('<user id="%d"/>'."\n",$kid->getId());
-            }
-        }else{
-            echo "NO USER SET";
-            //echo $_GET['username'];
-        }*/
-        
+       }        
         return $this->render('android/index.html.twig');
-    //}
        
     }
     /**
@@ -110,6 +62,31 @@ class AndroidController extends AbstractController
     public function TestConnection(){
         
         echo"THIS IS AN AMAZING TEST";
+        return $this->render('android/index.html.twig');
+    }
+    /**
+     * @Route("/android/user/add", name="testconnexion")
+     */
+    public function AddUserAndroid(){
+        
+        $data = file_get_contents('php://input');
+        $data = json_decode($data);
+        if(isset($data->name) && isset($data->surname) && isset($data->email))
+        {
+           $user = new User();
+           $user->setNom($data->name);
+           $user->setPrenom($data->surname);
+           $user->setEmail($data->email);
+           $user->setDatecreation(new \DateTime());
+           $user->setPassword($this->passwordEncoder->encodePassword($user,$user->getNom()));
+           $this->em->persist($user);
+           $this->em->flush();
+           echo "USER SAVE !";
+        }
+        else
+        {
+            echo "REQUEST ERROR FAILED [PARAM USERNAME AND PASSWORD]";
+        }
         return $this->render('android/index.html.twig');
     }
     

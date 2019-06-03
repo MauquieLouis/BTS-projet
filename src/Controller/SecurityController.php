@@ -123,7 +123,10 @@ class SecurityController extends AbstractController
                 return $this->redirectToRoute('change_mdp'); //On redirige sur la même page.
             }
         }
-        return $this->render('security/changeMdp.html.twig', ['controller_name' => "Réinitialisation Mot de passe", 'form' => $form->createView()]);
+        return $this->render('security/changeMdp.html.twig',[
+            'controller_name' => "Réinitialisation Mot de passe",
+            'form' => $form->createView()    
+            ]);
     }
     ///////////////////////////////////////////////////////////
     //-----------------------MDP OUBLIE----------------------//
