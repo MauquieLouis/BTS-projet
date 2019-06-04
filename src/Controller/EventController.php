@@ -33,6 +33,18 @@ class EventController extends AbstractController
         ]);
     }
     /**
+     * @Route("/event/{id}/delete", name="event_delete")
+     */
+    public function DeleteEvent($id, Event $event, EntityManagerInterface $em, EventRepository $eR)
+    {
+        $eventDelete = $eR->findOneBy(['id' => $id]);
+        //dd($event);
+        $em->remove($eventDelete);
+        $em->flush();
+        $this->addFlash('warning','Événement supprimé !');
+        return $this->redirectToRoute('event_searchListe');
+    }
+    /**
      * @Route("/event/nouveau", name="event_noveau")
      */
     public function NewEvent(Request $request, EntityManagerInterface $em)
@@ -89,6 +101,8 @@ class EventController extends AbstractController
             'controller_name' => 'EventController',
         ]);
     }
+
+    
     /**
      * @Route("/event/displayEvent/{id}", name="event_Display")
      */
@@ -101,13 +115,16 @@ class EventController extends AbstractController
             
         }
         $tableMachine = null;
-        foreach($event->getMachinesid() as $key=>$machinesId)
+        if($event->getMachinesid() != null)
         {
-            //dd($machinesId);
-            $tableMachine[$key]["machine"] = $mR->findOneBy(['id' => $machinesId["machine"]]);
-            $tableMachine[$key]["modeleMachine"] = $mMR->findOneBy(['id' => $tableMachine[$key]["machine"]->getModele()->getId()]);
-            $tableMachine[$key]["maintenance"] = $maintenanceR->findOneBy(['id' => $machinesId["maintenance"]]);
-            //dd($tableMachine[$key]["maintenance"]);
+            foreach($event->getMachinesid() as $key=>$machinesId)
+            {
+                //dd($machinesId);
+                $tableMachine[$key]["machine"] = $mR->findOneBy(['id' => $machinesId["machine"]]);
+                $tableMachine[$key]["modeleMachine"] = $mMR->findOneBy(['id' => $tableMachine[$key]["machine"]->getModele()->getId()]);
+                $tableMachine[$key]["maintenance"] = $maintenanceR->findOneBy(['id' => $machinesId["maintenance"]]);
+                //dd($tableMachine[$key]["maintenance"]);
+            }
         }
 //         dd($tableMachine);
         return $this->render('event/infoEvent.html.twig', [
@@ -146,7 +163,7 @@ class EventController extends AbstractController
             'pagination' => $pagination,
         ]);
     }
-    
+
    
    private function ModifyDate($date, $frequence, $mesure)
     {

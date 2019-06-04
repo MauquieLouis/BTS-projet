@@ -6,7 +6,28 @@
 	<div class="col-12 offset-md-3 col-md-6 BorderRouge TitlePage">
 		<h1>Informations évenement</h1>
 	</div>
-	<div class="row BorderVert">
+	<div class="col-12 offset-md-3 col-md-6" style="border-bottom:1px solid #AAAAAA; margin-top:30px;margin-bottom:20px;">
+	</div>
+	<div class="row">
+		<div class="col-12 offset-md-3 col-md-6">
+			<div class="row">
+        		<div class="col-6" style="padding-right:3px;">
+        			<button class="btn btn-danger" onclick="ShowDeleteEvent();" style="float:right;color:white;cursor:pointer;"><i class="fas fa-trash-alt"></i> Supprimer l'événement</button>
+        			<div id="confirmation" hidden>
+        				<h3>Êtes vous sûr ?</h3>
+        				<h4>Toute suppression est définitive... Il est absoluement impossible de revenir en arrière !</h4>
+        				<a href="{{ path('event_delete',{id : event.id}) }}" >Oui, supprimer</a>
+        			</div>
+        		</div>
+        		<div class="col-6" style="padding-left:3px;">
+        			<button class="btn btn-secondary"><i class="far fa-edit"></i> Éditer l'événement</button>
+        		</div>
+			</div>
+		</div>
+	</div>
+		<div class="col-12 offset-md-3 col-md-6" style="border-bottom:1px solid #AAAAAA; margin-top:20px;margin-bottom:10px;">
+	</div>
+	<div class="row BorderVert" style="margin-top:40px;">
 		<div class="col-12">
     		<div class="row BorderJaune">
 {#     			<div class="col-12">#}
@@ -103,6 +124,12 @@
     		</div>
     	</div>
 	</div>
-	
-	
+	<script src="{{ asset('bootstrap/Js/jquery.js') }}"></script>
+	<script>
+	console.log('script');
+	function ShowDeleteEvent()
+	{
+		$('#confirmation').attr('hidden') ? $('#confirmation').removeAttr('hidden') : $('#confirmation').attr('hidden', true);
+	}
+	</script>
 {% endblock %}
