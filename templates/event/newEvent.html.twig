@@ -177,10 +177,12 @@
         	    var $newFormLi = $('<li></li>').append(newForm);
         	    $newLinkLiMachine.before($newFormLi);
         	    var idForm = '#new_event_form_machinesid_'+index+'_ModeleMachine';
-        	    var idFormMach = '#new_event_form_machinesid_'+index+'_machinesDispo';
+        	    var idFormMach = '#new_event_form_machinesid_'+index+'_maintenancesDispo';
+        	    var idFormMachine = '#new_event_form_machinesid_'+index+'_machinesDispo';
 				var $formActual = $('#new_event_form_machinesid_'+index+'_ModeleMachine');
         	    $(idForm).addClass("form-control form-control-sm");
         	    $(idFormMach).addClass("form-control form-control-sm");
+        	    $(idFormMachine).addClass("form-control form-control-sm");
         	    $(idForm).parent().parent().parent().parent().css('border','1px solid #AAAAAA');
         	    $(idForm).parent().parent().parent().parent().append('<span class="col-1" onclick="DeleteLi('+'\'#new_event_form_machinesid_'+index+'_ModeleMachine'+'\');" style="cursor: pointer;"><i class="fas fa-times-circle" style="color:#EE8686"></i></span>');
 				console.log(idForm, $formActual);
@@ -195,11 +197,16 @@
 						data : data,
 						success: function(html){
 							console.log('SUCCESS !!');
-							$('#new_event_form_machinesid_'+index+'_machinesDispo').replaceWith(
-								$(html).find(('#new_event_form_machinesid_'+index+'_machinesDispo'))
+							$('#new_event_form_machinesid_'+index+'_maintenancesDispo').replaceWith(
+								$(html).find(('#new_event_form_machinesid_'+index+'_maintenancesDispo'))
 								);
-							$('#new_event_form_machinesid_'+index+'_machinesDispo').addClass("form-control form-control-sm");
+							$('#new_event_form_machinesid_'+index+'_maintenancesDispo').addClass("form-control form-control-sm");
+							$('#new_event_form_machinesid_'+index+'_machinesDispo').replaceWith(
+									$(html).find(('#new_event_form_machinesid_'+index+'_machinesDispo'))
+									);
+								$('#new_event_form_machinesid_'+index+'_machinesDispo').addClass("form-control form-control-sm");
 							}
+						
 						});
 					});
         	    

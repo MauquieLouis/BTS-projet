@@ -12,9 +12,11 @@ use App\Entity\Event;
 use App\Repository\EventRepository;
 use App\Repository\UserRepository;
 use App\Repository\MachineRepository;
+use App\Repository\MaintenanceRepository;
 use App\Repository\ModeleMachineRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
 
 
 /**
@@ -54,7 +56,8 @@ class EventController extends AbstractController
             //------------------------T A B L E A U   I D   M A C H I N E S  -------------------------//
             foreach($formEvent->getData()['machinesid'] as $key=>$machine)
             {
-                $machineIdTable[] = $machine["machinesDispo"];
+                $machineIdTable[$key]["machine"] = $machine["machinesDispo"];
+                $machineIdTable[$key]["maintenance"] = $machine["maintenancesDispo"];
             }
             //------------------------ D A T E   E N D   E T   F R E Q U E N C E ---------------------//
             $dateDebut = $formEvent->getData()['dateStart'];
@@ -76,6 +79,7 @@ class EventController extends AbstractController
             $event->setFrequence($formEvent->getData()['frequence'].$formEvent->getData()['MesureTemps']);
             dump('Form',$formEvent->getData(), $event);
 //             dd('FIN');
+            //dd($formEvent->getData());
             $em->persist($event);
             $em->flush();
             return $this->redirectToRoute('event');
@@ -88,7 +92,7 @@ class EventController extends AbstractController
     /**
      * @Route("/event/displayEvent/{id}", name="event_Display")
      */
-    public function DisplayEvent($id, EventRepository $eR, UserRepository $uR, MachineRepository $mR, ModeleMachineRepository $mMR)
+    public function DisplayEvent($id, EventRepository $eR, UserRepository $uR, MachineRepository $mR, ModeleMachineRepository $mMR, MaintenanceRepository $maintenanceR)
     {
         $event = $eR->findOneBy(['id' => $id]);
         foreach($event->getUsersid() as $userId)
@@ -99,8 +103,11 @@ class EventController extends AbstractController
         $tableMachine = null;
         foreach($event->getMachinesid() as $key=>$machinesId)
         {
-            $tableMachine[$key][0] = $mR->findOneBy(['id' => $machinesId]);
-            $tableMachine[$key][1] = $mMR->findOneBy(['id' => $tableMachine[$key][0]->getModele()->getId()]);
+            //dd($machinesId);
+            $tableMachine[$key]["machine"] = $mR->findOneBy(['id' => $machinesId["machine"]]);
+            $tableMachine[$key]["modeleMachine"] = $mMR->findOneBy(['id' => $tableMachine[$key]["machine"]->getModele()->getId()]);
+            $tableMachine[$key]["maintenance"] = $maintenanceR->findOneBy(['id' => $machinesId["maintenance"]]);
+            //dd($tableMachine[$key]["maintenance"]);
         }
 //         dd($tableMachine);
         return $this->render('event/infoEvent.html.twig', [

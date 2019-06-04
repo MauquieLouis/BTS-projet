@@ -87,11 +87,13 @@
     						<i class="far fa-folder-open" style="color:#EE8686; font-size:50px"></i>
     					{% endif %}
     					{% for machine in tableMachine%}
-    						<a href="#">
+    						<a href="{{ path('modele3D', {'slug' : machine["maintenance"].id}) }}">
     						<div style="border:2px solid #00A1D7;border-radius:6px">
-    							<h3 style="display:inline">{{ machine[1].nom }}</h3>	
-    							<h3 style="display:inline">{{ machine[0].name }}</h3>
-    							<img style="display:inline;height:60px; width:auto;" src="{{ asset('/image/modele/')~machine[1].id~('/')~machine[1].faceAvant }}">
+    							<img style="display:inline;height:60px; width:auto;" src="{{ asset('/image/modele/')~machine["modeleMachine"].id~('/')~machine["modeleMachine"].faceAvant }}">
+    							<h3 style="display:inline">{{ machine["modeleMachine"].nom }}</h3>	
+    							<h4 style="display:inline">{{ machine["machine"].name }}</h4>
+    							<h5 style="display:inline">{{ machine["maintenance"].nom }}</h5>
+    							<img style="display:inline;height:60px; width:auto;" src="{{ asset('image/modele/')~machine["maintenance"].modele.id~('/')~machine["maintenance"].id~('/')~machine["maintenance"].picturefilename }}">
     						</div>
     						</a>
     						</br>
