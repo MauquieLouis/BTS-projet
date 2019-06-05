@@ -39,6 +39,7 @@ var idPrec = "";
 
 var arrM = new Array("Janvier","Fevrier","Mars","Avril","Mai","Juin","Juillet","Aout","Septembre","Octobre","Novembre","Decembre");
 var arrY = new Array();
+
 for (var i=0;i<=nbYear;i++){				//5 années serront sélèctionnable
 	arrY[i] = yyyy - nbYear/2 + i;
 }
@@ -52,19 +53,19 @@ function syntaxe(arg, add){
 	return ((parseInt(add+arg)<10)?"0"+parseInt(add+arg):parseInt(add+arg));
 }
 
-function nbWeek(dd, mm, yyyy){
+function nbWeeks(dd, mm, yyyy){
 	var nbJour = 0;
 	for(var i= 0; i < mm; i++)
-		nbJour += parseInt(maxDays(i, yyyy));
+		nbJour += parseInt(nbDays(i, yyyy));
 	return Math.trunc((nbJour+dd)/7)+1;
 }
 
 
 ////////////////////////////////////////////Calcul nb de jour de le mois/////////////////////////////////////////////
-function maxDays(mm, yyyy){
-var arrD = new Array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
-var annBissex = ((yyyy%4==0 && yyyy%100!=0)||yyyy%400==0)?1:0; //Si c'est une année bisextile, annBissex = 1 sinon = 0
-return arrD[mm]+((mm==1)?(annBissex?1:0):0); 
+function nbDays(mm, yyyy){
+	var arrD = new Array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+	var annBissex = ((yyyy%4==0 && yyyy%100!=0)||yyyy%400==0)?1:0; //Si c'est une année bisextile, annBissex = 1 sinon = 0
+	return arrD[mm]+((mm==1)?(annBissex?1:0):0); 
 }
 
 
@@ -82,9 +83,10 @@ var frequenceDay;
 var frequenceMonth;
 var frequenceYear;
 
-function getEvents(arg, dateStart, dateEnd){
+function getEvents(nbCases, dateStart, dateEnd){
+	
 	tabEvent = "";
-
+	console.log(dateStart);
 	dateStart = dateStart.substr(6,4) + "-" + syntaxe(dateStart.substr(3,2),-1) + "-" + dateStart.substr(0,2);
 	dateEnd = dateEnd.substr(6,4) + "-" + syntaxe(dateEnd.substr(3,2),1) + "-" + dateEnd.substr(0,2);
 
@@ -99,6 +101,7 @@ function getEvents(arg, dateStart, dateEnd){
 
 			if(frequenceE.indexOf("d") > 0) frequenceDay = parseInt(frequenceE);
 			else frequenceDay = 0;
+			if(frequenceE.indexOf("w") > 0) frequenceDay = parseInt(frequenceE)*7;
 			if(frequenceE.indexOf("m") > 0) frequenceMonth = parseInt(frequenceE);
 			else frequenceMonth = 0;
 			if(frequenceE.indexOf("y") > 0) frequenceYear = parseInt(frequenceE);
@@ -114,11 +117,11 @@ function getEvents(arg, dateStart, dateEnd){
 
 			var l = 0;
 			for(var k=1; k <= 7; k++, l++){
-				var nbDays = maxDays(parseInt(me[j][l]-1+frequenceMonth), parseInt(ye[j][l]+frequenceYear));
+				var nbDay = nbDays(parseInt(me[j][l]-1+frequenceMonth), parseInt(ye[j][l]+frequenceYear));
 
-				if(parseInt(de[j][l])+frequenceDay > parseInt(nbDays)){
-					frequenceMonth = Math.trunc((parseInt(de[j][l])+frequenceDay)/nbDays);
-					de[j][k] = parseInt(de[j][l])-nbDays+frequenceDay;
+				if(parseInt(de[j][l])+frequenceDay > parseInt(nbDay)){
+					frequenceMonth = Math.trunc((parseInt(de[j][l])+frequenceDay)/nbDay);
+					de[j][k] = parseInt(de[j][l])-nbDay+frequenceDay;
 				}	
 				else{
 					de[j][k] = parseInt(de[j][l])+frequenceDay;
@@ -144,7 +147,7 @@ function getEvents(arg, dateStart, dateEnd){
 		}
 	}
 	
-	for(var i = 0; i < arg; i++){
+	for(var i = 0; i < nbCases; i++){
 		var nbEvent =0;
 		for (var j = 0; j < parseInt(tabEvent.length); j++){
 			for (var k = 0; k <= parseInt(de[0].length); k++){
@@ -156,6 +159,7 @@ function getEvents(arg, dateStart, dateEnd){
 			}
 		}
 		var notif = "";
+		nbEvent = 0;
 		for(var l=1; l<=nbEvent; l++){
 			switch(l){
 			case 1 : 
@@ -164,6 +168,11 @@ function getEvents(arg, dateStart, dateEnd){
 			case 2 :
 				eval("sp"+i).innerHTML += " <i style=\"font-size:15px\" class=\"far fa-dot-circle\"></i>";
 				break;
+			case 3 :
+				if(nbEvent ==3){ 
+					eval("sp"+i).innerHTML += " <i style=\"font-size:15px\" class=\"far fa-dot-circle\"></i>";
+					break;
+				}
 			default :
 				notif = "+" + parseInt(nbEvent - 2);
 				break;
@@ -171,13 +180,6 @@ function getEvents(arg, dateStart, dateEnd){
 		}
 		eval("sp"+i).innerHTML += notif;
 	}
-	/*for(var i = 0; i<=13; i++)
-		{
-			(eval("sp1").innerHTML.indexOf("fa-dot-circle") == -1)?eval("sp"+i).innerHTML += "<a><br><i style=\"font-size:10px\" class=\"far fa-dot-circle\"></i></a>"
-			:eval("sp1").innerHTML += " <i style=\"font-size:10px\" class=\"far fa-dot-circle\"></i>"; 
-	
-		}
-	console.log("tamer: " +eval("sp1").innerHTML.indexOf("fa-dot-circle"));*/
 } 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -199,16 +201,28 @@ function affichageEvent(date){
 		for(var k=0; k <= parseInt(de[0].length); k++)
 		{
 			dateEvent = de[j][k] + "/" + me[j][k] +"/"+ ye[j][k];
+
 			if(dateEvent == date){
-				(textEvent.indexOf("Titre") == -1)?textEvent += "<table border=1px class=\"tabEventStyle\"><tr class=\"dayStyle\"><td>Titre</td><td>Descrption</td><td>3D</td></tr><tr color=\"blue\"><td align=left><span id=title>" + tabEvent[j][1] + "</span></td><td><span id=content>" + tabEvent[j][2]+ "</span></td>" +
-						"<td><div class=\"acces3D\" onClick=\"document.location.href='/modele/2'\">Accés Modèle 3D</div></td</tr>"
-						:textEvent += "<tr><td align=left><span id=title>" + tabEvent[j][1] + "</span></td><td><span>" + tabEvent[j][2]+ "</span></td>" +"<td><div class=\"acces3D\" onClick=\"document.location.href='/modele/2'\">Accés Modèle 3D</div></td</tr>";
-				
+				if (textEvent.indexOf("Titre") == -1){
+					textEvent += "<table border=1px class=\"tabEventStyle\"><tr class=\"dayStyle\"><td>Titre</td><td>Descrption</td><td>3D</td></tr>" +
+							"<tr color=\"blue\"><td align=left><span id=title>" + tabEvent[j][1] + "</span></td><td><span id=content>" + tabEvent[j][2]+ "</span></td><td><div class=\"acces3D\" onClick=\"document.location.href='/modele/2'\">Accés Modèle 3D</div></td>";
+				}
+				else{
+					textEvent += "<tr><td align=left><span id=title>" + tabEvent[j][1] + "</span></td><td><span>" + tabEvent[j][2]+ "</span></td>" 
+					if(tabEvent[j][3] != ""){
+						textEvent += "<td><div class=\"acces3D\" onClick=\"document.location.href='/modele/"+	tabEvent[j][3] + "'\">Accés Modèle 3D</div></td>";
+					}
+					else	textEvent +="<td><div>X</div></td>";
+				}		
+				textEvent += "</tr>"
 			}
-		}//																			"+	tabEvent[j][3] + "
+		}//																			
 	}
 	text += (textEvent=="")?"Aucun évènement prévu pour le moment..."+"</br>":textEvent + "</table>";
-	document.getElementById("EventPlace").innerHTML = text;
+	//windowWidth = parseInt(document.body.clientWidth);
+	//if(windowWidth > 768) 
+	eval("EventPlace").innerHTML = text;
+	//else eval("EventPlace2").innerHTML = text;
 }
 
 
@@ -220,8 +234,8 @@ function clickOnCase(id, cal){
 	
 	//----------Si la case clicker fait partis d'un autre mois, alors on change de mois----------//
 	if(cal == calendarMonth){
-		if(parseInt(eval(id).name.substr(6,4)) > parseInt(cal.currYear) || (parseInt(eval(id).name.substr(3,2)) > parseInt(cal.currMonth+1) && eval(id).name.substr(3,2) != "12"))cal.chMonth("+");
-		else if(parseInt(eval(id).name.substr(6,4)) < parseInt(cal.currYear) || (parseInt(eval(id).name.substr(3,2)) < parseInt(cal.currMonth+1) && eval(id).name.substr(3,2) != "01"))cal.chMonth("-");
+		if(parseInt(eval(id).name.substr(6,4)) > parseInt(cal.currYear) || (parseInt(eval(id).name.substr(3,2)) > parseInt(cal.currMonth+1) && eval(id).name.substr(3,2) != "12"))cal.changeMth("+");
+		else if(parseInt(eval(id).name.substr(6,4)) < parseInt(cal.currYear) || (parseInt(eval(id).name.substr(3,2)) < parseInt(cal.currMonth+1) && eval(id).name.substr(3,2) != "01"))cal.changeMth("-");
 	}	
 	
 	//---------------------------Coloriage------------------------------//
@@ -249,8 +263,7 @@ function clickOnCase(id, cal){
 }
 
 window.onresize = function resize(){
-	var whatCal = document.getElementById("calPlace").innerHTML.substr(12, 11);
-	windowWidth = parseInt(document.body.clientWidth);
+	var whatCal = eval("calPlace").innerHTML.substr(12, 11);
 	if(windowWidth < 768){
 		if(whatCal == "calWeekForm") {for (i=0;i<14;i++) eval("sp"+i).style.width = windowWidth/2-80+"px";}
 		else {for (i=0;i<14;i++) eval("sp"+i).style.width = windowWidth/7-30+ "px";}

@@ -4,26 +4,13 @@ class calWeek{
 		this.currWeek = 0;
 		this.currMonth = 0;
 		this.nbCases = 14;
-		this.eventAffiche = dd+"/"+mm+"/"+yyyy;
+		this.eventAffiche = dd+"/"+syntaxe(mm,1)+"/"+yyyy;
 		
 	}
-	/*set currMonth(month){
-		this.currMonth = parseInt(month);
-	}
-	set currYear(currYear){
-		this.currYear = currYear;
-	}
-	set currWeek(currWeek){
-		this.currWeek = currWeek;
-	}
-	set eventAffiche(date){
-		this.eventAffiche = date;
-	}*/
-	
-	chWeek(plusOuMoins){
+	chWeek(browse){
 		this.currWeek = parseInt(document.calWeekForm.selWeek.value);
 		this.currYear = parseInt(eval("year").innerHTML);
-		switch (plusOuMoins) {
+		switch (browse) {
 		  case '-':
 			  if(this.currWeek == 1){ 	//Si le mois courant est janvier, 
 				  this.currWeek = 52;
@@ -40,8 +27,9 @@ class calWeek{
 				else
 					this.currWeek++;
 			  break;
-		  case '+-':			 
-			  this.currWeek = nbWeek(dd, mm, yyyy);
+		  case '+-':
+			  affichageEvent(dd+"/"+syntaxe(mm,1)+"/"+yyyy);
+			  this.currWeek = nbWeeks(dd, mm, yyyy);
 			  this.currYear = yyyy;
 			  break;
 		  default :
@@ -49,10 +37,14 @@ class calWeek{
 		}
 		eval("year").innerHTML = this.currYear;
 		document.calWeekForm.selWeek.value = this.currWeek;
+		for (var j=0; j<=1; j++){
+			eval("affNumSem"+j).innerHTML = "Semaine "+parseInt(this.currWeek+j) ;
+		}
 		this.changeCal();
 	}
 	
 	changeCal(){
+		
 		eval("btCalMonth").style.background = "#e7e7e7";
 		eval("btCalMonth").style.color = "deepskyblue";
 		eval("btCalWeek").style.background = "deepskyblue";
@@ -70,11 +62,13 @@ class calWeek{
 		firstDayYearDate.setFullYear(this.currYear);
 		var D = firstDayYearDate.getDay();
 		var firstDay = (this.currWeek-1)*7-(D-2);//Premier jour à afficher
-		while (firstDay > maxDays(nbMonth, this.currYear))
+		console.log(this.currWeek);
+		while (firstDay > nbDays(nbMonth, this.currYear))
 		{
-			firstDay -= maxDays(nbMonth, this.currYear);
+			firstDay -= nbDays(nbMonth, this.currYear);
 			nbMonth++;	
 		}
+		console.log(firstDay);
 		this.currMonth = nbMonth;
 		var caseMonth;
 		var caseYear;
@@ -89,18 +83,17 @@ class calWeek{
 			//var whatColor = (i<this.nbCases/2)?1:0;
 			//----Mois précédent----//
 			if(firstDay+i<1){
-				eval("sp"+i).innerHTML = firstDay+i+ maxDays((this.currMonth==0)?11:this.currMonth-1, (this.currMonth-1==-1)?this.currYear-1:this.currYear);
+				eval("sp"+i).innerHTML = firstDay+i+ nbDays((this.currMonth==0)?11:this.currMonth-1, (this.currMonth-1==-1)?this.currYear-1:this.currYear);
 				caseMonth = (this.currMonth==0)?11:this.currMonth-1;
 				caseYear = (this.currMonth==0)?this.currYear-1:this.currYear;
 				prevM=arrM[caseMonth];
 				caseMonth += 1;
-				caseMonth = syntaxe(caseMonth,0);	
-				
+				caseMonth = syntaxe(caseMonth,0);
 				eval("sp"+i).style.backgroundColor = colorOtherMonth;
 			}
 			//----Mois suivant----//
-			else if (firstDay+i> maxDays(this.currMonth, this.currYear)){
-				eval("sp"+i).innerHTML = firstDay+i - maxDays(this.currMonth, this.currYear);
+			else if (firstDay+i> nbDays(this.currMonth, this.currYear)){
+				eval("sp"+i).innerHTML = firstDay+i - nbDays(this.currMonth, this.currYear);
 				caseMonth = (this.currMonth==11)?0:this.currMonth+1;
 				caseYear = (this.currMonth==11)?this.currYear+1:this.currYear;
 				nextM=arrM[caseMonth];
@@ -123,12 +116,9 @@ class calWeek{
 			eval("sp"+i).name = caseDay +"/"+ caseMonth + "/" + caseYear;
 			if(eval("sp"+i).name == syntaxe(dd,0)+"/"+ syntaxe(mm,1) +"/"+yyyy){
 				eval("sp"+i).style.backgroundColor = colorToday;
-				isItToday = true;
+				isItToday 	= true;
 			}
-			else{
-				isItToday = false;
-			}
-			//alert(isItToday);
+			else isItToday = false;
 			if(eval("sp"+i).name == this.eventAffiche && isItToday == false)eval("sp"+i).style.background = colorSelectDay;
 		}
 		eval("month").innerHTML = ((prevM!="")?prevM+ "-":"")+ currM +((nextM!="")?"-"+nextM+" ":" ");
@@ -145,7 +135,7 @@ class calWeek{
 		text += "<select class=\"col-6 button form-control form-control-sm\" name=selWeek onChange='calendarWeek.chWeek()'>"; //Quand on selectionne un mois, la fonction changeCal() est appelé
 	
 		for (var i=1;i<=52;i++)		//Remplissage de la balise de selection du mois
-			(i==nbWeek(parseInt(this.eventAffiche.substr(0,2)), parseInt(this.eventAffiche.substr(3,2)-1), this.eventAffiche.substr(6,4)))?text += "<option value= " + i + " Selected>" + "Sem" + i + "</option>": text += "<option value= " + i + ">" + "Sem" + i + "</option>";//Le mois courant est séléctionné au lancement
+			(i==nbWeeks(parseInt(this.eventAffiche.substr(0,2)), parseInt(this.eventAffiche.substr(3,2)-1), this.eventAffiche.substr(6,4)))?text += "<option value= " + i + " Selected>" + "Semaine " + i + "</option>": text += "<option value= " + i + ">" + "Semaine " + i + "</option>";//Le mois courant est séléctionné au lancement
 		text += "</select>";
 		text += "<span class=\"col-2 button\" onClick='calendarWeek.chWeek(\"+\")'><i style=\"font-size:30px\" class=\"fas fa-chevron-right\"></i></span>";				
 		text += "</td></tr>";
@@ -159,13 +149,16 @@ class calWeek{
 		var aa = 0;
 		for (var j=0; j<=1; j++)
 		{
-			text += "<td>"
+			text += "<td>";
+			
 			text += "<table>";
 			for (i=0;i<=6;i++)
 				text += "<tr class=\"dayStyle2\"><td ><div style=\"height:50px\">" + arrD[i] + "</div></td></tr>"; //Affiche des jours de la semaine
 			text += "</table>";
 			text += "</td>";	
 			text += "<td>";
+			console.log(this.currWeek);
+			text += "<div id=\"affNumSem"+j+"\"></div>";
 			text += "<table>";
 			for (var i=0;i<=6;i++, aa++){
 				text += "<tr><td class=\"caseStyle\"  onClick='clickOnCase(sp"+aa+", calendarWeek)'>";
@@ -189,8 +182,8 @@ var calendarWeek = new calWeek();
 
 calendarWeek.eventAffiche = syntaxe(dd,0)+"/"+syntaxe(mm,1)+"/"+yyyy;
 
-document.getElementById("btCalWeek").addEventListener("click", function(){
-	document.getElementById("calPlace").innerHTML = calendarWeek.writeHTML(); 	//Ecriture d'une calendirer
+eval("btCalWeek").addEventListener("click", function(){
+	eval("calPlace").innerHTML = calendarWeek.writeHTML(); 	//Ecriture d'une calendirer
 	calendarWeek.chWeek();
 	affichageEvent(calendarWeek.eventAffiche);
 });

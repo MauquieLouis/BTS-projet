@@ -2,16 +2,15 @@
 class calMonth{
 	constructor(){
 		this.currYear = 0;
-		this.currWeek = 0;
 		this.currMonth = 0;
 		this.nbCases = 42;
 		this.eventAffiche =  dd+"/"+mm+"/"+yyyy;
 	}
 
-	chMonth(plusOuMoins){
+	changeMth(browse){
 		this.currMonth = parseInt(document.calForm.selMonth.value);
 		this.currYear = parseInt(document.calForm.selYear.value);
-		switch (plusOuMoins) {
+		switch (browse) {
 		  case '-':
 			  if(this.currMonth == 0){ 	//Si le mois courant est janvier, 
 					(this.currYear == parseInt(yyyy)-nbYear/2)?alert("!"):this.currYear--;
@@ -30,6 +29,7 @@ class calMonth{
 				
 			  break;
 		  case '+-':
+			  	affichageEvent(dd+"/"+syntaxe(mm,1)+"/"+yyyy);
 			 	this.currMonth = mm;
 		  		this.currYear = yyyy;
 		  		break;
@@ -52,10 +52,22 @@ class calMonth{
 		//$('#btCalMonth').off("mouseout");
 		//eval("btCalWeek").addEventListener("mouseout", function() { eval("btCalWeek").style.color = "deepskyblue";},false);
 
-		for (var i=0;i<=nbYear;i++){				//5 années serront sélèctionnable
-			arrY[i] = this.currYear - nbYear/2 + i;
-			console.log(arrY[i]);
+	
+		var strMessage1 = eval("selYear") ;
+		console.log(strMessage1.innerHTML);
+
+		for(var i = 0; i <= nbYear;i++){
+			console.log("primero " +i+ " : " + arrY[i]);
+			if(i == nbYear/2) strMessage1.innerHTML =  strMessage1.innerHTML.replace("<option value=\""+arrY[i]+"\" selected=\"\">"+arrY[i],"<option value=\""+this.currYear+"\" selected=\"\">"+this.currYear);
+			else strMessage1.innerHTML =  strMessage1.innerHTML.replace( "<option value=\""+arrY[i]+"\">"+arrY[i],"<option value=\""+parseInt(this.currYear - nbYear/2 + i)+"\">"+parseInt(this.currYear - nbYear/2 + i));
+			arrY[i]=parseInt(this.currYear - nbYear/2 +i);
+			console.log("secondo " +i+ " : " + arrY[i]);
+			
 		}
+		console.log(strMessage1.innerHTML);
+		//arrY[i] = this.currYear - nbYear/2 + i;
+		//console.log(arrY[i]);
+			
 		var prevM = (this.currMonth==0)?11:this.currMonth-1; //Mois précédent au mois affiché
 		var mmyyyy = new Date();
 		mmyyyy.setFullYear(this.currYear);
@@ -78,25 +90,28 @@ class calMonth{
 			caseMonth = (this.currMonth==0)?12:this.currMonth;
 			caseMonth = syntaxe(caseMonth,0);
 			caseYear = (this.currMonth==0)?this.currYear-1:this.currYear;
-			arrN[i] = maxDays(prevM,this.currYear) - day1 + i+2;
+			arrN[i] = nbDays(prevM,this.currYear) - day1 + i+2;
 			caseDay = syntaxe(arrN[i],0);
 			eval("sp"+i).style.backgroundColor = colorOtherMonth;
 			eval("sp"+i).name = caseDay + "/" +caseMonth + "/" + caseYear;
+			
 		}
 		
 		//----Mois en court----//
 		aa = 1;
-		for (i=day1-1;i<=day1+maxDays(this.currMonth,this.currYear)-2;i++,aa++){
+		for (i=day1-1;i<=day1+nbDays(this.currMonth, this.currYear)-2;i++,aa++){
 			arrN[i] = aa ;
 			caseDay = syntaxe(arrN[i],0);
 			caseMonth = syntaxe(this.currMonth, 1);
 			eval("sp"+i).name = caseDay + "/" + caseMonth + "/" + this.currYear;
 			eval("sp"+i).style.backgroundColor=colorMonth;
+			console.log(eval("sp"+i));
+			console.log(eval("sp"+i));
 		}
-		
+			
 		//----Mois suivant----//
 		aa = 1;
-		for (i=day1+maxDays(this.currMonth,this.currYear)-1;i<this.nbCases;i++,aa++){
+		for (i=day1+nbDays(this.currMonth, this.currYear)-1; i<this.nbCases; i++, aa++){
 		
 			caseMonth = (this.currMonth==11)?1:this.currMonth+2;
 			caseMonth = syntaxe(caseMonth,0);
@@ -109,7 +124,7 @@ class calMonth{
 		//-------------------------------------------------------------------------------------------------//
 		//------------------------Définition de la taille et remplissage des cases-------------------------//
 		//----Parcour de toutes les cases----//
-		for (i=0;i< this.nbCases;i++){
+		for (i=0; i<this.nbCases; i++){
 			eval("sp"+i).style.height = caseHeight;	//Définition de la hauteur des cases
 			eval("sp"+i).style.width = (windowWidth < 738)?windowWidth/7-30+"px":windowWidth/21+"px"; //Définition de la largeur des cases en fontion de la taille de la fenêtre
 			eval("sp"+i).innerHTML = arrN[i]; //Remplissage des cases
@@ -133,20 +148,22 @@ class calMonth{
 		text += "<tr><td>";
 		text += "<table width=100%><tr>";
 		text += "<td class=\"row\">";
-		text += "<span class=\"col-2 button\" onClick='calendarMonth.chMonth(\"-\")'><i style=\"font-size:30px\" class=\"fas fa-chevron-left\"></i></span>";
-		text += "<select class=\"col-6 button form-control form-control-sm\" name=selMonth onChange='calendarMonth.chMonth()'>"; //Quand on selectionne un mois, la fonction changeCal() est appelé
+		text += "<span class=\"col-2 button\" onClick='calendarMonth.changeMth(\"-\")'><i style=\"font-size:30px\" class=\"fas fa-chevron-left\"></i></span>";
+		text += "<select class=\"col-6 button form-control form-control-sm\" name=selMonth onChange='calendarMonth.changeMth()'>"; //Quand on selectionne un mois, la fonction changeCal() est appelé
 		for (var i=0;i<=11;i++)		//Remplissage de la balise de selection du mois
 			(i==parseInt(this.eventAffiche.substr(3,2)-1))?text += "<option value= " + i + " Selected>" + arrM[i] + "</option>": text += "<option value= " + i + ">" + arrM[i] + "</option>";//Le mois courant est séléctionné au lancement
 		
 		text += "</select>";	
-		text += "<span class=\"col-2 button\" onClick='calendarMonth.chMonth(\"+\")'><i style=\"font-size:30px\" class=\"fas fa-chevron-right\"></i></span>";
-		text += "<span class=\"col-2 button\" onClick='calendarMonth.chMonth(\"+-\")'><i style=\"font-size:30px\" class=\"fas fa-calendar-day\"></i></span>";
+		text += "<span class=\"col-2 button\" onClick='calendarMonth.changeMth(\"+\")'><i style=\"font-size:30px\" class=\"fas fa-chevron-right\"></i></span>";
+		text += "<span class=\"col-2 button\" onClick='calendarMonth.changeMth(\"+-\")'><i style=\"font-size:30px\" class=\"fas fa-calendar-day\"></i></span>";
 		text += "</td>";
 		text += "<td align=right>";
-		text += "<select name=selYear class=\"col-7 button form-control form-control-sm\" onChange='calendarMonth.chMonth()'>";	//Quand on selectionne une année, la fonction changeCal() est appelé
+		text += "<div id=selYear>";
+		text += "<select name=selYear  class=\"col-7 button form-control form-control-sm\" onChange='calendarMonth.changeMth()'>";	//Quand on selectionne une année, la fonction changeCal() est appelé
 		for (var i=0;i<=nbYear;i++)		//Remplissage de la balise de selection de l'année
 			(i==this.eventAffiche.substr(6,4)-arrY[0])?text += "<option value= " + arrY[i] + " Selected>" + arrY[i] + "</option>": text += "<option value= " + arrY[i] + ">" + arrY[i] + "</option>";//L'année courante est séléctionnée au lancement
 		text += "</select>";
+		text += "</div>";
 		text += "</td>";
 		text += "</tr></table>";
 		text += "</td></tr>";
@@ -175,9 +192,9 @@ class calMonth{
 var calendarMonth = new calMonth();
 calendarMonth.eventAffiche = syntaxe(dd,0)+"/"+syntaxe(mm,1)+"/"+yyyy;
 
-document.getElementById("btCalMonth").addEventListener("click", function(){
-	document.getElementById("calPlace").innerHTML = calendarMonth.writeHTML(); 	//Ecriture d'une calendirer
-	calendarMonth.chMonth();
+eval("btCalMonth").addEventListener("click", function(){
+	eval("calPlace").innerHTML = calendarMonth.writeHTML(); 	//Ecriture d'une calendirer
+	calendarMonth.changeMth();
 	affichageEvent(calendarMonth.eventAffiche);
 });
 

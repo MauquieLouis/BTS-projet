@@ -17,18 +17,19 @@
     			<tr><td>
     			  	<span class=selCal id=btCalMonth> Mois </span>
     				<span class=selCal id=btCalWeek>  Semaines </span>
-    				<span id=calPlace></span> 
+    				<span id=calPlace></span>
+    				<div> 
     				</td>
     				<td>
     				<span class=\"eventStyle\" id=EventPlace></span>
     				</td>
     			</tr>	
-    			</table>	
+    			</table>
+    			<span class=\"eventStyle\" id=EventPlace2></span>	
     			<script src="{{ asset('../Js/calendarWeek.js') }}"></script>
 				<script src="{{ asset('../Js/calendar.js') }}"></script>
     		</div>
-    		
-			
+    	
    			<script>	
     			document.getElementById("calPlace").innerHTML = calendarWeek.writeHTML(); 	//Ecriture d'une calendirer
     			calendarWeek.chWeek();
