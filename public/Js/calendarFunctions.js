@@ -159,7 +159,7 @@ function getEvents(nbCases, dateStart, dateEnd){
 			}
 		}
 		var notif = "";
-		nbEvent = 0;
+		//nbEvent = 0;
 		for(var l=1; l<=nbEvent; l++){
 			switch(l){
 			case 1 : 
