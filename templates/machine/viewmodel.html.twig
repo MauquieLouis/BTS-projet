@@ -169,7 +169,7 @@
                 	<button class="btn btn-sm btn-secondary" onClick="cube.EtapeChangement(1)" title="Etape suivante"> > </button>
             	</div>
             	{% if idEvent %}
-            		<a class="btn btn-sm btn-primary" style="margin:auto;" onClick="" href="{{ path('modelesmachines')}}" title=""> Compléter la maintenance </a>
+            		<a class="btn btn-sm btn-primary" style="margin:auto;" onClick="" href="{{ path('completeEvent', {'id':idEvent})}}" title=""> Compléter la maintenance </a>
             	{% endif %}
         	</div>
         </div>
