@@ -257,7 +257,8 @@ class Machines{
 //			document.getElementById("menuModele").classList.add('AjoutEtape');
 			
 		}
-		document.getElementById('btnSauvegarder').hidden = cube.sprites.length? false : true;
+		//document.getElementById('btnSauvegarder').hidden = cube.sprites.length? false : true;
+		document.getElementById('remarqueCreerEtape').hidden = document.getElementById('remarqueCreerEtape').hidden? false:true;
 //		document.getElementById("container-fluid").classList.toggle("AjoutEtape"); 		
 		document.getElementById("page-header").classList.toggle("AjoutEtape"); 
 		document.getElementById("TitrePage").classList.toggle("AjoutEtape"); 
@@ -266,6 +267,10 @@ class Machines{
 		document.getElementById("MenuNavFixe").classList.toggle("AjoutEtape");
 		document.getElementById("btnPositionduCube").classList.toggle("AjoutEtape");
 		
+		for(let i=0;i<buttonPage.length;i++)
+		{
+			document.getElementById(bouttonPage[i]).disabled  = document.getElementById(bouttonPage[i]).disabled? false:true;			
+		}
 		
 //		document.getElementById("container-fluid").classList.toggle("AjoutEtape"); 
 
@@ -647,6 +652,11 @@ let cube = new Machines();
 cube.RestoreMachine(scene,cutFileName,machineNamed,modeleID);
 cube.appear();
 const rayCaster = new THREE.Raycaster();
+
+var bouttonPage=
+	[
+		'ongletInformation',		
+	];
 
 function onClick(e)
 {

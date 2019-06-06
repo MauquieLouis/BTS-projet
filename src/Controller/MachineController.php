@@ -267,21 +267,17 @@ class MachineController extends AbstractController
     public function machineEdition(Request $request, EntityManagerInterface $em, $id)
     {
         $repository = $em->getRepository(Machine::class);
-        $repositoryMaintenance = $em->getRepository(Maintenance::class);
         $machine = $repository->findOneBy(['id' => $id]);
-        $maintenances = $repositoryMaintenance->findBy(['idMachine'=> $machine->getId()]);
-
         $formMachine = $this->createForm(NewMachineType::class, $machine);
         $formMachine->handleRequest($request);
-
         if($formMachine->isSubmitted() && $formMachine->isValid())
         {
             $newMachine = new Machine();
             $newMachine = $formMachine->getData();
             $em->persist($newMachine);
             $em->flush();
-            $this->addFlash('info', 'Modifications enregistr�es');
-            return $this->redirectToRoute('machine');
+            $this->addFlash('info', 'Modifications enregistrées');
+            return $this->redirectToRoute('machine', ['modele'=> $machine->getModele()->getId()]);
         }
         
         $formDeleteMachine = $this->createFormBuilder()
@@ -289,16 +285,15 @@ class MachineController extends AbstractController
         $formDeleteMachine->handleRequest($request);
         if($formDeleteMachine->isSubmitted() &&$formDeleteMachine->isValid() )
         {
-       
-            for($i=0;$i< count($maintenances);$i++)
-            {
-                $em->remove($maintenances[$i]);   
-            }
-            $this->rmAllDir('image/machine/'.$machine->getId());
+//             for($i=0;$i< count($maintenances);$i++)
+//             {
+//                 $em->remove($maintenances[$i]);   
+//             }
+//             $this->rmAllDir('image/machine/'.$machine->getId());
             $em->remove($machine); 
             $em->flush();
-            $this->addFlash('danger', "Machine supprim�e");
-            return $this->redirectToRoute('modelesmachines');            
+            $this->addFlash('danger', "Machine supprimée");
+            return $this->redirectToRoute('machine', ['modele'=> $machine->getModele()->getId()]);            
         }     
         return $this->render('machine/editionmachine.html.twig', [
             'formMachine' => $formMachine->createView(),
@@ -347,7 +342,7 @@ class MachineController extends AbstractController
             $this->rmAllDir('image/machine/'.$maintenances->getIdMachine()->getId().'/'.$maintenances->getId());
             $em->remove($maintenances);
             $em->flush();
-            $this->addFlash('danger', "Maintenance supprim�e");
+            $this->addFlash('danger', "Maintenance supprimée");
             return $this->redirectToRoute('maintenanceModele3D',['machine'=> $maintenances->getIdMachine()->getId()] );
         }
         return $this->render('machine/editionmaintenance.html.twig', [
@@ -548,7 +543,7 @@ class MachineController extends AbstractController
 //             dd('fin');
             $em->remove($modele);
             $em->flush();
-            $this->addFlash('danger', "Mod�le supprim�");
+            $this->addFlash('danger', "Modèle supprimé");
             return $this->redirectToRoute('modelesmachines');
         }
         return $this->render('machine/editionmodele.html.twig', [
