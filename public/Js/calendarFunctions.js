@@ -116,7 +116,8 @@ function getEvents(nbCases, dateStart, dateEnd){
 			ye[j][0]=parseInt(tabEvent[j][5].date.substr(0, 4));
 
 			var l = 0;
-			for(var k=1; k <= 7; k++, l++){
+			var lenombre = (frequenceDay == 0 && frequenceMonth == 0 && frequenceYear == 0)?0:7;
+			for(var k=1; k <= lenombre; k++, l++){
 				var nbDay = nbDays(parseInt(me[j][l]-1+frequenceMonth), parseInt(ye[j][l]+frequenceYear));
 
 				if(parseInt(de[j][l])+frequenceDay > parseInt(nbDay)){
