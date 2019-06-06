@@ -15,6 +15,7 @@
     	<div class="col-12 offset-md-3 col-md-6 AdminRow1 TitlePage">
 {#     		<h1>Aper�u {{ machine.name}}</h1>#}
 {{ info }}
+
 			<div id="filename" hidden>{{ modeleMachine.faceDroite }};{{ modeleMachine.faceGauche }};{{ modeleMachine.faceHaut }};{{ modeleMachine.faceBas }};{{ modeleMachine.faceAvant }};{{ modeleMachine.faceArriere }}</div>
 {#     		<div id="machineNamed" hidden>{{ machine.id }}</div>#}
     		<div id="modeleID" hidden>{{ modeleMachine.id }}</div>
@@ -167,7 +168,9 @@
                 	<h3 style="display: inline;">Etape <div style="display: inline;" id="OrdreEtape">0</div>/<div class="SpriteNbr" id="SpriteNb">0</div></h3>
                 	<button class="btn btn-sm btn-secondary" onClick="cube.EtapeChangement(1)" title="Etape suivante"> > </button>
             	</div>
-            	<a class="btn btn-sm btn-primary" style="margin:auto;" onClick="" href="{{ path('modelesmachines')}}" title=""> Compléter la maintenance </a>
+            	{% if idEvent %}
+            		<a class="btn btn-sm btn-primary" style="margin:auto;" onClick="" href="{{ path('completeEvent', {'id':idEvent})}}" title=""> Compléter la maintenance </a>
+            	{% endif %}
         	</div>
         </div>
     </div>
