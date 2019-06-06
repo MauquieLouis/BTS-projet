@@ -66,7 +66,27 @@
         				<div>
         					<button id="BtnCreerEtape" class="btn btn-primary offset-4" style="position:center;" onclick="cube.ToggleSprite(); cube.SaveTable();" >Créer</button>
         					
-                        </div>     
+                        </div>  
+                        <div id="remarqueCreerEtape" style="margin-left : 5%" hidden>
+                    		<b>
+                    			<div style="color: #00a1d7; text-decoration: underline;">Remarque :</div>                        	
+                        		<div class="row">
+                        			<div class="col-2">
+                            			Clic gauche 
+                            		</div>
+                            		<div class="col-10" >
+                            			tourner la machine
+                            		</div> 
+                            		<br>
+                            		<div class="col-2">            		
+                            			Clic droit 	
+                        			</div>
+                        			<div class="col-10">
+                        				poser l'annotation
+                        			</div>
+                        		</div>
+                    		</b>                        	
+                        </div>   
         		</div>
     			<div id="MenuInformation" >	
         			<div style="margin-left : 5%"><h3>Nom</h3></div>
@@ -111,7 +131,7 @@
                             <button class="btn btn-outline-info" onclick="TableauHTMLTEST.upNdown('down');">&ShortDownArrow;</button>
                             <button class="btn btn-outline-info" onclick="TableauHTMLTEST.ReinitialisationAffichage();//triTableau();//cube.SaveTable();//validationChangementEtape();console.log('problemeHTML');)">Trier</button>
                             <button class="btn btn-outline-info" onclick="TableauHTMLTEST.ModifOrdreEtape();//validationChangementEtape();">Enregistrer changement</button>
-                            <button class="btn btn-outline-info" onclick="cube.deleteSprite();">Supprimer</button>
+                            <button class="btn btn-danger" onclick="cube.deleteSprite();">Supprimer</button>
   				 		</div>
    			        {% endif %}
     			</div>
