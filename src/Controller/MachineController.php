@@ -167,9 +167,17 @@ class MachineController extends AbstractController
     }    
     /**
      * @Route("/modele/{slug}", name="modele3D")
+     * @Route("/modele/{slug}/{id}", name="modele3D_maintenance")
      */
-    public function viewModele($slug, EntityManagerInterface $em, Request $request, ObjectManager $manager)
+    public function viewModele($slug, EntityManagerInterface $em, Request $request, ObjectManager $manager, $id = null)
     {
+        if($id != null)
+        {
+            $info = 'Evenenement '.$id;
+        }else
+        {
+            $info = "pas d'evenement";
+        }
         $session = new Session();
         $slugMaintenance = $slug;
         $repositoryMachine = $em->getRepository(Machine::class);
@@ -258,6 +266,7 @@ class MachineController extends AbstractController
             'saveAllSprites' =>$formSaveAllSprite->createView(),  
             'modeleMachine' =>$modeleMachine,
             'toutsupprimer' => $formSaveOrdreEtapes->createView(),
+            'info' => $info
         ]);   
     }
     
