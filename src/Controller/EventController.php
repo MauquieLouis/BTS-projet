@@ -41,8 +41,7 @@ class EventController extends AbstractController
         ->add('Commentaire', TextareaType::class)->getForm();
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            $event2 = new Event();
-            $event2 = $event;
+            $event2 = clone $event;
             $event2->setValid(true);
             
             $frequence = $event->getFrequence();
@@ -58,7 +57,7 @@ class EventController extends AbstractController
             $em->persist($event2);
             $em->flush();
             $this->addFlash('info', 'Maintenace Complétée');
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('Home');
         }
         return $this->render('event/completeEvent.html.twig', ['form'=>$form->createView()]);
     }
