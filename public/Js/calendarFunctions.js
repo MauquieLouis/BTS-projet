@@ -91,7 +91,7 @@ function getEvents(nbCases, dateStart, dateEnd){
 	dateEnd = dateEnd.substr(6,4) + "-" + syntaxe(dateEnd.substr(3,2),1) + "-" + dateEnd.substr(0,2);
 
 	tabEvent = table.ByDate(dateStart, dateEnd);
-	
+	console.log(tabEvent);
 
 	if(tabEvent != ""){
 		for(var j=0; j < parseInt(tabEvent.length); j++){
@@ -208,13 +208,13 @@ function affichageEvent(date){
 					textEvent += "<table border=1px class=\"tabEventStyle\"><tr class=\"dayStyle\"><td>Titre</td><td>Descrption</td><td>3D</td></tr>" +
 							"<tr color=\"blue\"><td align=left><span id=title>" + tabEvent[j][1] + "</span></td><td><span id=content>" + tabEvent[j][2]+ "</span></td>";
 					if(tabEvent[j][3] != "")
-						textEvent += "<td><div class=\"acces3D\" onClick=\"document.location.href='/modele/"+	tabEvent[j][3] + "'\">Accés Modèle 3D</div></td>";
+						textEvent += "<td><div class=\"acces3D\" onClick=\"document.location.href='/modele/"+	tabEvent[j][4].machine + "/"+ tabEvent[j][0]+"'\">Accés Modèle 3D</div></td>";
 					else	textEvent +="<td><div>X</div></td>";	
 				}
 				else{
 					textEvent += "<tr><td align=left><span id=title>" + tabEvent[j][1] + "</span></td><td><span>" + tabEvent[j][2]+ "</span></td>";
 					if(tabEvent[j][3] != ""){
-						textEvent += "<td><div class=\"acces3D\" onClick=\"document.location.href='/modele/"+	tabEvent[j][3] + "'\">Accés Modèle 3D</div></td>";
+						textEvent += "<td><div class=\"acces3D\" onClick=\"document.location.href='/modele/"+	tabEvent[j][4].machine + "/"+ tabEvent[j][0]+"'\">Accés Modèle 3D</div></td>";
 					}
 					else	textEvent +="<td><div>X</div></td>";
 				}		

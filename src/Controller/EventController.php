@@ -56,7 +56,7 @@ class EventController extends AbstractController
             $em->persist($event);
             $em->persist($event2);
             $em->flush();
-            $this->addFlash('info', 'Maintenace Complétée');
+            $this->addFlash('info', 'Maintenace Complï¿½tï¿½e');
             return $this->redirectToRoute('Home');
         }
         return $this->render('event/completeEvent.html.twig', ['form'=>$form->createView()]);
@@ -108,6 +108,7 @@ class EventController extends AbstractController
             $event->setDateEnd($dateFin);
             $event->setTitle($formEvent->getData()['title']);
             $event->setDescription($formEvent->getData()['description']);
+            $event->setValid(false);
             if($userIdTable)
             {
                 $event->setUsersid($userIdTable);
