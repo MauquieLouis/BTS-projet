@@ -50,9 +50,9 @@ class EventController extends AbstractController
             $date = new \DateTime();
             $nextDate = $this->ModifyDate($date, $frequence, $mesure);
             
-            $event->setDateStart($nextDate);
-            $event->setDescription($form->getData()['Commentaire']);
-            $event2->setDateEnd($date);
+            $event2->setDateStart($nextDate);
+            $event2->setComment($form->getData()['Commentaire']);
+            $event->setDateEnd($date);
             $em->persist($event);
             $em->persist($event2);
             $em->flush();
@@ -195,9 +195,8 @@ class EventController extends AbstractController
     
     private function ModifyDate($date, $frequence, $mesure){
        $date = $date->format('Y-m-d');
-
+        
        $datemodifie = new \DateTime($date);
-      
        switch($mesure){
            case 'd':
                $frequence.= ' day';
@@ -217,7 +216,8 @@ class EventController extends AbstractController
        }
       
        $datemodifie = $datemodifie->modify('+'.$frequence);
-      // dd($date);
+      // $datemodifie = $datemodifie->format('Y-m-d');
+
        return $datemodifie;
        
     }
