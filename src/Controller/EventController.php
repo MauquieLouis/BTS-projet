@@ -38,7 +38,7 @@ class EventController extends AbstractController
      */
     public function completeEvent(Event $event, Request $request, EntityManagerInterface $em){
         $form = $this->createFormBuilder()
-        ->add('Commentaire' ,TextareaType::class)->getForm();
+        ->add('Commentaire', TextareaType::class)->getForm();
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $event2 = new Event();
@@ -199,7 +199,7 @@ class EventController extends AbstractController
 
        $datemodifie = new \DateTime($date);
       
-       switch($unit){
+       switch($mesure){
            case 'd':
                $frequence.= ' day';
                break;
