@@ -78,7 +78,7 @@ class Machines{
 	{
 		this.points.push(point);
 	}
-	addTooltip(point) // c'est utile avant l'apparition du cube
+	addTooltip(point) // Creation d'une annotation
 	{
 		let spriteMap = new THREE.TextureLoader().load( "../../image/machine/ampoule.png" );
 		let spriteMaterial = new THREE.SpriteMaterial( { map: spriteMap} );
@@ -104,8 +104,7 @@ class Machines{
 			document.getElementById("tooltipInfo").value = sprite.information;
 			document.getElementById("OrdreEtape2").value = sprite.etape;
 			document.getElementById("OrdreEtape").innerHTML = sprite.etape;
-			cube.etapeEnCours = parseInt(sprite.etape);
-			
+			cube.etapeEnCours = parseInt(sprite.etape);			
 		}
 	}
 	destroy(){ // detruit le cube en détruisant les sprites avant
@@ -276,38 +275,34 @@ class Machines{
 	{
 		this.scene = scene;
 		let imageSurface = image.split(';');
-		//création modèle de cube
-		var geometry2 = new THREE.BoxGeometry( 100, 100, 100 ); // Creation d'une boite de 100 de côtés
-//////////////////CHARGEMENT DES IMAGES/////////////////////////////////////////////////////
+		var geometry2 = new THREE.BoxGeometry( 100, 100, 100 ); // Creation d'un cube de 100 de côtés
+		//	CHARGEMENT DES IMAGES
 		if(imageSurface[0]){var image1 = new THREE.TextureLoader().load('../../image/modele/'+modeleID+'/'+imageSurface[0]);}
 		if(imageSurface[1])var image2 = new THREE.TextureLoader().load('../../image/modele/'+modeleID+'/'+imageSurface[1]);
 		if(imageSurface[2])var image3 = new THREE.TextureLoader().load('../../image/modele/'+modeleID+'/'+imageSurface[2]);
 		if(imageSurface[3])var image4 = new THREE.TextureLoader().load('../../image/modele/'+modeleID+'/'+imageSurface[3]);
 		if(imageSurface[4])var image5 = new THREE.TextureLoader().load('../../image/modele/'+modeleID+'/'+imageSurface[4]);
 		if(imageSurface[5])var image6 = new THREE.TextureLoader().load('../../image/modele/'+modeleID+'/'+imageSurface[5]);
-////////////////////////////////////////////////////////////////////////////////////////////	
 		var cubeMaterials = 
 		[
-			new THREE.MeshBasicMaterial( { map: image1, side: THREE.DoubleSide, name:"droite"} ),// RIGHT SIDE
-			new THREE.MeshBasicMaterial( { map: image2, side: THREE.DoubleSide, name:"gauche"} ),// LEFT SIDE
-			new THREE.MeshBasicMaterial( { map: image3, side: THREE.DoubleSide, name:"haut"} ),// TOP SIDE
-			new THREE.MeshBasicMaterial( { map: image4, side: THREE.DoubleSide, name:"bas"} ),// BOTTOM SIDE
-			new THREE.MeshBasicMaterial( { map: image5, side: THREE.DoubleSide, name:"devant"} ),// FRONT SIDE
-			new THREE.MeshBasicMaterial( { map: image6, side: THREE.DoubleSide, name:"derriere"} ) // BACK SIDE
-		];
-		var material4 = new THREE.MeshFaceMaterial( cubeMaterials);
-		
-/////////////////////Création du cube/////////////////////
-		this.cube = new THREE.Mesh( geometry2, material4);
+			new THREE.MeshBasicMaterial( { map: image1, side: THREE.DoubleSide, name:"droite"} ),	// face droite
+			new THREE.MeshBasicMaterial( { map: image2, side: THREE.DoubleSide, name:"gauche"} ),	// face gauche
+			new THREE.MeshBasicMaterial( { map: image3, side: THREE.DoubleSide, name:"haut"} ),		// face dessus
+			new THREE.MeshBasicMaterial( { map: image4, side: THREE.DoubleSide, name:"bas"} ),		// face dessous
+			new THREE.MeshBasicMaterial( { map: image5, side: THREE.DoubleSide, name:"devant"} ),	// face avant
+			new THREE.MeshBasicMaterial( { map: image6, side: THREE.DoubleSide, name:"derriere"} )	// face arrière
+		];		
+		let material = new THREE.MeshFaceMaterial( cubeMaterials);		
+		//Création du cube
+		this.cube = new THREE.Mesh( geometry2, material);
 		this.cube.name="machine";
 		this.scene.add(this.cube);
 		this.points.forEach(this.addTooltip.bind(this));
-///////////////////////AJOUT DIFFERENTES POSITIONS DE CAMERA////////////////////////////////
-		this.positionsCamera.push(new THREE.Vector3(0, 0, 130));//devant
-		this.positionsCamera.push(new THREE.Vector3(130, 0, 0));//droite
-		this.positionsCamera.push(new THREE.Vector3(0, 0, -130));//derriere
-		this.positionsCamera.push(new THREE.Vector3(-130, 0, 0));//gauche
-////////////////////////////////////////////////////////////////////////////////////////////
+		//AJOUT DIFFERENTES POSITIONS DE CAMERA
+		this.positionsCamera.push(new THREE.Vector3(0, 0, 130));	//devant
+		this.positionsCamera.push(new THREE.Vector3(130, 0, 0));	//droite
+		this.positionsCamera.push(new THREE.Vector3(0, 0, -130));	//derriere
+		this.positionsCamera.push(new THREE.Vector3(-130, 0, 0));	//gauche
 	}
 	spriteHtmlForJs()
 	{
@@ -383,7 +378,6 @@ class Machines{
 	}
 	SetFaceCamera(face)
 	{
-		console.log(face);
 		this.positionCamera = parseInt(face);
 		this.cubeMove(0);
 	}
@@ -923,9 +917,18 @@ function ready()
 function moveNavBar(visible,cache1,cache2,cache3)
 {
 	document.getElementById(visible).hidden = false;
+	
 	document.getElementById(cache1).hidden = true;
+
 	document.getElementById(cache2).hidden = true;
 	document.getElementById(cache3).hidden = true;
+}
+function ongletActif(actif,cache1,cache2,cache3)
+{
+	document.getElementById(actif).style.background  ="#117a8b";
+	document.getElementById(cache1).style.background = "#17a2b8";
+	document.getElementById(cache2).style.background = "#17a2b8";
+	document.getElementById(cache3).style.background = "#17a2b8";
 }
 
 //function TableauBullesInfos()
@@ -969,7 +972,6 @@ window.oncontextmenu= function OnContextMenu(e){ // clic droit
 	let intersects = rayCaster.intersectObjects(scene.children); // Regarde ce qui rencontre les "enfants" de la scène: tooltip, sphère...
 	if(cube.createSprite == 'start')
 	{
-//		console.log(document.getElementById('CreationEtapeNom').value);
 		if(intersects[0].object.name);
 		{
 			if(intersects[0].object.name == 'machine')
@@ -1000,10 +1002,11 @@ window.oncontextmenu= function OnContextMenu(e){ // clic droit
 			}
 		}
 	}
+
 //	else //sinon c'est qu'on est en ready et on passe en start
 //	{ cube.createSprite = 'start';}
 //	intersects.forEach(function(intersect){
 //		if(intersect.object.type === 'Sprite')	{intersect.object.onClick();}
 //		if(intersect.object.name === 'machine'){}
 //	})
-};
+}

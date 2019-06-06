@@ -46,11 +46,11 @@
 		</div>
         <div class="menu2 col-11 col-md-6 d-md-block" id="menuModele">	
             <div style="border-bottom : 1px solid #aaaaaa;" id="MenuOnglet" class="MenuOnglet">
-                <button class="btn  btn-info" style="border:2px solid grey; display:inline;" onclick="moveNavBar('MenuInformation','MenuTableau','MenuCreationUneEtape','MenuHistorique');">Informations </button>
+                <button id="ongletInformation" class="btn  btn-info" style="border:2px solid grey; display:inline;" onclick="moveNavBar('MenuInformation','MenuTableau','MenuCreationUneEtape','MenuHistorique'); ongletActif('ongletInformation','ongletTableau','btnSprite','ongletHistorique');">Informations </button>
                 {% if is_granted('ROLE_ADMIN') %}
-                	<button class="btn  btn-info" style="border:2px solid grey; display:inline;" onclick="moveNavBar('MenuTableau','MenuInformation','MenuCreationUneEtape','MenuHistorique');">Tableau d'information</button>
-                	<img onclick="moveNavBar('MenuCreationUneEtape','MenuTableau','MenuInformation','MenuHistorique')" id="btnSprite" class="btn  btn-info spriteCreate" src="../../image/machine/ampoule.png" width="70" height="40" style="border:2px solid grey;">
-                	<button class="btn  btn-info" style="border:2px solid grey; display:inline;" onclick="moveNavBar('MenuHistorique','MenuTableau','MenuInformation','MenuCreationUneEtape');">Historique</button>
+                	<button id="ongletTableau" class="btn  btn-info" style="border:2px solid grey; display:inline;" onclick="moveNavBar('MenuTableau','MenuInformation','MenuCreationUneEtape','MenuHistorique'); ongletActif('ongletTableau','ongletInformation','btnSprite','ongletHistorique');">Tableau d'information</button>
+                	<img onclick="moveNavBar('MenuCreationUneEtape','MenuTableau','MenuInformation','MenuHistorique'); ongletActif('btnSprite','ongletTableau','ongletInformation','ongletHistorique');" id="btnSprite" class="btn  btn-info spriteCreate" src="../../image/machine/ampoule.png" width="70" height="40" style="border:2px solid grey;">
+                	<button id="ongletHistorique" class="btn  btn-info" style="border:2px solid grey; display:inline;" onclick="moveNavBar('MenuHistorique','MenuTableau','MenuInformation','MenuCreationUneEtape'); ongletActif('ongletHistorique','btnSprite','ongletTableau','ongletInformation');">Historique</button>
                 {% endif %}
             </div>
     		<div id="MenuAffichage">
