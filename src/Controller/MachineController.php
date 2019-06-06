@@ -176,7 +176,7 @@ class MachineController extends AbstractController
             $info = 'Evenenement '.$id;
         }else
         {
-            $info = "pas d'evenement";
+            $info = null;
         }
         $session = new Session();
         $slugMaintenance = $slug;
@@ -266,7 +266,8 @@ class MachineController extends AbstractController
             'saveAllSprites' =>$formSaveAllSprite->createView(),  
             'modeleMachine' =>$modeleMachine,
             'toutsupprimer' => $formSaveOrdreEtapes->createView(),
-            'info' => $info
+            'info' => $info,
+            'idEvent'=> $id,
         ]);   
     }
     
