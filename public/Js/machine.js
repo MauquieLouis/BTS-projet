@@ -851,6 +851,7 @@ function Keyboard(event)
 	if(event.keyCode == 90) //z
 	{
 //		console.log(document.getElementById('getEachSprite').innerHTML)
+		console.log(scene);
 	}
 	if(event.keyCode == 81) //q
 	{
