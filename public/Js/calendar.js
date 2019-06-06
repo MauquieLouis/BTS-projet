@@ -29,7 +29,7 @@ class calMonth{
 				
 			  break;
 		  case '+-':
-			  	affichageEvent(dd+"/"+syntaxe(mm,1)+"/"+yyyy);
+			  	affichageEvent(syntaxe(dd,0)+"/"+syntaxe(mm,1)+"/"+yyyy);
 			 	this.currMonth = mm;
 		  		this.currYear = yyyy;
 		  		break;

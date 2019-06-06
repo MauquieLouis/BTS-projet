@@ -51,6 +51,11 @@ class Event
      */
     private $frequence;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $valid;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -136,6 +141,18 @@ class Event
     public function setFrequence(?string $frequence): self
     {
         $this->frequence = $frequence;
+
+        return $this;
+    }
+
+    public function getValid(): ?bool
+    {
+        return $this->valid;
+    }
+
+    public function setValid(bool $valid): self
+    {
+        $this->valid = $valid;
 
         return $this;
     }

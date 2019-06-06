@@ -206,16 +206,19 @@ function affichageEvent(date){
 			if(dateEvent == date){
 				if (textEvent.indexOf("Titre") == -1){
 					textEvent += "<table border=1px class=\"tabEventStyle\"><tr class=\"dayStyle\"><td>Titre</td><td>Descrption</td><td>3D</td></tr>" +
-							"<tr color=\"blue\"><td align=left><span id=title>" + tabEvent[j][1] + "</span></td><td><span id=content>" + tabEvent[j][2]+ "</span></td><td><div class=\"acces3D\" onClick=\"document.location.href='/modele/2'\">Accés Modèle 3D</div></td>";
+							"<tr color=\"blue\"><td align=left><span id=title>" + tabEvent[j][1] + "</span></td><td><span id=content>" + tabEvent[j][2]+ "</span></td>";
+					if(tabEvent[j][3] != "")
+						textEvent += "<td><div class=\"acces3D\" onClick=\"document.location.href='/modele/"+	tabEvent[j][3] + "'\">Accés Modèle 3D</div></td>";
+					else	textEvent +="<td><div>X</div></td>";	
 				}
 				else{
-					textEvent += "<tr><td align=left><span id=title>" + tabEvent[j][1] + "</span></td><td><span>" + tabEvent[j][2]+ "</span></td>" 
+					textEvent += "<tr><td align=left><span id=title>" + tabEvent[j][1] + "</span></td><td><span>" + tabEvent[j][2]+ "</span></td>";
 					if(tabEvent[j][3] != ""){
 						textEvent += "<td><div class=\"acces3D\" onClick=\"document.location.href='/modele/"+	tabEvent[j][3] + "'\">Accés Modèle 3D</div></td>";
 					}
 					else	textEvent +="<td><div>X</div></td>";
 				}		
-				textEvent += "</tr>"
+				textEvent += "</tr>";
 			}
 		}//																			
 	}

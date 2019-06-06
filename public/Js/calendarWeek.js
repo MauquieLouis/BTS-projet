@@ -28,7 +28,7 @@ class calWeek{
 					this.currWeek++;
 			  break;
 		  case '+-':
-			  affichageEvent(dd+"/"+syntaxe(mm,1)+"/"+yyyy);
+			  affichageEvent(syntaxe(dd,0)+"/"+syntaxe(mm,1)+"/"+yyyy);
 			  this.currWeek = nbWeeks(dd, mm, yyyy);
 			  this.currYear = yyyy;
 			  break;
