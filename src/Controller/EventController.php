@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\NewEventFormType;
 use App\Entity\Event;
@@ -31,6 +32,35 @@ class EventController extends AbstractController
     {   
         return $this->render('event/index.html.twig', [
         ]);
+    }
+    /**
+     * @Route("/event/complete/{id}", name="completeEvent")
+     */
+    public function completeEvent(Event $event, Request $request, EntityManagerInterface $em){
+        $form = $this->createFormBuilder()
+        ->add('Commentaire' ,TextareaType::class)->getForm();
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $event2 = new Event();
+            $event2 = $event;
+            $event2->setValid(true);
+            
+            $frequence = $event->getFrequence();
+            $mesure = preg_replace('~[0-9]~', '', $frequence);
+            $frequence = preg_replace('~\D~', '', $frequence);
+            $date = new \DateTime();
+            $nextDate = $this->ModifyDate($date, $frequence, $mesure);
+            
+            $event->setDateStart($nextDate);
+            $event->setDescription($form->getData()['Commentaire']);
+            $event2->setDateEnd($date);
+            $em->persist($event);
+            $em->persist($event2);
+            $em->flush();
+            $this->addFlash('info', 'Maintenace Complétée');
+            return $this->redirectToRoute('home');
+        }
+        return $this->render('event/completeEvent.html.twig', ['form'=>$form->createView()]);
     }
     /**
      * @Route("/event/{id}/delete", name="event_delete")
@@ -163,34 +193,34 @@ class EventController extends AbstractController
             'pagination' => $pagination,
         ]);
     }
+    
+    private function ModifyDate($date, $frequence, $mesure){
+       $date = $date->format('Y-m-d');
 
-   
-   private function ModifyDate($date, $frequence, $mesure)
-    {
-        
-        $date = $date->format('Y-m-d');
-//         dump($date);
-        $datemodifie = new \DateTime($date);
-        switch ($mesure)
-        {
-            case "d":
-                $datemodifie = $datemodifie->modify('+'.$frequence.' day');
-                break;
-            case "w":
-                $datemodifie = $datemodifie->modify('+'.$frequence.' week');
-                break;
-            case "m":
-                $datemodifie = $datemodifie->modify('+'.$frequence.' month');
-                break;
-            case "y":
-                $datemodifie = $datemodifie->modify('+'.$frequence.' year');
-                break;
-            default:
-                dd("Error Switch :  private function ModifyDate($"."date, $"."frequence, $"."mesure)");
-                break;
-        }
-//         $datemodifie = $datemodifie->modify('+'.$frequence.'days');
-        return $datemodifie;
+       $datemodifie = new \DateTime($date);
+      
+       switch($unit){
+           case 'd':
+               $frequence.= ' day';
+               break;
+           case 'w':
+               $frequence .=' week';
+               break;
+           case 'm':
+               $frequence.= ' month';
+               break;
+           case 'y':
+               $frequence .= ' year';
+               break;
+           default:
+               dd("Error Switch :  private function ModifyDate($"."date, $"."frequence, $"."mesure)");
+               break;
+       }
+      
+       $datemodifie = $datemodifie->modify('+'.$frequence);
+      // dd($date);
+       return $datemodifie;
+       
     }
 }
     
