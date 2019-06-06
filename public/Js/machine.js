@@ -296,6 +296,7 @@ class Machines{
 			new THREE.MeshBasicMaterial( { map: image6, side: THREE.DoubleSide, name:"derriere"} ) // BACK SIDE
 		];
 		var material4 = new THREE.MeshFaceMaterial( cubeMaterials);
+		
 /////////////////////Création du cube/////////////////////
 		this.cube = new THREE.Mesh( geometry2, material4);
 		this.cube.name="machine";
