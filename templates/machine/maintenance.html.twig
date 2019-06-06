@@ -37,7 +37,7 @@
                             <div class="card-button-listeMachine">
                                
                                 <a href =  {{ path('modele3D', {'slug' : maintenance.id}) }} class="btn btn-primary">
-                                	<div style="font-size:14px;">AccËs ‡ la maintenance  &nbsp;<i class="fas fa-long-arrow-alt-right"></div></i>
+                                	<div style="font-size:14px;">Acc√®s √† la maintenance  &nbsp;<i class="fas fa-long-arrow-alt-right"></div></i>
                                 </a>
                                  {% if is_granted('ROLE_ADMIN') %}
                                     <a href="{{ path('maintenanceedition', {'id' : maintenance.id }) }}" class="btn btn-secondary">
@@ -83,12 +83,12 @@
     <!-- ============================ FORMULAIRE CREATION MAINTENANCE ========================================= -->
   	    {% if is_granted('ROLE_ADMIN') %}
 		<div id="formMachine" class="col-12 offset-md-2 col-md-8 offset-lg-4 col-lg-4" hidden>
-        	<h2>Creer une nouvelle maintenance :</h2>
+        	<h2>Cr√©er une nouvelle maintenance :</h2>
             {{ form_start(formMaintenance) }}
 {#            	    {{ form_row(formMaintenance.nom, {'attr':{'placeholder' : "Nom de la maintenance"}}) }}#}
        	   	 {{ form_widget(formMaintenance.nom,{'attr' : {'class': 'form-control form-control-sm', 'placeholder' : 'Nom de la maintenance'}}) }}
                         <div style="margin-top:5px">
-                        	<h3 style="display:inline;">{{ form_label(formMaintenance.picturefile) }}</h3>
+                        	<h3 style="display:inline;">{{ form_label(formMaintenance.picturefile,'Choisir une image') }}</h3>
                             {{ form_widget(formMaintenance.picturefile,{'attr' : {'class': 'btn btn-info btn-sm floatRight'}}) }}
                         </div>
            	    <button type="submit" class="btn btn-primary">Enregistrer</button>

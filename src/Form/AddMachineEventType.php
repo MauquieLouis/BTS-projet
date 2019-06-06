@@ -47,7 +47,7 @@ class AddMachineEventType extends AbstractType
 //             dump($listeMachine);s
             $form->add('maintenancesDispo', ChoiceType::class,[
 //                 'class' => Machine::class,
-                'placeholder'=>'Choisir une machine',
+                'placeholder'=>'Choisir une maintenance',
                 'choices' => array_flip($listeMachine)
             ]);
         };
