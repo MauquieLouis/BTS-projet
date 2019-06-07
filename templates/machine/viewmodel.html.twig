@@ -40,7 +40,7 @@
                             {{ form_widget(saveAllSprites.position, {'attr':{'hidden':true}}) }}         	     
                             {{ form_widget(saveAllSprites.camera, {'attr':{'hidden':true}}) }}       	     
                             {{ form_widget(saveAllSprites.etape, {'attr':{'hidden':true}}) }}
-                            <button type="submit" class="btn btn-primary" id="btnSauvegarder" onclick="TableauHTMLTEST.ModifOrdreEtape();cube.SaveTable();//cube.validationChangementEtape();" >Sauvegarder</button>
+                            <button type="submit" class="btn btn-primary" id="btnSauvegarder" onclick="TableauHTMLTEST.ModifOrdreEtape();cube.SaveTable(); cube.ModificationEnCours(2);//cube.validationChangementEtape();" >Sauvegarder</button>
                         {{ form_end(saveAllSprites) }}
                 	</div> 
                 {% endif %}
@@ -108,7 +108,7 @@
                 	</br>
                 	{% if is_granted('ROLE_ADMIN') %}	
                     	<div style="margin-left : 5%">
-                    		<button class="btn btn-secondary" onclick="cube.OneSpriteModif()">Enregistrer</button>
+                    		<button class="btn btn-secondary" onclick="cube.OneSpriteModif(); cube.ModificationEnCours(1);" >Enregistrer</button>
                     	</div>
                 	{% endif %}
 				</div>                 
@@ -131,8 +131,8 @@
                         	<button class="btn btn-outline-info" onclick="TableauHTMLTEST.upNdown('up');">&ShortUpArrow;</button>
                             <button class="btn btn-outline-info" onclick="TableauHTMLTEST.upNdown('down');">&ShortDownArrow;</button>
                             <button class="btn btn-outline-info" onclick="TableauHTMLTEST.ReinitialisationAffichage();//triTableau();//cube.SaveTable();//validationChangementEtape();console.log('problemeHTML');)">Trier</button>
-                            <button class="btn btn-outline-info" onclick="TableauHTMLTEST.ModifOrdreEtape();//validationChangementEtape();">Enregistrer changement</button>
-                            <button class="btn btn-danger" onclick="cube.deleteSprite();">Supprimer</button>
+                            <button class="btn btn-outline-info" onclick="TableauHTMLTEST.ModifOrdreEtape();//validationChangementEtape(); cube.ModificationEnCours(1);">Enregistrer changement</button>
+                            <button class="btn btn-danger" onclick="cube.deleteSprite(); cube.ModificationEnCours(1);">Supprimer</button>
   				 		</div>
    			        {% endif %}
     			</div>

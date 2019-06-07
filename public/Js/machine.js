@@ -19,6 +19,7 @@ class Machines{
 		this.etapeEnCours = 1;		// Attribut qui permet de connaitre l'etape en cours.
 		this.initEcartTooltip = 2;	// Attribut, qui avance de 2 le sprite apres sa creation.
 		this.createSprite = 'stop';
+		this.modificationEnCours = 0;
 	}
 	createMachine(scene, imgDroite, imgLeft, imgTop, imgBottom, imgFront, imgBack)
 	{
@@ -192,7 +193,7 @@ class Machines{
 					this.sprites.sort(function(a,b){return a.etape - b.etape;}); //Tri le tableau dans l'ordre des étapes
 					console.log(this.sprites);
 					TableauHTMLTEST.ReinitialisationAffichage();
-					document.getElementById("OrdreEtape").innerHTML = 0; // affiche 0/nombre d'étape existante
+					document.getElementById("OrdreEtape").innerHTML = 0; // affiche 0/nombre d'étape existante					
 				}
 				else
 				{
@@ -204,7 +205,7 @@ class Machines{
 				alert('Erreur: index non renseigné !!');
 			}
 		}
-		document.getElementById('btnSauvegarder').hidden = cube.sprites.length? false : true;
+//		document.getElementById('btnSauvegarder').hidden = cube.sprites.length? false : true;
 	}
 	moveSprite(axe, speed) // deplace une sprite sur un axe
 	{
@@ -267,7 +268,7 @@ class Machines{
 		document.getElementById("MenuNavFixe").classList.toggle("AjoutEtape");
 		document.getElementById("btnPositionduCube").classList.toggle("AjoutEtape");
 		
-		for(let i=0;i<buttonPage.length;i++)
+		for(let i=0;i<bouttonPage.length;i++)
 		{
 			document.getElementById(bouttonPage[i]).disabled  = document.getElementById(bouttonPage[i]).disabled? false:true;			
 		}
@@ -385,6 +386,10 @@ class Machines{
 	{
 		this.positionCamera = parseInt(face);
 		this.cubeMove(0);
+	}
+	ModificationEnCours(etat)
+	{
+		this.modificationEnCours = etat;
 	}
 }
 /* FIN CLASSE Machines*/
@@ -889,7 +894,7 @@ function Keyboard(event)
 	}
 	if(event.keyCode == 46) //Delete btn suppr.
 	{
-		cube.deleteSprite();
+//		cube.deleteSprite();
 	}
 	if(event.keyCode == 37) //console.log("fleche de gauche");
 	{
@@ -1009,6 +1014,7 @@ window.oncontextmenu= function OnContextMenu(e){ // clic droit
 						cube.sprite.idBDD,
 						cube.sprite.id);
 				cube.ToggleSprite();
+				cube.ModificationEnCours(1);
 			}
 		}
 	}
@@ -1020,3 +1026,31 @@ window.oncontextmenu= function OnContextMenu(e){ // clic droit
 //		if(intersect.object.name === 'machine'){}
 //	})
 }
+window.onbeforeunload = function(){
+	if(cube.modificationEnCours === 1) // Si une modification a eu lieu sur les annotations.
+	{
+		return "Etes vous sûr de vouloir fermer ?";
+	}
+	else(cube.modificationEnCours === 0) // Si aucune modification n'a eu lieu on supprime les objets
+	{	
+		while(cube.sprites[0]!= null)
+		{
+			cube.sprites[0].onClick();
+			cube.sprite = cube.sprites[0];
+			TableauHTMLTEST.Actualisation;
+			for(var i=0; i< TableauHTMLTEST.tableau.rows.length; i++)
+			{				
+				if(parseInt(TableauHTMLTEST.GetCellValue(i,4)) === cube.sprite.id) // Correspondance entre l'étape qui est affiché sur le tableau et celle qui est sélectionnée
+				{
+					tableSprite.rows[i].onclick();									
+				}
+			}
+			cube.deleteSprite();	
+	
+		}
+	//	cube.scene.remove(cube.cube);
+		scene.remove(cube.cube);
+		cube = null; 
+	}
+	
+};
