@@ -306,7 +306,7 @@ class Machines{
 	{
 		this.scene = scene;
 		let imageSurface = image.split(';');
-		var geometry2 = new THREE.BoxGeometry( 100, 100, 100 ); // Creation d'un cube de 100 de côtés
+		var geometry2 = new THREE.BoxGeometry( 10, 10, 10 ); // Creation d'un cube de 100 de côtés
 		//	CHARGEMENT DES IMAGES
 		if(imageSurface[0]){var image1 = new THREE.TextureLoader().load('../../image/modele/'+modeleID+'/'+imageSurface[0]);}
 		if(imageSurface[1])var image2 = new THREE.TextureLoader().load('../../image/modele/'+modeleID+'/'+imageSurface[1]);
@@ -684,7 +684,25 @@ const material = new THREE.MeshBasicMaterial({
 material.transparent = true;
 sphere = new THREE.Mesh(geometrysphere, material);
 sphere.receiveShadow = true;
-scene.add(sphere);;
+scene.add(sphere);
+
+//Création du modèle 3D
+const loader4 = new THREE.STLLoader();
+//loader4.load( '../../image/modele/fichierSTL/SupportDemiCellules.stl', function ( geometry ) {
+//	var material6 = new THREE.MeshNormalMaterial()
+//	mesh3 = new THREE.Mesh(geometry, material6)
+//	scene.add( mesh3 );		
+//});
+loader4.load( '../../image/modele/fichierSTL/SupportDemiCellules.stl', function ( geometry ){
+	var material6 = new THREE.MeshNormalMaterial();
+	mesh3 = new THREE.Mesh(geometry, material6);
+	mesh3.name="Modele3DLOad";
+	scene.add( mesh3 );
+	
+});
+
+console.log(scene);
+
 //création de la machine
 let cube = new Machines();
 cube.RestoreMachine(scene,cutFileName,machineNamed,modeleID);
@@ -982,16 +1000,18 @@ function Keyboard(event)
 	if(event.keyCode == 80) //p
 	{
 //		cube.EtapeChangement(-1);
+		console.log(mesh3.name);
 	}
 	if(event.keyCode == 77) //m
 	{
-		  
+	
 	}
 }
 function onScreenChange(){console.log('screenchange');}
 function fn() // Lorsque la page est chargée la fonction se déclenche
 {
 //	onResize();
+
 	cube.sprite = cube.sprites[0];
 	if(cube.sprite)
 	{
@@ -999,6 +1019,9 @@ function fn() // Lorsque la page est chargée la fonction se déclenche
 	}
 	document.getElementById('myCanvasElement').style.borderTop = "1px solid #00a1d7";
 	document.getElementById('myCanvasElement').style.borderLeft = "1px solid #00a1d7";
+	
+
+
 }
 function ready()
 {
@@ -1060,11 +1083,12 @@ window.oncontextmenu= function OnContextMenu(e){ // clic droit
 		);	
 	rayCaster.setFromCamera(mouse, camera);	
 	let intersects = rayCaster.intersectObjects(scene.children); // Regarde ce qui rencontre les "enfants" de la scène: tooltip, sphère...
+	console.log(intersects[0]);
 	if(cube.createSprite == 'start')
 	{
 		if(intersects[0].object.name);
 		{
-			if(intersects[0].object.name == 'machine')
+			if(intersects[0].object.name == 'Modele3DLOad')
 			{
 				nVarNom = document.getElementById('CreationEtapeNom').value;
 				nVarInfo = document.getElementById('CreationEtapeDescription').value;
