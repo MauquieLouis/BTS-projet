@@ -248,6 +248,14 @@ class Machines{
 			this.createSprite = 'stop';
 			document.getElementById("BtnCreerEtape").innerHTML = "Créer"; 
 //			document.getElementById("menuModele").classList.remove('AjoutEtape');
+//			document.getElementById('btntest').addAttribute("href");
+//			document.getElementById('btnUtilisateurs').href = linkBtn1;
+//			document.getElementById('btnModeles').href = linkBtn2;
+//			document.getElementById('btnEvenements').href = linkBtn3;
+			for(let i=0; i < hrefBtnsToDisable.length; i++)
+			{
+				document.getElementById(idBtnsToDisable[i]).href = hrefBtnsToDisable[i]; 				
+			}
 		}
 		else
 		{
@@ -255,6 +263,18 @@ class Machines{
 			spriteCreate.classList.add('on');
 			this.createSprite = 'ready';
 			document.getElementById("BtnCreerEtape").innerHTML = "Annuler"; 
+			document.getElementById('btnUtilisateurs').removeAttribute("href");
+			document.getElementById('btnModeles').removeAttribute("href");
+			document.getElementById('btnEvenements').removeAttribute("href");
+			btnHome
+			btnLogOut
+			btnInformationsCompte
+			for(let i=0; i < hrefBtnsToDisable.length; i++)
+			{
+				document.getElementById(idBtnsToDisable[i]).removeAttribute("href");
+//				hrefBtnsToDisable[i] = document.getElementById(idBtnsToDisable[i]).href; 				
+			}
+
 //			document.getElementById("menuModele").classList.add('AjoutEtape');
 			
 		}
@@ -272,7 +292,12 @@ class Machines{
 		{
 			document.getElementById(bouttonPage[i]).disabled  = document.getElementById(bouttonPage[i]).disabled? false:true;			
 		}
+
+
 		
+	
+		
+//		document.getElementById('btntest').href = x;
 //		document.getElementById("container-fluid").classList.toggle("AjoutEtape"); 
 
 		
@@ -660,8 +685,36 @@ const rayCaster = new THREE.Raycaster();
 
 var bouttonPage=
 	[
-		'ongletInformation',		
+		'ongletInformation',	
+		'ongletTableau',
+		'ongletHistorique',
+	
 	];
+var idBtnsToDisable = 
+	[
+		'BtnCreerEtape', 'btnUtilisateurs',
+		'btnModeles', 'btnEvenements',
+		'btnHome', 'btnLogOut',
+		'btnInformationsCompte'
+	];
+var btn1, btn2, btn3, btn4, btn5, btn6, btn7;
+var hrefBtnsToDisable= 
+	[
+		btn1, btn2, 
+		btn3, btn4,
+		btn5, btn6,
+		btn7
+	];
+// lien des boutons du menu haut
+for(let i=0; i< idBtnsToDisable.length; i++)
+{
+	hrefBtnsToDisable[i] = document.getElementById(idBtnsToDisable[i]).href; 
+}
+//var linkBtn1 = document.getElementById("btnUtilisateurs").href;
+//var linkBtn2 = document.getElementById("btnModeles").href;
+//var linkBtn3 = document.getElementById("btnEvenements").href;
+
+
 
 function onClick(e)
 {

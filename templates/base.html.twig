@@ -22,7 +22,7 @@
     				<div class="col-2">		<!-- Deux colonne pour l'image (peut importe la taille de l'écran (A AMELIORER) -->
     				<!-- Chargement de l'image (ligne en dessous -->
 {#     				{% if is_granted('ROLE_USER') %}#}
-  						<a href="{{ path('Home') }}">
+  						<a href="{{ path('Home') }}" id="btnHome">
 {#   					{% endif %}#}
   					<img src = "{{ asset('/image/Farella.png') }}"  height="80" style="border-bottom: 1px solid #AAAAAA;"> 
 {#   					{% if is_granted('ROLE_USER') %}#}
@@ -33,10 +33,10 @@
     					{% if is_granted('ROLE_NOUVEAU') %}	<!-- Si la personne connecté à le role_nouveau (ce qui est le cas pour les nouveaux comptes) on affiche le logo de déconexion -->
     						<div class="MenuUser" id="MenuUser">
         						<!-- On rend le logo clicable, puis il est chargé avec une biblithèque  -->
-        						<a href="{{ path('app_logout') }}" class="btnMenuLogSet">
+        						<a href="{{ path('app_logout') }}" class="btnMenuLogSet" id="btnLogOut">
         								<i class="fas fa-power-off logoLogout" id="logout" hidden></i>		
         						</a>
-        						<a href="{{ path('compteInformations') }}" class="btnMenuLogSet">
+        						<a href="{{ path('compteInformations') }}" class="btnMenuLogSet" id="btnInformationsCompte">
         							<i class="fas fa-cog logoSettings" id="settings" hidden></i>
         						</a>
     						</div>
@@ -51,21 +51,21 @@
                 				<div class="row menuLien menuLien" id="menuLien">   					
                 					<div class="col-12 col-md-3 ">
                     					 {% if is_granted('ROLE_ADMIN') %}
-                    						<a href="{{ path('admin_UserControl') }}"><h2>Utilisateurs</h2></a>
+                    						<a href="{{ path('admin_UserControl') }}" id="btnUtilisateurs"><h2>Utilisateurs</h2></a>
                       				    {% else %}
                     						<h2>Btnn1</h2>
                       				    {% endif %}
                     				</div>
                         				<div class="col-12 col-md-3 ">
                         					 {% if is_granted('ROLE_ADMIN') %}
-                        						<a href="{{ path('modelesmachines') }}"><h2>Accès Modèles</h2></a>
+                        						<a href="{{ path('modelesmachines') }}" id="btnModeles"><h2>Accès Modèles</h2></a>
                           				    {% else %}
                         						<h2>Btnn2</h2>
                           				    {% endif %}
                         				</div>
                         				<div class="col-12 col-md-3 ">
                         					 {% if is_granted('ROLE_ADMIN') %}
-                        						<a href="{{ path('event') }}"><h2>Événements</h2></a>
+                        						<a href="{{ path('event') }}" id="btnEvenements"><h2>Événements</h2></a>
                           				    {% else %}
                         						<h2>Btnn2</h2>
                           				    {% endif %}
