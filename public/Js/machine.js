@@ -1099,7 +1099,7 @@ window.oncontextmenu= function OnContextMenu(e){ // clic droit
 					info : nVarInfo,
 					etape: cube.sprites.length+1,
 					scene : cube
-				});
+				}); 
 				cube.addTooltip(cube.points[cube.points.length-1]);
 				if(cube.sprites[cube.sprites.length-1].position.x <= (intersects[0].object.geometry.parameters.width/2 +0.09) && cube.sprites[cube.sprites.length-1].position.x >= (intersects[0].object.geometry.parameters.width/2 - 0.101)) { cube.sprites[cube.sprites.length-1].position.x += cube.initEcartTooltip;}
 				if(cube.sprites[cube.sprites.length-1].position.x >= -(intersects[0].object.geometry.parameters.width/2 +0.09) && cube.sprites[cube.sprites.length-1].position.x <= -(intersects[0].object.geometry.parameters.width/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.x -= cube.initEcartTooltip;}
