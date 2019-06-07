@@ -673,10 +673,10 @@ btnCameraFaceCube.style.right = windowWidth/2 - 30 + 'px';
 var USE_WIREFRAME = false;
 const geometrysphere = new THREE.SphereGeometry(400, 400, 400);
 const textureLoader = new THREE.TextureLoader();
-const material = new THREE.MeshPhongMaterial({
+const material = new THREE.MeshBasicMaterial({
 // 	map: texture,
- 	color: 0xECECEC,
-// 	color: 0xCAD7DA, 
+// 	color: 0xECECEC,
+ 	color: 0xCAD7DA, 
 //	color: 0xffffff,
 	side: THREE.DoubleSide,
 //	wireframe:USE_WIREFRAME
