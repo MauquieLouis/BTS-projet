@@ -670,16 +670,20 @@ const btnCameraFaceCube = document.querySelector('.btnPositionduCube');
 btnCameraFaceCube.style.top = ecartHeightMenuCanvas + windowHeight +'px';
 btnCameraFaceCube.style.right = windowWidth/2 - 30 + 'px';
 // Création sphère	////////////////////////////////////////////////////////////////////////////////////
+var USE_WIREFRAME = false;
 const geometrysphere = new THREE.SphereGeometry(400, 400, 400);
 const textureLoader = new THREE.TextureLoader();
-const material = new THREE.MeshBasicMaterial({
+const material = new THREE.MeshPhongMaterial({
 // 	map: texture,
-// 	color: 0xECECEC,
- 	color: 0xCAD7DA, 	
-	side: THREE.DoubleSide
+ 	color: 0xECECEC,
+// 	color: 0xCAD7DA, 
+//	color: 0xffffff,
+	side: THREE.DoubleSide,
+//	wireframe:USE_WIREFRAME
 })
 material.transparent = true;
 sphere = new THREE.Mesh(geometrysphere, material);
+sphere.receiveShadow = true;
 scene.add(sphere);;
 //création de la machine
 let cube = new Machines();
@@ -688,17 +692,17 @@ cube.appear();
 cube.castShadow = true;
 cube.receiveShadow = false;
 
-var meshFloor, ambientLight, light;
-ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
-scene.add(ambientLight);
-sphere.receiveShadow = true;
+//var meshFloor, ambientLight, light;
+//ambientLight = new THREE.AmbientLight(0x000022, 0.8);
+//scene.add(ambientLight);
 
-light = new THREE.PointLight(0xffffff, 0.8, 18);
-light.position.set(120,120,120);
-light.castShadow = true;
-light.shadow.camera.near = 0.1;
-light.shadow.camera.far = 25;
-scene.add(light);
+
+//light = new THREE.PointLight(0xffffff, 0.8, 18);
+//light.position.set(10,10,10);
+//light.castShadow = true;
+//light.shadow.camera.near = 0.1;
+//light.shadow.camera.far = 25;
+//scene.add(light);
 
 const rayCaster = new THREE.Raycaster();
 
@@ -713,16 +717,14 @@ var idBtnsToDisable =
 	[
 		'BtnCreerEtape', 'btnUtilisateurs',
 		'btnModeles', 'btnEvenements',
-		'btnHome', 'btnLogOut',
-		'btnInformationsCompte'
+		'btnHome', 
 	];
 var btn1, btn2, btn3, btn4, btn5, btn6, btn7;
 var hrefBtnsToDisable= 
 	[
 		btn1, btn2, 
 		btn3, btn4,
-		btn5, btn6,
-		btn7
+		btn5,
 	];
 // lien des boutons du menu haut
 for(let i=0; i< idBtnsToDisable.length; i++)

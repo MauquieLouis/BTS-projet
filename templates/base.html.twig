@@ -53,21 +53,21 @@
                     					 {% if is_granted('ROLE_ADMIN') %}
                     						<a href="{{ path('admin_UserControl') }}" id="btnUtilisateurs"><h2>Utilisateurs</h2></a>
                       				    {% else %}
-                    						<h2>Btnn1</h2>
+                    						<h2  id="btnUtilisateurs">Btnn1</h2>
                       				    {% endif %}
                     				</div>
                         				<div class="col-12 col-md-3 ">
                         					 {% if is_granted('ROLE_ADMIN') %}
                         						<a href="{{ path('modelesmachines') }}" id="btnModeles"><h2>Accès Modèles</h2></a>
                           				    {% else %}
-                        						<h2>Btnn2</h2>
+                        						<h2 id="btnModeles">Btnn2</h2>
                           				    {% endif %}
                         				</div>
                         				<div class="col-12 col-md-3 ">
                         					 {% if is_granted('ROLE_ADMIN') %}
                         						<a href="{{ path('event') }}" id="btnEvenements"><h2>Événements</h2></a>
                           				    {% else %}
-                        						<h2>Btnn2</h2>
+                        						<h2 id="btnEvenements">Btnn2</h2>
                           				    {% endif %}
                         					
                     					</div>
