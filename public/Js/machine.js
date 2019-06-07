@@ -638,6 +638,9 @@ var IToResize = 0; // variable pour définir quand rentrer dans la fonction OnRe
 ////////////////RENDU//////////////////////////////////////////////////////////
 const renderer = new THREE.WebGLRenderer({canvas: myCanvasElement});// Rendu
 renderer.setSize( windowWidth, windowHeight);
+renderer.shadowMapEnabled = true;
+renderer.shadowMap.type = THREE.BasicShadowMap;
+
 container.appendChild(renderer.domElement);
 var tableSprite = document.getElementById("table");
 ///////////////////////////////////////////////////////////////////////////////
@@ -671,7 +674,8 @@ const geometrysphere = new THREE.SphereGeometry(400, 400, 400);
 const textureLoader = new THREE.TextureLoader();
 const material = new THREE.MeshBasicMaterial({
 // 	map: texture,
- 	color: 0xECECEC,
+// 	color: 0xECECEC,
+ 	color: 0xCAD7DA, 	
 	side: THREE.DoubleSide
 })
 material.transparent = true;
@@ -681,6 +685,21 @@ scene.add(sphere);;
 let cube = new Machines();
 cube.RestoreMachine(scene,cutFileName,machineNamed,modeleID);
 cube.appear();
+cube.castShadow = true;
+cube.receiveShadow = false;
+
+var meshFloor, ambientLight, light;
+ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+scene.add(ambientLight);
+sphere.receiveShadow = true;
+
+light = new THREE.PointLight(0xffffff, 0.8, 18);
+light.position.set(120,120,120);
+light.castShadow = true;
+light.shadow.camera.near = 0.1;
+light.shadow.camera.far = 25;
+scene.add(light);
+
 const rayCaster = new THREE.Raycaster();
 
 var bouttonPage=
@@ -976,7 +995,8 @@ function fn() // Lorsque la page est chargée la fonction se déclenche
 	{
 		cube.sprite.onClick();
 	}
-	
+	document.getElementById('myCanvasElement').style.borderTop = "1px solid #00a1d7";
+	document.getElementById('myCanvasElement').style.borderLeft = "1px solid #00a1d7";
 }
 function ready()
 {
