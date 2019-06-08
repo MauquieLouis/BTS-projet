@@ -20,7 +20,7 @@ class Machines{
 		this.initEcartTooltip = 2;	// Attribut, qui avance de 2 le sprite apres sa creation.
 		this.createSprite = 'stop';
 		this.modificationEnCours = 0;
-	}
+	}	
 	createMachine(scene, imgDroite, imgLeft, imgTop, imgBottom, imgFront, imgBack)
 	{
 		this.scene = scene; 
@@ -306,7 +306,7 @@ class Machines{
 	{
 		this.scene = scene;
 		let imageSurface = image.split(';');
-		var geometry2 = new THREE.BoxGeometry( 10, 10, 10 ); // Creation d'un cube de 100 de côtés
+		var geometry2 = new THREE.BoxGeometry( 100, 100, 100 ); // Creation d'un cube de 100 de côtés
 		//	CHARGEMENT DES IMAGES
 		if(imageSurface[0]){var image1 = new THREE.TextureLoader().load('../../image/modele/'+modeleID+'/'+imageSurface[0]);}
 		if(imageSurface[1])var image2 = new THREE.TextureLoader().load('../../image/modele/'+modeleID+'/'+imageSurface[1]);
@@ -415,6 +415,22 @@ class Machines{
 	ModificationEnCours(etat)
 	{
 		this.modificationEnCours = etat;
+	}
+	Machine3D()
+	{
+		this.scene = scene;
+		console.log('alert');		console.log('alert');		console.log('alert');
+		for(let i=0; i< scene.children.length;i++)
+		{
+			console.log(scene.children.length);
+			if(scene.children[i].name == 'Modele3DLoad')
+			{
+				console.log('match Modele3DLoad');
+				console.log(this.cube);
+				this.cube = scene.children[i];
+				console.log(this.cube);
+			}
+		}
 	}
 }
 /* FIN CLASSE Machines*/
@@ -687,21 +703,23 @@ sphere.receiveShadow = true;
 scene.add(sphere);
 
 //Création du modèle 3D
-const loader4 = new THREE.STLLoader();
+//const loader4 = new THREE.STLLoader();
+//loader4.load( '../../image/modele/fichierSTL/SupportDemiCellules.stl', function ( geometry ){
+//	var material6 = new THREE.MeshNormalMaterial();
+//	mesh3 = new THREE.Mesh(geometry, material6);
+//	mesh3.name="Modele3DLoad";
+//	scene.add( mesh3 );			
+//});
+
 //loader4.load( '../../image/modele/fichierSTL/SupportDemiCellules.stl', function ( geometry ) {
 //	var material6 = new THREE.MeshNormalMaterial()
 //	mesh3 = new THREE.Mesh(geometry, material6)
 //	scene.add( mesh3 );		
 //});
-loader4.load( '../../image/modele/fichierSTL/SupportDemiCellules.stl', function ( geometry ){
-	var material6 = new THREE.MeshNormalMaterial();
-	mesh3 = new THREE.Mesh(geometry, material6);
-	mesh3.name="Modele3DLOad";
-	scene.add( mesh3 );
-	
-});
 
-console.log(scene);
+
+
+
 
 //création de la machine
 let cube = new Machines();
@@ -709,7 +727,6 @@ cube.RestoreMachine(scene,cutFileName,machineNamed,modeleID);
 cube.appear();
 cube.castShadow = true;
 cube.receiveShadow = false;
-
 //var meshFloor, ambientLight, light;
 //ambientLight = new THREE.AmbientLight(0x000022, 0.8);
 //scene.add(ambientLight);
@@ -753,8 +770,9 @@ for(let i=0; i< idBtnsToDisable.length; i++)
 //var linkBtn2 = document.getElementById("btnModeles").href;
 //var linkBtn3 = document.getElementById("btnEvenements").href;
 
-
-
+console.log(scene);
+console.log(scene.children);
+console.log(scene.children.length);
 function onClick(e)
 {
 //	console.log(e);
@@ -1019,13 +1037,16 @@ function fn() // Lorsque la page est chargée la fonction se déclenche
 	}
 	document.getElementById('myCanvasElement').style.borderTop = "1px solid #00a1d7";
 	document.getElementById('myCanvasElement').style.borderLeft = "1px solid #00a1d7";
-	
+	console.log(scene.children[2]);
 
 
 }
 function ready()
 {
 	setTimeout(function(){onResize();},10);
+//	setTimeout(function(){
+//		cube.Machine3D();;
+//		},1000);
 }
 function moveNavBar(visible,cache1,cache2,cache3)
 {
@@ -1084,11 +1105,14 @@ window.oncontextmenu= function OnContextMenu(e){ // clic droit
 	rayCaster.setFromCamera(mouse, camera);	
 	let intersects = rayCaster.intersectObjects(scene.children); // Regarde ce qui rencontre les "enfants" de la scène: tooltip, sphère...
 	console.log(intersects[0]);
+//	console.log(intersects[0].object.geometry);
+	console.log(intersects[0].face.normal);
 	if(cube.createSprite == 'start')
 	{
 		if(intersects[0].object.name);
 		{
-			if(intersects[0].object.name == 'Modele3DLOad')
+//			if(intersects[0].object.name == 'Modele3DLoad')
+			if(intersects[0].object.name == 'machine')
 			{
 				nVarNom = document.getElementById('CreationEtapeNom').value;
 				nVarInfo = document.getElementById('CreationEtapeDescription').value;
@@ -1101,12 +1125,19 @@ window.oncontextmenu= function OnContextMenu(e){ // clic droit
 					scene : cube
 				}); 
 				cube.addTooltip(cube.points[cube.points.length-1]);
-				if(cube.sprites[cube.sprites.length-1].position.x <= (intersects[0].object.geometry.parameters.width/2 +0.09) && cube.sprites[cube.sprites.length-1].position.x >= (intersects[0].object.geometry.parameters.width/2 - 0.101)) { cube.sprites[cube.sprites.length-1].position.x += cube.initEcartTooltip;}
-				if(cube.sprites[cube.sprites.length-1].position.x >= -(intersects[0].object.geometry.parameters.width/2 +0.09) && cube.sprites[cube.sprites.length-1].position.x <= -(intersects[0].object.geometry.parameters.width/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.x -= cube.initEcartTooltip;}
-				if(cube.sprites[cube.sprites.length-1].position.y <= (intersects[0].object.geometry.parameters.height/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.y >= (intersects[0].object.geometry.parameters.height/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.y += cube.initEcartTooltip;}
-				if(cube.sprites[cube.sprites.length-1].position.y >= -(intersects[0].object.geometry.parameters.height/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.y <= -(intersects[0].object.geometry.parameters.height/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.y -= cube.initEcartTooltip;}
-				if(cube.sprites[cube.sprites.length-1].position.z <= (intersects[0].object.geometry.parameters.depth/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.z >= (intersects[0].object.geometry.parameters.depth/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.z += cube.initEcartTooltip;}
-				if(cube.sprites[cube.sprites.length-1].position.z >= -(intersects[0].object.geometry.parameters.depth/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.z <= -(intersects[0].object.geometry.parameters.depth/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.z -= cube.initEcartTooltip;}
+				//Détecte la face et avance l'annotation sur l'axe afin qu'elle ne soit pas confondue sur l'objet
+				if((intersects[0].face.normal.z <= 1.1)&& (intersects[0].face.normal.z >= 0.9)){cube.sprites[cube.sprites.length-1].position.z += cube.initEcartTooltip;}
+				if((intersects[0].face.normal.z >= -1.1)&& (intersects[0].face.normal.z <= -0.9)){cube.sprites[cube.sprites.length-1].position.z -= cube.initEcartTooltip;}
+				if((intersects[0].face.normal.y <= 1.1)&& (intersects[0].face.normal.y >= 0.9)){cube.sprites[cube.sprites.length-1].position.y += cube.initEcartTooltip;}
+				if((intersects[0].face.normal.y >= -1.1)&& (intersects[0].face.normal.y <= -0.9)){cube.sprites[cube.sprites.length-1].position.y -= cube.initEcartTooltip;}
+				if((intersects[0].face.normal.x <= 1.1)&& (intersects[0].face.normal.x >= 0.9)){cube.sprites[cube.sprites.length-1].position.x += cube.initEcartTooltip;}
+				if((intersects[0].face.normal.x >= -1.1)&& (intersects[0].face.normal.x <= -0.9)){cube.sprites[cube.sprites.length-1].position.x -= cube.initEcartTooltip;}
+//				if(cube.sprites[cube.sprites.length-1].position.x <= (intersects[0].object.geometry.parameters.width/2 +0.09) && cube.sprites[cube.sprites.length-1].position.x >= (intersects[0].object.geometry.parameters.width/2 - 0.101)) { cube.sprites[cube.sprites.length-1].position.x += cube.initEcartTooltip;}
+//				if(cube.sprites[cube.sprites.length-1].position.x >= -(intersects[0].object.geometry.parameters.width/2 +0.09) && cube.sprites[cube.sprites.length-1].position.x <= -(intersects[0].object.geometry.parameters.width/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.x -= cube.initEcartTooltip;}
+//				if(cube.sprites[cube.sprites.length-1].position.y <= (intersects[0].object.geometry.parameters.height/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.y >= (intersects[0].object.geometry.parameters.height/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.y += cube.initEcartTooltip;}
+//				if(cube.sprites[cube.sprites.length-1].position.y >= -(intersects[0].object.geometry.parameters.height/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.y <= -(intersects[0].object.geometry.parameters.height/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.y -= cube.initEcartTooltip;}
+//				if(cube.sprites[cube.sprites.length-1].position.z <= (intersects[0].object.geometry.parameters.depth/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.z >= (intersects[0].object.geometry.parameters.depth/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.z += cube.initEcartTooltip;}
+//				if(cube.sprites[cube.sprites.length-1].position.z >= -(intersects[0].object.geometry.parameters.depth/2 + 0.09) && cube.sprites[cube.sprites.length-1].position.z <= -(intersects[0].object.geometry.parameters.depth/2 - 0.101)) {cube.sprites[cube.sprites.length-1].position.z -= cube.initEcartTooltip;}
 				TableauHTMLTEST.AjoutLigne(cube.sprite.name,
 						cube.sprite.information,
 						cube.sprite.etape,
@@ -1132,21 +1163,21 @@ window.onbeforeunload = function(){
 	}
 	else(cube.modificationEnCours === 0) // Si aucune modification n'a eu lieu on supprime les objets
 	{	
-		while(cube.sprites[0]!= null)
-		{
-			cube.sprites[0].onClick();
-			cube.sprite = cube.sprites[0];
-			TableauHTMLTEST.Actualisation;
-			for(var i=0; i< TableauHTMLTEST.tableau.rows.length; i++)
-			{				
-				if(parseInt(TableauHTMLTEST.GetCellValue(i,4)) === cube.sprite.id) // Correspondance entre l'étape qui est affiché sur le tableau et celle qui est sélectionnée
-				{
-					tableSprite.rows[i].onclick();									
-				}
-			}
-			cube.deleteSprite();	
-	
-		}
+//		while(cube.sprites[0]!= null)
+//		{
+//			cube.sprites[0].onClick();
+//			cube.sprite = cube.sprites[0];
+//			TableauHTMLTEST.Actualisation;
+//			for(var i=0; i< TableauHTMLTEST.tableau.rows.length; i++)
+//			{				
+//				if(parseInt(TableauHTMLTEST.GetCellValue(i,4)) === cube.sprite.id) // Correspondance entre l'étape qui est affiché sur le tableau et celle qui est sélectionnée
+//				{
+//					tableSprite.rows[i].onclick();									
+//				}
+//			}
+//			cube.deleteSprite();	
+//	
+//		}
 	//	cube.scene.remove(cube.cube);
 		scene.remove(cube.cube);
 		cube = null; 
