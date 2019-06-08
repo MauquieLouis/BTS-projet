@@ -63,6 +63,11 @@ class ModeleMachine
      */
     private $maintenances;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $fichier3d;
+
     public function __construct()
     {
         $this->machines = new ArrayCollection();
@@ -216,6 +221,18 @@ class ModeleMachine
                 $maintenance->setModele(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFichier3d(): ?string
+    {
+        return $this->fichier3d;
+    }
+
+    public function setFichier3d(?string $fichier3d): self
+    {
+        $this->fichier3d = $fichier3d;
 
         return $this;
     }

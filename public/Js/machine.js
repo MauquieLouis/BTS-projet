@@ -8,7 +8,7 @@ class Machines{
 		this.sprites = [];			// Conteneur de sprites
 		this.spritesPushInBdd= [];	// Conteneur de sprites à ajouter dans la bdd
 		this.cubes= [];				// Conteneur de cubes et normalement il n'y a qu'une cube
-		this.scene = null;			// contient la scene de la page web
+		this.scene = scene;			// contient la scene de la page web
 		this.cube = null;			// pointeur sur un cube du containeur cubes
 		this.sprite = null;			// pointeur sur un sprite
 		this.spriteScan =null;		// pointeur sur un sprite pour scanner
@@ -23,6 +23,7 @@ class Machines{
 	}	
 	createMachine(scene, imgDroite, imgLeft, imgTop, imgBottom, imgFront, imgBack)
 	{
+		return;
 		this.scene = scene; 
 		//création modèle de cube
 		var geometry2 = new THREE.BoxGeometry( 100, 100, 100 ); // Creation d'une boite de 100 de côtés
@@ -328,7 +329,7 @@ class Machines{
 		this.cube = new THREE.Mesh( geometry2, material);
 		this.cube.name="machine";
 		this.scene.add(this.cube);
-		this.points.forEach(this.addTooltip.bind(this));
+//		this.points.forEach(this.addTooltip.bind(this));
 		//AJOUT DIFFERENTES POSITIONS DE CAMERA
 		this.positionsCamera.push(new THREE.Vector3(0, 0, 130));	//devant
 		this.positionsCamera.push(new THREE.Vector3(130, 0, 0));	//droite
@@ -431,6 +432,12 @@ class Machines{
 				console.log(this.cube);
 			}
 		}
+//		this.points.forEach(this.addTooltip.bind(this));
+		//AJOUT DIFFERENTES POSITIONS DE CAMERA
+		this.positionsCamera.push(new THREE.Vector3(0, 0, 130));	//devant
+		this.positionsCamera.push(new THREE.Vector3(130, 0, 0));	//droite
+		this.positionsCamera.push(new THREE.Vector3(0, 0, -130));	//derriere
+		this.positionsCamera.push(new THREE.Vector3(-130, 0, 0));	//gauche
 	}
 }
 /* FIN CLASSE Machines*/
@@ -639,6 +646,8 @@ const menuModele = document.getElementById('menuModele');
 
 var modeleID = document.getElementById('modeleID').innerHTML;
 const imageFileNameMachine = document.getElementById('filename');
+const fichierModele3D = document.getElementById('fileModele3D');
+
 var cutFileName = imageFileNameMachine.innerHTML;
 //const getMachineName = document.getElementById('machineNamed');
 //var machineNamed = getMachineName.innerHTML;
@@ -701,15 +710,25 @@ material.transparent = true;
 sphere = new THREE.Mesh(geometrysphere, material);
 sphere.receiveShadow = true;
 scene.add(sphere);
-
+var cube = new Machines();
 //Création du modèle 3D
-//const loader4 = new THREE.STLLoader();
-//loader4.load( '../../image/modele/fichierSTL/SupportDemiCellules.stl', function ( geometry ){
-//	var material6 = new THREE.MeshNormalMaterial();
-//	mesh3 = new THREE.Mesh(geometry, material6);
-//	mesh3.name="Modele3DLoad";
-//	scene.add( mesh3 );			
-//});
+if(fichierModele3D.innerHTML != 'pasdefichier3d')
+{
+	const loader4 = new THREE.STLLoader();
+	loader4.load( '../../image/modele/'+modeleID+'/'+fichierModele3D.innerHTML, function ( geometry ){
+		var material6 = new THREE.MeshNormalMaterial();
+		mesh3 = new THREE.Mesh(geometry, material6);
+		mesh3.name="Modele3DLoad";
+		scene.add( mesh3 );			
+	});
+}
+else
+{
+	cube.RestoreMachine(scene,cutFileName,machineNamed,modeleID);
+	cube.appear();
+	cube.castShadow = true;
+	cube.receiveShadow = false;
+}
 
 //loader4.load( '../../image/modele/fichierSTL/SupportDemiCellules.stl', function ( geometry ) {
 //	var material6 = new THREE.MeshNormalMaterial()
@@ -722,11 +741,6 @@ scene.add(sphere);
 
 
 //création de la machine
-let cube = new Machines();
-cube.RestoreMachine(scene,cutFileName,machineNamed,modeleID);
-cube.appear();
-cube.castShadow = true;
-cube.receiveShadow = false;
 //var meshFloor, ambientLight, light;
 //ambientLight = new THREE.AmbientLight(0x000022, 0.8);
 //scene.add(ambientLight);
@@ -770,9 +784,6 @@ for(let i=0; i< idBtnsToDisable.length; i++)
 //var linkBtn2 = document.getElementById("btnModeles").href;
 //var linkBtn3 = document.getElementById("btnEvenements").href;
 
-console.log(scene);
-console.log(scene.children);
-console.log(scene.children.length);
 function onClick(e)
 {
 //	console.log(e);
@@ -1029,7 +1040,6 @@ function onScreenChange(){console.log('screenchange');}
 function fn() // Lorsque la page est chargée la fonction se déclenche
 {
 //	onResize();
-
 	cube.sprite = cube.sprites[0];
 	if(cube.sprite)
 	{
@@ -1037,16 +1047,17 @@ function fn() // Lorsque la page est chargée la fonction se déclenche
 	}
 	document.getElementById('myCanvasElement').style.borderTop = "1px solid #00a1d7";
 	document.getElementById('myCanvasElement').style.borderLeft = "1px solid #00a1d7";
-	console.log(scene.children[2]);
-
-
 }
 function ready()
 {
 	setTimeout(function(){onResize();},10);
-//	setTimeout(function(){
-//		cube.Machine3D();;
-//		},1000);
+	if(fichierModele3D.innerHTML != 'pasdefichier3d')
+	{
+		setTimeout(function(){
+			cube.Machine3D();	
+		},1000);		
+	}
+
 }
 function moveNavBar(visible,cache1,cache2,cache3)
 {
@@ -1112,7 +1123,7 @@ window.oncontextmenu= function OnContextMenu(e){ // clic droit
 		if(intersects[0].object.name);
 		{
 //			if(intersects[0].object.name == 'Modele3DLoad')
-			if(intersects[0].object.name == 'machine')
+			if(intersects[0].object.name == 'machine' || intersects[0].object.name == 'Modele3DLoad')
 			{
 				nVarNom = document.getElementById('CreationEtapeNom').value;
 				nVarInfo = document.getElementById('CreationEtapeDescription').value;

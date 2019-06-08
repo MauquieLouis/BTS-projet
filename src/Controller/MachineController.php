@@ -373,6 +373,7 @@ class MachineController extends AbstractController
         $formModele->handleRequest($request);
         if( ($formModele->isSubmitted() && $formModele->isValid() ))
         {
+
             $newModele = $formModele->getData();
             $em->persist($newModele);
             $em->flush();
@@ -453,6 +454,15 @@ class MachineController extends AbstractController
             {
                 copy('image/machineDefault.jpg','image/modele/'.$newModele->getId().'/6.jpg');
                 $newModele->setFaceBas('6.jpg');
+            }
+
+            if ($newModele->getFichier3d()) {
+                $nom = '1.stl';
+                $newModele->setFichier3d($nom);
+                $formModele['fichier3d']->getData()->move(
+                    ('image/modele/'.$newModele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                    $nom
+                    );
             }
             
             
@@ -535,6 +545,14 @@ class MachineController extends AbstractController
                     $nom
                     );
             } else{ $newModele->setFaceBas('6.jpg');}
+            if ($newModele->getFichier3d()) {
+                $nom = '1.stl';
+                $newModele->setFichier3d($nom);
+                $formModele['fichier3d']->getData()->move(
+                    ('image/modele/'.$newModele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                    $nom
+                    );
+            }
             $em->persist($newModele);
             $em->flush();
             return $this->redirectToRoute('modelesmachines');
