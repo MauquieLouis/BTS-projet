@@ -18,7 +18,7 @@
 
 			<div id="filename" hidden>{{ modeleMachine.faceDroite }};{{ modeleMachine.faceGauche }};{{ modeleMachine.faceHaut }};{{ modeleMachine.faceBas }};{{ modeleMachine.faceAvant }};{{ modeleMachine.faceArriere }}</div>
 {#     		<div id="machineNamed" hidden>{{ machine.id }}</div>#}
-			<div id="fileModele3D">{{ modeleMachine.fichier3d|default('pasdefichier3d')}}</div>
+			<div id="fileModele3D" hidden>{{ modeleMachine.fichier3d|default('pasdefichier3d')}}</div>
     		<div id="modeleID" hidden>{{ modeleMachine.id }}</div>
     		<button class ="btn btn-secondary d-md-none" onclick="showModele();" type="button">Affichage Mod�le 3D</button>
     	</div>

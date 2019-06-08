@@ -36,6 +36,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -375,20 +378,28 @@ class MachineController extends AbstractController
         {
 
             $newModele = $formModele->getData();
+
             $em->persist($newModele);
             $em->flush();
             if ($newModele->getFaceAvant()) {
                 $nom = '1.jpg';
                 $newModele->setFaceAvant($nom);
-                $formModele['faceAvant']->getData()->move(
-                    ('image/modele/'.$newModele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
-                    $nom
-                    );
+                try {
+                    $formModele['faceAvant']->getData()->move(
+                        ('image/modele/'.$newModele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                        $nom
+                        );
+                }
+                catch(FileException  $e){
+                    $this->addFlash('info', 'Erreur upload face avant');
+                    
+                }
             }
             else
             {
+                mkdir('image/modele/'.$newModele->getId());
                 copy('image/machineDefault.jpg','image/modele/'.$newModele->getId().'/1.jpg');
-                $newModele->setFaceBas('1.jpg');
+                $newModele->setFaceAvant('1.jpg');
             }
             if ($newModele->getFaceGauche()) {
                 $nom = '2.jpg';
@@ -443,12 +454,20 @@ class MachineController extends AbstractController
                 $newModele->setFaceHaut('5.jpg');
             }
             if ($newModele->getFaceBas()) {
+                dd($newModele->getFaceBas());
                 $nom = '6.jpg';
                 $newModele->setFaceBas($nom);
-                $formModele['faceBas']->getData()->move(
-                    ('image/modele/'.$newModele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
-                    $nom
-                    );
+                try{
+                    $formModele['faceBas']->getData()->move(
+                        ('image/modele/'.$newModele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                        $nom
+                        );
+                }
+                catch(FileException  $e)
+                {
+                    $this->addFlash('info', 'Erreur upload face bas');
+                    
+                }
             }
             else
             {
@@ -456,13 +475,20 @@ class MachineController extends AbstractController
                 $newModele->setFaceBas('6.jpg');
             }
 
-            if ($newModele->getFichier3d()) {
+            if ($newModele->getFichier3d()) 
+            {
                 $nom = '1.stl';
                 $newModele->setFichier3d($nom);
-                $formModele['fichier3d']->getData()->move(
-                    ('image/modele/'.$newModele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
-                    $nom
-                    );
+                try{
+                    $formModele['fichier3d']->getData()->move(
+                        ('image/modele/'.$newModele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                        $nom
+                        );
+                }
+                catch(FileException  $e){
+                    $this->addFlash('info', 'Erreur upload modèle 3D');
+                    
+                }
             }
             
             

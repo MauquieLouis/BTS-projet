@@ -675,18 +675,18 @@ const camera = new THREE.PerspectiveCamera(75, (windowWidth / windowHeight), 0.1
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.rotateSpeed = 0.5;
 controls.autoRotate = false;
-controls.enableZoom = true;
-controls.enablePan = false;
-controls.minDistance = 140;
-controls.maxDistance = 210;
+//controls.enableZoom = true;
+//controls.enablePan = false;
+//controls.minDistance = 140;
+//controls.maxDistance = 210;
 //controls.autoRotate = true;
 camera.position.set(0, 0, 140);
 controls.update();
 controls.keys = {
-		LEFT: 0, //left arrow
-		UP: 0, // up arrow
-		RIGHT: 1, // right arrow
-		BOTTOM: 0 // down arrow
+//		LEFT: 0, //left arrow
+//		UP: 0, // up arrow
+//		RIGHT: 1, // right arrow
+//		BOTTOM: 0 // down arrow
 	}
 TableauHTMLTEST = new TableauEtapeHTML();
 //////////////////////////////////////////////////////////////////////////////////////////////////////////

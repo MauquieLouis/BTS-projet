@@ -91,6 +91,16 @@
                             </div>
                         </div>
                     </div>
+                    <div style="margin-top:5px">
+                        <div class="col-12" style="border: 0px solid green;">
+                            <div class="col-3 offset-1" style="border: 0px solid red; display: inline; float:left; text-align: left;">                     
+                            	<h3 style="display:inline;">{{ form_label(formModele.fichier3d) }}</h3>
+                            </div>
+                            <div class="col-4 offset-4" style="border: 0px solid blue;">
+                                {{ form_widget(formModele.fichier3d,{'attr' : {'class': 'btn btn-info btn-sm floatRight','required':'false'}}) }}
+                        	</div>
+                        </div>
+                    </div>
                     <div class="col-12" style="border: 0px solid green;">
                         <div class="col-2 offset-1" style="border:0px solid red; display: inline; float:left; text-align: left;">
                         	<button type="submit" class="btn btn-primary">Sauvegarder</button>
@@ -109,7 +119,12 @@
 <div class="row ">
 
 </div>
-        
+<script>
+// new_modele_faceAvant
+// new_modele_fichier3d
+document.getElementById('new_modele_faceAvant').removeAttribute("required");
+document.getElementById('new_modele_fichier3d').removeAttribute("required");
+</script>
        
 	 
 {% endblock %}
