@@ -374,127 +374,132 @@ class MachineController extends AbstractController
         $newModele = new ModeleMachine();
         $formModele = $this->createForm(NewModeleType::class,$newModele);
         $formModele->handleRequest($request);
-        if( ($formModele->isSubmitted() && $formModele->isValid() ))
+        if( ($formModele->isSubmitted())) 
         {
+            if($formModele->isValid() ){
 
-            $newModele = $formModele->getData();
-
-            $em->persist($newModele);
-            $em->flush();
-            if ($newModele->getFaceAvant()) {
-                $nom = '1.jpg';
-                $newModele->setFaceAvant($nom);
-                try {
-                    $formModele['faceAvant']->getData()->move(
-                        ('image/modele/'.$newModele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
-                        $nom
-                        );
+                $newModele = $formModele->getData();
+    
+                $em->persist($newModele);
+                $em->flush();
+                if ($newModele->getFaceAvant()) {
+                    $nom = '1.jpg';
+                    $newModele->setFaceAvant($nom);
+                    try {
+                        $formModele['faceAvant']->getData()->move(
+                            ('image/modele/'.$newModele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                            $nom
+                            );
+                    }
+                    catch(FileException  $e){
+                        $this->addFlash('info', 'Erreur upload face avant');
+                        
+                    }
                 }
-                catch(FileException  $e){
-                    $this->addFlash('info', 'Erreur upload face avant');
-                    
-                }
-            }
-            else
-            {
-                mkdir('image/modele/'.$newModele->getId());
-                copy('image/machineDefault.jpg','image/modele/'.$newModele->getId().'/1.jpg');
-                $newModele->setFaceAvant('1.jpg');
-            }
-            if ($newModele->getFaceGauche()) {
-                $nom = '2.jpg';
-                $newModele->setFaceGauche($nom);
-                $formModele['faceGauche']->getData()->move(
-                    ('image/modele/'.$newModele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
-                    $nom
-                    );
-            }
-            else
-            {
-                copy('image/machineDefault.jpg','image/modele/'.$newModele->getId().'/2.jpg');
-                $newModele->setFaceGauche('2.jpg');
-            }
-            if ($newModele->getFaceArriere()) {
-                $nom = '3.jpg';
-                $newModele->setFaceArriere($nom);
-                $formModele['faceArriere']->getData()->move(
-                    ('image/modele/'.$newModele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
-                    $nom
-                    );
-            }
-            else
-            {
-                copy('image/machineDefault.jpg','image/modele/'.$newModele->getId().'/3.jpg');
-                $newModele->setFaceArriere('3.jpg');
-            }
-            if ($newModele->getFaceDroite()) {
-                $nom = '4.jpg';
-                $newModele->setFaceDroite($nom);
-                $formModele['faceDroite']->getData()->move(
-                    ('image/modele/'.$newModele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
-                    $nom
-                    );
-            }
-            else
-            {
-                copy('image/machineDefault.jpg','image/modele/'.$newModele->getId().'/4.jpg');
-                $newModele->setFaceDroite('4.jpg');
-            }
-            if ($newModele->getFaceHaut()) {
-                $nom = '5.jpg';
-                $newModele->setFaceHaut($nom);
-                $formModele['faceHaut']->getData()->move(
-                    ('image/modele/'.$newModele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
-                    $nom
-                    );
-            }
-            else
-            {
-                copy('image/machineDefault.jpg','image/modele/'.$newModele->getId().'/5.jpg');
-                $newModele->setFaceHaut('5.jpg');
-            }
-            if ($newModele->getFaceBas()) {
-                dd($newModele->getFaceBas());
-                $nom = '6.jpg';
-                $newModele->setFaceBas($nom);
-                try{
-                    $formModele['faceBas']->getData()->move(
-                        ('image/modele/'.$newModele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
-                        $nom
-                        );
-                }
-                catch(FileException  $e)
+                else
                 {
-                    $this->addFlash('info', 'Erreur upload face bas');
-                    
+                    mkdir('image/modele/'.$newModele->getId());
+                    copy('image/machineDefault.jpg','image/modele/'.$newModele->getId().'/1.jpg');
+                    $newModele->setFaceAvant('1.jpg');
                 }
-            }
-            else
-            {
-                copy('image/machineDefault.jpg','image/modele/'.$newModele->getId().'/6.jpg');
-                $newModele->setFaceBas('6.jpg');
-            }
-
-            if ($newModele->getFichier3d()) 
-            {
-                $nom = '1.stl';
-                $newModele->setFichier3d($nom);
-                try{
-                    $formModele['fichier3d']->getData()->move(
+                if ($newModele->getFaceGauche()) {
+                    $nom = '2.jpg';
+                    $newModele->setFaceGauche($nom);
+                    $formModele['faceGauche']->getData()->move(
                         ('image/modele/'.$newModele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
                         $nom
                         );
                 }
-                catch(FileException  $e){
-                    $this->addFlash('info', 'Erreur upload modèle 3D');
-                    
+                else
+                {
+                    copy('image/machineDefault.jpg','image/modele/'.$newModele->getId().'/2.jpg');
+                    $newModele->setFaceGauche('2.jpg');
                 }
+                if ($newModele->getFaceArriere()) {
+                    $nom = '3.jpg';
+                    $newModele->setFaceArriere($nom);
+                    $formModele['faceArriere']->getData()->move(
+                        ('image/modele/'.$newModele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                        $nom
+                        );
+                }
+                else
+                {
+                    copy('image/machineDefault.jpg','image/modele/'.$newModele->getId().'/3.jpg');
+                    $newModele->setFaceArriere('3.jpg');
+                }
+                if ($newModele->getFaceDroite()) {
+                    $nom = '4.jpg';
+                    $newModele->setFaceDroite($nom);
+                    $formModele['faceDroite']->getData()->move(
+                        ('image/modele/'.$newModele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                        $nom
+                        );
+                }
+                else
+                {
+                    copy('image/machineDefault.jpg','image/modele/'.$newModele->getId().'/4.jpg');
+                    $newModele->setFaceDroite('4.jpg');
+                }
+                if ($newModele->getFaceHaut()) {
+                    $nom = '5.jpg';
+                    $newModele->setFaceHaut($nom);
+                    $formModele['faceHaut']->getData()->move(
+                        ('image/modele/'.$newModele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                        $nom
+                        );
+                }
+                else
+                {
+                    copy('image/machineDefault.jpg','image/modele/'.$newModele->getId().'/5.jpg');
+                    $newModele->setFaceHaut('5.jpg');
+                }
+                if ($newModele->getFaceBas()) {
+                    dd($newModele->getFaceBas());
+                    $nom = '6.jpg';
+                    $newModele->setFaceBas($nom);
+                    try{
+                        $formModele['faceBas']->getData()->move(
+                            ('image/modele/'.$newModele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                            $nom
+                            );
+                    }
+                    catch(FileException  $e)
+                    {
+                        $this->addFlash('info', 'Erreur upload face bas');
+                        
+                    }
+                }
+                else
+                {
+                    copy('image/machineDefault.jpg','image/modele/'.$newModele->getId().'/6.jpg');
+                    $newModele->setFaceBas('6.jpg');
+                }
+    
+                if ($newModele->getFichier3d()) 
+                {
+                    $nom = '1.stl';
+                    $newModele->setFichier3d($nom);
+                    try{
+                        $formModele['fichier3d']->getData()->move(
+                            ('image/modele/'.$newModele->getId().'/'),              //.$document->getId()  => � rajouter si on souhaite ajouter un dossier dans public lors de l'enregistrement de l'image
+                            $nom
+                            );
+                    }
+                    catch(FileException  $e){
+                        $this->addFlash('info', 'Erreur upload modèle 3D');
+                        
+                    }
+                }
+                
+                
+                $em->persist($newModele);
+                $em->flush();
+                return $this->redirectToRoute('modelesmachines');
             }
-            
-            
-            $em->persist($newModele);
-            $em->flush();
-            return $this->redirectToRoute('modelesmachines');
+            else {
+                $this->addFlash('danger', 'Erreur formulaire incorrect');;
+            }
         }
         return $this->render('machine/modelesmachine.html.twig', [
             'formModele' => $formModele->createView(),
