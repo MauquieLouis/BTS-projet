@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Evenement{% endblock %}
+
+{% block body %}
+    <div class="row BorderJaune " style="margin-top:20px;">
+    	<div class="col-12 offset-md-3 col-md-6 BorderRouge TitlePage">
+    		<h1>Modifier l'événement : {{ event.title }}</h1>
+    	</div>
+    </div>
+    <div class="row">
+    	{{ form_start(form) }}
+    		{{ form_row(form) }}
+    		
+    		<button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+    	{{ form_end(form) }}
+    </div>
+		
+{% endblock %}

@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\NewEventFormType;
+use App\Form\EditEventFormType;
 use App\Entity\Event;
 use App\Repository\EventRepository;
 use App\Repository\UserRepository;
@@ -60,6 +61,26 @@ class EventController extends AbstractController
             return $this->redirectToRoute('Home');
         }
         return $this->render('event/completeEvent.html.twig', ['form'=>$form->createView()]);
+    }
+    /**
+     * @Route("/event/{id}/edit", name="event_edit")
+     */
+    public function EditEvent($id, EventRepository $eR, Request $request)
+    {
+        //dd($event);
+        $event = $eR->findOneBy(['id'=>$id]);
+        if($event == null)
+        {
+            $this->addFlash('danger','Une erreur est survenue, Événemenent Introuvable');
+            return $this->redirectToRoute('event');
+        }
+        $formEvent = $this->createForm(EditEventFormType::class, $event);
+        $formEvent->handleRequest($request);
+        if($formEvent->isSubmitted() && $formEvent->isValid())
+        {
+            
+        }
+        return $this->render('event/editEvent.html.twig',['event' => $event, 'form' => $formEvent->createView()]);
     }
     /**
      * @Route("/event/{id}/delete", name="event_delete")
@@ -124,6 +145,7 @@ class EventController extends AbstractController
             //dd($formEvent->getData());
             $em->persist($event);
             $em->flush();
+            $this->addFlash('info','Événement enregistré');
             return $this->redirectToRoute('event');
         }
         return $this->render('event/newEvent.html.twig', [

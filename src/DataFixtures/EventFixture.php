@@ -13,7 +13,7 @@ class EventFixture extends BaseFixture
     {
         // $product = new Product();
         // $manager->persist($product);
-        $this->createMany(105,'event', function()
+        $this->createMany(10,'event', function()
         {
             $event = new Event();
             $event->setTitle($this->faker->word);
@@ -29,6 +29,7 @@ class EventFixture extends BaseFixture
             $date->modify('+'.$jour.' day'); 
             $event->setDateStart($date);
             $event->setFrequence("7d");
+            $event->setValid(false);
             return $event;
         });
        
