@@ -50,10 +50,10 @@ var table = {
 					xhReq.open("post","accesbdd/sendmaintenance/"+String(id),false);	//arg2 : url de l'echo de la table SQl recuperé un PHP
 				}
 			break;
-			
+
 			default:
 				console.log("table::initTable::switch(tableSelected) => DROP TO DEFAULT at AjaxReceive.js ln55");
-				return -1;			//ERROR : arg tablesSelected inconnu
+				return "Unknow table";			//ERROR : arg tablesSelected inconnu
 			break;
 		}
 		xhReq.send();
@@ -107,7 +107,7 @@ var table = {
 				var message = JSON.stringify(tabl);
 
 				if (id === null) {
-					xhReq.open("post","accesbdd/writeevent/undefined/"+String(message),false);	// ajouter nouvelle ligne à la table
+					xhReq.open("post","accesbdd/write/"+String(tableSelected)+"/undefined/"+String(message),false);	// ajouter nouvelle ligne à la table
 				}
 				else{
 					xhReq.open("post","accesbdd/writeevent/"+String(id)+"/"+String(message),false);	// mettre a jour la table
@@ -116,14 +116,14 @@ var table = {
 
 			default:
 				console.log("table::SetTable::switch(tableSelected) => DROP TO DEFAULT at AjaxReceive.js ln97");
-				return -1;			//ERROR : arg tablesSelected inconnu
+				return "Unknow table";			//ERROR : arg tablesSelected inconnu
 			break;
 		}
 		xhReq.send();
 		return retourCode;
 	}
 };
-
+//console.log(table.init("user"));
 /*var fields = ["dateStart","Titre"];
 var values = ["2019-02-01","Titre incoutournable"];
 table.SetTable("event",31,fields,values);*/

@@ -25,10 +25,10 @@ class AjaxReceiveController extends AbstractController
         $values = $message[1];
         $retourCode = null;
         if($id === "undefined"){        //Create new row
-             $eventToModify = new Event();
+             $tableToModify = new Event();
         }
         else{                          //Edit existing row
-            $eventToModify = $repo->findOneBy(['id'=>$id]);
+            $tableToModify = $repo->findOneBy(['id'=>$id]);
         }
         foreach ($fields as $i => $it) {
             switch ($it) {
@@ -36,12 +36,12 @@ class AjaxReceiveController extends AbstractController
                 case 'title':
                 case 'Titre':
                 case 'titre':
-                    $eventToModify->setTitle($values[$i]);
+                    $tableToModify->setTitle($values[$i]);
                     $retourCode .= "titleSetted;";
                     break;
                 case 'description':
                 case 'Description':
-                    $eventToModify->setDescription($values[$i]);
+                    $tableToModify->setDescription($values[$i]);
                     $retourCode .= "descriptionSetted;";
 
                     break;
@@ -53,7 +53,7 @@ class AjaxReceiveController extends AbstractController
                 case 'user_id':
                 case 'users_id':
                 case 'Users_id':
-                    $eventToModify->setUsersid($values[$i]);
+                    $tableToModify->setUsersid($values[$i]);
                     $retourCode .= "usersidSetted;";
 
                     break;
@@ -63,21 +63,21 @@ class AjaxReceiveController extends AbstractController
                 case 'MachineId':
                 case 'machine_id':
                 case 'Machine_id':
-                    $eventToModify->setMachinesid($values[$i]);
+                    $tableToModify->setMachinesid($values[$i]);
                     $retourCode .= "machineidSetted;";
 
                     break;
                 case 'date_start':
                 case 'Date_start':
                 case 'dateStart':
-                    $eventToModify->setDateStart(\DateTime::createFromFormat('Y-m-d', $values[$i]));
+                    $tableToModify->setDateStart(\DateTime::createFromFormat('Y-m-d', $values[$i]));
                     $retourCode .= "date_startSetted;";
 
                     break;
                 case 'date_end':
                 case 'Date_end':
                 case 'dateEnd':
-                    $eventToModify->setDateEnd(\DateTime::createFromFormat('Y-m-d', $values[$i]));
+                    $tableToModify->setDateEnd(\DateTime::createFromFormat('Y-m-d', $values[$i]));
                     $retourCode .= "date_endSetted;";
 
                     break;
@@ -85,7 +85,7 @@ class AjaxReceiveController extends AbstractController
                 case 'Frequence':
                 case 'fréquence':
                 case 'Fréquence':
-                    $eventToModify->setFrequence($values[$i]);
+                    $tableToModify->setFrequence($values[$i]);
                     $retourCode .= "frequenceSetted;";
                     break;
 
@@ -96,7 +96,7 @@ class AjaxReceiveController extends AbstractController
             }
         }
         try{
-            $em->persist($eventToModify);
+            $em->persist($tableToModify);
             $em->flush();
         }
         catch(Execption $e){
@@ -125,10 +125,10 @@ class AjaxReceiveController extends AbstractController
             case 'event':
                 $repo = new EventRepository();
                 if($id === "undefined"){        //Create new row
-                     $eventToModify = new Event();
+                     $tableToModify = new Event();
                 }
                 else{                          //Edit existing row
-                    $eventToModify = $repo->findOneBy(['id'=>$id]);
+                    $tableToModify = $repo->findOneBy(['id'=>$id]);
                 }
                 foreach ($fields as $i => $it) {
                     switch ($it) {
@@ -136,13 +136,13 @@ class AjaxReceiveController extends AbstractController
                         case 'title':
                         case 'Titre':
                         case 'titre':
-                            $eventToModify->setTitle($values[$i]);
+                            $tableToModify->setTitle($values[$i]);
                             $retourCode .= "titleSetted;";
                             break;
 
                         case 'description':
                         case 'Description':
-                            $eventToModify->setDescription($values[$i]);
+                            $tableToModify->setDescription($values[$i]);
                             $retourCode .= "descriptionSetted;";
                             break;
 
@@ -154,7 +154,7 @@ class AjaxReceiveController extends AbstractController
                         case 'user_id':
                         case 'users_id':
                         case 'Users_id':
-                            $eventToModify->setUsersid($values[$i]);
+                            $tableToModify->setUsersid($values[$i]);
                             $retourCode .= "usersidSetted;";
                             break;
 
@@ -164,21 +164,21 @@ class AjaxReceiveController extends AbstractController
                         case 'MachineId':
                         case 'machine_id':
                         case 'Machine_id':
-                            $eventToModify->setMachinesid($values[$i]);
+                            $tableToModify->setMachinesid($values[$i]);
                             $retourCode .= "machineidSetted;";
                             break;
 
                         case 'date_start':
                         case 'Date_start':
                         case 'dateStart':
-                            $eventToModify->setDateStart(\DateTime::createFromFormat('Y-m-d', $values[$i]));
+                            $tableToModify->setDateStart(\DateTime::createFromFormat('Y-m-d', $values[$i]));
                             $retourCode .= "date_startSetted;";
                             break;
 
                         case 'date_end':
                         case 'Date_end':
                         case 'dateEnd':
-                            $eventToModify->setDateEnd(\DateTime::createFromFormat('Y-m-d', $values[$i]));
+                            $tableToModify->setDateEnd(\DateTime::createFromFormat('Y-m-d', $values[$i]));
                             $retourCode .= "date_endSetted;";
                             break;
 
@@ -186,7 +186,7 @@ class AjaxReceiveController extends AbstractController
                         case 'Frequence':
                         case 'fréquence':
                         case 'Fréquence':
-                            $eventToModify->setFrequence($values[$i]);
+                            $tableToModify->setFrequence($values[$i]);
                             $retourCode .= "frequenceSetted;";
                             break;
 
@@ -201,27 +201,27 @@ class AjaxReceiveController extends AbstractController
             case 'machine':
                 $repo = new MachineRepository();
                 if($id === "undefined"){        //Create new row
-                    $machineToModify = new Machine();
+                    $tableToModify = new Machine();
                 }
                 else{                          //Edit existing row
-                    $machineToModify = $repo->findOneBy(['id'=>$id]);
+                    $tableToModify = $repo->findOneBy(['id'=>$id]);
                 }
                 foreach ($fields as $i => $it){
                     switch ($it) {
                         case 'name':
-                            $machineToModify->setName($values[$i]);
+                            $tableToModify->setName($values[$i]);
                             $retourCode .= "nameSetted;";
                             break;
                         case 'description':
-                            $machineToModify->setDescription($values[$i]);
+                            $tableToModify->setDescription($values[$i]);
                             $retourCode .= "nameSetted;";
                             break;
                         case 'imagefilename':
-                            $machineToModify->setImageFileName($values[$i]);
+                            $tableToModify->setImageFileName($values[$i]);
                             $retourCode .= "nameSetted;";
                             break;
                         case 'modele_id':
-                            $machineToModify->setName($values[$i]);
+                            $tableToModify->setName($values[$i]);
                             $retourCode .= "nameSetted;";
                             break;
                         default:
@@ -235,6 +235,13 @@ class AjaxReceiveController extends AbstractController
                 $retourCode = "unknowed table";
                 echo json_encode($retourCode);
                 break;
+        }
+        try{
+            $em->persist($tableToModify);
+            $em->flush();
+        }
+        catch(Execption $e){
+            dd($e->getMessage());
         }
         return $this->render('ajax_receive/index.html.twig'); 
     }
@@ -282,8 +289,8 @@ class AjaxReceiveController extends AbstractController
             $tabl[$i][$j] = $table[$i]->getId();
             $tabl[$i][++$j] = $table[$i]->getTitle();
             $tabl[$i][++$j] = $table[$i]->getDescription();
-            $tabl[$i][++$j] = $table[$i]->getUsersid()[0];
-            $tabl[$i][++$j] = $table[$i]->getMachinesid()[0];
+            $tabl[$i][++$j] = $table[$i]->getUsersid();
+            $tabl[$i][++$j] = $table[$i]->getMachinesid();
             $tabl[$i][++$j] = $table[$i]->getDateStart();
             $tabl[$i][++$j] = $table[$i]->getDateEnd();
             $tabl[$i][++$j] = $table[$i]->getFrequence();
@@ -313,12 +320,7 @@ class AjaxReceiveController extends AbstractController
             $tabl[++$j] = $table->getName();
             $tabl[++$j] = $table->getDescription();
             $tabl[++$j] = $table->getImagefilename();
-            $tabl[++$j] = $table->getPicturedevant();
-            $tabl[++$j] = $table->getPicturegauche();
-            $tabl[++$j] = $table->getPicturederriere();
-            $tabl[++$j] = $table->getPicturedroite();
-            $tabl[++$j] = $table->getPicturedessus();
-            $tabl[++$j] = $table->getPicturedessous();
+            $tabl[++$j] = $table->getModele()->getId();
             
             $message = json_encode($tabl);
             echo ($message);
@@ -339,15 +341,10 @@ class AjaxReceiveController extends AbstractController
             $tabl[$i][++$j] = $table[$i]->getName();
             $tabl[$i][++$j] = $table[$i]->getDescription();
             $tabl[$i][++$j] = $table[$i]->getImagefilename();
-            $tabl[$i][++$j] = $table[$i]->getPicturedevant();
-            $tabl[$i][++$j] = $table[$i]->getPicturegauche();
-            $tabl[$i][++$j] = $table[$i]->getPicturederriere();
-            $tabl[$i][++$j] = $table[$i]->getPicturedroite();
-            $tabl[$i][++$j] = $table[$i]->getPicturedessus();
-            $tabl[$i][++$j] = $table[$i]->getPicturedessous();
+            $tabl[$i][++$j] = $table[$i]->getModele()->getId();
         }
-        
         $message = json_encode($tabl);
+        
         echo ($message);
         
         return $this->render('ajax_receive/index.html.twig'); 
@@ -369,7 +366,7 @@ class AjaxReceiveController extends AbstractController
             
             $j = 0; 
             $tabl[$j] = $table->getId();
-            $tabl[++$j] = $table->getIdMachine()->getId();
+            $tabl[++$j] = $table->getModele()->getId();
             $tabl[++$j] = $table->getNom();
             $tabl[++$j] = $table->getPicturefile();
             $tabl[++$j] = $table->getPicturefilename();
@@ -388,12 +385,13 @@ class AjaxReceiveController extends AbstractController
         $tabl = array();
         
         for ($i=0; $i < sizeof($table); $i++){
-            $j=0;
+            $j=0;            
             $tabl[$i][$j] = $table[$i]->getId();
-            $tabl[$i][++$j] = $table[$i]->getIdMachine()->getId();
+            $tabl[$i][++$j] = $table[$i]->getModele()->getId();            
             $tabl[$i][++$j] = $table[$i]->getNom();
             $tabl[$i][++$j] = $table[$i]->getPicturefile();
             $tabl[$i][++$j] = $table[$i]->getPicturefilename();
+
         }
         
         $message = json_encode($tabl);
@@ -504,5 +502,14 @@ class AjaxReceiveController extends AbstractController
         $message = json_encode($tabl);
         echo ($message);
         return $this->render('ajax_receive/index.html.twig');
+    }
+
+    /**
+     * @Route("/testbdd", name="testbdd")
+     * 
+     */
+    public function index()
+    {   
+        return $this->render('ajax_receive/annulaire.html.twig');
     }
 }
