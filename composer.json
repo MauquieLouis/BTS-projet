@@ -9,6 +9,7 @@
         "jms/serializer-bundle": "^3.3",
         "knplabs/knp-paginator-bundle": "^3.0",
         "nelmio/api-doc-bundle": "^3.4",
+        "royopa/fpdf-symfony2": "^3.0",
         "sensio/framework-extra-bundle": "^5.2",
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "4.2.*",

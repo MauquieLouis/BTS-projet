@@ -92,9 +92,10 @@ function getEvents(nbCases, dateStart, dateEnd){
 
 	tabEvent = table.ByDate(dateStart, dateEnd);
 	console.log(tabEvent);
-
+	
 	if(tabEvent != ""){
 		for(var j=0; j < parseInt(tabEvent.length); j++){
+			//console.log(tabEvent[j][9])
 			var frequenceE = tabEvent[j][7];//;
 			
 			//var unitFrequence = frequenceE.replace(parseInt(frequenceE),"");
@@ -116,7 +117,7 @@ function getEvents(nbCases, dateStart, dateEnd){
 			ye[j][0]=parseInt(tabEvent[j][5].date.substr(0, 4));
 
 			var l = 0;
-			var lenombre = (frequenceDay == 0 && frequenceMonth == 0 && frequenceYear == 0)?0:7;
+			/*var lenombre = (frequenceDay == 0 && frequenceMonth == 0 && frequenceYear == 0)?0:7;
 			for(var k=1; k <= lenombre; k++, l++){
 				var nbDay = nbDays(parseInt(me[j][l]-1+frequenceMonth), parseInt(ye[j][l]+frequenceYear));
 
@@ -139,7 +140,7 @@ function getEvents(nbCases, dateStart, dateEnd){
 				de[j][k] = syntaxe(de[j][k],0);
 				me[j][k] = syntaxe(me[j][k],0);
 				ye[j][k] = parseInt(ye[j][l])+frequenceYear;
-			}
+			}*/
 			de[j][0] = syntaxe(de[j][0],0);
 			me[j][0] = syntaxe(me[j][0],0);
 			//console.log(de[j][0] + "/" + me[j][0] + "/" + ye[j][0] + "---" + de[j][1] + "/" + me[j][1] + "/" + ye[j][1]);
@@ -208,13 +209,13 @@ function affichageEvent(date){
 					textEvent += "<table border=1px class=\"tabEventStyle\"><tr class=\"dayStyle\"><td>Titre</td><td>Descrption</td><td>3D</td></tr>" +
 							"<tr color=\"blue\"><td align=left><span id=title>" + tabEvent[j][1] + "</span></td><td><span id=content>" + tabEvent[j][2]+ "</span></td>";
 					if(tabEvent[j][3] != "")
-						textEvent += "<td><div class=\"acces3D\" onClick=\"document.location.href='/modele/"+	tabEvent[j][4].machine + "/"+ tabEvent[j][0]+"'\">Accés Modèle 3D</div></td>";
+						textEvent += "<td><div class=\"acces3D\" onClick=\"document.location.href='/modele/"+	tabEvent[j][4] + "/"+ tabEvent[j][0]+"'\">Accés Modèle 3D</div></td>";
 					else	textEvent +="<td><div>X</div></td>";	
 				}
 				else{
 					textEvent += "<tr><td align=left><span id=title>" + tabEvent[j][1] + "</span></td><td><span>" + tabEvent[j][2]+ "</span></td>";
 					if(tabEvent[j][3] != ""){
-						textEvent += "<td><div class=\"acces3D\" onClick=\"document.location.href='/modele/"+	tabEvent[j][4].machine + "/"+ tabEvent[j][0]+"'\">Accés Modèle 3D</div></td>";
+						textEvent += "<td><div class=\"acces3D\" onClick=\"document.location.href='/modele/"+	tabEvent[j][4] + "/"+ tabEvent[j][0]+"'\">Accés Modèle 3D</div></td>";
 					}
 					else	textEvent +="<td><div>X</div></td>";
 				}		
@@ -225,11 +226,9 @@ function affichageEvent(date){
 	text += (textEvent=="")?"Aucun évènement prévu pour le moment..."+"</br>":textEvent + "</table>";
 	//windowWidth = parseInt(document.body.clientWidth);
 	//if(windowWidth > 768) 
-	eval("EventPlace").innerHTML = text;
+	return text;
 	//else eval("EventPlace2").innerHTML = text;
 }
-
-
 
 ///////////////////////////////////////////////Au click sur une case/////////////////////////////////////////////////
 function clickOnCase(id, cal){
@@ -259,12 +258,17 @@ function clickOnCase(id, cal){
 		var balise = eval("sp"+i);
 		if(balise.name == dateClick){
 			if(balise.style.backgroundColor != colorToday)balise.style.backgroundColor = colorSelectDay;
-			affichageEvent(balise.name);
+			eval("EventPlace").innerHTML = affichageEvent(balise.name);
 			idPrec = balise;
 		}
 	}
-	
 }
+
+/*function monseOverCase(id){
+	var div = document.createElement("div");
+	div.innerHTLM = affichageEvent(eval(id).name);
+	eval(id).title = div.innerText;
+}*/
 
 window.onresize = function resize(){
 	var whatCal = eval("calPlace").innerHTML.substr(12, 11);

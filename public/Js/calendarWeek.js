@@ -28,7 +28,7 @@ class calWeek{
 					this.currWeek++;
 			  break;
 		  case '+-':
-			  affichageEvent(syntaxe(dd,0)+"/"+syntaxe(mm,1)+"/"+yyyy);
+			  eval("EventPlace").innerHTML =  affichageEvent(syntaxe(dd,0)+"/"+syntaxe(mm,1)+"/"+yyyy);
 			  this.currWeek = nbWeeks(dd, mm, yyyy);
 			  this.currYear = yyyy;
 			  break;
@@ -137,7 +137,7 @@ class calWeek{
 		for (var i=1;i<=52;i++)		//Remplissage de la balise de selection du mois
 			(i==nbWeeks(parseInt(this.eventAffiche.substr(0,2)), parseInt(this.eventAffiche.substr(3,2)-1), this.eventAffiche.substr(6,4)))?text += "<option value= " + i + " Selected>" + "Semaine " + i + "</option>": text += "<option value= " + i + ">" + "Semaine " + i + "</option>";//Le mois courant est séléctionné au lancement
 		text += "</select>";
-		text += "<span class=\"col-2 button\" onClick='calendarWeek.chWeek(\"+\")'><i style=\"font-size:30px\" class=\"fas fa-chevron-right\"></i></span>";				
+		text += "<span class=\"col-2 button\"  onClick='calendarWeek.chWeek(\"+\")'><i style=\"font-size:30px\" class=\"fas fa-chevron-right\"></i></span>";				
 		text += "</td></tr>";
 		text += "<tr class=\"dayStyle\"><td>";		
 		text += "<span id=month>"+arrM[parseInt(this.eventAffiche.substr(3,2)-1)]+"</span>";
@@ -161,7 +161,8 @@ class calWeek{
 			text += "<div id=\"affNumSem"+j+"\"></div>";
 			text += "<table>";
 			for (var i=0;i<=6;i++, aa++){
-				text += "<tr><td class=\"caseStyle\"  onClick='clickOnCase(sp"+aa+", calendarWeek)'>";
+				text += "<tr><td class=\"caseStyle\" onClick='clickOnCase(sp"+aa+", calendarWeek)'>";
+				//onmouseover='monseOverCase(sp"+aa+")'
 				text += "<div name=1 id=sp"+ aa +">1</div>"
 				//text += "<div name=1 id=ev"+ aa +"></div>"
 				text +="</td></tr>";
@@ -185,8 +186,16 @@ calendarWeek.eventAffiche = syntaxe(dd,0)+"/"+syntaxe(mm,1)+"/"+yyyy;
 eval("btCalWeek").addEventListener("click", function(){
 	eval("calPlace").innerHTML = calendarWeek.writeHTML(); 	//Ecriture d'une calendirer
 	calendarWeek.chWeek();
-	affichageEvent(calendarWeek.eventAffiche);
+	eval("EventPlace").innerHTML = affichageEvent(calendarWeek.eventAffiche);
+	//var massi = document.getElementById("sp6");
+	//console.log(massi);
+	//massi.addEventListener("mouseover", function() {   
+	    // met en surbrillance la cible de mouseover
+	//	massi.style.backgroundcolor = "orange";
+
+	//  }, false);
 });
+
 
 
 

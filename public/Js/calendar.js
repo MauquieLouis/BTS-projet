@@ -29,7 +29,7 @@ class calMonth{
 				
 			  break;
 		  case '+-':
-			  	affichageEvent(syntaxe(dd,0)+"/"+syntaxe(mm,1)+"/"+yyyy);
+			    eval("EventPlace").innerHTML = affichageEvent(syntaxe(dd,0)+"/"+syntaxe(mm,1)+"/"+yyyy);
 			 	this.currMonth = mm;
 		  		this.currYear = yyyy;
 		  		break;
@@ -195,6 +195,7 @@ calendarMonth.eventAffiche = syntaxe(dd,0)+"/"+syntaxe(mm,1)+"/"+yyyy;
 eval("btCalMonth").addEventListener("click", function(){
 	eval("calPlace").innerHTML = calendarMonth.writeHTML(); 	//Ecriture d'une calendirer
 	calendarMonth.changeMth();
-	affichageEvent(calendarMonth.eventAffiche);
+	eval("EventPlace").innerHTML = affichageEvent(calendarMonth.eventAffiche);
 });
+
 
