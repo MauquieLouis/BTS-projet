@@ -455,7 +455,7 @@ class MachineController extends AbstractController
                     $newModele->setFaceHaut('5.jpg');
                 }
                 if ($newModele->getFaceBas()) {
-                    dd($newModele->getFaceBas());
+//                     dd($newModele->getFaceBas());
                     $nom = '6.jpg';
                     $newModele->setFaceBas($nom);
                     try{

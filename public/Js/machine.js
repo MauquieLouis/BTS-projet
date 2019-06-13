@@ -451,19 +451,18 @@ class TableauEtapeHTML{
 	}
 	ModifOrdreEtape()
 	{
-		this.Actualisation;//this.tableau.Actualisation;
-		for(var i = 1; i < this.tableau.rows.length; i++)
+		this.Actualisation;// Récupère le tableau de la page HTML;
+		for(var i = 1; i < this.tableau.rows.length; i++) // Départ à 1 car la ligne 0 c'est la légende
 	    {
 	        for(var j=0; j< cube.sprites.length; j++)
 	        {
-				console.log(TableauHTMLTEST.GetCellValue(i,'2'));
-	            if(parseInt(TableauHTMLTEST.GetCellValue(i,'4')) === cube.sprites[j].id)
+	            if(parseInt(TableauHTMLTEST.GetCellValue(i,'4')) === cube.sprites[j].id) // Match entre l'id dans le tableau html et celle du cube.sprites[]
 		        {
-	            	cube.sprites[j].etape = TableauHTMLTEST.GetCellValue(i,'2'); // L'ordre de la bulle info devient celle choisie dans le tableau.			            		
+	            	cube.sprites[j].etape = TableauHTMLTEST.GetCellValue(i,'2'); // L'ordre de l'annotation devient celle choisie dans le tableau.			            		
 			    }
 	        }
 	    }
-		cube.sprites.sort(function(a,b){return a.etape - b.etape;});
+		cube.sprites.sort(function(a,b){return a.etape - b.etape;}); // Trie le tableau cube.sprites[] dans l'ordre des étapes.
 	}
 	AjoutLigne(name,info,ordre,idBDD,id)
 	{
@@ -672,7 +671,18 @@ var tableSprite = document.getElementById("table");
 // Création Environnement/scene et controle ///////////////////////////////////////////////////////////////
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, (windowWidth / windowHeight), 0.1, 1000);
+// Version 1 controls//
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
+// Fin version 1 controls //
+
+// Version 2 controls //
+//const controls = new THREE.TrackballControls(camera);
+//controls.addEventListener('change', render);
+function render(){
+	renderer.render(scene,camera);
+//	camera.updateProjectionMatrix();
+}
+// Fin version 2 controls 
 controls.rotateSpeed = 0.5;
 controls.autoRotate = false;
 //controls.enableZoom = true;
@@ -680,14 +690,14 @@ controls.autoRotate = false;
 //controls.minDistance = 140;
 //controls.maxDistance = 210;
 //controls.autoRotate = true;
-camera.position.set(0, 0, 140);
+camera.position.set(0, 0, 100);
 controls.update();
-controls.keys = {
+//controls.keys = {
 //		LEFT: 0, //left arrow
 //		UP: 0, // up arrow
 //		RIGHT: 1, // right arrow
 //		BOTTOM: 0 // down arrow
-	}
+//	}
 TableauHTMLTEST = new TableauEtapeHTML();
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////// Position des boutons de déplacement de la caméra //////////////////////
@@ -709,7 +719,7 @@ const material = new THREE.MeshBasicMaterial({
 material.transparent = true;
 sphere = new THREE.Mesh(geometrysphere, material);
 sphere.receiveShadow = true;
-scene.add(sphere);
+//scene.add(sphere);
 var cube = new Machines();
 //Création du modèle 3D
 if(fichierModele3D.innerHTML != 'pasdefichier3d')
@@ -729,6 +739,8 @@ else
 	cube.castShadow = true;
 	cube.receiveShadow = false;
 }
+
+
 
 //loader4.load( '../../image/modele/fichierSTL/SupportDemiCellules.stl', function ( geometry ) {
 //	var material6 = new THREE.MeshNormalMaterial()
@@ -917,19 +929,19 @@ function onResize()
 }
 var animate = function () {
 	requestAnimationFrame( animate );
+//	var dist = Math.sqrt((camera.position.z)*(camera.position.z)
+//		+(camera.position.y)*(camera.position.y)
+//		+(camera.position.x)*(camera.position.x));
+//	var limit = Math.sqrt(500*500);
+//	if(dist>=limit)
+//	{	
+//		camera.position.x = 50;
+//		camera.position.y = 50;
+//		camera.position.z = 50;
+//	}
 	controls.update();
-	var dist = Math.sqrt((camera.position.z)*(camera.position.z)
-		+(camera.position.y)*(camera.position.y)
-		+(camera.position.x)*(camera.position.x));
-	var limit = Math.sqrt(500*500);
-	if(dist>=limit)
-	{	
-		camera.position.x = 50;
-		camera.position.y = 50;
-		camera.position.z = 50;
-	}
-	camera.updateProjectionMatrix();
-	renderer.render(scene, camera);
+//	camera.updateProjectionMatrix();
+//	renderer.render(scene, camera);
 }
 ////////////              ON MOUSE MOVE     /////////////////////////////////////////////////////////////////////
 function onMouseMove(e)
@@ -999,7 +1011,15 @@ function Keyboard(event)
 //		console.log(tableSprite.rows.length);
 	}
 	if(event.keyCode == 68) //d
-	{			
+	{	
+		console.log('d');
+		for(var i=0;i<60;i++)
+		{
+			camera.rotation.x += 0.05;
+			
+			
+		}
+
 	}
 	if(event.keyCode == 69) //e
 	{
@@ -1117,7 +1137,7 @@ window.oncontextmenu= function OnContextMenu(e){ // clic droit
 	let intersects = rayCaster.intersectObjects(scene.children); // Regarde ce qui rencontre les "enfants" de la scène: tooltip, sphère...
 	console.log(intersects[0]);
 //	console.log(intersects[0].object.geometry);
-	console.log(intersects[0].face.normal);
+//	console.log(intersects[0].face.normal);
 	if(cube.createSprite == 'start')
 	{
 		if(intersects[0].object.name);
