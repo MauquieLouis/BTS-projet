@@ -515,6 +515,8 @@ class AjaxReceiveController extends AbstractController
             $tabl[$i][++$j] = $events[$i]->getDateStart();
             $tabl[$i][++$j] = $events[$i]->getDateEnd();
             $tabl[$i][++$j] = $events[$i]->getFrequence();
+            $tabl[$i][++$j] = $events[$i]->getValid();
+            $tabl[$i][++$j] = $events[$i]->getComment();
         }
         //dd($tabl);
         $message = json_encode($tabl);
