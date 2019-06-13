@@ -308,6 +308,8 @@ class AjaxReceiveController extends AbstractController
             $tabl[$i][++$j] = $table[$i]->getUsersid();
             $tabl[$i][++$j] = $table[$i]->getMachinesid();
             $tabl[$i][++$j] = $table[$i]->getDateStart();
+            $tabl[$i][++$j] = $table[$i]->getDateEnd();
+            $tabl[$i][++$j] = $table[$i]->getFrequence();
             $tabl[$i][++$j] = $table[$i]->getValid();
             $tabl[$i][++$j] = $table[$i]->getComment();
         }
