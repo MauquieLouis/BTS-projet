@@ -14,6 +14,10 @@ use App\Repository\UserRepository;
 use App\Entity\Maintenance;
 use App\Repository\MaintenanceRepository;
 
+use App\Entity\ModeleMachine;
+use App\Form\ModeleMachineType;
+
+
 class AjaxReceiveController extends AbstractController
 {
     /**
@@ -87,6 +91,16 @@ class AjaxReceiveController extends AbstractController
                 case 'Fréquence':
                     $tableToModify->setFrequence($values[$i]);
                     $retourCode .= "frequenceSetted;";
+                    break;
+
+                case 'valid':
+                    $tableToModify->setValid($values[$i]);
+                    $retourCode .= "validSetted;";
+                    break;
+
+                case 'comment':
+                    $tableToModify->setComment($values[$i]);
+                    $retourCode .= "commentSetted;";
                     break;
 
                 default:
@@ -270,6 +284,8 @@ class AjaxReceiveController extends AbstractController
             $tabl[++$j] = $table->getDateStart();
             $tabl[++$j] = $table->getDateEnd();
             $tabl[++$j] = $table->getFrequence();
+            $tabl[++$j] = $table->getValid();
+            $tabl[++$j] = $table->getComment();
             
             $message = json_encode($tabl);
             echo ($message);
@@ -292,8 +308,8 @@ class AjaxReceiveController extends AbstractController
             $tabl[$i][++$j] = $table[$i]->getUsersid();
             $tabl[$i][++$j] = $table[$i]->getMachinesid();
             $tabl[$i][++$j] = $table[$i]->getDateStart();
-            $tabl[$i][++$j] = $table[$i]->getDateEnd();
-            $tabl[$i][++$j] = $table[$i]->getFrequence();
+            $tabl[$i][++$j] = $table[$i]->getValid();
+            $tabl[$i][++$j] = $table[$i]->getComment();
         }
         $message = json_encode($tabl);
         echo ($message);
@@ -505,11 +521,16 @@ class AjaxReceiveController extends AbstractController
     }
 
     /**
-     * @Route("/testbdd", name="testbdd")
+     * @Route("/upload", name="upload")
      * 
      */
     public function index()
     {   
-        return $this->render('ajax_receive/annulaire.html.twig');
+        $modeleMachine = new ModeleMachine();
+        $form = $this->createForm(ModeleMachineType::class,$modeleMachine);
+
+        return $this->render('ajax_receive/annulaire.html.twig',[
+            'form' => $form->createView(),
+        ]);
     }
 }
