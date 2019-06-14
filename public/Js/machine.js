@@ -72,7 +72,7 @@ class Machines{
 	rotateSprite(axe,vitesse) //sprite tourne
 	{
 		console.log("rotatesprite");
-		if (axe == 'x') {this.sprites[0].roration.x += vitesse;}
+		if (axe == 'x') {this.sprites[0].position.x += vitesse;}
 		if (axe == 'y') {this.sprites[0].position.y += vitesse;}
 		if (axe == 'z') {this.sprites[0].position.z += vitesse;}
 	}
@@ -689,7 +689,7 @@ controls.autoRotate = false;
 //controls.minDistance = 140;
 //controls.maxDistance = 210;
 //controls.autoRotate = true;
-camera.position.set(0, 0, 100);
+camera.position.set(-250, 0, 0);
 controls.update();
 //controls.keys = {
 //		LEFT: 0, //left arrow
@@ -1057,7 +1057,7 @@ function Keyboard(event)
 	}
 	if(event.keyCode == 77) //m
 	{
-	
+		console.log(cube.cube);
 	}
 }
 function onScreenChange(){console.log('screenchange');}
@@ -1078,10 +1078,30 @@ function ready()
 	if(fichierModele3D.innerHTML != 'pasdefichier3d')
 	{
 		setTimeout(function(){
-			cube.Machine3D();	
-		},5000);		
+			ChargementModele3D();
+		},500);		
 	}
 
+}
+function ChargementModele3D()
+{
+	let matchModele = 0;
+	console.log('ChargementModele3D');
+	for(var i = 0; i < scene.children.length; i++)
+	{
+		if(scene.children[i].name == 'Modele3DLoad')
+		{
+			matchModele = 1;
+			cube.Machine3D();
+		}
+	}
+	if(matchModele == 0)
+	{
+		setTimeout(function(){
+			ChargementModele3D();
+			
+		},500);		
+	}
 }
 function moveNavBar(visible,cache1,cache2,cache3)
 {
@@ -1139,7 +1159,7 @@ window.oncontextmenu= function OnContextMenu(e){ // clic droit
 		);	
 	rayCaster.setFromCamera(mouse, camera);	
 	let intersects = rayCaster.intersectObjects(scene.children); // Regarde ce qui rencontre les "enfants" de la scène: tooltip, sphère...
-	console.log(intersects[0]);
+	console.log(intersects[0].point);
 //	console.log(intersects[0].object.geometry);
 //	console.log(intersects[0].face.normal);
 	if(cube.createSprite == 'start')
