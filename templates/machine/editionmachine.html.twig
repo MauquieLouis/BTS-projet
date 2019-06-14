@@ -25,7 +25,7 @@
                     <div style="margin-top:5px"></div>
                     {{ form_widget(formMachine.description, {'attr':{'placeholder' : "Information sur la machine", 'class' : 'form-control form-control-sm'}}) }}
                  </div>
-    			<button type="submit" style="margin-top: 2%;" class="btn btn-primary">Sauvegarder</button>
+    			<button id="btnSauvegarder" onclick="DisableBtn();" type="submit" style="margin-top: 2%;" class="btn btn-primary">Sauvegarder</button>
     		{{ form_end(formMachine) }}    		
     		
     		{{ form_start(formDeleteMachine) }}
@@ -38,7 +38,12 @@
 	<div class="row ">
 
  	</div>
-        
+  	<script>
+      	function DisableBtn()
+        {
+        	document.getElementById("btnSauvegarder").hidden = true; 
+        }
+  	</script>
        
 	 
 {% endblock %}

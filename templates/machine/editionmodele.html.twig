@@ -103,7 +103,7 @@
                     </div>
                     <div class="col-12" style="border: 0px solid green;">
                         <div class="col-2 offset-1" style="border:0px solid red; display: inline; float:left; text-align: left;">
-                        	<button type="submit" class="btn btn-primary">Sauvegarder</button>
+                        	<button id="btnSauvegarder" onclick="DisableBtn();" type="submit" class="btn btn-primary">Sauvegarder</button>
                         </div>
                 {{ form_end(formModele) }}
                 {{ form_start(formDeleteModele) }}
@@ -124,6 +124,10 @@
 // new_modele_fichier3d
 document.getElementById('new_modele_faceAvant').removeAttribute("required");
 document.getElementById('new_modele_fichier3d').removeAttribute("required");
+function DisableBtn()
+{
+	document.getElementById("btnSauvegarder").hidden = true; 
+}
 </script>
        
 	 

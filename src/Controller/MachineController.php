@@ -351,12 +351,12 @@ class MachineController extends AbstractController
         $formDeleteMaintenance->handleRequest($request);
         if($formDeleteMaintenance->isSubmitted() &&$formDeleteMaintenance->isValid() )
         {      
-            dd($maintenances->getModele());
-            $this->rmAllDir('image/machine/'.$maintenances->getIdMachine()->getId().'/'.$maintenances->getId());
+//             dd($maintenances->getModele());
+            $this->rmAllDir('image/modele/'.$maintenances->getModele()->getId().'/'.$maintenances->getId());
             $em->remove($maintenances);
             $em->flush();
             $this->addFlash('danger', "Maintenance supprimée");
-            return $this->redirectToRoute('maintenanceModele3D',['machine'=> $maintenances->getIdMachine()->getId()] );
+            return $this->redirectToRoute('maintenanceModele3D',['modele'=> $maintenances->getModele()->getId()] );
         }
         return $this->render('machine/editionmaintenance.html.twig', [
             'formMaintenance' => $formMaintenances->createView(),
@@ -516,7 +516,7 @@ class MachineController extends AbstractController
         $repositoryMachine = $em->getRepository(Machine::class);
         $modele = $repositoryModele->findOneBy(['id' => $id]);
         $machines = $repositoryMachine->findBy(['modele' => $modele->getId()]);
-
+        $memoryNameFileModele = $modele->getFichier3d();
         $formModele = $this->createForm(NewModeleType::class,$modele);
         $formModele->handleRequest($request);
         if($formModele->isSubmitted() && $formModele->isValid())
@@ -584,7 +584,12 @@ class MachineController extends AbstractController
                     $nom
                     );
             }
-            else{ $newModele->setFichier3d('1.stl');}
+            else
+            {
+                $newModele->setFichier3d($memoryNameFileModele); // Si aucun fichier sélectionner, on remet ce qui était sur le modèle avant changement.
+            }
+     
+            
             $em->persist($newModele);
             $em->flush();
             return $this->redirectToRoute('modelesmachines');

@@ -91,7 +91,7 @@
                         	<h3 style="display:inline;">{{ form_label(formMaintenance.picturefile,'Choisir une image') }}</h3>
                             {{ form_widget(formMaintenance.picturefile,{'attr' : {'class': 'btn btn-info btn-sm floatRight'}}) }}
                         </div>
-           	    <button type="submit" class="btn btn-primary">Enregistrer</button>
+           	    <button id="btnSauvegarder" onclick="DisableBtn();" type="submit" class="btn btn-primary">Enregistrer</button>
        		{{ form_end(formMaintenance) }}
     	</div>
         <script>
@@ -101,6 +101,10 @@
         		form.hidden = form.hidden ? false : true;
         		plusCircle.hidden = plusCircle.hidden ? false : true;
         		minusCircle.hidden = minusCircle.hidden ? false : true;
+            }
+            function DisableBtn()
+            {
+            	document.getElementById("btnSauvegarder").hidden = true; 
             }
         </script>
         {% endif %}

@@ -124,7 +124,7 @@
                             {{ form_widget(formModele.fichier3d,{'attr' : {'class': 'btn btn-info btn-sm floatRight', 'accept' : '.stl'}}) }}
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                        <button id="btnSauvegarder" type="submit" class="btn btn-primary" onclick="DisableBtn();">Sauvegarder</button>
                     {{ form_end(formModele) }}
            		</div>
             </div>
@@ -136,6 +136,10 @@
         		form.hidden = form.hidden ? false : true;
         		plusCircle.hidden = plusCircle.hidden ? false : true;
         		minusCircle.hidden = minusCircle.hidden ? false : true;
+            }
+            function DisableBtn()
+            {
+            	document.getElementById("btnSauvegarder").hidden = true; 
             }
         </script>
     </div>

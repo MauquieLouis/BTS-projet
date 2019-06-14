@@ -31,7 +31,7 @@
     		
     		{{ form_start(formDeleteMaintenance) }}
     			
-    			<button type="submit" style="margin-top: 3%;" class="btn btn-danger">Supprimer la maintenance</button>
+    			<button id="btnSauvegarder" onclick="DisableBtn();" type="submit" style="margin-top: 3%;" class="btn btn-danger">Supprimer la maintenance</button>
     	    {{ form_end(formDeleteMaintenance) }}
     	
     	</div>
@@ -39,7 +39,12 @@
 	<div class="row ">
 
  	</div>
-        
+ 	<script>
+     	function DisableBtn()
+     	{
+     		document.getElementById("btnSauvegarder").hidden = true; 
+     	}
+ 	</script> 
        
 	 
 {% endblock %}
