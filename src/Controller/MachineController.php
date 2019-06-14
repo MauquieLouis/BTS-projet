@@ -584,6 +584,7 @@ class MachineController extends AbstractController
                     $nom
                     );
             }
+            else{ $newModele->setFichier3d('1.stl');}
             $em->persist($newModele);
             $em->flush();
             return $this->redirectToRoute('modelesmachines');

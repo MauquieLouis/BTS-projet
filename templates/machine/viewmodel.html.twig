@@ -33,6 +33,15 @@
     				<button class="btn btn-outline-info" onclick="cube.SetFaceCamera('2');">derriere</button>                      
     				<button class="btn btn-outline-info" onclick="cube.SetFaceCamera('1');">droite</button>  
 				</div>
+				<div id="DeplacerCube">
+					<button class="btn btn-outline-info" onclick="cube.rotateCube('x',0.2); cube.rotateSprite('x',0.2);">+x</button>
+					<button class="btn btn-outline-info" onclick="cube.rotateCube('x',-0.2);">-x</button>
+					<button class="btn btn-outline-info" onclick="cube.rotateCube('y',0.2);">+y</button>
+					<button class="btn btn-outline-info" onclick="cube.rotateCube('y',-0.2);">-y</button>
+					<button class="btn btn-outline-info" onclick="cube.rotateCube('z',0.2);">+z</button>
+					<button class="btn btn-outline-info" onclick="cube.rotateCube('z',-0.2);">-z</button>
+					
+				</div>
 				{% if is_granted('ROLE_ADMIN') %}
                 	<div  id="formbtnSauvegarder" class="float:right;">
                         {{ form_start(saveAllSprites) }}  

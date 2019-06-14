@@ -23,7 +23,7 @@ class NewModeleType extends AbstractType
             ->add('faceDroite',  FileType::class, ['data_class' => null, 'required' => false] )
             ->add('faceHaut',  FileType::class, ['data_class' => null, 'required' => false] )
             ->add('faceBas',  FileType::class, ['data_class' => null, 'required' => false] )
-            ->add('fichier3d', FileType::class, ['data_class' => null, 'required' => false])
+            ->add('fichier3d', FileType::class, ['data_class' => null, 'required' => false,'label' => 'Fichier STL'])
         ;
     }
 

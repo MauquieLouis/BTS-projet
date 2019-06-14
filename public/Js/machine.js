@@ -72,7 +72,7 @@ class Machines{
 	rotateSprite(axe,vitesse) //sprite tourne
 	{
 		console.log("rotatesprite");
-		if (axe == 'x') {this.sprites[0].position.x += vitesse;}
+		if (axe == 'x') {this.sprites[0].roration.x += vitesse;}
 		if (axe == 'y') {this.sprites[0].position.y += vitesse;}
 		if (axe == 'z') {this.sprites[0].position.z += vitesse;}
 	}
@@ -420,7 +420,6 @@ class Machines{
 	Machine3D()
 	{
 		this.scene = scene;
-		console.log('alert');		console.log('alert');		console.log('alert');
 		for(let i=0; i< scene.children.length;i++)
 		{
 			console.log(scene.children.length);
@@ -670,7 +669,7 @@ var tableSprite = document.getElementById("table");
 ///////////////////////////////////////////////////////////////////////////////
 // Création Environnement/scene et controle ///////////////////////////////////////////////////////////////
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, (windowWidth / windowHeight), 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(45, (windowWidth / windowHeight), 0.1, 1000);
 // Version 1 controls//
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
 // Fin version 1 controls //
@@ -678,10 +677,10 @@ const controls = new THREE.OrbitControls(camera, renderer.domElement);
 // Version 2 controls //
 //const controls = new THREE.TrackballControls(camera);
 //controls.addEventListener('change', render);
-function render(){
-	renderer.render(scene,camera);
+//function render(){
+//	renderer.render(scene,camera);
 //	camera.updateProjectionMatrix();
-}
+//}
 // Fin version 2 controls 
 controls.rotateSpeed = 0.5;
 controls.autoRotate = false;
@@ -940,8 +939,8 @@ var animate = function () {
 //		camera.position.z = 50;
 //	}
 	controls.update();
-//	camera.updateProjectionMatrix();
-//	renderer.render(scene, camera);
+	camera.updateProjectionMatrix();
+	renderer.render(scene, camera);
 }
 ////////////              ON MOUSE MOVE     /////////////////////////////////////////////////////////////////////
 function onMouseMove(e)
@@ -995,10 +994,14 @@ function Keyboard(event)
 	{
 //		console.log(document.getElementById('getEachSprite').innerHTML)
 		console.log(scene);
+		var worldAxis = new THREE.AxesHelper(20);
+		  sphere.add(worldAxis);
+		controls.target.set(0,200,0);
 	}
 	if(event.keyCode == 81) //q
 	{
 //		console.log(document.getElementById(etapes_tableausprites));
+		camera.rotation.y += 1;
 	}
 	if(event.keyCode == 82) //r
 	{
@@ -1006,7 +1009,7 @@ function Keyboard(event)
 	}
 	if(event.keyCode == 83) //s
 	{
-
+		camera.rotation.z += 1;
 //		var tableSprite = document.getElementById("table");
 //		console.log(tableSprite.rows.length);
 	}
@@ -1024,6 +1027,7 @@ function Keyboard(event)
 	if(event.keyCode == 69) //e
 	{
 //		cube.ToggleSprite();
+//		cube.cube.rotation.x += 5;
 	}
 	if(event.keyCode == 85) //u
 	{
@@ -1075,7 +1079,7 @@ function ready()
 	{
 		setTimeout(function(){
 			cube.Machine3D();	
-		},1000);		
+		},5000);		
 	}
 
 }
