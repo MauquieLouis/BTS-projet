@@ -95,7 +95,6 @@ function getEvents(nbCases, dateStart, dateEnd){
 	
 	if(tabEvent != ""){
 		for(var j=0; j < parseInt(tabEvent.length); j++){
-			//console.log(tabEvent[j][9])
 			var frequenceE = tabEvent[j][7];//;
 			
 			//var unitFrequence = frequenceE.replace(parseInt(frequenceE),"");
@@ -146,42 +145,43 @@ function getEvents(nbCases, dateStart, dateEnd){
 			//console.log(de[j][0] + "/" + me[j][0] + "/" + ye[j][0] + "---" + de[j][1] + "/" + me[j][1] + "/" + ye[j][1]);
 			//console.log(de[j][2] + "/" + me[j][2] + "/" + ye[j][2] + "---" + de[j][3] + "/" + me[j][3] + "/" + ye[j][3]);
 			//console.log(de[j][4] + "/" + me[j][4] + "/" + ye[j][4] + "---" + de[j][5] + "/" + me[j][5] + "/" + ye[j][5]);
+		}	
+		for(var i = 0; i < nbCases; i++){
+			var nbEvent =0;
+			for (var j = 0; j < parseInt(tabEvent.length); j++){
+				for (var k = 0; k <= parseInt(de[0].length); k++){
+					var dateEvent = de[j][k] + "/" + me[j][k] +"/"+ ye[j][k];
+					if(dateEvent == eval("sp"+i).name && tabEvent[j][8] == false){
+						nbEvent++;
+					}	 
+				//--------------------------------------//
+				}
+			}
+			var notif = "";
+			//nbEvent = 0;
+			for(var l=1; l<=nbEvent; l++){
+				switch(l){
+				case 1 : 
+					eval("sp"+i).innerHTML += "<a></br><i style=\"font-size:15px\" class=\"far fa-dot-circle\"></i></a>";
+					break;
+				case 2 :
+					eval("sp"+i).innerHTML += " <i style=\"font-size:15px\" class=\"far fa-dot-circle\"></i>";
+					break;
+				case 3 :
+					if(nbEvent ==3){ 
+						eval("sp"+i).innerHTML += " <i style=\"font-size:15px\" class=\"far fa-dot-circle\"></i>";
+						break;
+					}
+				default :
+					notif = "+" + parseInt(nbEvent - 2);
+					break;
+				}
+			}
+			eval("sp"+i).innerHTML += notif;
 		}
 	}
 	
-	for(var i = 0; i < nbCases; i++){
-		var nbEvent =0;
-		for (var j = 0; j < parseInt(tabEvent.length); j++){
-			for (var k = 0; k <= parseInt(de[0].length); k++){
-				var dateEvent = de[j][k] + "/" + me[j][k] +"/"+ ye[j][k];
-				if(dateEvent == eval("sp"+i).name){
-					nbEvent++;
-				}	 
-			//--------------------------------------//
-			}
-		}
-		var notif = "";
-		//nbEvent = 0;
-		for(var l=1; l<=nbEvent; l++){
-			switch(l){
-			case 1 : 
-				eval("sp"+i).innerHTML += "<a></br><i style=\"font-size:15px\" class=\"far fa-dot-circle\"></i></a>";
-				break;
-			case 2 :
-				eval("sp"+i).innerHTML += " <i style=\"font-size:15px\" class=\"far fa-dot-circle\"></i>";
-				break;
-			case 3 :
-				if(nbEvent ==3){ 
-					eval("sp"+i).innerHTML += " <i style=\"font-size:15px\" class=\"far fa-dot-circle\"></i>";
-					break;
-				}
-			default :
-				notif = "+" + parseInt(nbEvent - 2);
-				break;
-			}
-		}
-		eval("sp"+i).innerHTML += notif;
-	}
+
 } 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -206,19 +206,20 @@ function affichageEvent(date){
 
 			if(dateEvent == date){
 				if (textEvent.indexOf("Titre") == -1){
-					textEvent += "<table border=1px class=\"tabEventStyle\"><tr class=\"dayStyle\"><td>Titre</td><td>Descrption</td><td>3D</td></tr>" +
+					textEvent += "<table border=1px class=\"tabEventStyle\"><tr class=\"dayStyle\"><td>Titre</td><td>Descrption</td><td>3D</td><td>Fait</td></tr>" +
 							"<tr color=\"blue\"><td align=left><span id=title>" + tabEvent[j][1] + "</span></td><td><span id=content>" + tabEvent[j][2]+ "</span></td>";
 					if(tabEvent[j][3] != "")
-						textEvent += "<td><div class=\"acces3D\" onClick=\"document.location.href='/modele/"+	tabEvent[j][4] + "/"+ tabEvent[j][0]+"'\">Accés Modèle 3D</div></td>";
+						textEvent += "<td><div class=\"acces3D\" onClick=\"document.location.href='/modele/"+	tabEvent[j][4].machine + "/"+ tabEvent[j][0]+"'\">Accés Modèle 3D</div></td>";
 					else	textEvent +="<td><div>X</div></td>";	
 				}
 				else{
 					textEvent += "<tr><td align=left><span id=title>" + tabEvent[j][1] + "</span></td><td><span>" + tabEvent[j][2]+ "</span></td>";
 					if(tabEvent[j][3] != ""){
-						textEvent += "<td><div class=\"acces3D\" onClick=\"document.location.href='/modele/"+	tabEvent[j][4] + "/"+ tabEvent[j][0]+"'\">Accés Modèle 3D</div></td>";
+						textEvent += "<td><div  align=center class=\"acces3D\" onClick=\"document.location.href='/modele/"+	tabEvent[j][4].machine + "/"+ tabEvent[j][0]+"'\">Accés Modèle 3D</div></td>";
 					}
 					else	textEvent +="<td><div>X</div></td>";
 				}		
+				textEvent += (tabEvent[j][8] == false)?"<td><i class=\"fas fa-times-circle\"></i></td>":"<td><i class=\"fas fa-check-circle\"></i></td>"
 				textEvent += "</tr>";
 			}
 		}//																			

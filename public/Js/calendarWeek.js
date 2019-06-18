@@ -7,7 +7,7 @@ class calWeek{
 		this.eventAffiche = dd+"/"+syntaxe(mm,1)+"/"+yyyy;
 		
 	}
-	chWeek(browse){
+	changeWeek(browse){
 		this.currWeek = parseInt(document.calWeekForm.selWeek.value);
 		this.currYear = parseInt(eval("year").innerHTML);
 		switch (browse) {
@@ -62,13 +62,11 @@ class calWeek{
 		firstDayYearDate.setFullYear(this.currYear);
 		var D = firstDayYearDate.getDay();
 		var firstDay = (this.currWeek-1)*7-(D-2);//Premier jour à afficher
-		console.log(this.currWeek);
 		while (firstDay > nbDays(nbMonth, this.currYear))
 		{
 			firstDay -= nbDays(nbMonth, this.currYear);
 			nbMonth++;	
 		}
-		console.log(firstDay);
 		this.currMonth = nbMonth;
 		var caseMonth;
 		var caseYear;
@@ -130,14 +128,14 @@ class calWeek{
 		text = "<form name=calWeekForm>";
 		text += "<table id=\"greatTab\" class=\"tabStyle\">";
 		text += "<tr><td class=\"row\">";
-		text += "<span class=\"col-2 button\" onClick='calendarWeek.chWeek(\"+-\")'><i style=\"font-size:30px\" class=\"fas fa-calendar-day\"></i></span>";
-		text += "<span class=\"col-2 button\" onClick='calendarWeek.chWeek(\"-\")'><i style=\"font-size:30px\" class=\"fas fa-chevron-left\"></i></span>";
-		text += "<select class=\"col-6 button form-control form-control-sm\" name=selWeek onChange='calendarWeek.chWeek()'>"; //Quand on selectionne un mois, la fonction changeCal() est appelé
+		text += "<span class=\"col-2 button\" onClick='calendarWeek.changeWeek(\"+-\")'><i style=\"font-size:30px\" class=\"fas fa-calendar-day\"></i></span>";
+		text += "<span class=\"col-2 button\" onClick='calendarWeek.changeWeek(\"-\")'><i style=\"font-size:30px\" class=\"fas fa-chevron-left\"></i></span>";
+		text += "<select class=\"col-6 button form-control form-control-sm\" name=selWeek onChange='calendarWeek.changeWeek()'>"; //Quand on selectionne un mois, la fonction changeCal() est appelé
 	
 		for (var i=1;i<=52;i++)		//Remplissage de la balise de selection du mois
 			(i==nbWeeks(parseInt(this.eventAffiche.substr(0,2)), parseInt(this.eventAffiche.substr(3,2)-1), this.eventAffiche.substr(6,4)))?text += "<option value= " + i + " Selected>" + "Semaine " + i + "</option>": text += "<option value= " + i + ">" + "Semaine " + i + "</option>";//Le mois courant est séléctionné au lancement
 		text += "</select>";
-		text += "<span class=\"col-2 button\"  onClick='calendarWeek.chWeek(\"+\")'><i style=\"font-size:30px\" class=\"fas fa-chevron-right\"></i></span>";				
+		text += "<span class=\"col-2 button\"  onClick='calendarWeek.changeWeek(\"+\")'><i style=\"font-size:30px\" class=\"fas fa-chevron-right\"></i></span>";				
 		text += "</td></tr>";
 		text += "<tr class=\"dayStyle\"><td>";		
 		text += "<span id=month>"+arrM[parseInt(this.eventAffiche.substr(3,2)-1)]+"</span>";
@@ -185,7 +183,7 @@ calendarWeek.eventAffiche = syntaxe(dd,0)+"/"+syntaxe(mm,1)+"/"+yyyy;
 
 eval("btCalWeek").addEventListener("click", function(){
 	eval("calPlace").innerHTML = calendarWeek.writeHTML(); 	//Ecriture d'une calendirer
-	calendarWeek.chWeek();
+	calendarWeek.changeWeek();
 	eval("EventPlace").innerHTML = affichageEvent(calendarWeek.eventAffiche);
 	//var massi = document.getElementById("sp6");
 	//console.log(massi);

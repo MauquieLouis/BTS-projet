@@ -53,18 +53,18 @@ class calMonth{
 		//eval("btCalWeek").addEventListener("mouseout", function() { eval("btCalWeek").style.color = "deepskyblue";},false);
 
 	
-		var strMessage1 = eval("selYear") ;
-		console.log(strMessage1.innerHTML);
+		var strYear = eval("selYear") ;
+		//console.log(strMessage1.innerHTML);
 
 		for(var i = 0; i <= nbYear;i++){
-			console.log("primero " +i+ " : " + arrY[i]);
-			if(i == nbYear/2) strMessage1.innerHTML =  strMessage1.innerHTML.replace("<option value=\""+arrY[i]+"\" selected=\"\">"+arrY[i],"<option value=\""+this.currYear+"\" selected=\"\">"+this.currYear);
-			else strMessage1.innerHTML =  strMessage1.innerHTML.replace( "<option value=\""+arrY[i]+"\">"+arrY[i],"<option value=\""+parseInt(this.currYear - nbYear/2 + i)+"\">"+parseInt(this.currYear - nbYear/2 + i));
+			//console.log("primero " +i+ " : " + arrY[i]);
+			if(i == nbYear/2) strYear.innerHTML =  strYear.innerHTML.replace("<option value=\""+arrY[i]+"\" selected=\"\">"+arrY[i],"<option value=\""+this.currYear+"\" selected=\"\">"+this.currYear);
+			else strYear.innerHTML =  strYear.innerHTML.replace( "<option value=\""+arrY[i]+"\">"+arrY[i],"<option value=\""+parseInt(this.currYear - nbYear/2 + i)+"\">"+parseInt(this.currYear - nbYear/2 + i));
 			arrY[i]=parseInt(this.currYear - nbYear/2 +i);
-			console.log("secondo " +i+ " : " + arrY[i]);
+			//console.log("secondo " +i+ " : " + arrY[i]);
 			
 		}
-		console.log(strMessage1.innerHTML);
+		//console.log(strMessage1.innerHTML);
 		//arrY[i] = this.currYear - nbYear/2 + i;
 		//console.log(arrY[i]);
 			
@@ -72,10 +72,9 @@ class calMonth{
 		var mmyyyy = new Date();
 		mmyyyy.setFullYear(this.currYear);
 		mmyyyy.setMonth(this.currMonth);
-		mmyyyy.setDate(1); //==> mmyyyy = 1/this.currMonth/this.currYear
+		mmyyyy.setDate(1);
 		var day1 = mmyyyy.getDay();
-		if (day1 == 0)
-			day1 = 7;
+		if (day1 == 0) day1 = 7;
 		
 		var arrN = new Array(this.nbCases-1);
 		var aa;		
@@ -105,8 +104,8 @@ class calMonth{
 			caseMonth = syntaxe(this.currMonth, 1);
 			eval("sp"+i).name = caseDay + "/" + caseMonth + "/" + this.currYear;
 			eval("sp"+i).style.backgroundColor=colorMonth;
-			console.log(eval("sp"+i));
-			console.log(eval("sp"+i));
+			//console.log(eval("sp"+i));
+			//console.log(eval("sp"+i));
 		}
 			
 		//----Mois suivant----//
