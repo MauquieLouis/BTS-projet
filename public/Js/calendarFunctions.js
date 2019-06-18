@@ -224,8 +224,9 @@ function affichageEvent(date){
 			}
 		}//																			
 	}
-	text += (textEvent=="")?"Aucun évènement prévu pour le moment..."+"</br>":textEvent + "</table>";
+	text += (textEvent=="")?"Aucun évènement prévu pour le moment...":textEvent + "</table>";
 	//windowWidth = parseInt(document.body.clientWidth);
+	text += "<div  align=center class=\"acces3D\" onClick=\"document.location.href='/event/nouveau'\"><i class=\"fas fa-plus-square\"></i> Évènement</div></br>"
 	//if(windowWidth > 768) 
 	return text;
 	//else eval("EventPlace2").innerHTML = text;
