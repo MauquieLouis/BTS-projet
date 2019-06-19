@@ -2,13 +2,30 @@
 
 namespace App\DataFixtures;
 
+
 use App\Entity\Event;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use App\Repository\UserRepository;
+use App\Repository\MachineRepository;
+use App\Repository\MaintenanceRepository;
 
 
 class EventFixture extends BaseFixture
 {
+    private $uR;
+    private $mR;
+    private $mtR;
+    
+    
+    public function __construct(UserRepository $uR, MachineRepository $mR, MaintenanceRepository $mtR)
+    {
+        $this->uR = $uR;
+        $this->mR = $mR;
+        $this->mtR = $mtR;
+        
+        
+    }
     public function loadData(ObjectManager $manager)
     {
         // $product = new Product();
