@@ -164,8 +164,12 @@ class EventController extends AbstractController
         $tableUser = null;
         foreach($event->getUsersid() as $key=>$userId)
         {
-            $tableUser[$key] = $uR->findOneBy(['id' => $userId]); 
-            
+            $user = $uR->findOneBy(['id' => $userId]); 
+            if($user != null)
+            {
+                $tableUser[$key] = $uR->findOneBy(['id' => $userId]);
+                
+            }
         }
         $tableMachine = null;
         if($event->getMachinesid() != null)
@@ -179,7 +183,6 @@ class EventController extends AbstractController
                     $tableMachine[$key]["machine"] = $mR->findOneBy(['id' => $machinesId["machine"]]);
                     $tableMachine[$key]["modeleMachine"] = $mMR->findOneBy(['id' => $tableMachine[$key]["machine"]->getModele()->getId()]);
                     $tableMachine[$key]["maintenance"] = $maintenanceR->findOneBy(['id' => $machinesId["maintenance"]]);
-                    $tableMachine[$key]["machine"] = null;
                 }
                 //dd($tableMachine[$key]["maintenance"]);
             }
