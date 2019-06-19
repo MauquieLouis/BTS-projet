@@ -161,9 +161,10 @@ class EventController extends AbstractController
     public function DisplayEvent($id, EventRepository $eR, UserRepository $uR, MachineRepository $mR, ModeleMachineRepository $mMR, MaintenanceRepository $maintenanceR)
     {
         $event = $eR->findOneBy(['id' => $id]);
-        foreach($event->getUsersid() as $userId)
+        $tableUser = null;
+        foreach($event->getUsersid() as $key=>$userId)
         {
-            $tableUser[] = $uR->findOneBy(['id' => $userId]); 
+            $tableUser[$key] = $uR->findOneBy(['id' => $userId]); 
             
         }
         $tableMachine = null;
@@ -172,13 +173,18 @@ class EventController extends AbstractController
             foreach($event->getMachinesid() as $key=>$machinesId)
             {
                 //dd($machinesId);
-                $tableMachine[$key]["machine"] = $mR->findOneBy(['id' => $machinesId["machine"]]);
-                $tableMachine[$key]["modeleMachine"] = $mMR->findOneBy(['id' => $tableMachine[$key]["machine"]->getModele()->getId()]);
-                $tableMachine[$key]["maintenance"] = $maintenanceR->findOneBy(['id' => $machinesId["maintenance"]]);
+                    $machine = $mR->findOneBy(['id' => $machinesId["machine"]]);
+              
+                    if($machine != null){
+                    $tableMachine[$key]["machine"] = $mR->findOneBy(['id' => $machinesId["machine"]]);
+                    $tableMachine[$key]["modeleMachine"] = $mMR->findOneBy(['id' => $tableMachine[$key]["machine"]->getModele()->getId()]);
+                    $tableMachine[$key]["maintenance"] = $maintenanceR->findOneBy(['id' => $machinesId["maintenance"]]);
+                    $tableMachine[$key]["machine"] = null;
+                }
                 //dd($tableMachine[$key]["maintenance"]);
             }
         }
-//         dd($tableMachine);
+//         dd($tableUser);
         return $this->render('event/infoEvent.html.twig', [
             'event' => $event,
             'tableUser' => $tableUser,

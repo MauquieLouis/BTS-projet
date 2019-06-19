@@ -17,7 +17,11 @@ class EditEventFormType extends AbstractType
         //dd($options['data']->getUsersid());
         $builder
             ->add('title')
-            ->add('description')
+            ->add('description');
+            foreach($options['data']->getUsersid() as $key=>$user)
+            {
+                $builder->add('users'.$key);
+            }
 //             ->add('usersid', CollectionType::class,[
 //                 'entry_type' => UserType::class,
 //                 'entry_options' => ['label' => false],
@@ -37,7 +41,7 @@ class EditEventFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Event::class,
+//             'data_class' => Event::class,
         ]);
     }
 }
