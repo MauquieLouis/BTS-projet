@@ -259,15 +259,14 @@ class AjaxReceiveController extends AbstractController
         }
         return $this->render('ajax_receive/index.html.twig'); 
     }
-
     
     /**
      * @Route("accesbdd/sendevent/{parse}", name="sendevent") 
      */
     public function SendEvent(EventRepository $repo,$parse){
-        if($parse && $parse != "undefined"){    //Si aucun id n'est passer en param on fait un SELECT * FROM event; sinon SELECT * FROM event WHERE id = $parse;
-           $table = $repo->findOneBy([
-                'id'=>$parse
+        if($parse && $parse != "undefined" && is_numeric($parse)){    //Si aucun id n'est passer en param on fait un SELECT * FROM event; sinon SELECT * FROM event WHERE id = $parse;
+            $table = $repo->findOneBy([
+                'id'=>$parse,
             ]);
             if($table === null){
                 $message = json_encode(null);
@@ -292,11 +291,22 @@ class AjaxReceiveController extends AbstractController
         
             return $this->render('ajax_receive/index.html.twig'); 
         }
-        $table = $repo->findAll();
-        if($table === null){
-            $message = json_encode(null);
-            echo ($message);
-            return $this->render('ajax_receive/index.html.twig'); 
+        if ($parse != "undefined" && !is_numeric($parse)) {
+            $table = $repo->findByInTitle($parse);
+           // dd($table);
+            if($table === null){
+                $message = json_encode(null);
+                echo ($message);
+                return $this->render('ajax_receive/index.html.twig'); 
+            }            
+        }
+        else{
+            $table = $repo->findAll();
+            if($table === null){
+                $message = json_encode(null);
+                echo ($message);
+                return $this->render('ajax_receive/index.html.twig'); 
+            }
         }
         $tabl = array();
         

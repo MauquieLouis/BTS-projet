@@ -65,7 +65,20 @@ class EventRepository extends ServiceEntityRepository
         //         ->getResult()
         //         ;
     }
-//      
+
+    public function findByInTitle($parse){
+        $qb = $this->createQueryBuilder('u')
+        ->andWhere("u.title like :parse")
+        ->setParameter('parse','%'.$parse.'%')
+        ->orderBy('u.title','ASC')
+        ->getQuery()
+        ->getResult();
+
+        return $qb;
+
+
+    }
+
     public function findAllBetweenDates($dateMin,$dateMax,$userid): array
     {
         // automatically knows to select Products
