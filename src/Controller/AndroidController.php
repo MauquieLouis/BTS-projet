@@ -65,7 +65,7 @@ class AndroidController extends AbstractController
         return $this->render('android/index.html.twig');
     }
     /**
-     * @Route("/android/user/add", name="testconnexion")
+     * @Route("/android/user/add", name="add_user")
      */
     public function AddUserAndroid(){
         
@@ -87,6 +87,26 @@ class AndroidController extends AbstractController
         {
             echo "REQUEST ERROR FAILED [PARAM USERNAME AND PASSWORD]";
         }
+        return $this->render('android/index.html.twig');
+    }
+    /**
+     * @Route("/android/user/liste", name="liste_user")
+     */
+    public function ListeUserAndroid(UserRepository $uR){
+        
+        $allUsers = $uR->findAll();
+//         $tableUser[][] = null;
+        foreach($allUsers as $key=>$user)
+        {
+            $tableUser[$key]['N'] = $key;
+            $tableUser[$key]['id'] = $user->getId();
+            $tableUser[$key]['email'] = $user->getEmail();
+            $tableUser[$key]['nom'] = $user->getNom();
+            $tableUser[$key]['prenom'] = $user->getPrenom();
+            $tableUser[$key]['roles'] = $user->getRoles();
+        }
+        echo json_encode($tableUser);
+
         return $this->render('android/index.html.twig');
     }
     
