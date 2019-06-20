@@ -684,19 +684,8 @@ const controls = new THREE.OrbitControls(camera, renderer.domElement);
 // Fin version 2 controls 
 controls.rotateSpeed = 0.5;
 controls.autoRotate = false;
-//controls.enableZoom = true;
-//controls.enablePan = false;
-//controls.minDistance = 140;
-//controls.maxDistance = 210;
-//controls.autoRotate = true;
 camera.position.set(-250, 0, 0);
 controls.update();
-//controls.keys = {
-//		LEFT: 0, //left arrow
-//		UP: 0, // up arrow
-//		RIGHT: 1, // right arrow
-//		BOTTOM: 0 // down arrow
-//	}
 TableauHTMLTEST = new TableauEtapeHTML();
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////// Position des boutons de déplacement de la caméra //////////////////////
@@ -737,6 +726,18 @@ else
 	cube.appear();
 	cube.castShadow = true;
 	cube.receiveShadow = false;
+	camera.position.set(-200, 0, 0);
+	controls.enableZoom = true;
+	controls.enablePan = false;
+//	controls.minDistance = 140;
+//	controls.maxDistance = 210;
+//	controls.autoRotate = true;
+	controls.keys = {
+			LEFT: 0, //left arrow
+			UP: 0, // up arrow
+			RIGHT: 1, // right arrow
+			BOTTOM: 0 // down arrow
+		}
 }
 
 
@@ -1043,7 +1044,7 @@ function Keyboard(event)
 	}
 	if(event.keyCode == 37) //console.log("fleche de gauche");
 	{
-
+		
 	}
 	if(event.keyCode == 39) //fleche de droite;
 	{
@@ -1080,6 +1081,10 @@ function ready()
 		setTimeout(function(){
 			ChargementModele3D();
 		},500);		
+	}
+	else
+	{
+		camera.position.set(400, 0, 0);
 	}
 
 }
@@ -1159,7 +1164,7 @@ window.oncontextmenu= function OnContextMenu(e){ // clic droit
 		);	
 	rayCaster.setFromCamera(mouse, camera);	
 	let intersects = rayCaster.intersectObjects(scene.children); // Regarde ce qui rencontre les "enfants" de la scène: tooltip, sphère...
-	console.log(intersects[0].point);
+//	console.log(intersects[0].point);
 //	console.log(intersects[0].object.geometry);
 //	console.log(intersects[0].face.normal);
 	if(cube.createSprite == 'start')

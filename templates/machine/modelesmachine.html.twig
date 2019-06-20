@@ -139,7 +139,13 @@
             }
             function DisableBtn()
             {
-            	document.getElementById("btnSauvegarder").hidden = true; 
+            	if(document.getElementById("new_modele_nom").value.length > 0 || champ.value.length < 256)
+                {
+            		if(document.getElementById("new_modele_faceAvant").value)
+                    {
+    					document.getElementById("btnSauvegarder").hidden = true; 	                    
+                    }
+               	}
             }
         </script>
     </div>
