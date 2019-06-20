@@ -95,10 +95,9 @@ function getEvents(nbCases, dateStart, dateEnd){
 	
 	if(tabEvent != ""){
 		for(var j=0; j < parseInt(tabEvent.length); j++){
+			//----------------Calcul des prochaines dates----------------------//
 			var frequenceE = tabEvent[j][7];//;
 			
-			//var unitFrequence = frequenceE.replace(parseInt(frequenceE),"");
-
 			if(frequenceE.indexOf("d") > 0) frequenceDay = parseInt(frequenceE);
 			else frequenceDay = 0;
 			if(frequenceE.indexOf("w") > 0) frequenceDay = parseInt(frequenceE)*7;
@@ -107,16 +106,15 @@ function getEvents(nbCases, dateStart, dateEnd){
 			if(frequenceE.indexOf("y") > 0) frequenceYear = parseInt(frequenceE);
 			else frequenceYear = 0;
 			
-			//console.log(frequenceDay +"/"+ frequenceMonth +"/"+ frequenceYear);
 			de[j] = new Array();
 			me[j] = new Array();
 			ye[j] = new Array();
 			de[j][0]=parseInt(tabEvent[j][5].date.substr(8, 2));
 			me[j][0]=parseInt(tabEvent[j][5].date.substr(5, 2));
 			ye[j][0]=parseInt(tabEvent[j][5].date.substr(0, 4));
-
-			var l = 0;
-			/*var lenombre = (frequenceDay == 0 && frequenceMonth == 0 && frequenceYear == 0)?0:7;
+			
+			/*var l = 0;
+			var lenombre = (frequenceDay == 0 && frequenceMonth == 0 && frequenceYear == 0)?0:7;
 			for(var k=1; k <= lenombre; k++, l++){
 				var nbDay = nbDays(parseInt(me[j][l]-1+frequenceMonth), parseInt(ye[j][l]+frequenceYear));
 
@@ -145,7 +143,7 @@ function getEvents(nbCases, dateStart, dateEnd){
 			//console.log(de[j][0] + "/" + me[j][0] + "/" + ye[j][0] + "---" + de[j][1] + "/" + me[j][1] + "/" + ye[j][1]);
 			//console.log(de[j][2] + "/" + me[j][2] + "/" + ye[j][2] + "---" + de[j][3] + "/" + me[j][3] + "/" + ye[j][3]);
 			//console.log(de[j][4] + "/" + me[j][4] + "/" + ye[j][4] + "---" + de[j][5] + "/" + me[j][5] + "/" + ye[j][5]);
-		}	
+		}
 		for(var i = 0; i < nbCases; i++){
 			var nbEvent =0;
 			for (var j = 0; j < parseInt(tabEvent.length); j++){
@@ -157,6 +155,7 @@ function getEvents(nbCases, dateStart, dateEnd){
 				//--------------------------------------//
 				}
 			}
+			//---------------Affichage des notifications--------------------------//
 			var notif = "";
 			//nbEvent = 0;
 			for(var l=1; l<=nbEvent; l++){
@@ -225,11 +224,8 @@ function affichageEvent(date){
 		}//																			
 	}
 	text += (textEvent=="")?"Aucun évènement prévu pour le moment...":textEvent + "</table>";
-	//windowWidth = parseInt(document.body.clientWidth);
 	text += "<div  align=center class=\"acces3D\" onClick=\"document.location.href='/event/nouveau'\"><i class=\"fas fa-plus-square\"></i> Évènement</div></br>"
-	//if(windowWidth > 768) 
 	return text;
-	//else eval("EventPlace2").innerHTML = text;
 }
 
 ///////////////////////////////////////////////Au click sur une case/////////////////////////////////////////////////

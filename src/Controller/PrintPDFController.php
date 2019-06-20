@@ -29,12 +29,19 @@ class PrintPDFController extends AbstractController
         $pdf->addPage();
         $pdf->SetFont('Arial', 'B', 16);
         $pdf->SetTextColor(0,0,0);
-        
-        
+        $pdf->Multicell(190, 5, $tabEvent[0][1]->getDescription(), '', 'C', false);
+        $x = 10+1*65;
+        $pdf->SetLeftMargin($x);
+        $pdf->SetX($x);
+        $pdf->Multicell(190, 5, $tabEvent[0][2]->getDescription(), '', 'C', false);
+        $x = 10+2*65;
+        $pdf->SetLeftMargin($x);
+        $pdf->SetX($x);
+        $pdf->Multicell(190, 5, $tabEvent[0][3]->getDescription(), '', 'C', false);
        // for($i=0; $i < count($tabEvent); $i++){
           
            // $pdf->writeHTML($tbl, true, false, false, false, '');
-            $pdf->Multicell(190, 5, $tabEvent[1]->getDescription(), '', 'C', false);
+          //  $pdf->Multicell(190, 5, $tabEvent[1]->getDescription(), '', 'C', false);
        
         
   

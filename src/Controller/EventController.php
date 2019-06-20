@@ -51,9 +51,9 @@ class EventController extends AbstractController
             $date = new \DateTime();
             $nextDate = $this->ModifyDate($date, $frequence, $mesure);
             
-            $event2->setDateStart($nextDate);
+            $event->setDateStart($nextDate);
             $event2->setComment($form->getData()['Commentaire']);
-            $event->setDateEnd($date);
+            $event2->setDateEnd($date);
             $em->persist($event);
             $em->persist($event2);
             $em->flush();
